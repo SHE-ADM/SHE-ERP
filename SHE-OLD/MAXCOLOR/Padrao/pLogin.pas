@@ -55,6 +55,7 @@ type
     CAD_USUUSU_IDFILIAL: TIntegerField;
     CAD_USUUSU_DEFILIAL: TIBStringField;
     CAD_USUUSU_DEEP: TIBStringField;
+    CAD_USUUSU_IDEP: TIntegerField;
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -249,7 +250,7 @@ begin
   EDNome.Text := CAD_USUUSU_NOME.AsString;
 
   IEEmpresa.Enabled := (CAD_USUUSU_CDEP.AsString = '99');
-  IEEmpresa.Text    :=  CAD_USUID.AsString + ' - ' + CAD_USUUSU_DEEP.AsString;
+  IEEmpresa.Text    :=  CAD_USUUSU_IDEP.AsString + ' - ' + CAD_USUUSU_DEEP.AsString;
 
   EDSenha.MaxLength := Length(CAD_USUUSU_PASS.AsString);
   EDSenha.Enabled   := True;
@@ -294,7 +295,7 @@ begin
   begin
     Close;
     SQL.Clear;
-    SQL.Add('SELECT PK.*,EP.PAR_FANT AS USU_DEEP');
+    SQL.Add('SELECT PK.*,EP.ID AS USU_IDEP,EP.PAR_FANT AS USU_DEEP');
     SQL.Add('FROM   CAD_USU AS PK');
     SQL.Add('JOIN   PAR_SIS AS EP ON (EP.ID = PK.USU_CDEP)');
     SQL.Add('WHERE  PK.USU_DUSU = ''' + EDUsuario.Text + '''');

@@ -20,7 +20,7 @@ Type
     BMMain: TdxBarManager;
     BLBSalva: TdxBarLargeButton;
     BLBValida: TdxBarLargeButton;
-    BLBCancela: TdxBarLargeButton;
+    BLBConverteExcel: TdxBarLargeButton;
     BLBSaida: TdxBarLargeButton;
     dxBarButton1: TdxBarButton;
     BLBImprime: TdxBarLargeButton;
@@ -108,7 +108,7 @@ Type
 
     ACTVisualiza: TAction;
     ACTImprime: TAction;
-    ACTConverte: TAction;
+    ACTConverteExcel: TAction;
     ACTSaida: TAction;
 
     ACTRelatorios: TAction;
@@ -119,6 +119,9 @@ Type
     ACTREL_GER_FIS_CFOP: TAction;
     ACTREL_GER_EST_INV: TAction;
     ACTREL_GER_FIS_PESO: TAction;
+    ACTREL_FOR_PRO_CAD: TAction;
+    BLBConvertePDF: TdxBarLargeButton;
+    ACTConvertePDF: TAction;
 
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -129,7 +132,7 @@ Type
 
     procedure ACTVisualizaExecute(Sender: TObject);
     procedure ACTImprimeExecute(Sender: TObject);
-    procedure ACTConverteExecute(Sender: TObject);
+    procedure ACTConverteExcelExecute(Sender: TObject);
     procedure ACTSaidaExecute(Sender: TObject);
 
     procedure ACTRelatoriosExecute(Sender: TObject);
@@ -159,6 +162,8 @@ Type
     procedure PEC1ConsultaChange(Sender: TObject);
     procedure ACTREL_GER_EST_INVExecute(Sender: TObject);
     procedure ACTREL_GER_FIS_PESOExecute(Sender: TObject);
+    procedure ACTREL_FOR_PRO_CADExecute(Sender: TObject);
+    procedure ACTConvertePDFExecute(Sender: TObject);
   private
     AExeRelatorio: TAction;
     REC_SHE_REL  : TREC_SHE_REL;
@@ -359,7 +364,15 @@ begin
   ACTRelatorios.Execute;
 end;
 
-procedure TFrmRelatorios.ACTConverteExecute(Sender: TObject);
+procedure TFrmRelatorios.ACTConvertePDFExecute(Sender: TObject);
+begin
+  REC_SHE_REL.TAGPrint := 2;
+  REC_SHE_REL.Handle   := Self.Handle;
+
+  ACTRelatorios.Execute;
+end;
+
+procedure TFrmRelatorios.ACTConverteExcelExecute(Sender: TObject);
 begin
   REC_SHE_REL.TAGPrint := 3;
   REC_SHE_REL.Handle   := Self.Handle;
@@ -768,6 +781,13 @@ begin
   {$IFEND}
 end;
 
+procedure TFrmRelatorios.ACTREL_FOR_PRO_CADExecute(Sender: TObject);
+begin
+  {$IF DEFINED(DEF_ERP) OR DEFINED(DEF_PDV)}
+
+  {$IFEND}
+end;
+
 procedure TFrmRelatorios._Hints(AComponente: Word);
 var
   PEConsulta: TdxPickEdit;
@@ -1087,6 +1107,14 @@ begin
 
     { PRODUTOS }   
     1: begin
+       end;
+
+    { CLIENTES }
+    2: begin
+       end;
+
+    { FORNECEDORES }
+    3: begin
        end;
   end;
 

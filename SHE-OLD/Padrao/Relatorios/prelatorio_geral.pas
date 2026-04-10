@@ -626,6 +626,7 @@ type
     procedure cbFIN_REC_STPDChange(Sender: TObject);
     procedure cbFIN_REC_DATAChange(Sender: TObject);
     procedure cbFIN_REC_STFIChange(Sender: TObject);
+    procedure BSavClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -814,6 +815,11 @@ end;
 procedure Tfrmrelatorio_geral.BPriClick(Sender: TObject);
 begin
   ENVIA_RELATORIO(1);
+end;
+
+procedure Tfrmrelatorio_geral.BSavClick(Sender: TObject);
+begin
+  ENVIA_RELATORIO(3);
 end;
 
 procedure Tfrmrelatorio_geral.BSaiClick(Sender: TObject);
@@ -1196,7 +1202,7 @@ begin
 
     { Cabeçalho }
     vEmpresa         := FindComponent('QRLEmpresa') as TQRLabel;
-    vEmpresa.Caption := RECParametros.EP_NO_RZ;
+    vEmpresa.Caption := RECParametros.EP_RZ_NO;
 
     { Imagem Logo }
     vLogo := FindComponent('QRIEmpresa') as TQRImage;
@@ -1264,13 +1270,14 @@ begin
     Open;
   end;
 
+  with qrpfin_dup do
   try
     oOTransact(qrpfin_dup.TCadastro);
     { Cabeçalho Página }
     qrpfin_dup.QRITituloLogo.Picture.Assign(RECParametros.IMG_JPG_REL.Picture);
     qrpfin_dup.QRITituloLogo2.Picture.Assign(RECParametros.IMG_JPG_REL.Picture);
 
-    qrpfin_dup.qrlraza1.Caption  := RECParametros.EP_NO_RZ;
+    qrpfin_dup.qrlraza1.Caption  := RECParametros.EP_RZ_NO;
     qrpfin_dup.qrllogr1.Caption  := RECParametros.LOG_TIPO+' '+RECParametros.LOG_NO+', '+RECParametros.LOG_NU;
     qrpfin_dup.qrlend1.Caption   := RECParametros.LOG_BAI_NO;
     qrpfin_dup.qrlend2.Caption   := 'CEP '+RECParametros.LOG_CEP+' - '+RECParametros.LOG_LOC_NO+' - '+RECParametros.LOG_UF;
@@ -1293,24 +1300,45 @@ begin
     qrpfin_dup.qrlinsc2.Caption  := qrpfin_dup.qrlinsc1.Caption;
 
     qrpfin_dup.Prepare;
-    if tag = 0 then
-       qrpfin_dup.PreviewModal
-    else if tag = 1 then
-       qrpfin_dup.Print
-    else if tag = 2 then
-    begin
-      qrpfin_dup.ExportToFilter(
-                  TQRPDFDocumentFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.PDF')));
-    end
-    else if tag = 3 then
-    begin
-      qrpfin_dup.ExportToFilter(
-                  TQRXLSFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.XLS')));
-    end
-    else if tag = 4 then
-    begin
-      qrpfin_dup.ExportToFilter(
-                  TQRRTFExportFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.DOC')));
+    case FrmRelatorio_Geral.TAG of
+      0: PreviewModal;
+      1: Print;
+
+      { PDF }
+      2: try
+           ExportToFilter(TQRPDFDocumentFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.pdf')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
+
+      { EXCEL }
+      3: try
+           ExportToFilter(TQRXLSFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.xls')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
+
+      { WORD }
+      4: try
+           ExportToFilter(TQRRTFExportFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.doc')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
     end;
   finally
     oCTransact(qrpfin_dup.TCadastro);
@@ -1379,24 +1407,45 @@ begin
     oPRN_EXE(Application.Handle,'Pedidos');
     Prepare;
 
-    if FrmRelatorio_Geral.Tag = 0 then
-       PreviewModal
-    else if FrmRelatorio_Geral.Tag = 1 then
-       Print
-    else if FrmRelatorio_Geral.Tag = 2 then
-    begin
-      ExportToFilter(
-                  TQRPDFDocumentFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.PDF')));
-    end
-    else if FrmRelatorio_Geral.Tag = 3 then
-    begin
-      ExportToFilter(
-                  TQRXLSFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.XLS')));
-    end
-    else if FrmRelatorio_Geral.Tag = 4 then
-    begin
-      ExportToFilter(
-                  TQRRTFExportFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.DOC')));
+    case FrmRelatorio_Geral.TAG of
+      0: PreviewModal;
+      1: Print;
+
+      { PDF }
+      2: try
+           ExportToFilter(TQRPDFDocumentFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.pdf')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
+
+      { EXCEL }
+      3: try
+           ExportToFilter(TQRXLSFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.xls')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
+
+      { WORD }
+      4: try
+           ExportToFilter(TQRRTFExportFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.doc')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
     end;
   finally
     oCTransact(TRelatorio);
@@ -1447,25 +1496,45 @@ begin
     oPRN_EXE(Application.Handle,'Pedidos');
 
     Prepare;
+    case FrmRelatorio_Geral.TAG of
+      0: PreviewModal;
+      1: Print;
 
-    if FrmRelatorio_Geral.Tag = 0 then
-       PreviewModal
-    else if FrmRelatorio_Geral.Tag = 1 then
-       Print
-    else if FrmRelatorio_Geral.Tag = 2 then
-    begin
-      ExportToFilter(
-                  TQRPDFDocumentFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.PDF')));
-    end
-    else if FrmRelatorio_Geral.Tag = 3 then
-    begin
-      ExportToFilter(
-                  TQRXLSFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.XLS')));
-    end
-    else if FrmRelatorio_Geral.Tag = 4 then
-    begin
-      ExportToFilter(
-                  TQRRTFExportFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.DOC')));
+      { PDF }
+      2: try
+           ExportToFilter(TQRPDFDocumentFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.pdf')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
+
+      { EXCEL }
+      3: try
+           ExportToFilter(TQRXLSFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.xls')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
+
+      { WORD }
+      4: try
+           ExportToFilter(TQRRTFExportFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.doc')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
     end;
   finally
     oCTransact(TRelatorio);
@@ -1484,6 +1553,7 @@ begin
   if qrpven_prc = nil then
   qrpven_prc := Tqrpven_prc.Create(Self);
 
+  with qrpven_prc do
   try
     oOTransact(qrpven_prc.TCadastro);
     with qrpven_prc.roman do
@@ -1526,24 +1596,45 @@ begin
     _Report(qrpven_prc,'Programação de Compra');
 
     qrpven_prc.Prepare;
-    if tag = 0 then
-       qrpven_prc.PreviewModal
-    else if tag = 1 then
-       qrpven_prc.Print
-    else if tag = 2 then
-    begin
-      qrpven_prc.ExportToFilter(
-                  TQRPDFDocumentFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.PDF')));
-    end
-    else if tag = 3 then
-    begin
-      qrpven_prc.ExportToFilter(
-                  TQRXLSFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.XLS')));
-    end
-    else if tag = 4 then
-    begin
-      qrpven_prc.ExportToFilter(
-                  TQRRTFExportFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.DOC')));
+    case FrmRelatorio_Geral.TAG of
+      0: PreviewModal;
+      1: Print;
+
+      { PDF }
+      2: try
+           ExportToFilter(TQRPDFDocumentFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.pdf')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
+
+      { EXCEL }
+      3: try
+           ExportToFilter(TQRXLSFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.xls')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
+
+      { WORD }
+      4: try
+           ExportToFilter(TQRRTFExportFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.doc')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
     end;
   finally
     oCTransact(qrpven_prc.TCadastro);
@@ -1663,24 +1754,45 @@ begin
     VEN_PED_COBRANCA_COMBAIXA(qrpcob_ped.relatorioROM_STCO.AsString);
 
     qrpcob_ped.Prepare;
-    if tag = 0 then
-       qrpcob_ped.PreviewModal
-    else if tag = 1 then
-       qrpcob_ped.Print
-    else if tag = 2 then
-    begin
-      qrpcob_ped.ExportToFilter(
-                  TQRPDFDocumentFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.PDF')));
-    end
-    else if tag = 3 then
-    begin
-      qrpcob_ped.ExportToFilter(
-                  TQRXLSFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.XLS')));
-    end
-    else if tag = 4 then
-    begin
-      qrpcob_ped.ExportToFilter(
-                  TQRRTFExportFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.DOC')));
+    case FrmRelatorio_Geral.TAG of
+      0: qrpcob_ped.PreviewModal;
+      1: qrpcob_ped.Print;
+
+      { PDF }
+      2: try
+           qrpcob_ped.ExportToFilter(TQRPDFDocumentFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + qrpcob_ped.ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.pdf')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
+
+      { EXCEL }
+      3: try
+           qrpcob_ped.ExportToFilter(TQRXLSFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + qrpcob_ped.ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.xls')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
+
+      { WORD }
+      4: try
+           qrpcob_ped.ExportToFilter(TQRRTFExportFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + qrpcob_ped.ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.doc')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
     end;
   finally
     oCTransact(qrpcob_ped.TCadastro);
@@ -1908,6 +2020,7 @@ begin
   if qrpven_con = nil then
   qrpven_con := Tqrpven_con.Create(Self);
 
+  with qrpven_con do
   try
     oOTransact(qrpven_con.TCadastro);
     with qrpven_con.relatorio do
@@ -1939,24 +2052,45 @@ begin
 
     qrpven_con.Prepare;
 
-    if tag = 0 then
-       qrpven_con.PreviewModal
-    else if tag = 1 then
-       qrpven_con.Print
-    else if tag = 2 then
-    begin
-      qrpven_con.ExportToFilter(
-                  TQRPDFDocumentFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.PDF')));
-    end
-    else if tag = 3 then
-    begin
-      qrpven_con.ExportToFilter(
-                  TQRXLSFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.XLS')));
-    end
-    else if tag = 4 then
-    begin
-      qrpven_con.ExportToFilter(
-                  TQRRTFExportFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.DOC')));
+    case FrmRelatorio_Geral.TAG of
+      0: PreviewModal;
+      1: Print;
+
+      { PDF }
+      2: try
+           ExportToFilter(TQRPDFDocumentFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.pdf')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
+
+      { EXCEL }
+      3: try
+           ExportToFilter(TQRXLSFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.xls')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
+
+      { WORD }
+      4: try
+           ExportToFilter(TQRRTFExportFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.doc')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
     end;
   finally
     oCTransact(qrpven_con.TCadastro);
@@ -2074,24 +2208,45 @@ begin
     VEN_PED_PEDIDO_COMBAIXA(qrpven_ped.romanROM_STCO.AsString);
 
     qrpven_ped.Prepare;
-    if tag = 0 then
-       qrpven_ped.PreviewModal
-    else if tag = 1 then
-       qrpven_ped.Print
-    else if tag = 2 then
-    begin
-      qrpven_ped.ExportToFilter(
-                  TQRPDFDocumentFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.PDF')));
-    end
-    else if tag = 3 then
-    begin
-      qrpven_ped.ExportToFilter(
-                  TQRXLSFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.XLS')));
-    end
-    else if tag = 4 then
-    begin
-      qrpven_ped.ExportToFilter(
-                  TQRRTFExportFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.DOC')));
+    case FrmRelatorio_Geral.TAG of
+      0: qrpven_ped.PreviewModal;
+      1: qrpven_ped.Print;
+
+      { PDF }
+      2: try
+           qrpven_ped.ExportToFilter(TQRPDFDocumentFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + qrpven_ped.ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.pdf')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
+
+      { EXCEL }
+      3: try
+           qrpven_ped.ExportToFilter(TQRXLSFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + qrpven_ped.ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.xls')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
+
+      { WORD }
+      4: try
+           qrpven_ped.ExportToFilter(TQRRTFExportFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + qrpven_ped.ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.doc')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
     end;
   finally
     oCTransact(qrpven_ped.TCadastro);
@@ -2233,24 +2388,45 @@ begin
     end;
 
     qrpcob_rom.Prepare;
-    if tag = 0 then
-       qrpcob_rom.PreviewModal
-    else if tag = 1 then
-       qrpcob_rom.Print
-    else if tag = 2 then
-    begin
-      qrpcob_rom.ExportToFilter(
-                  TQRPDFDocumentFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.PDF')));
-    end
-    else if tag = 3 then
-    begin
-      qrpcob_rom.ExportToFilter(
-                  TQRXLSFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.XLS')));
-    end
-    else if tag = 4 then
-    begin
-      qrpcob_rom.ExportToFilter(
-                  TQRRTFExportFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.DOC')));
+    case FrmRelatorio_Geral.TAG of
+      0: qrpcob_rom.PreviewModal;
+      1: qrpcob_rom.Print;
+
+      { PDF }
+      2: try
+           qrpcob_rom.ExportToFilter(TQRPDFDocumentFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + qrpcob_rom.ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.pdf')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
+
+      { EXCEL }
+      3: try
+           qrpcob_rom.ExportToFilter(TQRXLSFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + qrpcob_rom.ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.xls')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
+
+      { WORD }
+      4: try
+           qrpcob_rom.ExportToFilter(TQRRTFExportFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + qrpcob_rom.ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.doc')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
     end;
   finally
     oCTransact(qrpcob_rom.TCadastro);
@@ -2749,26 +2925,47 @@ begin
       oPRN_EXE(Application.Handle,'Pedidos');
       Prepare;
 
-      if FrmRelatorio_Geral.Tag = 0 then
-         PreviewModal
-      else if FrmRelatorio_Geral.Tag = 1 then
-         Print
-      else if FrmRelatorio_Geral.Tag = 2 then
-      begin
-        ExportToFilter(
-                     TQRPDFDocumentFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.PDF')));
-      end
-      else if FrmRelatorio_Geral.Tag = 3 then
-      begin
-        ExportToFilter(
-                     TQRXLSFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.XLS')));
-      end
-      else if FrmRelatorio_Geral.Tag = 4 then
-      begin
-        ExportToFilter(
-                     TQRRTFExportFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.DOC')));
-      end;
-    end;  
+    case FrmRelatorio_Geral.TAG of
+      0: PreviewModal;
+      1: Print;
+
+      { PDF }
+      2: try
+           ExportToFilter(TQRPDFDocumentFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.pdf')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
+
+      { EXCEL }
+      3: try
+           ExportToFilter(TQRXLSFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.xls')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
+
+      { WORD }
+      4: try
+           ExportToFilter(TQRRTFExportFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.doc')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
+    end;
+    end;
   finally
     oCTransact(TRelatorio);
     freeAndNil(qrpsep_ped);
@@ -2875,24 +3072,45 @@ begin
 
     qrpcob_ped_oca.Prepare;
 
-    if tag = 0 then
-       qrpcob_ped_oca.Preview
-    else if tag = 1 then
-       qrpcob_ped_oca.Print
-    else if tag = 2 then
-    begin
-      qrpcob_ped_oca.ExportToFilter(
-                  TQRPDFDocumentFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.PDF')));
-    end
-    else if tag = 3 then
-    begin
-      qrpcob_ped_oca.ExportToFilter(
-                  TQRXLSFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.XLS')));
-    end
-    else if tag = 4 then
-    begin
-      qrpcob_ped_oca.ExportToFilter(
-                  TQRRTFExportFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.DOC')));
+    case FrmRelatorio_Geral.TAG of
+      0: qrpcob_ped_oca.PreviewModal;
+      1: qrpcob_ped_oca.Print;
+
+      { PDF }
+      2: try
+           qrpcob_ped_oca.ExportToFilter(TQRPDFDocumentFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + qrpcob_ped_oca.ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.pdf')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
+
+      { EXCEL }
+      3: try
+           qrpcob_ped_oca.ExportToFilter(TQRXLSFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + qrpcob_ped_oca.ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.xls')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
+
+      { WORD }
+      4: try
+           qrpcob_ped_oca.ExportToFilter(TQRRTFExportFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + qrpcob_ped_oca.ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.doc')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
     end;
   finally
     oOTransact(qrpcob_ped_oca.TCadastro);
@@ -3195,24 +3413,45 @@ begin
 
     qrpcob_rom_ref.Prepare;
 
-    if tag = 0 then
-       qrpcob_rom_ref.PreviewModal
-    else if tag = 1 then
-       qrpcob_rom_ref.Print
-    else if tag = 2 then
-    begin
-      qrpcob_rom_ref.ExportToFilter(
-                  TQRPDFDocumentFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.PDF')));
-    end
-    else if tag = 3 then
-    begin
-      qrpcob_rom_ref.ExportToFilter(
-                  TQRXLSFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.XLS')));
-    end
-    else if tag = 4 then
-    begin
-      qrpcob_rom_ref.ExportToFilter(
-                  TQRRTFExportFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.DOC')));
+    case FrmRelatorio_Geral.TAG of
+      0: qrpcob_rom_ref.PreviewModal;
+      1: qrpcob_rom_ref.Print;
+
+      { PDF }
+      2: try
+           qrpcob_rom_ref.ExportToFilter(TQRPDFDocumentFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + qrpcob_rom_ref.ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.pdf')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
+
+      { EXCEL }
+      3: try
+           qrpcob_rom_ref.ExportToFilter(TQRXLSFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + qrpcob_rom_ref.ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.xls')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
+
+      { WORD }
+      4: try
+           qrpcob_rom_ref.ExportToFilter(TQRRTFExportFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + qrpcob_rom_ref.ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.doc')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
     end;
   finally
     oCTransact(qrpcob_rom_ref.TCadastro);
@@ -3618,24 +3857,45 @@ begin
     qrlrodape.Caption := RECUsuarios.Login;
 
     Prepare;
-    if frmrelatorio_geral.Tag = 0 then
-       PreviewModal
-    else if frmrelatorio_geral.Tag = 1 then
-       Print
-    else if frmrelatorio_geral.Tag = 2 then
-    begin
-      ExportToFilter(
-                  TQRPDFDocumentFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.PDF')));
-    end
-    else if frmrelatorio_geral.Tag = 3 then
-    begin
-      ExportToFilter(
-                  TQRXLSFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.XLS')));
-    end
-    else if frmrelatorio_geral.Tag = 4 then
-    begin
-      ExportToFilter(
-                  TQRRTFExportFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.DOC')));
+    case FrmRelatorio_Geral.TAG of
+      0: PreviewModal;
+      1: Print;
+
+      { PDF }
+      2: try
+           ExportToFilter(TQRPDFDocumentFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.pdf')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
+
+      { EXCEL }
+      3: try
+           ExportToFilter(TQRXLSFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.xls')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
+
+      { WORD }
+      4: try
+           ExportToFilter(TQRRTFExportFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.doc')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
     end;
   finally
     oCTransact(TCadastro);
@@ -3834,24 +4094,45 @@ begin
     end;
 
     Prepare;
-    if frmrelatorio_geral.Tag = 0 then
-       PreviewModal
-    else if frmrelatorio_geral.Tag = 1 then
-       Print
-    else if frmrelatorio_geral.Tag = 2 then
-    begin
-      ExportToFilter(
-                  TQRPDFDocumentFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.PDF')));
-    end
-    else if frmrelatorio_geral.Tag = 3 then
-    begin
-      ExportToFilter(
-                  TQRXLSFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.XLS')));
-    end
-    else if frmrelatorio_geral.Tag = 4 then
-    begin
-      ExportToFilter(
-                  TQRRTFExportFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.DOC')));
+    case FrmRelatorio_Geral.TAG of
+      0: PreviewModal;
+      1: Print;
+
+      { PDF }
+      2: try
+           ExportToFilter(TQRPDFDocumentFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.pdf')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
+
+      { EXCEL }
+      3: try
+           ExportToFilter(TQRXLSFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.xls')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
+
+      { WORD }
+      4: try
+           ExportToFilter(TQRRTFExportFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.doc')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
     end;
   finally
     oCTransact(TCadastro);
@@ -3869,6 +4150,8 @@ begin
 
   if qrpven_prg = nil then
      qrpven_prg := Tqrpven_prg.Create(Self);
+
+  with qrpven_prg do
   try
     oOTransact(qrpven_prg.TCadastro);
     with qrpven_prg.roman do
@@ -3957,24 +4240,45 @@ begin
 
     qrpven_prg.Prepare;
 
-    if tag = 0 then
-       qrpven_prg.PreviewModal
-    else if tag = 1 then
-       qrpven_prg.Print
-    else if tag = 2 then
-    begin
-      qrpven_prg.ExportToFilter(
-                  TQRPDFDocumentFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.PDF')));
-    end
-    else if tag = 3 then
-    begin
-      qrpven_prg.ExportToFilter(
-                  TQRXLSFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.XLS')));
-    end
-    else if tag = 4 then
-    begin
-      qrpven_prg.ExportToFilter(
-                  TQRRTFExportFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.DOC')));
+    case FrmRelatorio_Geral.TAG of
+      0: PreviewModal;
+      1: Print;
+
+      { PDF }
+      2: try
+           ExportToFilter(TQRPDFDocumentFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.pdf')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
+
+      { EXCEL }
+      3: try
+           ExportToFilter(TQRXLSFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.xls')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
+
+      { WORD }
+      4: try
+           ExportToFilter(TQRRTFExportFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.doc')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
     end;
   finally
     oCTransact(qrpven_prg.TCadastro);
@@ -4080,6 +4384,8 @@ begin
   cDATA := 'PED_PRG_CAB.ROM_DROM';
 
   qrpger_prg_pro_ger := Tqrpger_prg_pro_ger.Create(Nil);
+
+  with qrpger_prg_pro_ger do
   try
     oOTransact(qrpger_prg_pro_ger.TCadastro);
     with qrpger_prg_pro_ger.relatorio do
@@ -4128,24 +4434,45 @@ begin
     _Report(qrpger_prg_pro_ger,'Programação de Vendas de Produtos');
     qrpger_prg_pro_ger.Prepare;
 
-    if tag = 0 then
-       qrpger_prg_pro_ger.PreviewModal
-    else if tag = 1 then
-       qrpger_prg_pro_ger.Print
-    else if tag = 2 then
-    begin
-      qrpger_prg_pro_ger.ExportToFilter(
-                  TQRPDFDocumentFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.PDF')));
-    end
-    else if tag = 3 then
-    begin
-      qrpger_prg_pro_ger.ExportToFilter(
-                  TQRXLSFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.XLS')));
-    end
-    else if tag = 4 then
-    begin
-      qrpger_prg_pro_ger.ExportToFilter(
-                  TQRRTFExportFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.DOC')));
+    case FrmRelatorio_Geral.TAG of
+      0: PreviewModal;
+      1: Print;
+
+      { PDF }
+      2: try
+           ExportToFilter(TQRPDFDocumentFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.pdf')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
+
+      { EXCEL }
+      3: try
+           ExportToFilter(TQRXLSFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.xls')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
+
+      { WORD }
+      4: try
+           ExportToFilter(TQRRTFExportFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.doc')));
+           oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+         except
+           on E: Exception do
+           begin
+             oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                      'Erro: ' + E.Message + '.');
+           end;
+         end;
     end;
   finally
     oCTransact(qrpger_prg_pro_ger.TCadastro);

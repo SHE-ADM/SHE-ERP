@@ -295,7 +295,7 @@ object frmrelatorio_geral: Tfrmrelatorio_geral
       Hint = '[Esc] - Sair'
       ImageIndex = 4
       Spacing = 1
-      Left = 382
+      Left = 287
       Top = 2
       Visible = True
       OnClick = BSaiClick
@@ -331,6 +331,7 @@ object frmrelatorio_geral: Tfrmrelatorio_geral
       Left = 192
       Top = 2
       Visible = True
+      OnClick = BSavClick
       SectionName = 'Movimento'
     end
     object BGra: TSpeedItem
@@ -340,7 +341,6 @@ object frmrelatorio_geral: Tfrmrelatorio_geral
       Spacing = 1
       Left = 287
       Top = 2
-      Visible = True
       SectionName = 'Movimento'
     end
   end
@@ -8149,7 +8149,7 @@ object frmrelatorio_geral: Tfrmrelatorio_geral
         CalColors.TitleBackColor = clTeal
         CalColors.TitleTextColor = clBlack
         CalColors.TrailingTextColor = clSilver
-        Date = 0.610607766204339000
+        Date = 0.218352581017825300
         FirstDayOfWeek = dowSunday
         TabOrder = 0
         OnClick = dxDT1Click
@@ -8174,7 +8174,7 @@ object frmrelatorio_geral: Tfrmrelatorio_geral
         CalColors.TitleBackColor = clTeal
         CalColors.TitleTextColor = clBlack
         CalColors.TrailingTextColor = clSilver
-        Date = 0.610607766204339000
+        Date = 0.218352581017825300
         FirstDayOfWeek = dowSunday
         TabOrder = 0
         OnClick = dxDT1Click
@@ -17146,7 +17146,6 @@ object frmrelatorio_geral: Tfrmrelatorio_geral
       00000000000000000000000000000000000000000000}
   end
   object TCadastro: TIBTransaction
-    AllowAutoStart = False
     DefaultDatabase = FBird.DBERP
     DefaultAction = TACommitRetaining
     Params.Strings = (
@@ -17167,7 +17166,6 @@ object frmrelatorio_geral: Tfrmrelatorio_geral
     Top = 16
   end
   object TSCadastro: TIBTransaction
-    AllowAutoStart = False
     DefaultDatabase = FBird.DBEDI
     DefaultAction = TACommitRetaining
     Params.Strings = (

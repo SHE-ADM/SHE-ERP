@@ -9,10 +9,10 @@ uses
   IBDatabase, IBCustomDataSet, IBQuery, dxCntner, dxTL, dxDBCtrl, dxDBGrid,
    ComCtrls, ExtCtrls, DBCtrls, dxPageControl, dxEditor, dxEdLib,
   StdCtrls, dxDBTLCl, dxGrClms, DateUtils, dxExEdtr, jpeg, Menus, Shellapi,
-  Math, dxDBELib, rxSpeedbar;
+  Math, dxDBELib, rxSpeedbar, ppadr2, IBSQL, StrUtils;
 
 type
-  Tfrmctr_ped = class(Tfrmpadr1)
+  Tfrmctr_ped = class(Tfrmpadr2)
     rom_ite: TIBQuery;
     dtsrom_ite: TDataSource;
     Label23: TLabel;
@@ -20,23 +20,6 @@ type
     tsITE: TdxTabSheet;
     tsOBS: TdxTabSheet;
     dbgite: TdxDBGrid;
-    cadastroID: TIntegerField;
-    cadastroROM_STPD: TIBStringField;
-    cadastroROM_STCO: TIBStringField;
-    cadastroROM_STFI: TIBStringField;
-    cadastroROM_DROM: TDateField;
-    cadastroROM_DBAI: TDateField;
-    cadastroROM_DCAN: TDateField;
-    cadastroROM_CCLI: TIntegerField;
-    cadastroROM_CVEN: TIntegerField;
-    cadastroROM_CREP: TIntegerField;
-    cadastroROM_CPAG: TIntegerField;
-    cadastroROM_TSDE: TIBBCDField;
-    cadastroROM_TDSC: TIBStringField;
-    cadastroROM_TCDE: TIBBCDField;
-    cadastroROM_CONC: TSmallintField;
-    cadastroCLI_FANT: TIBStringField;
-    cadastroREP_FANT: TIBStringField;
     dbgConsultaROM_STPD: TdxDBGridMaskColumn;
     dbgConsultaROM_STCO: TdxDBGridMaskColumn;
     dbgConsultaROM_STFI: TdxDBGridMaskColumn;
@@ -68,32 +51,11 @@ type
     dbgiteROM_VDSC: TdxDBGridMaskColumn;
     dbgiteROM_TOTA: TdxDBGridMaskColumn;
     dbgitePRO_CPRO: TdxDBGridMaskColumn;
-    cadastroPAG_DPAG: TIBStringField;
     dbgConsultaPAG_DPAG: TdxDBGridMaskColumn;
-    cadastroROM_DESC: TStringField;
-    dbgConsultaROM_DESC: TdxDBGridColumn;
+    dbgConsultaROM_PDSC: TdxDBGridColumn;
     rom_itePRO_CBAR: TIBStringField;
     rom_itePRO_CEMB: TIntegerField;
     rom_itePRO_GRAD: TIBStringField;
-    cadastroROM_DNFS: TDateField;
-    cadastroROM_CDOC: TIntegerField;
-    cadastroROM_CDPR: TIntegerField;
-    cadastroROM_CDPD: TIntegerField;
-    cadastroROM_CDRO: TIntegerField;
-    cadastroROM_CDNF: TIntegerField;
-    cadastroROM_CDBX: TIntegerField;
-    cadastroROM_DERO: TIBStringField;
-    cadastroROM_HROM: TTimeField;
-    cadastroROM_DEXP: TDateField;
-    cadastroROM_HEXP: TTimeField;
-    cadastroROM_CEXP: TIntegerField;
-    cadastroROM_QTVE: TIBBCDField;
-    cadastroROM_RLVE: TIntegerField;
-    cadastroROM_PDSC: TIBBCDField;
-    cadastroROM_CDSC: TIBBCDField;
-    cadastroROM_OBSE: TMemoField;
-    cadastroROM_STA: TIBStringField;
-    cadastroROM_ADSC: TIBBCDField;
     rom_iteROM_CCAB: TIntegerField;
     rom_iteROM_CDPR: TIntegerField;
     rom_iteROM_CDPD: TIntegerField;
@@ -110,73 +72,21 @@ type
     rom_iteROM_FLAG: TIBStringField;
     dbgConsultaROM_CDNF: TdxDBGridMaskColumn;
     dbgConsultaROM_DNFS: TdxDBGridDateColumn;
-    cadastroROM_CDRD: TIntegerField;
-    cadastroROM_QTSP: TIBBCDField;
-    cadastroROM_QTPD: TIBBCDField;
-    dbgConsultaROM_DBAI: TdxDBGridDateColumn;
-    cadastroROM_CDCX: TIntegerField;
     aux: TIBQuery;
-    fin_rec_bai: TIBDataSet;
-    fin_rec_baiID: TIntegerField;
-    fin_rec_baiFIN_DOCT: TIBStringField;
-    fin_rec_baiFIN_DVEN: TDateField;
-    fin_rec_baiFIN_TIPO: TIBStringField;
-    fin_rec_baiFIN_BANC: TIBStringField;
-    fin_rec_baiFIN_AGEN: TIBStringField;
-    fin_rec_baiFIN_CONT: TIBStringField;
-    fin_rec_baiFIN_NCHQ: TIBStringField;
-    fin_rec_baiFIN_OBSE: TMemoField;
-    fin_rec_baiFIN_STA: TIBStringField;
-    fin_rec_baiFIN_PRAZ: TSmallintField;
-    fin_rec_baiFIN_DPAG: TDateField;
-    fin_rec_baiFIN_DBAN: TIBStringField;
-    fin_rec_baiFIN_STFI: TIBStringField;
-    fin_rec_baiFIN_VALO: TIBBCDField;
-    fin_rec_baiFIN_VPAG: TIBBCDField;
-    fin_rec_baiFIN_VPEN: TIBBCDField;
-    fin_rec_baiFIN_COBR: TIBStringField;
-    fin_rec_baiFIN_STDO: TIBStringField;
-    fin_rec_baiFIN_CCAB: TIntegerField;
-    fin_rec_baiFIN_CDBX: TIntegerField;
-    fin_rec_baiFIN_CDCX: TIntegerField;
-    fin_rec_baiFIN_CCLI: TIntegerField;
-    fin_rec_baiFIN_DCLI: TIBStringField;
-    fin_rec_baiFIN_CVEN: TIntegerField;
-    fin_rec_baiFIN_VEND: TIBStringField;
-    fin_rec_baiFIN_CREP: TIntegerField;
-    fin_rec_baiFIN_DREP: TIBStringField;
-    fin_rec_baiFIN_ATRA: TSmallintField;
-    fin_rec_baiFIN_CONC: TSmallintField;
-    fin_rec_baiFIN_DCAD: TDateField;
-    fin_rec_baiFIN_DMED: TDateField;
-    fin_rec_baiFIN_DATR: TDateField;
-    fin_rec_baiFIN_MCHQ: TSmallintField;
-    fin_rec_baiFIN_STCO: TIBStringField;
     tSHEILD: TIBTransaction;
-    dbgConsultaROM_CDBX: TdxDBGridMaskColumn;
-    dbgConsultaROM_CDCX: TdxDBGridMaskColumn;
     rom_iteROM_COMI: TIBBCDField;
     rom_iteROM_DPRO: TIBStringField;
     dbgiteROM_DPRO: TdxDBGridMaskColumn;
     rom_itePRO_REPR: TIBStringField;
     dbgConsultaROM_DERO: TdxDBGridMaskColumn;
     rom_iteROM_TPRC: TIBStringField;
-    dbgConsultaID: TdxDBGridMaskColumn;
     rom_iteROM_ABCD: TIBStringField;
     rom_iteROM_DCOR: TIBStringField;
     rom_iteROM_PCOR: TIBStringField;
-    cadastroROM_COMI: TIBBCDField;
-    cadastroUSU_DUSU: TIBStringField;
     dbgConsultaUSU_DUSU: TdxDBGridMaskColumn;
     dbgiteROM_QTRL: TdxDBGridMaskColumn;
     dbgiteROM_RLPD: TdxDBGridMaskColumn;
-    cadastroROM_DEMB: TDateField;
-    cadastroROM_DDES: TDateField;
-    cadastroROM_DPRD: TDateField;
-    cadastroROM_CTNR: TIBStringField;
-    cadastroCLI_CRED: TIBBCDField;
     edobse: TdxMemo;
-    dbgConsultaROM_CTNR: TdxDBGridMaskColumn;
     rom_iteROM_UNIT: TFloatField;
     rom_iteROM_PREC: TFloatField;
     rom_iteROM_DCO2: TIBStringField;
@@ -184,13 +94,6 @@ type
     rom_itePRO_PPRO: TFloatField;
     dbgiteROM_DCOR: TdxDBGridMaskColumn;
     rom_iteROM_DSEP: TIBStringField;
-    cadastroROM_CBAI: TIntegerField;
-    cadastroROM_TBAI: TDateTimeField;
-    cadastroROM_UPRN: TIntegerField;
-    cadastroROM_PPRN: TSmallintField;
-    cadastroROM_TPRN: TDateTimeField;
-    cadastroROM_VFRT: TIBBCDField;
-    cadastroROM_DTRA: TIBStringField;
     dbgConsultaROM_DTRA: TdxDBGridMaskColumn;
     rom_iteROM_DUNI: TIBStringField;
     dbgiteROM_DUNI: TdxDBGridMaskColumn;
@@ -200,34 +103,7 @@ type
     pcIMG: TdxPageControl;
     tsFOTO: TdxTabSheet;
     writefoto: TImage;
-    cadastroROM_DSEP: TIBStringField;
-    dbgConsultaROM_DSEP: TdxDBGridMaskColumn;
     dbgConsultaROM_PPRN: TdxDBGridMaskColumn;
-    cadastroROM_DEVO: TStringField;
-    cadastroROM_DERD: TIBStringField;
-    fin_rec_baiFIN_CDRD: TIntegerField;
-    fin_rec_baiFIN_DFIN: TIBStringField;
-    fin_rec_baiFIN_RCLI: TIBStringField;
-    fin_rec_baiFIN_RREP: TIBStringField;
-    fin_rec_baiFIN_DBAI: TDateField;
-    fin_rec_baiFIN_CPPL: TIntegerField;
-    fin_rec_baiFIN_CCUS: TIntegerField;
-    fin_rec_baiFIN_CDCO: TIntegerField;
-    fin_rec_baiFIN_CDBA: TIBStringField;
-    fin_rec_baiFIN_DEBA: TIBStringField;
-    fin_rec_baiFIN_VENC: TIBBCDField;
-    fin_rec_baiFIN_CTNR: TIBStringField;
-    fin_rec_baiFIN_VMUL: TIBBCDField;
-    fin_rec_baiFIN_PMUL: TIBBCDField;
-    fin_rec_baiFIN_VJUR: TIBBCDField;
-    fin_rec_baiFIN_PJUR: TIBBCDField;
-    fin_rec_baiFIN_VDES: TIBBCDField;
-    fin_rec_baiFIN_PDES: TIBBCDField;
-    fin_rec_baiFIN_VCHQ: TIBBCDField;
-    fin_rec_baiFIN_CPF: TIBStringField;
-    fin_rec_baiFIN_DERD: TIBStringField;
-    fin_rec_baiFIN_DTST: TDateTimeField;
-    CadastroROM_CTRA: TIntegerField;
     SINovo: TSpeedItem;
     siARO: TSpeedItem;
     siCRO: TSpeedItem;
@@ -235,6 +111,57 @@ type
     siINF: TSpeedItem;
     siGRO: TSpeedItem;
     siBRO: TSpeedItem;
+    TEdicao: TIBTransaction;
+    SQLEdicao: TIBSQL;
+    SQLFKEdicao: TIBSQL;
+    SQLConsulta: TIBSQL;
+    SPEdicao: TIBStoredProc;
+    CadastroID: TIntegerField;
+    CadastroROM_CDEP: TSmallintField;
+    CadastroROM_DERO: TIBStringField;
+    CadastroROM_DROM: TDateField;
+    CadastroROM_HROM: TTimeField;
+    CadastroROM_CDRO: TIntegerField;
+    CadastroROM_CDNF: TIntegerField;
+    CadastroROM_DNFS: TDateField;
+    CadastroROM_CDBX: TIntegerField;
+    CadastroROM_DBAI: TDateField;
+    CadastroROM_CDCX: TIntegerField;
+    CadastroROM_CTNR: TIBStringField;
+    CadastroROM_CCLI: TIntegerField;
+    CadastroCLI_FANT: TIBStringField;
+    CadastroROM_CVEN: TIntegerField;
+    CadastroUSU_DUSU: TIBStringField;
+    CadastroROM_CREP: TIntegerField;
+    CadastroREP_FANT: TIBStringField;
+    CadastroROM_QTVE: TIBBCDField;
+    CadastroROM_RLVE: TIntegerField;
+    CadastroROM_QTPD: TIBBCDField;
+    CadastroROM_RLPD: TIntegerField;
+    CadastroROM_TSDE: TIBBCDField;
+    CadastroROM_TCDE: TIBBCDField;
+    CadastroROM_PDSC: TIBBCDField;
+    CadastroROM_TDSC: TIBStringField;
+    CadastroROM_CTRA: TIntegerField;
+    CadastroROM_DTRA: TIBStringField;
+    CadastroROM_VFRT: TIBBCDField;
+    CadastroROM_DSEP: TIBStringField;
+    CadastroROM_VTSP: TIBBCDField;
+    CadastroROM_VNF: TIBBCDField;
+    CadastroROM_STPD: TIBStringField;
+    CadastroROM_STCO: TIBStringField;
+    CadastroROM_CONC: TSmallintField;
+    CadastroTPCO: TSmallintField;
+    CadastroRECO: TIBStringField;
+    CadastroROM_CPAG: TIntegerField;
+    CadastroPAG_DPAG: TIBStringField;
+    CadastroROM_STFI: TIBStringField;
+    CadastroROM_CDRD: TIntegerField;
+    CadastroROM_DERD: TIBStringField;
+    CadastroROM_OBSE: TMemoField;
+    CadastroROM_PPRN: TSmallintField;
+    CadastroROM_STA: TIBStringField;
+    CadastroROM_DEVO: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure dbgConsultaCustomDrawCell(Sender: TObject; ACanvas: TCanvas;
       ARect: TRect; ANode: TdxTreeListNode; AColumn: TdxTreeListColumn;
@@ -243,9 +170,6 @@ type
       var ADone: Boolean);
     procedure siAROClick(Sender: TObject);
     procedure rom_iteAfterScroll(DataSet: TDataSet);
-    procedure cadastroBeforeEdit(DataSet: TDataSet);
-    procedure cadastroBeforeInsert(DataSet: TDataSet);
-    procedure siRELClick(Sender: TObject);
     procedure cadastroAfterOpen(DataSet: TDataSet);
     procedure cadastroCalcFields(DataSet: TDataSet);
     procedure siPSQClick(Sender: TObject);
@@ -257,19 +181,23 @@ type
     procedure dtscadastroDataChange(Sender: TObject; Field: TField);
     procedure writefotoClick(Sender: TObject);
     procedure siINFClick(Sender: TObject);
-    procedure DTSCadastroStateChange(Sender: TObject);
     procedure SINovoClick(Sender: TObject);
-    procedure SICLIClick(Sender: TObject);
+    procedure CadastroBeforeOpen(DataSet: TDataSet);
+    procedure CadastroAfterScroll(DataSet: TDataSet);
+    procedure siPRNClick(Sender: TObject);
   private
-    gera_romaneio: boolean;
     { Private declarations }
-     procedure abre_tabela;
-     procedure carregaFoto(tam: Integer; valor: TBlobField; tab: TIbQuery; par: TIbDataSet);
-     procedure baixa_carteira;
-     procedure baixa_bancario;
-     procedure cancela_caixa_carteira;
-     procedure cancela_caixa_bancario;
-     function  RETORNA_LOGIN(texto: string) : boolean;
+    gera_romaneio: boolean;
+    APED_EDI_AFC,
+    APED_EDI_PFC,
+    APED_EDI_CPD,
+    APED_EDI_CBX: Boolean;
+
+    procedure baixa_carteira;
+    procedure baixa_bancario;
+    procedure CANCELA_CAIXA;
+    procedure carregaFoto(tam: Integer; valor: TBlobField; tab: TIbQuery; par: TIbDataSet);
+    function  RETORNA_LOGIN(texto: string) : boolean;
   public
     { Public declarations }
   end;
@@ -290,21 +218,31 @@ begin
   cEvent := 'CTR_PED';
   inherited;
 
-  abre_tabela;
   with cadastro do
   begin
     Close;
-    SelectSQL.Clear;
-    SelectSQL.Add('SELECT   PED_VEN_CAB.*,CAD_CLI.CLI_FANT,CAD_CLI.CLI_CRED,CAD_USU.USU_DUSU,CAD_REP.REP_FANT,PAG_DPAG');
-    SelectSQL.Add('FROM     CAD_CLI,CAD_USU,CAD_REP,TAB_PAG,'+SLPrincipal.Values['ped_ven_cab']+' "PED_VEN_CAB"');
-    SelectSQL.Add('WHERE    PED_VEN_CAB.ROM_CCLI = CAD_CLI.ID');
-    SelectSQL.Add('AND      PED_VEN_CAB.ROM_CVEN = CAD_USU.USU_CUSU');
-    SelectSQL.Add('AND      PED_VEN_CAB.ROM_CREP = CAD_REP.ID');
-    SelectSQL.Add('AND      PED_VEN_CAB.ROM_CPAG = TAB_PAG.ID');
-    SelectSQL.Add('AND      PED_VEN_CAB.ROM_DROM BETWEEN '''+formatDateTime('mm/dd/yy',StartOfTheMonth(incMonth(strtodate(SLPrincipal.Values['data_sistema']),-2)))+''' AND '''+formatDateTime('mm/dd/yy',endOfTheMonth(strtodate(SLPrincipal.Values['data_sistema'])))+'''');
+    SQL.Clear;
+    SQL.Add('SELECT PK.ID,PK.ROM_CDEP,PK.ROM_DERO,PK.ROM_DROM,PK.ROM_HROM,PK.ROM_CDRO,PK.ROM_CDNF,PK.ROM_DNFS,PK.ROM_CDBX,PK.ROM_DBAI,PK.ROM_CDCX,PK.ROM_CTNR,');
+    SQL.Add('       PK.ROM_CCLI,CD.CLI_FANT,PK.ROM_CVEN,CV.USU_DUSU,PK.ROM_CREP,CR.REP_FANT,');
+    SQL.Add('       PK.ROM_QTVE,PK.ROM_RLVE,PK.ROM_QTPD,PK.ROM_RLPD,');
+    SQL.Add('       PK.ROM_TSDE,PK.ROM_TCDE,PK.ROM_PDSC,PK.ROM_TDSC,');
+    SQL.Add('       PK.ROM_CTRA,PK.ROM_DTRA,PK.ROM_VFRT,PK.ROM_DSEP,');
+    SQL.Add('       PK.ROM_VTSP,PK.ROM_VNF ,');
+    SQL.Add('       PK.ROM_STPD,PK.ROM_STCO,PK.ROM_CONC,PK.TPCO,PK.RECO,PK.ROM_CPAG,PG.PAG_DPAG,PK.ROM_STFI,');
+    SQL.Add('       PK.ROM_CDRD,PK.ROM_DERD,');
+    SQL.Add('       PK.ROM_OBSE,PK.ROM_PPRN,ROM_STA');
+
+    SQL.Add('FROM ' + oREPZero('PED_VEN_CAB','_',RECParametros.ID,3) + ' AS PK');
+    SQL.Add('JOIN CAD_CLI AS CD ON (CD.ID = PK.ROM_CCLI)');
+    SQL.Add('JOIN CAD_USU AS CV ON (CV.USU_CUSU = PK.ROM_CVEN)');
+    SQL.Add('JOIN CAD_REP AS CR ON (CR.ID = PK.ROM_CREP)');
+    SQL.Add('JOIN TAB_PAG AS PG ON (PG.ID = PK.ROM_CPAG)');
+
+    SQL.Add('WHERE PK.ROM_DROM BETWEEN ''' + formatDateTime('mm/dd/yy',StartOfTheMonth(incMonth(strtodate(SLPrincipal.Values['data_sistema']),-2)))+''' AND '''+formatDateTime('mm/dd/yy',endOfTheMonth(strtodate(SLPrincipal.Values['data_sistema'])))+'''');
+
     if frmprincipal.cad_usuUSU_MENU.AsString = 'VEN' then
-    SelectSQL.Add('AND      PED_VEN_CAB.ROM_CVEN = '''+frmprincipal.cad_usuUSU_CUSU.AsString+'''');
-    SelectSQL.Add('ORDER BY ID DESC');
+    SQL.Add('AND PK.ROM_CVEN = '''+frmprincipal.cad_usuUSU_CUSU.AsString+'''');
+    SQL.Add('ORDER BY PK.ID DESC');
     Prepare;
   end;
 end;
@@ -341,41 +279,50 @@ begin
       with cadastro do
       begin
         Close;
-        SelectSQL.Clear;
-        SelectSQL.Add('SELECT   PED_VEN_CAB.*,CAD_CLI.CLI_FANT,CAD_CLI.CLI_CRED,CAD_USU.USU_DUSU,CAD_REP.REP_FANT,PAG_DPAG');
-        SelectSQL.Add('FROM     CAD_CLI,CAD_USU,CAD_REP,TAB_PAG,'+SLPrincipal.Values['ped_ven_cab']+' "PED_VEN_CAB"');
-        SelectSQL.Add('WHERE    PED_VEN_CAB.ROM_CCLI = CAD_CLI.ID');
-        SelectSQL.Add('AND      PED_VEN_CAB.ROM_CVEN = CAD_USU.USU_CUSU');
-        SelectSQL.Add('AND      PED_VEN_CAB.ROM_CREP = CAD_REP.ID');
-        SelectSQL.Add('AND      PED_VEN_CAB.ROM_CPAG = TAB_PAG.ID');
+        SQL.Clear;
+        SQL.Add('SELECT PK.ID,PK.ROM_CDEP,PK.ROM_DERO,PK.ROM_DROM,PK.ROM_HROM,PK.ROM_CDRO,PK.ROM_CDNF,PK.ROM_DNFS,PK.ROM_CDBX,PK.ROM_DBAI,PK.ROM_CDCX,PK.ROM_CTNR,');
+        SQL.Add('       PK.ROM_CCLI,CD.CLI_FANT,PK.ROM_CVEN,CV.USU_DUSU,PK.ROM_CREP,CR.REP_FANT,');
+        SQL.Add('       PK.ROM_QTVE,PK.ROM_RLVE,PK.ROM_QTPD,PK.ROM_RLPD,');
+        SQL.Add('       PK.ROM_TSDE,PK.ROM_TCDE,PK.ROM_PDSC,PK.ROM_TDSC,');
+        SQL.Add('       PK.ROM_CTRA,PK.ROM_DTRA,PK.ROM_VFRT,PK.ROM_DSEP,');
+        SQL.Add('       PK.ROM_VTSP,PK.ROM_VNF ,');
+        SQL.Add('       PK.ROM_STPD,PK.ROM_STCO,PK.ROM_CONC,PK.TPCO,PK.RECO,PK.ROM_CPAG,PG.PAG_DPAG,PK.ROM_STFI,');
+        SQL.Add('       PK.ROM_CDRD,PK.ROM_DERD,');
+        SQL.Add('       PK.ROM_OBSE,PK.ROM_PPRN,ROM_STA');
+
+        SQL.Add('FROM ' + oREPZero('PED_VEN_CAB','_',RECParametros.ID,3) + ' AS PK');
+        SQL.Add('JOIN CAD_CLI AS CD ON (CD.ID = PK.ROM_CCLI)');
+        SQL.Add('JOIN CAD_USU AS CV ON (CV.USU_CUSU = PK.ROM_CVEN)');
+        SQL.Add('JOIN CAD_REP AS CR ON (CR.ID = PK.ROM_CREP)');
+        SQL.Add('JOIN TAB_PAG AS PG ON (PG.ID = PK.ROM_CPAG)');
 
         if cField <> 'Todos' then
         begin
           if edtxt.Text <> '' then
           begin
             if (cfield = 'ROM_DERO') then
-               SelectSQL.Add('AND ROM_DERO LIKE '''+edtxt.Text+'%''')
+               SQL.Add('AND ROM_DERO LIKE '''+edtxt.Text+'%''')
             else if (cfield = 'CAD_CLI.ID') then
-               SelectSQL.Add('AND ROM_CCLI = '''+edtxt.Text+'''')
+               SQL.Add('AND ROM_CCLI = '''+edtxt.Text+'''')
             else if (cfield = 'ROM_CDBX') then
-               SelectSQL.Add('AND ROM_CDBX = '''+edtxt.Text+'''')
+               SQL.Add('AND ROM_CDBX = '''+edtxt.Text+'''')
             else if (cfield = 'ROM_CDNF') then
-               SelectSQL.Add('AND ROM_CDNF = '''+edtxt.Text+'''')
+               SQL.Add('AND ROM_CDNF = '''+edtxt.Text+'''')
             else
-               SelectSQL.Add('AND '+cField+' LIKE ''%'+edtxt.Text+'%''');
+               SQL.Add('AND '+cField+' LIKE ''%'+edtxt.Text+'%''');
           end;
 
           if (dxDT1.Date > 0) and (dxDT2.Date > 0) then
-             SelectSQL.Add('AND '+cData+' BETWEEN '''+formatDateTime('mm/dd/yy',dxDT1.Date)+''' AND '''+formatDateTime('mm/dd/yy',dxDT2.Date)+'''');
+             SQL.Add('AND '+cData+' BETWEEN '''+formatDateTime('mm/dd/yy',dxDT1.Date)+''' AND '''+formatDateTime('mm/dd/yy',dxDT2.Date)+'''');
         end;
 
         if frmprincipal.cad_usuUSU_MENU.AsString = 'VEN' then
-        SelectSQL.Add('AND PED_VEN_CAB.ROM_CVEN = '''+frmprincipal.cad_usuUSU_CUSU.AsString+'''');
+        SQL.Add('AND PED_VEN_CAB.ROM_CVEN = '''+frmprincipal.cad_usuUSU_CUSU.AsString+'''');
 
         if cField = 'Todos' then
            cField := 'CLI_FANT';
 
-        SelectSQL.Add('ORDER BY '+cField);
+        SQL.Add('ORDER BY PK.ID DESC');
         Open;
       end;
       dbgconsulta.SetFocus;
@@ -482,231 +429,157 @@ var
   NewString: string;
   ClickedOK: Boolean;
 begin
-  if cadastroROM_CDBX.AsInteger = 0 then
+  if CadastroROM_CDBX.AsInteger = 0 then
   begin
-    if not frmprincipal.ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,'USU_AUTO','Vendas','Pedidos','Cancelar',false) then
-    raise exception.Create('ACESSO NEGADO !'+#13+'Contate o admnistrador do sistema.');
+    if CadastroROM_CDNF.AsInteger > 0 then
+    raise exception.Create('Pedido já faturado !'+#13+'Nota Fiscal No '+CadastroROM_CDNF.AsString);
 
-    if cadastroROM_CDNF.AsInteger > 0 then
-    raise exception.Create('Pedido já faturado !'+#13+'Nota Fiscal No '+cadastroROM_CDNF.AsString);
+    if CadastroROM_CDRO.AsInteger > 0 then
+    raise exception.Create('Pedido já possui romaneio emitido !'+#13+'Romaneio No '+CadastroROM_CDRO.AsString);
 
-    if cadastroROM_CDRO.AsInteger > 0 then
-    raise exception.Create('Pedido já possui romaneio emitido !'+#13+'Romaneio No '+cadastroROM_CDRO.AsString);
+    if (CadastroROM_QTPD.AsFloat > 0) and (CadastroROM_CDNF.AsInteger = 0) then
+    raise exception.Create('Pedido já está em processo de separação !');
 
-    if (cadastroROM_QTPD.AsFloat > 0) and (cadastroROM_CDNF.AsInteger = 0) then
-    raise exception.Create('Pedido já está em processo de separação !'+#13+'Separador '+cadastroROM_DSEP.AsString);
-
-    if oYesNo(handle,'Cancelar Pedido No.: '+cadastroID.AsString+' ?') = mrno then
+    if oYesNo(handle,'Cancelar Pedido No.: '+CadastroROM_DERO.AsString+' ?') = mrno then
     abort;
 
     ClickedOK := InputQuery('Cancelamento de Pedido', 'Motivo', NewString);
     if not ClickedOK then
-    abort;
+       Abort;
 
-    with frmprincipal.sp_sql do
+    oOTransact(TEdicao);
+    with SQLEdicao do
     begin
-      ibSP.StoredProcName := 'SP_SQL';
+      Close;
       SQL.Clear;
-      SQL.Add('DELETE FROM '+SLPrincipal.Values['cad_pro_res']);
-      SQL.Add('WHERE  EST_CDPD = '''+cadastroID.AsString+'''');
-      SQL.Add('AND    EST_CDEP = '''+frmprincipal.parametrosID.AsString+'''');
+      SQL.Add('DELETE FROM CAD_PRO_RES');
+      SQL.Add('WHERE  EST_CDEP = ''' + CadastroROM_CDEP.AsString + '''');
+      SQL.Add('AND    EST_CDPD = ''' + CadastroID.AsString + '''');
+      ExecQuery;
 
-      ibSP.Prepare;
-      ibSP.ParamByName('sqltexto').Value := frmprincipal.sp_sql.SQL.Text;
-      ibSP.ExecProc;
-
-      ibSP.StoredProcName := 'SP_SQL';
+      Close;
       SQL.Clear;
-      SQL.Add('DELETE FROM '+SLPrincipal.Values['cad_pro_sep']);
-      SQL.Add('WHERE  EST_CDPD = '''+cadastroID.AsString+'''');
-      SQL.Add('AND    EST_CDEP = '''+frmprincipal.parametrosID.AsString+'''');
+      SQL.Add('DELETE FROM CAD_PRO_SEP');
+      SQL.Add('WHERE  IDEP = ''' + CadastroROM_CDEP.AsString + '''');
+      SQL.Add('AND    IDPK = ''' + CadastroID.AsString + '''');
+      ExecQuery;
 
-      ibSP.Prepare;
-      ibSP.ParamByName('sqltexto').Value := frmprincipal.sp_sql.SQL.Text;
-      ibSP.ExecProc;
-
+      Close;
       SQL.Clear;
-      SQL.Add('UPDATE '+SLPrincipal.Values['cad_pro_est']);
-      SQL.Add('SET    EST_CDPD = NULL');
-      SQL.Add('WHERE  EST_CDPD = '''+cadastroID.AsString+'''');
+      SQL.Add('DELETE FROM CAD_PRO_EST');
+      SQL.Add('WHERE  IDEP = ''' + CadastroROM_CDEP.AsString + '''');
+      SQL.Add('AND    IDPK = ''' + CadastroID.AsString + '''');
+      ExecQuery;
 
-      ibSP.Prepare;
-      ibSP.ParamByName('sqltexto').Value := frmprincipal.sp_sql.SQL.Text;
-      ibSP.ExecProc;
-
+      Close;
       SQL.Clear;
-      SQL.Add('DELETE FROM '+SLPrincipal.Values['cad_pro_est']);
-      SQL.Add('WHERE  EST_CDRO = '''+cadastroID.AsString+'''');
-      SQL.Add('AND    EST_FLAG = ''V''');
+      SQL.Add('DELETE FROM '+SLPrincipal.Values['rom_cab']);
+      SQL.Add('WHERE  ID = '''+CadastroROM_CDRO.AsString+'''');
+      ExecQuery;
 
-      ibSP.Prepare;
-      ibSP.ParamByName('sqltexto').Value := frmprincipal.sp_sql.SQL.Text;
-      ibSP.ExecProc;
+      Close;
+      SQL.Clear;
+      SQL.Add('DELETE FROM '+SLPrincipal.Values['rom_ite']);
+      SQL.Add('WHERE  ROM_CCAB = '''+CadastroROM_CDRO.AsString+'''');
+      ExecQuery;
 
-      if cadastroROM_CDRO.AsInteger > 0 then
-      begin
-        SQL.Clear;
-        SQL.Add('DELETE FROM '+SLPrincipal.Values['rom_cab']);
-        SQL.Add('WHERE  ID = '''+cadastroROM_CDRO.AsString+'''');
-
-        ibSP.Prepare;
-        ibSP.ParamByName('sqltexto').Value := frmprincipal.sp_sql.SQL.Text;
-        ibSP.ExecProc;
-
-        SQL.Clear;
-        SQL.Add('DELETE FROM '+SLPrincipal.Values['rom_ite']);
-        SQL.Add('WHERE  ROM_CCAB = '''+cadastroROM_CDRO.AsString+'''');
-
-        ibSP.Prepare;
-        ibSP.ParamByName('sqltexto').Value := frmprincipal.sp_sql.SQL.Text;
-        ibSP.ExecProc;
-      end;
-    end;
-
-    cadastro.Edit;
-    cadastroROM_STA.Value  := '1';
-    cadastroROM_STFI.Value := 'CANCELADO';
-    cadastroROM_DCAN.Value := strtodate(SLPrincipal.Values['data_sistema']);
-    cadastroROM_OBSE.Value := cadastroROM_OBSE.AsString+NewString;
-    cadastro.Post;
-
-    frmprincipal.Log_Eve('Vendas',LOWERCASE(cadastroROM_STPD.AsString),'Cancelamento',cadastroROM_DERO.AsString,cadastroROM_DERO.AsString,cadastroROM_CCLI.AsString+' - '+LOWERCASE(cadastroCLI_FANT.AsString),'','');
-  end
-  else
-  begin
-    if not frmprincipal.ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,'USU_AUTO','Vendas','Pedidos','Cancelar Baixa',false) then
-    raise exception.Create('ACESSO NEGADO !'+#13+'Contate o admnistrador do sistema.');
-
-    if oYesNo(handle,'Cancelar baixa financeira do pedido No.: '+cadastroID.AsString+' ?') = mrno then
-    abort;
-
-    with frmprincipal.sp_sql do
-    begin
-      if (cadastroROM_STCO.AsString <> 'BANCÁRIO') then
-        cancela_caixa_carteira
-      else
-      begin
-        if cadastroROM_CONC.AsInteger > 1 then
-        cancela_caixa_carteira;
-        cancela_caixa_bancario;
-      end;
-      IBTra.CommitRetaining;
-    end;
-
-    with frmprincipal.sp_sql do
-    begin
-      ibSP.StoredProcName := 'SP_SQL';
-
+      Close;
       SQL.Clear;
       SQL.Add('UPDATE '+SLPrincipal.Values['ped_ven_cab']);
-      SQL.Add('SET    ROM_DBAI = NULL,');
-      if cadastroROM_STCO.AsString <> 'SEM COBRANÇA' then
-      SQL.Add('       ROM_STFI = ''PENDENTE'',');
-      SQL.Add('       ROM_CDBX = NULL');
-      SQL.Add('WHERE  ROM_CDBX = '''+cadastroROM_CDBX.AsString+'''');
+      SQL.Add('SET    ROM_STFI = ''CANCELADO''');
+      SQL.Add('WHERE  ID = '''+CadastroID.AsString+'''');
+      ExecQuery;
+    end;
 
-      ibSP.Prepare;
-      ibSP.ParamByName('sqltexto').Value := frmprincipal.sp_sql.SQL.Text;
-      ibSP.ExecProc;
+    oCTransact(TEdicao);
+    frmprincipal.Log_Eve('Vendas',LOWERCASE(CadastroROM_STPD.AsString),'Cancelamento',CadastroROM_DERO.AsString,CadastroROM_DERO.AsString,CadastroROM_CCLI.AsString+' - '+LOWERCASE(CadastroCLI_FANT.AsString),'','');
+  end else
+  begin
+    if oYesNo(handle,'Cancelar baixa financeira do pedido No.: '+CadastroROM_DERO.AsString+' ?') = mrno then
+       Abort;
 
+    oOTransact(TEdicao);   
+    CANCELA_CAIXA;
+    with SQLEdicao do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add('UPDATE '+SLPrincipal.Values['ped_ven_cab']);
+      SQL.Add('SET    ROM_STFI = ''PENDENTE'',');
+      SQL.Add('       ROM_CDBX = NULL,');
+      SQL.Add('       ROM_DBAI = NULL ');
+      SQL.Add('WHERE  ROM_CDBX = '''+CadastroROM_CDBX.AsString+'''');
+      ExecQuery;
+
+      Close;
       SQL.Clear;
       SQL.Add('UPDATE '+SLPrincipal.Values['rom_cab']);
       SQL.Add('SET    ROM_STFI = ''PENDENTE'',');
       SQL.Add('       ROM_DBAI = NULL,');
       SQL.Add('       ROM_CDBX = NULL');
-      SQL.Add('WHERE  ROM_CDBX = '''+cadastroROM_CDBX.AsString+'''');
+      SQL.Add('WHERE  ROM_CDBX = '''+CadastroROM_CDBX.AsString+'''');
+      ExecQuery;
 
-      ibSP.Prepare;
-      ibSP.ParamByName('sqltexto').Value := frmprincipal.sp_sql.SQL.Text;
-      ibSP.ExecProc;
+      Close;
+      SQL.Clear;
+      SQL.Add('DELETE FROM CAD_PRO_RES');
+      SQL.Add('WHERE  IDEP = ''' + CadastroROM_CDEP.AsString + '''');
+      SQL.Add('AND    IDPK = ''' + CadastroID.AsString + '''');
+      ExecQuery;
 
-      if (cadastroROM_STPD.AsString <> 'DEVOLUÇÃO') and (cadastroROM_STPD.AsString <> 'ABATIMENTO') and (cadastroROM_CDRO.AsInteger = 0) then
+      Close;
+      SQL.Clear;
+      SQL.Add('DELETE FROM CAD_PRO_SEP');
+      SQL.Add('WHERE  IDEP = ''' + CadastroROM_CDEP.AsString + '''');
+      SQL.Add('AND    IDPK = ''' + CadastroID.AsString + '''');
+      ExecQuery;
+
+      Close;
+      SQL.Clear;
+      SQL.Add('DELETE FROM CAD_PRO_EST');
+      SQL.Add('WHERE  IDEP = ''' + CadastroROM_CDEP.AsString + '''');
+      SQL.Add('AND    IDPK = ''' + CadastroID.AsString + '''');
+      ExecQuery;
+
+      rom_ite.First;
+      while not rom_ite.Eof do
       begin
-        consulta.SQL.Clear;
-        consulta.SQL.Add('SELECT VEN_BEST FROM TAB_PED');
-        consulta.SQL.Add('WHERE  VEN_TIPO = '''+cadastroROM_STPD.AsString+'''');
-        consulta.Open;
+        SPEdicao.Close;
+        SPEdicao.StoredProcName := 'SP_CAD_PRO_SEP';
+        SPEdicao.Prepare;
 
-        if consulta.Fields[0].AsString = '1' then
-        begin
-          SQL.Clear;
-          SQL.Add('DELETE FROM '+SLPrincipal.Values['cad_pro_est']);
-          SQL.Add('WHERE  EST_CDRO = '''+cadastroID.AsString+'''');
-          SQL.Add('AND    EST_FLAG = ''V''');
+        SPEdicao.ParamByName('est').Value  := oREPZero('CAD_PRO_SEP','_',RECParametros.Id,3);
+        SPEdicao.ParamByName('id').Value   := 0;
+        SPEdicao.ParamByName('cdep').Value := RECParametros.Id;
+        SPEdicao.ParamByName('cdro').Value := 0;
+        SPEdicao.ParamByName('cdpd').Value := CadastroID.AsInteger;
+        SPEdicao.ParamByName('cdbx').Value := 0;
+        SPEdicao.ParamByName('cpro').Value := rom_iteROM_CPRO.AsInteger;
+        SPEdicao.ParamByName('cusu').Value := CadastroROM_CVEN.AsInteger;
+        SPEdicao.ParamByName('dusu').Value := CadastroUSU_DUSU.AsString;
+        SPEdicao.ParamByName('cfav').Value := CadastroROM_CCLI.AsInteger;
+        SPEdicao.ParamByName('dfav').Value := CadastroCLI_FANT.AsString;
+        SPEdicao.ParamByName('dcad').Value := strtodate(SLPrincipal.Values['data_sistema']);
+        SPEdicao.ParamByName('docu').Value := copy(CadastroROM_DERO.AsString,1,10);
+        SPEdicao.ParamByName('flag').Value := 'R';
+        SPEdicao.ParamByName('cdet').Value := EmptyStr;
+        SPEdicao.ParamByName('dsep').Value := rom_iteROM_DSEP.AsString;
+        SPEdicao.ParamByName('debi').Value := 0;
+        SPEdicao.ParamByName('cred').Value := rom_iteROM_QTDE.AsFloat;
+        SPEdicao.ParamByName('dmap').Value := '';
+        SPEdicao.ParamByName('lote').Value := '';
+        SPEdicao.ParamByName('ctnr').Value := '';
+        SPEdicao.ExecProc;
 
-          ibSP.Prepare;
-          ibSP.ParamByName('sqltexto').Value := frmprincipal.sp_sql.SQL.Text;
-          ibSP.ExecProc;
-
-          ibSP.StoredProcName := 'SP_SQL';
-          SQL.Clear;
-          SQL.Add('DELETE FROM '+SLPrincipal.Values['cad_pro_res']);
-          SQL.Add('WHERE  EST_CDPD = '''+cadastroID.AsString+'''');
-          SQL.Add('AND    EST_CDEP = '''+frmprincipal.parametrosID.AsString+'''');
-
-          ibSP.Prepare;
-          ibSP.ParamByName('sqltexto').Value := frmprincipal.sp_sql.SQL.Text;
-          ibSP.ExecProc;
-
-          ibSP.StoredProcName := 'SP_SQL';
-          SQL.Clear;
-          SQL.Add('DELETE FROM '+SLPrincipal.Values['cad_pro_sep']);
-          SQL.Add('WHERE  EST_CDPD = '''+cadastroID.AsString+'''');
-          SQL.Add('AND    EST_CDEP = '''+frmprincipal.parametrosID.AsString+'''');
-
-          ibSP.Prepare;
-          ibSP.ParamByName('sqltexto').Value := frmprincipal.sp_sql.SQL.Text;
-          ibSP.ExecProc;
-
-          rom_ite.First;
-          while not rom_ite.Eof do
-          begin
-            ibSP.StoredProcName := 'SP_CAD_PRO_RES';
-            ibSP.Prepare;
-
-            ibSP.ParamByName('est').Value  := 'CAD_PRO_RES';
-            if frmprincipal.parametrosID.AsInteger > 1 then
-            ibSP.ParamByName('est').Value  := 'CAD_PRO_RES_'+oStrZero(frmprincipal.parametrosID.AsInteger,3);
-
-            ibSP.ParamByName('id').Value   := 0;
-            ibSP.ParamByName('cdep').Value := frmprincipal.parametrosID.AsInteger;
-            ibSP.ParamByName('cdro').Value := 0;
-            ibSP.ParamByName('cdpd').Value := cadastroID.AsInteger;
-            ibSP.ParamByName('cdbx').Value := 0;
-            ibSP.ParamByName('cpro').Value := rom_iteROM_CPRO.AsInteger;
-            ibSP.ParamByName('cusu').Value := cadastroROM_CVEN.AsInteger;
-            ibSP.ParamByName('dusu').Value := cadastroUSU_DUSU.AsString;
-            ibSP.ParamByName('cfav').Value := cadastroROM_CCLI.AsInteger;
-            ibSP.ParamByName('dfav').Value := cadastroCLI_FANT.AsString;
-            ibSP.ParamByName('dcad').Value := strtodate(SLPrincipal.Values['data_sistema']);
-            ibSP.ParamByName('docu').Value := copy(cadastroROM_DERO.AsString,1,10);
-            ibSP.ParamByName('flag').Value := 'R';
-            ibSP.ParamByName('cdet').Value := rom_iteROM_CDET.AsString;
-            ibSP.ParamByName('dsep').Value := rom_iteROM_DSEP.AsString;
-            ibSP.ParamByName('debi').Value := 0;
-            ibSP.ParamByName('cred').Value := rom_iteROM_QTDE.AsFloat;
-            ibSP.ParamByName('dmap').Value := '';
-            ibSP.ParamByName('lote').Value := '';
-            ibSP.ParamByName('ctnr').Value := '';
-            ibSP.ParamByName('UNIT').Value := 0;
-            ibSP.ExecProc;
-
-            rom_ite.Next;
-          end;
-        end;
+        rom_ite.Next;
       end;
 
-      IBTra.CommitRetaining;
-      frmprincipal.Log_Eve('Vendas',LOWERCASE(cadastroROM_STPD.AsString),'Cancelamento de Baixa',cadastroROM_DERO.AsString,cadastroROM_DERO.AsString,cadastroROM_CCLI.AsString+' - '+LOWERCASE(cadastroCLI_FANT.AsString),'','');
+      oCTransact(TEdicao);
+      frmprincipal.Log_Eve('Vendas',LOWERCASE(CadastroROM_STPD.AsString),'Cancelamento de Baixa',CadastroROM_DERO.AsString,CadastroROM_DERO.AsString,CadastroROM_CCLI.AsString+' - '+LOWERCASE(CadastroCLI_FANT.AsString),'','');
     end;
-
-    ExecuteEvent;
   end;
-end;
 
-procedure Tfrmctr_ped.SICLIClick(Sender: TObject);
-begin
-  {nothing}
+  ExecuteEvent;
 end;
 
 procedure Tfrmctr_ped.siINFClick(Sender: TObject);
@@ -793,147 +666,93 @@ end;
 
 procedure Tfrmctr_ped.siBROClick(Sender: TObject);
 begin
-  if cadastroROM_CDBX.AsInteger > 0 then
-  raise exception.Create('Pedido já finalizado !');
-
-  if (cadastroROM_STFI.AsString = 'AGUARDANDO LIBERAÇÃO') or (cadastroROM_STFI.AsString = 'AGUARDANDO CRÉDITO') or (cadastroROM_STFI.AsString = 'PROTESTADO') or
-     (cadastroROM_STFI.AsString = 'NÃO PAGO')             or (cadastroROM_STFI.AsString = 'SUSPENSO')   then
-  raise exception.Create('Não é possível finalizar pedido !'+#13+'Situação: '+cadastroROM_STFI.AsString);
-
-  if (cadastroROM_CDRO.AsInteger > 0) and (cadastroROM_CDNF.AsInteger = 0) and (cadastroROM_CONC.AsInteger > 0) then
-  raise exception.Create('Não é possível finalizar pedido !'+#13+'Pedido possui romaneio gerado, mas sem nota fiscal emitida.');
-
-  if (cadastroROM_CDNF.AsInteger = 0) and (cadastroROM_STCO.AsString = 'BANCÁRIO') and (cadastroROM_STPD.AsString <> 'DEVOLUÇÃO')  and (cadastroROM_STPD.AsString <> 'ABATIMENTO') then
-  raise exception.Create('Não é possível finalizar pedido !'+#13+'Para pedidos do tipo bancário é obrigatório a emissão de nota fiscal.');
-
-  if (cadastroROM_STFI.AsString = 'SEPARAÇÃO') and (cadastroROM_CONC.AsInteger > 0) then
-  raise exception.Create('Não é possível finalizar pedido !'+#13+'Pedido em processo de separação.');
-
-  with consulta do
+  if Assigned(FRMCTR_PED_BAI) then FRMCTR_PED_BAI.BringToFront else
   begin
-    SQL.Clear;
-    SQL.Add('SELECT VEN_QTSP FROM TAB_PED');
-    SQL.Add('WHERE  VEN_TIPO = '''+cadastroROM_STPD.AsString+'''');
-    Open;
-  end;
+    if CadastroROM_CDBX.AsInteger > 0 then
+    raise exception.Create('Pedido já finalizado !');
 
-  if (consulta.Fields[0].AsString = '1') and (cadastroROM_QTPD.AsFloat = 0) then
-  raise exception.Create('Pedido aguardando separação !'+#13+'Não é possível finalizar.');
-  
-  FRMCTR_PED_BAI := TFRMCTR_PED_BAI.Create(Self);
-  frmctr_ped_bai.tab_pag.Close;
-  frmctr_ped_bai.tab_pag.Params[0].Value := cadastroROM_CPAG.AsInteger;
-  frmctr_ped_bai.tab_pag.Open;
+    if (CadastroROM_STFI.AsString = 'AGUARDANDO LIBERAÇÃO') or (CadastroROM_STFI.AsString = 'AGUARDANDO CRÉDITO') or (CadastroROM_STFI.AsString = 'PROTESTADO') or
+       (CadastroROM_STFI.AsString = 'NÃO PAGO')             or (CadastroROM_STFI.AsString = 'SUSPENSO')   then
+    raise exception.Create('Não é possível finalizar pedido !'+#13+'Situação: '+CadastroROM_STFI.AsString);
 
-  with consulta do
-  begin
-    SQL.Clear;
-    if cadastroROM_CDCX.AsInteger > 0 then
+    if (CadastroROM_CDRO.AsInteger > 0) and (CadastroROM_CDNF.AsInteger = 0) and (CadastroROM_CONC.AsInteger > 0) then
+    raise exception.Create('Não é possível finalizar pedido !'+#13+'Pedido possui romaneio gerado, mas sem nota fiscal emitida.');
+
+    if (CadastroROM_CDNF.AsInteger = 0) and (CadastroROM_STCO.AsString = 'BANCÁRIO') and (CadastroROM_STPD.AsString <> 'DEVOLUÇÃO')  and (CadastroROM_STPD.AsString <> 'ABATIMENTO') then
+    raise exception.Create('Não é possível finalizar pedido !'+#13+'Para pedidos do tipo bancário é obrigatório a emissão de nota fiscal.');
+
+    if (CadastroROM_STFI.AsString = 'SEPARAÇÃO') and (CadastroROM_CONC.AsInteger > 0) then
+    raise exception.Create('Não é possível finalizar pedido !'+#13+'Pedido em processo de separação.');
+
+    with consulta do
     begin
-      SQL.Add('SELECT CAI_DABR,CAI_DFEC,ID FROM CAI_LAF');
-      SQL.Add('WHERE  ID = '''+cadastroROM_CDCX.AsString+'''');
-    end
-    else
+      Close;
+      SQL.Clear;
+      SQL.Add('SELECT VEN_QTSP FROM TAB_PED');
+      SQL.Add('WHERE  VEN_TIPO = '''+CadastroROM_STPD.AsString+'''');
+      Open;
+    end;
+
+    if (consulta.Fields[0].AsString = '1') and (CadastroROM_QTPD.AsFloat = 0) then
+    raise exception.Create('Pedido aguardando separação !'+#13+'Não é possível finalizar.');
+
+    uFrmCreate(Self,Tfrmctr_ped_bai, frmctr_ped_bai);
+
+    frmctr_ped_bai.tab_pag.Close;
+    frmctr_ped_bai.tab_pag.Params[0].Value := CadastroROM_CPAG.AsInteger;
+    frmctr_ped_bai.tab_pag.Open;
+
+    with consulta do
     begin
+      Close;
+      SQL.Clear;
+      if CadastroROM_CDCX.AsInteger > 0 then
+      begin
+        SQL.Add('SELECT CAI_DABR,CAI_DFEC,ID FROM CAI_LAF');
+        SQL.Add('WHERE  ID = '''+CadastroROM_CDCX.AsString+'''');
+      end
+      else
+      begin
+        SQL.Add('SELECT CAI_DABR,CAI_DFEC,ID FROM CAI_LAF');
+        SQL.Add('WHERE  CAI_CDEP = '''+frmprincipal.parametrosID.AsString+'''');
+        if CadastroROM_CDNF.AsInteger > 0 then
+        SQL.Add('AND    CAI_DABR = '''+formatDateTime('mm/dd/yy',CadastroROM_DNFS.AsDateTime)+'''') else
+        SQL.Add('AND    CAI_DABR = '''+formatDateTime('mm/dd/yy',CadastroROM_DROM.AsDateTime)+'''');
+      end;
+      Open;
+    end;
+
+    frmctr_ped_bai.eddrom.Date := consulta.Fields[0].AsDateTime;
+    frmctr_ped_bai.edcdcx.Text := consulta.Fields[2].AsString;
+
+    if CadastroROM_CDNF.AsInteger > 0 then
+    frmctr_ped_bai.edDBAI.Date := CadastroROM_DNFS.AsDateTime;
+
+    if frmctr_ped_bai.eddbai.Date <= 0 then
+    frmctr_ped_bai.eddbai.Date := strtodate(SLPrincipal.Values['data_sistema']);
+
+    if frmctr_ped_bai.edDROM.Date <> frmctr_ped_bai.edDBAI.Date then
+    with consulta do
+    begin
+      Close;
+      SQL.Clear;
       SQL.Add('SELECT CAI_DABR,CAI_DFEC,ID FROM CAI_LAF');
       SQL.Add('WHERE  CAI_CDEP = '''+frmprincipal.parametrosID.AsString+'''');
-      if cadastroROM_CDNF.AsInteger > 0 then
-      SQL.Add('AND    CAI_DABR = '''+formatDateTime('mm/dd/yy',cadastroROM_DNFS.AsDateTime)+'''') else
-      SQL.Add('AND    CAI_DABR = '''+formatDateTime('mm/dd/yy',cadastroROM_DROM.AsDateTime)+'''');
+      SQL.Add('AND    CAI_DABR = '''+formatDateTime('mm/dd/yy',frmctr_ped_bai.edDBAI.Date)+'''');
+      Open;
+
+      if not fields[0].IsNull then
+      frmctr_ped_bai.edcdcx.Text := fields[2].AsString;
     end;
-    Open;
-  end;
 
-  frmctr_ped_bai.eddrom.Date := consulta.Fields[0].AsDateTime;
-  frmctr_ped_bai.edcdcx.Text := consulta.Fields[2].AsString;
-
-  if cadastroROM_CDNF.AsInteger > 0 then
-  frmctr_ped_bai.edDBAI.Date := cadastroROM_DNFS.AsDateTime;
-
-  if frmctr_ped_bai.eddbai.Date <= 0 then
-  frmctr_ped_bai.eddbai.Date := strtodate(SLPrincipal.Values['data_sistema']);
-
-  if frmctr_ped_bai.edDROM.Date <> frmctr_ped_bai.edDBAI.Date then
-  with consulta do
-  begin
-    SQL.Clear;
-    SQL.Add('SELECT CAI_DABR,CAI_DFEC,ID FROM CAI_LAF');
-    SQL.Add('WHERE  CAI_CDEP = '''+frmprincipal.parametrosID.AsString+'''');
-    SQL.Add('AND    CAI_DABR = '''+formatDateTime('mm/dd/yy',frmctr_ped_bai.edDBAI.Date)+'''');
-    Open;
-
-    if not fields[0].IsNull then
-    frmctr_ped_bai.edcdcx.Text := fields[2].AsString;
-  end;
-
-  if cadastroROM_CDCX.AsInteger = 0 then
-  with consulta do
-  begin
-    SQL.Clear;
-    SQL.Add('UPDATE '+SLPrincipal.Values['ped_ven_cab']);
-    SQL.Add('SET    ROM_CDCX = '''+frmctr_ped_bai.edcdcx.Text+'''');
-    SQL.Add('WHERE  ID       = '''+cadastroID.AsString+'''');
-    ExecSQL;
-
-    if cadastroROM_CDRO.AsInteger > 0 then
-    begin
-      SQL.Clear;
-      SQL.Add('UPDATE '+SLPrincipal.Values['rom_cab']);
-      SQL.Add('SET    ROM_CDCX = '''+frmctr_ped_bai.edcdcx.Text+'''');
-      SQL.Add('WHERE  ID       = '''+cadastroROM_CDRO.AsString+'''');
-      ExecSQL;
-    end;
-    IBTra.CommitRetaining;
-  end;
-
-  frmctr_ped_bai.Tag := 1;
-
-  if cadastroROM_STCO.AsString <> 'BANCÁRIO' then
-  begin
-    frmctr_ped_bai.tscar.TabVisible := false;
-    BAIXA_CARTEIRA;
-  end
-  else
-  begin
-    if cadastroROM_CONC.AsInteger = 1 then
-       frmctr_ped_bai.tscar.TabVisible := false;
+    if LeftStr(CadastroRECO.AsString,1) = 'B' then
     BAIXA_BANCARIO;
-  end;
 
-  frmctr_ped_bai.Tag := 0;
+    if (LeftStr(CadastroRECO.AsString,1) = 'C') or (CadastroROM_CONC.AsInteger > 1) then
+    BAIXA_CARTEIRA;
 
-  if (Screen.Width <= 1024) or (Screen.Width < 1280) then
-  begin
-    frmctr_ped_bai.FormStyle   := fsNormal;
-    frmctr_ped_bai.Visible     := false;
-    frmctr_ped_bai.ShowModal;
-  end
-  else
     frmctr_ped_bai.Show;
-end;
-
-procedure Tfrmctr_ped.siRELClick(Sender: TObject);
-begin
-  frmrelatorio_geral := TFrmrelatorio_geral.Create(self);
-  try
-    frmrelatorio_geral.CDPD                 := cadastroID.AsString;
-    frmrelatorio_geral.CDRO                 := cadastroROM_CDRO.AsString;
-    frmrelatorio_geral.CDBX                 := cadastroROM_CDBX.AsString;
-    frmrelatorio_geral.CDNF                 := cadastroROM_CDNF.AsString;
-    frmrelatorio_geral.tsVEN_PED.TabVisible := true;
-    frmrelatorio_geral.pcMAIN.ActivePage    := frmrelatorio_geral.tsVEN_PED;
-    frmrelatorio_geral.cbVEN_PED_TREL.Text  := frmprincipal.parametrosPAR_PREL.AsString;
-    frmrelatorio_geral.ShowModal;
-  finally
-    freeAndNil(frmrelatorio_geral);
-    frmrelatorio_geral.Free;
-  end;
-end;
-
-procedure Tfrmctr_ped.DTSCadastroStateChange(Sender: TObject);
-begin
-//  inherited;
-
+  end;  
 end;
 
 function Tfrmctr_ped.RETORNA_LOGIN(texto: string): boolean;
@@ -969,426 +788,6 @@ begin
   result := BRet;
 end;
 
-procedure Tfrmctr_ped.cancela_caixa_carteira;
-var
-  doct: string;
-  valo: double;
-  conc: word;
-  ctsr,cdcx: integer;
-begin
-  with consulta do
-  begin
-    SQL.Clear;
-    SQL.Add('SELECT ID FROM CAI_TSR');
-    SQL.Add('WHERE  CAI_DESC = ''CAIXA INICIAL''');
-    Open;
-
-    ctsr := fields[0].AsInteger;
-  end;
-
-  if not tSHEILD.Active then
-  tSHEILD.StartTransaction;
-
-  with fin_rec_bai do
-  begin
-    SelectSQL.Clear;
-    SelectSQL.Add('DELETE FROM FIN_REC_BAI');
-    ExecSQL;
-    tSHEILD.CommitRetaining;
-
-    Close;
-    SelectSQL.Clear;
-    SelectSQL.Add('SELECT * FROM FIN_REC_BAI');
-    SelectSQL.Add('ORDER BY ID');
-    Open;
-  end;
-
-  with aux do
-  begin
-    SQL.Clear;
-    SQL.Add('SELECT   FIN_TIPO FROM '+SLPrincipal.Values['fin_rec_car_bai']);
-    SQL.Add('WHERE    FIN_CDBX = '''+cadastroROM_CDBX.AsString+'''');
-    SQL.Add('GROUP BY FIN_TIPO');
-    Open;
-  end;
-
-  while not aux.Eof do
-  begin
-    fin_rec_bai.Append;
-    fin_rec_baiID.Value       := 0;
-    fin_rec_baiFIN_TIPO.Value := aux.Fields[0].AsString;
-    fin_rec_bai.Post;
-    tSHEILD.CommitRetaining;
-    aux.Next;
-  end;
-
-  with aux do
-  begin
-    SQL.Clear;
-    SQL.Add('SELECT FIN_TIPO,ID,FIN_CONC,FIN_CDCX,FIN_CDBX FROM '+SLPrincipal.Values['fin_rec_car_bai']);
-    SQL.Add('WHERE  FIN_CDBX = '''+cadastroROM_CDBX.AsString+'''');
-    Open;
-  end;
-  conc := aux.Fields[2].AsInteger;
-  cdcx := aux.Fields[3].AsInteger;
-
-  while not aux.eof do
-  begin
-    with consulta do
-    begin
-      SQL.Clear;
-      SQL.Add('SELECT ID FROM TAB_COB');
-      SQL.Add('WHERE  VEN_TIPO = '''+aux.Fields[0].AsString+'''');
-      Open;
-
-      if fields[0].IsNull then
-      doct := '1'
-      else
-      doct := fields[0].AsString;
-      doct := aux.Fields[2].AsString+oStrZero(strtoint(doct),19);
-
-      SQL.Clear;
-      SQL.Add('DELETE FROM CAI_MOV');
-      SQL.Add('WHERE  CAI_CCAB = '''+aux.Fields[3].AsString+'''');
-      SQL.Add('AND    CAI_DESC = '''+aux.Fields[0].AsString+'''');
-      SQL.Add('AND    CAI_DOCT = '''+doct+'''');
-      SQL.Add('AND    CAI_CONC = '''+aux.Fields[2].AsString+'''');
-      ExecSQL;
-    end;
-    aux.Next;
-  end;
-
-  with consulta do
-  begin
-    SQL.Clear;
-    SQL.Add('DELETE FROM '+SLPrincipal.Values['fin_rec_car_bai']);
-    SQL.Add('WHERE  FIN_CDBX = '''+cadastroROM_CDBX.AsString+'''');
-    ExecSQL;
-
-    SQL.Clear;
-    SQL.Add('DELETE FROM '+SLPrincipal.Values['fin_rec_car_rec']);
-    SQL.Add('WHERE  FIN_CDBX = '''+cadastroROM_CDBX.AsString+'''');
-    ExecSQL;
-  end;
-
-  fin_rec_bai.First;
-  while not fin_rec_bai.Eof do
-  begin
-    with consulta do
-    begin
-      SQL.Clear;
-      SQL.Add('SELECT ID FROM TAB_COB');
-      SQL.Add('WHERE  VEN_TIPO = '''+fin_rec_baiFIN_TIPO.AsString+'''');
-      Open;
-
-      if fields[0].IsNull then
-      doct := '1'
-      else
-      doct := fields[0].AsString;
-      doct := inttostr(conc)+oStrZero(strtoint(doct),19);
-
-      SQL.Clear;
-      SQL.Add('SELECT SUM(FIN_VALO) FROM '+SLPrincipal.Values['fin_rec_car_bai']);
-      SQL.Add('WHERE  FIN_CDCX = '''+inttostr(cdcx)+'''');
-      SQL.Add('AND    FIN_TIPO = '''+fin_rec_baiFIN_TIPO.AsString+'''');
-      SQL.Add('AND    FIN_CONC = '''+inttostr(conc)+'''');
-      Open;
-      valo := Fields[0].AsFloat;
-    end;
-
-    if valo > 0 then
-    begin
-      ibSP.StoredProcName := 'SP_CAI_MOV';
-      ibSP.Prepare;
-      ibSP.ParamByName('ID').Value   := 0;
-      ibSP.ParamByName('CCAB').Value := cdcx;
-      ibSP.ParamByName('CTSR').Value := ctsr;
-      ibSP.ParamByName('CDBX').Value := 0;
-      ibSP.ParamByName('CONC').Value := 1;
-      ibSP.ParamByName('DESC').Value := fin_rec_baiFIN_TIPO.AsString;
-      ibSP.ParamByName('DOCT').Value := doct;
-      ibSP.ParamByName('DCAD').Value := cadastroROM_DROM.AsDateTime;
-      ibSP.ParamByName('HCAD').Value := time;
-      ibSP.ParamByName('SANT').Value := 0;
-      ibSP.ParamByName('CRED').Value := valo;
-      ibSP.ParamByName('DEBI').Value := 0;
-      ibSP.ParamByName('SATU').Value := 0;
-      ibSP.ParamByName('BCON').Value := 0;
-      ibSP.ParamByName('DCON').Value := '';
-      ibSP.ExecProc;
-    end;
-    fin_rec_bai.Next;
-  end;
-
-  with consulta do
-  begin
-    SQL.Clear;
-    SQL.Add('SELECT SUM(CAI_CRED),SUM(CAI_DEBI),SUM(CAI_CRED-CAI_DEBI) FROM CAI_MOV');
-    SQL.Add('WHERE  CAI_CCAB = '''+inttostr(cdcx)+'''');
-    Open;
-  end;
-
-  with aux do
-  begin
-    SQL.Clear;
-    SQL.Add('UPDATE CAI_LAF');
-    SQL.Add('SET    CAI_CRED = '''+oStrTran(consulta.Fields[0].AsString,',','.')+''',');
-    SQL.Add('       CAI_DEBI = '''+oStrTran(consulta.Fields[1].AsString,',','.')+''',');
-    SQL.Add('       CAI_SATU = '''+oStrTran(consulta.Fields[2].AsString,',','.')+'''');
-    SQL.Add('WHERE  ID       = '''+inttostr(cdcx)+'''');
-    ExecSQL;
-  end;
-end;
-
-procedure Tfrmctr_ped.cancela_caixa_bancario;
-var
-  doct: string;
-  valo: double;
-  conc: word;
-  ctsr,cdcx: integer;
-begin
-  with consulta do
-  begin
-    SQL.Clear;
-    SQL.Add('SELECT ID FROM CAI_TSR');
-    SQL.Add('WHERE  CAI_DESC = ''CAIXA INICIAL''');
-    Open;
-
-    ctsr := fields[0].AsInteger;
-  end;
-
-  if not tSHEILD.Active then
-  tSHEILD.StartTransaction;
-
-  with fin_rec_bai do
-  begin
-    SelectSQL.Clear;
-    SelectSQL.Add('DELETE FROM FIN_REC_BAI');
-    ExecSQL;
-    tSHEILD.CommitRetaining;
-
-    Close;
-    SelectSQL.Clear;
-    SelectSQL.Add('SELECT * FROM FIN_REC_BAI');
-    SelectSQL.Add('ORDER BY ID');
-    Open;
-  end;
-
-  with aux do
-  begin
-    SQL.Clear;
-    SQL.Add('SELECT   FIN_TIPO FROM '+SLPrincipal.Values['fin_rec_ban_bai']);
-    SQL.Add('WHERE    FIN_CDBX = '''+cadastroROM_CDBX.AsString+'''');
-    SQL.Add('GROUP BY FIN_TIPO');
-    Open;
-  end;
-
-  while not aux.Eof do
-  begin
-    fin_rec_bai.Append;
-    fin_rec_baiID.Value       := 0;
-    fin_rec_baiFIN_TIPO.Value := aux.Fields[0].AsString;
-    fin_rec_bai.Post;
-    tSHEILD.CommitRetaining;
-    aux.Next;
-  end;
-
-  with aux do
-  begin
-    SQL.Clear;
-    SQL.Add('SELECT FIN_TIPO,ID,FIN_CONC,FIN_CDCX,FIN_CDBX FROM '+SLPrincipal.Values['fin_rec_ban_bai']);
-    SQL.Add('WHERE  FIN_CDBX = '''+cadastroROM_CDBX.AsString+'''');
-    Open;
-  end;
-  conc := aux.Fields[2].AsInteger;
-  cdcx := aux.Fields[3].AsInteger;
-
-  while not aux.eof do
-  begin
-    with consulta do
-    begin
-      SQL.Clear;
-      SQL.Add('SELECT ID FROM TAB_COB');
-      SQL.Add('WHERE  VEN_TIPO = '''+aux.Fields[0].AsString+'''');
-      Open;
-
-      if fields[0].IsNull then
-      doct := '1'
-      else
-      doct := fields[0].AsString;
-      doct := aux.Fields[2].AsString+oStrZero(strtoint(doct),19);
-
-      SQL.Clear;
-      SQL.Add('DELETE FROM CAI_MOV');
-      SQL.Add('WHERE  CAI_CCAB = '''+aux.Fields[3].AsString+'''');
-      SQL.Add('AND    CAI_DESC = '''+aux.Fields[0].AsString+'''');
-      SQL.Add('AND    CAI_CONC = '''+aux.Fields[2].AsString+'''');
-      SQL.Add('AND    CAI_DOCT = '''+doct+'''');
-      ExecSQL;
-    end;
-    aux.Next;
-  end;
-
-  with consulta do
-  begin
-    SQL.Clear;
-    SQL.Add('DELETE FROM '+SLPrincipal.Values['fin_rec_ban_bai']);
-    SQL.Add('WHERE  FIN_CDBX = '''+cadastroROM_CDBX.AsString+'''');
-    ExecSQL;
-
-    SQL.Clear;
-    SQL.Add('DELETE FROM '+SLPrincipal.Values['fin_rec_ban_rec']);
-    SQL.Add('WHERE  FIN_CDBX = '''+cadastroROM_CDBX.AsString+'''');
-    ExecSQL;
-  end;
-
-  fin_rec_bai.First;
-  while not fin_rec_bai.Eof do
-  begin
-    with consulta do
-    begin
-      SQL.Clear;
-      SQL.Add('SELECT ID FROM TAB_COB');
-      SQL.Add('WHERE  VEN_TIPO = '''+fin_rec_baiFIN_TIPO.AsString+'''');
-      Open;
-
-      if fields[0].IsNull then
-      doct := '1'
-      else
-      doct := fields[0].AsString;
-      doct := inttostr(conc)+oStrZero(strtoint(doct),19);
-
-      SQL.Clear;
-      SQL.Add('SELECT SUM(FIN_VALO) FROM '+SLPrincipal.Values['fin_rec_ban_bai']);
-      SQL.Add('WHERE  FIN_CDCX = '''+inttostr(cdcx)+'''');
-      SQL.Add('AND    FIN_TIPO = '''+fin_rec_baiFIN_TIPO.AsString+'''');
-      SQL.Add('AND    FIN_CONC = '''+inttostr(conc)+'''');
-      Open;
-      valo := Fields[0].AsFloat;
-    end;
-
-    if valo > 0 then
-    begin
-      ibSP.StoredProcName := 'SP_CAI_MOV';
-      ibSP.Prepare;
-      ibSP.ParamByName('ID').Value   := 0;
-      ibSP.ParamByName('CCAB').Value := cdcx;
-      ibSP.ParamByName('CTSR').Value := ctsr;
-      ibSP.ParamByName('CDBX').Value := 0;
-      ibSP.ParamByName('CONC').Value := 1;
-      ibSP.ParamByName('DESC').Value := fin_rec_baiFIN_TIPO.AsString;
-      ibSP.ParamByName('DOCT').Value := doct;
-      ibSP.ParamByName('DCAD').Value := cadastroROM_DROM.AsDateTime;
-      ibSP.ParamByName('HCAD').Value := time;
-      ibSP.ParamByName('SANT').Value := 0;
-      ibSP.ParamByName('CRED').Value := valo;
-      ibSP.ParamByName('DEBI').Value := 0;
-      ibSP.ParamByName('SATU').Value := 0;
-      ibSP.ParamByName('BCON').Value := 0;
-      ibSP.ParamByName('DCON').Value := '';
-      ibSP.ExecProc;
-    end;
-    fin_rec_bai.Next;
-  end;
-
-  with consulta do
-  begin
-    SQL.Clear;
-    SQL.Add('SELECT SUM(CAI_CRED),SUM(CAI_DEBI),SUM(CAI_CRED-CAI_DEBI) FROM CAI_MOV');
-    SQL.Add('WHERE  CAI_CCAB = '''+inttostr(cdcx)+'''');
-    Open;
-  end;
-
-  with aux do
-  begin
-    SQL.Clear;
-    SQL.Add('UPDATE CAI_LAF');
-    SQL.Add('SET    CAI_CRED = '''+oStrTran(consulta.Fields[0].AsString,',','.')+''',');
-    SQL.Add('       CAI_DEBI = '''+oStrTran(consulta.Fields[1].AsString,',','.')+''',');
-    SQL.Add('       CAI_SATU = '''+oStrTran(consulta.Fields[2].AsString,',','.')+'''');
-    SQL.Add('WHERE  ID       = '''+inttostr(cdcx)+'''');
-    ExecSQL;
-  end;
-end;
-
-procedure Tfrmctr_ped.abre_tabela;
-begin
-  with cadastro do
-  begin
-    DeleteSQL.Clear;
-    DeleteSQL.Add('delete from '+SLPrincipal.Values['ped_ven_cab']);
-    DeleteSQL.Add('where');
-    DeleteSQL.Add('ID = :OLD_ID');
-
-    InsertSQL.Clear;
-    InsertSQL.Add('insert into '+SLPrincipal.Values['ped_ven_cab']);
-    InsertSQL.Add('  (ID, ROM_ADSC, ROM_CCLI, ROM_CDBX, ROM_CDCX, ROM_CDNF, ROM_CDOC, ROM_CDPD,');
-    InsertSQL.Add('   ROM_CDPR, ROM_CDRD, ROM_CDRO, ROM_CDSC, ROM_CEXP, ROM_COMI, ROM_CONC,');
-    InsertSQL.Add('   ROM_CPAG, ROM_CREP, ROM_CTNR, ROM_CVEN, ROM_DBAI, ROM_DCAN, ROM_DDES,');
-    InsertSQL.Add('   ROM_DEMB, ROM_DERD, ROM_DERO, ROM_DEXP, ROM_DNFS, ROM_DPRD, ROM_DROM, ROM_HEXP,');
-    InsertSQL.Add('   ROM_HROM, ROM_OBSE, ROM_PDSC, ROM_QTPD, ROM_QTSP, ROM_QTVE, ROM_RLVE,');
-    InsertSQL.Add('   ROM_STA , ROM_STCO, ROM_STFI, ROM_STPD, ROM_TCDE, ROM_TDSC, ROM_TSDE)');
-    InsertSQL.Add('values');
-    InsertSQL.Add('  (:ID, :ROM_ADSC, :ROM_CCLI, :ROM_CDBX, :ROM_CDCX, :ROM_CDNF, :ROM_CDOC,');
-    InsertSQL.Add('   :ROM_CDPD, :ROM_CDPR, :ROM_CDRD, :ROM_CDRO, :ROM_CDSC, :ROM_CEXP, :ROM_COMI,');
-    InsertSQL.Add('   :ROM_CONC, :ROM_CPAG, :ROM_CREP, :ROM_CTNR, :ROM_CVEN, :ROM_DBAI, :ROM_DCAN,');
-    InsertSQL.Add('   :ROM_DDES, :ROM_DEMB, :ROM_DERD, :ROM_DERO, :ROM_DEXP, :ROM_DNFS, :ROM_DPRD, :ROM_DROM,');
-    InsertSQL.Add('   :ROM_HEXP, :ROM_HROM, :ROM_OBSE, :ROM_PDSC, :ROM_QTPD, :ROM_QTSP, :ROM_QTVE,');
-    InsertSQL.Add('   :ROM_RLVE, :ROM_STA,  :ROM_STCO, :ROM_STFI, :ROM_STPD, :ROM_TCDE, :ROM_TDSC,');
-    InsertSQL.Add('   :ROM_TSDE)');
-
-    ModifySQL.Clear;
-    ModifySQL.Add('update '+SLPrincipal.Values['ped_ven_cab']);
-    ModifySQL.Add('set');
-    ModifySQL.Add('  ID = :ID,');
-    ModifySQL.Add('  ROM_ADSC = :ROM_ADSC,');
-    ModifySQL.Add('  ROM_CCLI = :ROM_CCLI,');
-    ModifySQL.Add('  ROM_CDBX = :ROM_CDBX,');
-    ModifySQL.Add('  ROM_CDCX = :ROM_CDCX,');
-    ModifySQL.Add('  ROM_CDNF = :ROM_CDNF,');
-    ModifySQL.Add('  ROM_CDOC = :ROM_CDOC,');
-    ModifySQL.Add('  ROM_CDPD = :ROM_CDPD,');
-    ModifySQL.Add('  ROM_CDPR = :ROM_CDPR,');
-    ModifySQL.Add('  ROM_CDRD = :ROM_CDRD,');
-    ModifySQL.Add('  ROM_CDRO = :ROM_CDRO,');
-    ModifySQL.Add('  ROM_CDSC = :ROM_CDSC,');
-    ModifySQL.Add('  ROM_CEXP = :ROM_CEXP,');
-    ModifySQL.Add('  ROM_COMI = :ROM_COMI,');
-    ModifySQL.Add('  ROM_CONC = :ROM_CONC,');
-    ModifySQL.Add('  ROM_CPAG = :ROM_CPAG,');
-    ModifySQL.Add('  ROM_CREP = :ROM_CREP,');
-    ModifySQL.Add('  ROM_CTNR = :ROM_CTNR,');
-    ModifySQL.Add('  ROM_CVEN = :ROM_CVEN,');
-    ModifySQL.Add('  ROM_DBAI = :ROM_DBAI,');
-    ModifySQL.Add('  ROM_DCAN = :ROM_DCAN,');
-    ModifySQL.Add('  ROM_DDES = :ROM_DDES,');
-    ModifySQL.Add('  ROM_DEMB = :ROM_DEMB,');
-    ModifySQL.Add('  ROM_DERD = :ROM_DERD,');
-    ModifySQL.Add('  ROM_DERO = :ROM_DERO,');
-    ModifySQL.Add('  ROM_DEXP = :ROM_DEXP,');
-    ModifySQL.Add('  ROM_DNFS = :ROM_DNFS,');
-    ModifySQL.Add('  ROM_DPRD = :ROM_DPRD,');
-    ModifySQL.Add('  ROM_DROM = :ROM_DROM,');
-    ModifySQL.Add('  ROM_HEXP = :ROM_HEXP,');
-    ModifySQL.Add('  ROM_HROM = :ROM_HROM,');
-    ModifySQL.Add('  ROM_OBSE = :ROM_OBSE,');
-    ModifySQL.Add('  ROM_PDSC = :ROM_PDSC,');
-    ModifySQL.Add('  ROM_QTPD = :ROM_QTPD,');
-    ModifySQL.Add('  ROM_QTSP = :ROM_QTSP,');
-    ModifySQL.Add('  ROM_QTVE = :ROM_QTVE,');
-    ModifySQL.Add('  ROM_RLVE = :ROM_RLVE,');
-    ModifySQL.Add('  ROM_STA  = :ROM_STA, ');
-    ModifySQL.Add('  ROM_STCO = :ROM_STCO,');
-    ModifySQL.Add('  ROM_STFI = :ROM_STFI,');
-    ModifySQL.Add('  ROM_STPD = :ROM_STPD,');
-    ModifySQL.Add('  ROM_TCDE = :ROM_TCDE,');
-    ModifySQL.Add('  ROM_TDSC = :ROM_TDSC,');
-    ModifySQL.Add('  ROM_TSDE = :ROM_TSDE ');
-    ModifySQL.Add('where');
-    ModifySQL.Add('  ID = :OLD_ID');
-  end;
-end;
-
 procedure Tfrmctr_ped.carregaFoto(tam: Integer; valor: TBlobField; tab: TIbQuery; par: TIbDataSet );
 var
   BlobStream : TStream;
@@ -1417,126 +816,88 @@ procedure Tfrmctr_ped.dbgConsultaCustomDrawCell(Sender: TObject;
   AColumn: TdxTreeListColumn; ASelected, AFocused, ANewItemRow: Boolean;
   var AText: String; var AColor: TColor; AFont: TFont;
   var AAlignment: TAlignment; var ADone: Boolean);
-var
-  Value,Value2,Value3: Variant;
 begin
   if not ASelected then
   begin
-    AFont.Style := [];
-    AFont.Color := clBlack;
-    AColor      := clWhite;
-
-    Value  := ANode.Values[13];
-    Value2 := ANode.Values[14];
-    Value3 := ANode.Values[21];
-
-    if (not VarIsNull(Value)) then
+    if ANode.Values[DBGConsultaROM_STFI.Index] = 'CANCELADO' then
     begin
-      if copy(Value,1,4) = 'PAGO' then
+      AColor      := $000024B3;
+      AFont.Color := clWhite;
+    end else
+    if Pos('BAI',ANode.Values[DBGConsultaROM_STFI.Index]) > 0 then
+    begin
+      AColor      := clBtnFace;
+      AFont.Color := clBlack;
+    end else
+    if Pos(LeftStr(ANode.Values[DBGConsultaROM_STPD.Index],3),'DEVABA') > 0 then
+    begin
+      AColor      := $0080FFFF; //$00E8FFE8;
+      AFont.Color := clBlack;
+    end else
+    if Pos('AGU',ANode.Values[DBGConsultaROM_STFI.Index]) > 0 then
+    begin
+      AColor      := $00002FEC;
+      AFont.Color := clWhite;
+    end else
+    if Pos('FIN',ANode.Values[DBGConsultaROM_STFI.Index]) > 0 then
+    begin
+      AColor      := clBtnFace;
+      AFont.Color := clBlack;
+    end else
+    begin
+      if Pos('FAT',ANode.Values[DBGConsultaROM_STFI.Index]) > 0 then
       begin
-         AFont.Color := clwhite;
-         AColor      := $00A4A400;
-      end
-      else if Value = 'FATURADO' then
-      begin
-         AFont.Color := clwhite;
-         AColor      := $00C6C600;
-      end
-      else if Value = 'SEM COBRANÇA' then
-      begin
-         AFont.Color := clBlack;
-         AColor      := $00E1E1E1;
-      end
-      else if Value = 'AGUARDANDO LIBERAÇÃO' then
-      begin
-         AFont.Color := clBlack;
-         AColor      := $00C8C8C8;
-      end
-      else if Value = 'AGUARDANDO CRÉDITO' then
-      begin
-         AFont.Color := clBlack;
-         AColor      := $00959595;
-      end
-      else if Value = 'PROTESTADO' then
-      begin
-         AFont.Color := clBlack;
-         AColor      := $0095FFFF;
-      end
-      else if Value = 'NÃO PAGO' then
-      begin
-         AFont.Color := clBlack;
-         AColor      := $003EFFFF;
-      end
-      else if Value = 'SUSPENSO' then
-      begin
-         AFont.Color := clBlack;
-         AColor      := $0000FDFD;
-      end
-      else if Value = 'SEPARAÇÃO' then
-      begin
-         AFont.Color := clWhite;
-         AColor      := clBlack;
-      end
-      else if Value = 'CANCELADO' then
-      begin
-         AFont.Color := clwhite;
-         AColor      := RGB(StrToInt( '$ED') ,
-                            StrToInt( '$1F') ,
-                            StrToInt( '$43') );
+        AColor      := $00C4FFC4;
+        AFont.Color := clBlack;
       end else
-
-      if ANode.Values[DBGConsultaROM_CDNF.Index] <> Null then
-      if ANode.Values[DBGConsultaROM_CDNF.Index] > 0 then
+      if Pos('PAG',ANode.Values[DBGConsultaROM_STFI.Index]) > 0 then
       begin
-      //   AFont.Color := clwhite;
-        // AColor      := $00C6C600;
+        AColor      := $00B3FFB3;
+        AFont.Color := clBlack;
+      end else
+      if Pos('SEP',ANode.Values[DBGConsultaROM_STFI.Index]) > 0 then
+      begin
+        AColor      := clBlack;
+        AFont.Color := clWhite;
       end;
-    end;
 
-    if (not VarIsNull(Value3)) then
-    begin
-      if (AColumn = dbgConsultaROM_DERO) and (Value3 > 0) then
+      if (AColumn = DBGConsultaROM_DERO) or (AColumn = DBGConsultaROM_DROM) then
       begin
-        if (copy(Value,1,4) = 'PAGO') or (Value = 'FATURADO') or (Value = 'SEPARAÇÃO') or (Value = 'CANCELADO') then
-        AFont.Color := clWhite else
-        AFont.Color := clBlack;
-        AFont.Style := [fsUnderline,fsBold];
+        AColor      := clGray;
+        AFont.Color := clWhite;
       end;
-    end;
 
-    if (not VarIsNull(Value2)) then
-    begin
-      if Value2 = 'DEVOLUÇÃO' then
+      if ANode.Values[DBGConsultaROM_PDSC.Index] <> Null then
+      if (AColumn = DBGConsultaROM_PDSC) and (ANode.Values[DBGConsultaROM_PDSC.Index] > 0) then
       begin
-        AFont.Color := clBlack;
-        AColor      := $00BEEFF8;
-      end
-      else if Value2 = 'ABATIMENTO' then
+        AColor      := clInfoBk;
+        AFont.Style := [fsBold];
+      end;
+
+      if AColumn = DBGConsultaROM_TSDE then
       begin
+        AColor      := $00FCF4ED;
         AFont.Color := clBlack;
-        AColor      := $00A5EAF5;
-      end
+        AFont.Style := [];
+      end;
+
+      if AColumn = DBGConsultaROM_TCDE then
+      begin
+        AColor      := $00C7911F;
+        AFont.Color := clWhite;
+        AFont.Style := [fsBold];
+      end;
     end;
   end;
 end;
 
 procedure Tfrmctr_ped.rom_iteAfterScroll(DataSet: TDataSet);
 begin
-  if (cadastro.State = dsBrowse) and (pnlfoto.Visible) then
+  if (Cadastro.State = dsBrowse) and (pnlfoto.Visible) then
   carregaFoto(rom_itePRO_FOTO.BlobSize,rom_itePRO_FOTO,rom_ite,frmprincipal.parametros);
 end;
 
-procedure Tfrmctr_ped.cadastroBeforeEdit(DataSet: TDataSet);
-begin
-  {};
-end;
-
-procedure Tfrmctr_ped.cadastroBeforeInsert(DataSet: TDataSet);
-begin
-  {};
-end;
-
-procedure Tfrmctr_ped.cadastroAfterOpen(DataSet: TDataSet);
+procedure Tfrmctr_ped.CadastroAfterOpen(DataSet: TDataSet);
 begin
   with rom_ite do
   begin
@@ -1554,17 +915,13 @@ begin
   end;
 end;
 
-procedure Tfrmctr_ped.cadastroCalcFields(DataSet: TDataSet);
+procedure Tfrmctr_ped.CadastroCalcFields(DataSet: TDataSet);
 begin
-  cadastroROM_DESC.Value := formatfloat('#,0.00########',cadastroROM_PDSC.AsFloat);
-  if cadastroROM_CDSC.AsFloat > 0 then
-  cadastroROM_DESC.Value := cadastroROM_DESC.AsString+'+'+formatfloat('#,0.00########',cadastroROM_CDSC.AsFloat);
-
-  if cadastroROM_CDRD.AsInteger > 0 then
+  if CadastroROM_CDRD.AsInteger > 0 then
   begin
-    if Pos('DEVOLU',cadastroROM_STPD.Value) > 0 then
-    cadastroROM_DEVO.Value := 'Pedido de Venda No. '+cadastroROM_DERD.AsString else
-    cadastroROM_DEVO.Value := 'Devolução No. '+cadastroROM_DERD.AsString;
+    if Pos('DEVOLU',CadastroROM_STPD.Value) > 0 then
+    CadastroROM_DEVO.Value := 'Pedido de Venda No. '+CadastroROM_DERD.AsString else
+    CadastroROM_DEVO.Value := 'Devolução No. '+CadastroROM_DERD.AsString;
   end;
 end;
 
@@ -1592,8 +949,8 @@ begin
     if dbgiteROM_DCOR.Visible then
     tam := tam - dbgiteROM_DCOR.Width;
 
-    dbgiteROM_QTPD.Visible := (cadastroROM_DSEP.AsString <> '');
-    dbgiteROM_RLPD.Visible := (cadastroROM_DSEP.AsString <> '');
+    dbgiteROM_QTPD.Visible := (CadastroROM_DSEP.AsString <> '');
+    dbgiteROM_RLPD.Visible := (CadastroROM_DSEP.AsString <> '');
 
     if dbgiteROM_QTPD.Visible then
     tam := tam - dbgiteROM_QTPD.Width;
@@ -1616,157 +973,161 @@ begin
   end;
 end;
 
+procedure Tfrmctr_ped.dtsCadastroDataChange(Sender: TObject;
+  Field: TField);
+begin
+  if Cadastro.State = dsBrowse then
+  begin
+    if CadastroROM_TDSC.AsString = '%' then
+    dbgConsultaROM_PDSC.Caption := 'Desc (%)'
+    else if CadastroROM_TDSC.AsString = '$' then
+    dbgConsultaROM_PDSC.Caption := 'Desc ($)';
+
+    siARO.Enabled := (CadastroROM_STA.AsString  = '0');
+    siGRO.Enabled := (CadastroROM_STA.AsString  = '0');
+    siCRO.Enabled := (CadastroROM_STA.AsString  = '0');
+    siBRO.Enabled := (CadastroROM_STA.AsString  = '0') and (CadastroROM_STPD.AsString <> 'DEVOLUÇÃO') and (CadastroROM_STPD.AsString <> 'ABATIMENTO');
+
+    if CadastroROM_CDBX.AsInteger > 0 then
+    begin
+      SICRO.ImageIndex := 11;
+      SICRO.BtnCaption := 'Cancelar Baixa';
+      SICRO.Hint       := 'Cancela o faturamento e as contas à receber';
+    end else
+    begin
+      SICRO.ImageIndex := 6;
+      SICRO.BtnCaption := 'Cancelar';
+      SICRO.Hint       := 'Cancelamento de Pedido';
+    end;
+
+    sbMSG.Panels[1].Text := CadastroROM_CONC.AsString;
+    sbMSG.Panels[2].Text := '';
+
+    if CadastroROM_DSEP.AsString <> '' then
+    sbMSG.Panels[2].Text := 'Separador '+CadastroROM_DSEP.AsString;
+    sbMSG.Panels[2].Text := TRIM(sbMSG.Panels[2].Text)+' '+TRIM(CadastroROM_CTNR.AsString)+' '+TRIM(CadastroROM_OBSE.AsString);
+
+    edobse.Lines.Clear;
+    edobse.Lines.Add(TRIM(CadastroROM_CTNR.AsString));
+    edobse.Lines.Add(TRIM(CadastroROM_OBSE.AsString));
+
+  end;
+end;
+
+procedure Tfrmctr_ped.writefotoClick(Sender: TObject);
+begin
+  frmcad_pro_img := tfrmcad_pro_img.create(self);
+  try
+    frmcad_pro_img.carregaFoto(rom_itePRO_FOTO.BlobSize,rom_itePRO_FOTO,rom_ite,frmprincipal.parametros);
+    frmcad_pro_img.Caption := rom_iteROM_DPRO.AsString;
+    frmcad_pro_img.showmodal;
+  finally
+    FreeAndNil(frmcad_pro_img);
+    frmcad_pro_img.free;
+  end;
+end;
+
 procedure Tfrmctr_ped.BAIXA_CARTEIRA;
 var
-  stdo: string;
-  valo: double;
-  conc: word;
+  VDUP: double;
      i: word;
-
 begin
-  if cadastroROM_CDNF.AsInteger > 0 then
-     stdo := 'C '+cadastroROM_CONC.AsString else stdo := 'C 0';
+  VDUP := IFThen(CadastroROM_VNF.AsFloat  > 0,CadastroROM_VNF.AsFloat ,
+          IFThen(CadastroROM_VTSP.AsFloat > 0,CadastroROM_VTSP.AsFloat,CadastroROM_TCDE.AsFloat) / CadastroROM_CONC.AsInteger);
 
-  with consulta do
-  begin
-    SQL.Clear;
-    SQL.Add('SELECT VEN_QTSP FROM TAB_PED');
-    SQL.Add('WHERE  VEN_TIPO = '''+cadastroROM_STPD.AsString+'''');
-    Open;
-
-    if fields[0].AsString <> '1' then
-    valo := cadastroROM_TCDE.AsFloat else
-    begin
-      valo := 0;
-
-      SQL.Clear;
-      SQL.Add('SELECT SUM(ROM_QTPD*ROM_UNIT) FROM '+SLPrincipal.Values['ped_ven_ite']);
-      SQL.Add('WHERE  ROM_CCAB = '''+cadastroID.AsString+'''');
-      Open;
-
-      if fields[0].AsFloat > 0 then
-      begin
-        valo := fields[0].AsFloat;
-        if cadastroROM_PDSC.AsFloat > 0 then
-        begin
-          if cadastroROM_TDSC.AsString = '%' then
-          valo := valo - ((valo*cadastroROM_PDSC.AsFloat) / 100)
-          else
-          valo := valo - (cadastroROM_PDSC.AsFloat);
-        end;
-      end;
-    end;  
-  end;
-  conc := cadastroROM_CONC.AsInteger;
-
-  if cadastroROM_CDNF.AsInteger > 0 then
-  with consulta do
-  begin
-    SQL.Clear;
-    SQL.Add('SELECT NFE_VNF FROM '+SLPrincipal.Values['nfe_cab']);
-    SQL.Add('WHERE  NFE_CDNF = '''+cadastroROM_CDNF.AsString+'''');
-    Open;
-
-    if fields[0].IsNull then
-       raise exception.Create('Nota fiscal não encontrada !');
-
-    if fields[0].AsFloat > 0 then
-       valo := fields[0].AsFloat;
-  end
-  else
-  conc := 0;
+  if Pos(LeftStr(CadastroROM_STPD.AsString,3),'ABADEV') > 0 then
+  VDUP := VDUP * -1;
 
   frmctr_ped_bai.fin_rec.Append;
   frmctr_ped_bai.fin_recID.Value       := 0;
-  frmctr_ped_bai.fin_recFIN_CDPD.Value := cadastroID.AsInteger;
-  frmctr_ped_bai.fin_recFIN_PORT.Value := cadastroROM_DERO.AsString;
-  frmctr_ped_bai.fin_recFIN_CDRO.Value := cadastroROM_CDRO.AsInteger;
-  frmctr_ped_bai.fin_recFIN_CDNF.Value := cadastroROM_CDNF.AsInteger;
-  frmctr_ped_bai.fin_recFIN_STDO.Value := stdo;
-  frmctr_ped_bai.fin_recFIN_DROM.Value := cadastroROM_DROM.AsDateTime;
-  frmctr_ped_bai.fin_recFIN_CCLI.Value := cadastroROM_CCLI.AsInteger;
-  frmctr_ped_bai.fin_recFIN_DCLI.Value := cadastroCLI_FANT.AsString;
-  frmctr_ped_bai.fin_recFIN_CVEN.Value := cadastroROM_CVEN.AsInteger;
-  frmctr_ped_bai.fin_recFIN_CREP.Value := cadastroROM_CREP.AsInteger;
-  frmctr_ped_bai.fin_recFIN_DCLI.Value := cadastroCLI_FANT.AsString;
-  frmctr_ped_bai.fin_recFIN_STCO.Value := cadastroROM_STCO.AsString;
-  frmctr_ped_bai.fin_recFIN_STPD.Value := cadastroROM_STPD.AsString;
-  frmctr_ped_bai.fin_recFIN_CONC.Value := conc;
-  frmctr_ped_bai.fin_recFIN_VEND.Value := cadastroUSU_DUSU.AsString;
-  frmctr_ped_bai.fin_recFIN_DREP.Value := cadastroREP_FANT.AsString;
-  frmctr_ped_bai.fin_recFIN_DPRA.Value := cadastroPAG_DPAG.AsString;
-  if cadastroROM_CDNF.AsInteger > 0 then
-  frmctr_ped_bai.fin_recFIN_DOCT.Value := cadastroROM_CDNF.AsString
-  else
-  frmctr_ped_bai.fin_recFIN_DOCT.Value := cadastroROM_DERO.AsString;
-  frmctr_ped_bai.fin_recFIN_VALO.Value := roundto(valo,-2);
+  frmctr_ped_bai.fin_recFIN_CDPD.Value := CadastroID.AsInteger;
+  frmctr_ped_bai.fin_recFIN_PORT.Value := CadastroROM_DERO.AsString;
+  frmctr_ped_bai.fin_recFIN_CTNR.Value := CadastroROM_CTNR.AsString;
+  frmctr_ped_bai.fin_recFIN_CDRO.Value := CadastroROM_CDRO.AsInteger;
+  frmctr_ped_bai.fin_recFIN_CDNF.Value := CadastroROM_CDNF.AsInteger;
+  frmctr_ped_bai.fin_recFIN_STDO.Value := CadastroRECO.AsString;
+  frmctr_ped_bai.fin_recFIN_DROM.Value := CadastroROM_DROM.AsDateTime;
+  frmctr_ped_bai.fin_recFIN_CCLI.Value := CadastroROM_CCLI.AsInteger;
+  frmctr_ped_bai.fin_recFIN_DCLI.Value := CadastroCLI_FANT.AsString;
+  frmctr_ped_bai.fin_recFIN_CVEN.Value := CadastroROM_CVEN.AsInteger;
+  frmctr_ped_bai.fin_recFIN_VEND.Value := CadastroUSU_DUSU.AsString;
+  frmctr_ped_bai.fin_recFIN_CREP.Value := CadastroROM_CREP.AsInteger;
+  frmctr_ped_bai.fin_recFIN_DREP.Value := CadastroREP_FANT.AsString;
+  frmctr_ped_bai.fin_recFIN_STCO.Value := CadastroROM_STCO.AsString;
+  frmctr_ped_bai.fin_recFIN_STPD.Value := CadastroROM_STPD.AsString;
+  frmctr_ped_bai.fin_recFIN_CONC.Value := CadastroROM_CONC.AsInteger;
+  frmctr_ped_bai.fin_recTPCO.Value     := CadastroROM_CONC.AsInteger;
+  frmctr_ped_bai.fin_recRECO.Value     := CadastroRECO.AsString;
+  frmctr_ped_bai.fin_recFIN_DPRA.Value := CadastroPAG_DPAG.AsString;
+  frmctr_ped_bai.fin_recFIN_DOCT.Value := IFThen(CadastroROM_CDNF.AsInteger > 0,CadastroROM_CDNF.AsString,CadastroROM_DERO.AsString);
+  frmctr_ped_bai.fin_recFIN_VALO.Value := VDUP;
   frmctr_ped_bai.fin_recFIN_COBR.Value := 'C';
-  frmctr_ped_bai.fin_recFIN_CTNR.Value := cadastroROM_CTNR.AsString;
   frmctr_ped_bai.fin_rec.Post;
 
   with consulta do
   begin
+    Close;
     SQL.Clear;
     SQL.Add('SELECT PAG_PARC,PAG_D001,PAG_D002,PAG_D003,PAG_D004,PAG_D005,PAG_D006,PAG_D007,PAG_D008,PAG_D009,PAG_D010 FROM TAB_PAG');
-    SQL.Add('WHERE  ID = '''+cadastroROM_CPAG.AsString+'''');
+    SQL.Add('WHERE  ID = '''+CadastroROM_CPAG.AsString+'''');
     Open;
   end;
 
   for i := 1 to consulta.Fields[0].AsInteger do
   begin
     frmctr_ped_bai.fin_rec_bai.Append;
-    frmctr_ped_bai.fin_rec_baiFIN_TIPO.Value := cadastroROM_STCO.AsString;
+    frmctr_ped_bai.fin_rec_baiFIN_TIPO.Value := IFThen(Pos(LeftStr(CadastroROM_STPD.AsString,3),'ABADEV') > 0,CadastroROM_STPD.AsString,CadastroROM_STCO.AsString);
 
     case i of
         1: begin
              frmctr_ped_bai.fin_rec_baiFIN_PRAZ.Value := consulta.fields[1].AsInteger;
-             frmctr_ped_bai.fin_rec_baiFIN_DVEN.Value := frmprincipal.RETORNA_DATA_VENCIMENTO(incDay(frmctr_ped_bai.edDROM.Date,consulta.fields[1].Value));
-             frmctr_ped_bai.fin_rec_baiFIN_VALO.Value := roundto(valo/consulta.Fields[0].AsInteger,-2);
+             frmctr_ped_bai.fin_rec_baiFIN_DVEN.Value := incDay(frmctr_ped_bai.edDROM.Date,consulta.fields[1].Value);
+             frmctr_ped_bai.fin_rec_baiFIN_VALO.Value := VDUP / consulta.Fields[0].AsInteger;
            end;
         2: begin
              frmctr_ped_bai.fin_rec_baiFIN_PRAZ.Value := consulta.fields[2].AsInteger;
-             frmctr_ped_bai.fin_rec_baiFIN_DVEN.Value := frmprincipal.RETORNA_DATA_VENCIMENTO(incDay(frmctr_ped_bai.edDROM.Date,consulta.fields[2].Value));
-             frmctr_ped_bai.fin_rec_baiFIN_VALO.Value := roundto(valo/consulta.Fields[0].AsInteger,-2);
+             frmctr_ped_bai.fin_rec_baiFIN_DVEN.Value := incDay(frmctr_ped_bai.edDROM.Date,consulta.fields[2].Value);
+             frmctr_ped_bai.fin_rec_baiFIN_VALO.Value := VDUP / consulta.Fields[0].AsInteger;
            end;
         3: begin
              frmctr_ped_bai.fin_rec_baiFIN_PRAZ.Value := consulta.fields[3].AsInteger;
-             frmctr_ped_bai.fin_rec_baiFIN_DVEN.Value := frmprincipal.RETORNA_DATA_VENCIMENTO(incDay(frmctr_ped_bai.edDROM.Date,consulta.fields[3].Value));
-             frmctr_ped_bai.fin_rec_baiFIN_VALO.Value := roundto(valo/consulta.Fields[0].AsInteger,-2);
+             frmctr_ped_bai.fin_rec_baiFIN_DVEN.Value := incDay(frmctr_ped_bai.edDROM.Date,consulta.fields[3].Value);
+             frmctr_ped_bai.fin_rec_baiFIN_VALO.Value := VDUP / consulta.Fields[0].AsInteger;
            end;
         4: begin
              frmctr_ped_bai.fin_rec_baiFIN_PRAZ.Value := consulta.fields[4].AsInteger;
-             frmctr_ped_bai.fin_rec_baiFIN_DVEN.Value := frmprincipal.RETORNA_DATA_VENCIMENTO(incDay(frmctr_ped_bai.edDROM.Date,consulta.fields[4].Value));
-             frmctr_ped_bai.fin_rec_baiFIN_VALO.Value := roundto(valo/consulta.Fields[0].AsInteger,-2);
+             frmctr_ped_bai.fin_rec_baiFIN_DVEN.Value := incDay(frmctr_ped_bai.edDROM.Date,consulta.fields[4].Value);
+             frmctr_ped_bai.fin_rec_baiFIN_VALO.Value := VDUP / consulta.Fields[0].AsInteger;
            end;
         5: begin
              frmctr_ped_bai.fin_rec_baiFIN_PRAZ.Value := consulta.fields[5].AsInteger;
-             frmctr_ped_bai.fin_rec_baiFIN_DVEN.Value := frmprincipal.RETORNA_DATA_VENCIMENTO(incDay(frmctr_ped_bai.edDROM.Date,consulta.fields[5].Value));
-             frmctr_ped_bai.fin_rec_baiFIN_VALO.Value := roundto(valo/consulta.Fields[0].AsInteger,-2);
+             frmctr_ped_bai.fin_rec_baiFIN_DVEN.Value := incDay(frmctr_ped_bai.edDROM.Date,consulta.fields[5].Value);
+             frmctr_ped_bai.fin_rec_baiFIN_VALO.Value := VDUP / consulta.Fields[0].AsInteger;
            end;
         6: begin
              frmctr_ped_bai.fin_rec_baiFIN_PRAZ.Value := consulta.fields[6].AsInteger;
-             frmctr_ped_bai.fin_rec_baiFIN_DVEN.Value := frmprincipal.RETORNA_DATA_VENCIMENTO(incDay(frmctr_ped_bai.edDROM.Date,consulta.fields[6].Value));
-             frmctr_ped_bai.fin_rec_baiFIN_VALO.Value := roundto(valo/consulta.Fields[0].AsInteger,-2);
+             frmctr_ped_bai.fin_rec_baiFIN_DVEN.Value := incDay(frmctr_ped_bai.edDROM.Date,consulta.fields[6].Value);
+             frmctr_ped_bai.fin_rec_baiFIN_VALO.Value := VDUP / consulta.Fields[0].AsInteger;
            end;
         7: begin
              frmctr_ped_bai.fin_rec_baiFIN_PRAZ.Value := consulta.fields[7].AsInteger;
-             frmctr_ped_bai.fin_rec_baiFIN_DVEN.Value := frmprincipal.RETORNA_DATA_VENCIMENTO(incDay(frmctr_ped_bai.edDROM.Date,consulta.fields[7].Value));
-             frmctr_ped_bai.fin_rec_baiFIN_VALO.Value := roundto(valo/consulta.Fields[0].AsInteger,-2);
+             frmctr_ped_bai.fin_rec_baiFIN_DVEN.Value := incDay(frmctr_ped_bai.edDROM.Date,consulta.fields[7].Value);
+             frmctr_ped_bai.fin_rec_baiFIN_VALO.Value := VDUP / consulta.Fields[0].AsInteger;
            end;
         8: begin
              frmctr_ped_bai.fin_rec_baiFIN_PRAZ.Value := consulta.fields[8].AsInteger;
-             frmctr_ped_bai.fin_rec_baiFIN_DVEN.Value := frmprincipal.RETORNA_DATA_VENCIMENTO(incDay(frmctr_ped_bai.edDROM.Date,consulta.fields[8].Value));
-             frmctr_ped_bai.fin_rec_baiFIN_VALO.Value := roundto(valo/consulta.Fields[0].AsInteger,-2);
+             frmctr_ped_bai.fin_rec_baiFIN_DVEN.Value := incDay(frmctr_ped_bai.edDROM.Date,consulta.fields[8].Value);
+             frmctr_ped_bai.fin_rec_baiFIN_VALO.Value := VDUP / consulta.Fields[0].AsInteger;
            end;
         9: begin
              frmctr_ped_bai.fin_rec_baiFIN_PRAZ.Value := consulta.fields[9].AsInteger;
-             frmctr_ped_bai.fin_rec_baiFIN_DVEN.Value := frmprincipal.RETORNA_DATA_VENCIMENTO(incDay(frmctr_ped_bai.edDROM.Date,consulta.fields[9].Value));
-             frmctr_ped_bai.fin_rec_baiFIN_VALO.Value := roundto(valo/consulta.Fields[0].AsInteger,-2);
+             frmctr_ped_bai.fin_rec_baiFIN_DVEN.Value := incDay(frmctr_ped_bai.edDROM.Date,consulta.fields[9].Value);
+             frmctr_ped_bai.fin_rec_baiFIN_VALO.Value := VDUP / consulta.Fields[0].AsInteger;
            end;
        10: begin
              frmctr_ped_bai.fin_rec_baiFIN_PRAZ.Value := consulta.fields[10].AsInteger;
-             frmctr_ped_bai.fin_rec_baiFIN_DVEN.Value := frmprincipal.RETORNA_DATA_VENCIMENTO(incDay(frmctr_ped_bai.edDROM.Date,consulta.fields[10].Value));
-             frmctr_ped_bai.fin_rec_baiFIN_VALO.Value := roundto(valo/consulta.Fields[0].AsInteger,-2);
+             frmctr_ped_bai.fin_rec_baiFIN_DVEN.Value := incDay(frmctr_ped_bai.edDROM.Date,consulta.fields[10].Value);
+             frmctr_ped_bai.fin_rec_baiFIN_VALO.Value := VDUP / consulta.Fields[0].AsInteger;
            end;
     end;
     frmctr_ped_bai.fin_rec_bai.Post;
@@ -1779,9 +1140,10 @@ begin
 
   with consulta do
   begin
+    Close;
     SQL.Clear;
     SQL.Add('SELECT NFE_TITU,NFE_DNFE,NFE_DVEN,NFE_VDUP FROM '+SLPrincipal.Values['nfe_dup']);
-    SQL.Add('WHERE  NFE_CDNF = '''+cadastroROM_CDNF.AsString+'''');
+    SQL.Add('WHERE  NFE_CDNF = '''+CadastroROM_CDNF.AsString+'''');
     Open;
   end;
 
@@ -1793,7 +1155,6 @@ begin
 
   while not consulta.Eof do
   begin
-    frmctr_ped_bai.pclan.ActivePageIndex := 0;
     frmctr_ped_bai.fin_rec_bai.Append;
     frmctr_ped_bai.fin_rec_baiID.Value       := 0;
     frmctr_ped_bai.fin_rec_baiFIN_DOCT.Value := consulta.Fields[0].AsString;
@@ -1801,23 +1162,9 @@ begin
     frmctr_ped_bai.fin_rec_baiFIN_TIPO.Value := 'DUPLICATA';
     frmctr_ped_bai.fin_rec_baiFIN_VALO.Value := consulta.Fields[3].AsFloat;
     frmctr_ped_bai.fin_rec_bai.Post;
-
-    if frmctr_ped_bai.tscar.TabVisible then
-    begin
-      frmctr_ped_bai.pclan.ActivePageIndex := 1;
-      frmctr_ped_bai.fin_rec_bai.Append;
-      frmctr_ped_bai.fin_rec_baiID.Value       := 0;
-      frmctr_ped_bai.fin_rec_baiFIN_DOCT.Value := consulta.Fields[0].AsString;
-      frmctr_ped_bai.fin_rec_baiFIN_DVEN.Value := consulta.Fields[2].AsDateTime;
-      frmctr_ped_bai.fin_rec_baiFIN_TIPO.Value := 'CARTEIRA';
-      frmctr_ped_bai.fin_rec_baiFIN_VALO.Value := consulta.Fields[3].AsFloat;
-      frmctr_ped_bai.fin_rec_baiFIN_COBR.Value := '1';
-      frmctr_ped_bai.fin_rec_bai.Post;
-    end;
     consulta.Next;
   end;
   frmctr_ped_bai.fin_rec_bai.First;
-  frmctr_ped_bai.pclan.ActivePageIndex := 0;
 
   if not frmctr_ped_bai.fin_rec_bai.Fields[0].IsNull then
   begin
@@ -1836,28 +1183,29 @@ begin
 
   with consulta do
   begin
+    Close;
     SQL.Clear;
-    if cadastroROM_STPD.AsString <> 'BENEFICIAMENTO' then
+    if CadastroROM_STPD.AsString <> 'BENEFICIAMENTO' then
     begin
       SQL.Add('SELECT NFE_VNF FROM '+SLPrincipal.Values['nfe_cab']);
-      SQL.Add('WHERE  NFE_CDNF = '''+cadastroROM_CDNF.AsString+'''');
-    end
-    else
+      SQL.Add('WHERE  NFE_CDNF = '''+CadastroROM_CDNF.AsString+'''');
+    end else
     begin
       SQL.Add('SELECT SUM(NFE_VNF) FROM '+SLPrincipal.Values['nfe_ite']);
-      SQL.Add('WHERE  NFE_CDNF = '''+cadastroROM_CDNF.AsString+'''');
+      SQL.Add('WHERE  NFE_CDNF = '''+CadastroROM_CDNF.AsString+'''');
       SQL.Add('AND    NFE_CFOP = ''5124''');
-      SQL.Add('OR     NFE_CDNF = '''+cadastroROM_CDNF.AsString+'''');
+      SQL.Add('OR     NFE_CDNF = '''+CadastroROM_CDNF.AsString+'''');
       SQL.Add('AND    NFE_CFOP = ''6124''');
       Open;
       
       if fields[0].AsFloat = 0 then
       begin
+        Close;
         SQL.Clear;
         SQL.Add('SELECT SUM(NFE_VNF) FROM '+SLPrincipal.Values['nfe_ite']);
-        SQL.Add('WHERE  NFE_CDNF = '''+cadastroROM_CDNF.AsString+'''');
+        SQL.Add('WHERE  NFE_CDNF = '''+CadastroROM_CDNF.AsString+'''');
         SQL.Add('AND    NFE_CFOP = ''5125''');
-        SQL.Add('OR     NFE_CDNF = '''+cadastroROM_CDNF.AsString+'''');
+        SQL.Add('OR     NFE_CDNF = '''+CadastroROM_CDNF.AsString+'''');
         SQL.Add('AND    NFE_CFOP = ''5925''');
       end;
     end;
@@ -1866,79 +1214,172 @@ begin
 
   frmctr_ped_bai.fin_rec.Append;
   frmctr_ped_bai.fin_recID.Value       := 0;
-  frmctr_ped_bai.fin_recFIN_CDPD.Value := cadastroID.AsInteger;
-  frmctr_ped_bai.fin_recFIN_PORT.Value := cadastroROM_DERO.AsString;
-  frmctr_ped_bai.fin_recFIN_CDRO.Value := cadastroROM_CDRO.AsInteger;
-  frmctr_ped_bai.fin_recFIN_CDNF.Value := cadastroROM_CDNF.AsInteger;
-  frmctr_ped_bai.fin_recFIN_STDO.Value := 'B '+cadastroROM_CONC.AsString;
-  frmctr_ped_bai.fin_recFIN_DROM.Value := cadastroROM_DROM.AsDateTime;
-  frmctr_ped_bai.fin_recFIN_CCLI.Value := cadastroROM_CCLI.AsInteger;
-  frmctr_ped_bai.fin_recFIN_DCLI.Value := cadastroCLI_FANT.AsString;
-  frmctr_ped_bai.fin_recFIN_CVEN.Value := cadastroROM_CVEN.AsInteger;
-  frmctr_ped_bai.fin_recFIN_CREP.Value := cadastroROM_CREP.AsInteger;
-  frmctr_ped_bai.fin_recFIN_DCLI.Value := cadastroCLI_FANT.AsString;
-  frmctr_ped_bai.fin_recFIN_STCO.Value := cadastroROM_STCO.AsString;
-  frmctr_ped_bai.fin_recFIN_STPD.Value := cadastroROM_STPD.AsString;
-  frmctr_ped_bai.fin_recFIN_CONC.Value := cadastroROM_CONC.AsInteger;
-  frmctr_ped_bai.fin_recFIN_VEND.Value := cadastroUSU_DUSU.AsString;
-  frmctr_ped_bai.fin_recFIN_DREP.Value := cadastroREP_FANT.AsString;
-  frmctr_ped_bai.fin_recFIN_DPRA.Value := cadastroPAG_DPAG.AsString;
+  frmctr_ped_bai.fin_recFIN_CDPD.Value := CadastroID.AsInteger;
+  frmctr_ped_bai.fin_recFIN_PORT.Value := CadastroROM_DERO.AsString;
+  frmctr_ped_bai.fin_recFIN_CDRO.Value := CadastroROM_CDRO.AsInteger;
+  frmctr_ped_bai.fin_recFIN_CDNF.Value := CadastroROM_CDNF.AsInteger;
+  frmctr_ped_bai.fin_recFIN_STDO.Value := CadastroRECO.AsString;
+  frmctr_ped_bai.fin_recFIN_DROM.Value := CadastroROM_DROM.AsDateTime;
+  frmctr_ped_bai.fin_recFIN_CCLI.Value := CadastroROM_CCLI.AsInteger;
+  frmctr_ped_bai.fin_recFIN_DCLI.Value := CadastroCLI_FANT.AsString;
+  frmctr_ped_bai.fin_recFIN_DCLI.Value := CadastroCLI_FANT.AsString;
+  frmctr_ped_bai.fin_recFIN_CVEN.Value := CadastroROM_CVEN.AsInteger;
+  frmctr_ped_bai.fin_recFIN_VEND.Value := CadastroUSU_DUSU.AsString;
+  frmctr_ped_bai.fin_recFIN_CREP.Value := CadastroROM_CREP.AsInteger;
+  frmctr_ped_bai.fin_recFIN_DREP.Value := CadastroREP_FANT.AsString;
+  frmctr_ped_bai.fin_recFIN_STCO.Value := CadastroROM_STCO.AsString;
+  frmctr_ped_bai.fin_recFIN_STPD.Value := CadastroROM_STPD.AsString;
+  frmctr_ped_bai.fin_recFIN_CONC.Value := CadastroROM_CONC.AsInteger;
+  frmctr_ped_bai.fin_recFIN_DPRA.Value := CadastroPAG_DPAG.AsString;
   frmctr_ped_bai.fin_recFIN_VALO.Value := consulta.Fields[0].AsFloat;
   frmctr_ped_bai.fin_recFIN_COBR.Value := 'B';
-  frmctr_ped_bai.fin_recFIN_CTNR.Value := cadastroROM_CTNR.AsString;
-  frmctr_ped_bai.fin_recFIN_DOCT.Value := cadastroROM_CDNF.AsString;
+  frmctr_ped_bai.fin_recFIN_CTNR.Value := EmptyStr;
+  frmctr_ped_bai.fin_recFIN_DOCT.Value := CadastroROM_CDNF.AsString;
   frmctr_ped_bai.fin_rec.Post;
 end;
 
-procedure Tfrmctr_ped.dtscadastroDataChange(Sender: TObject;
-  Field: TField);
+procedure Tfrmctr_ped.CANCELA_CAIXA;
+var
+  doct,
+  tipo: String;
+  valo: Double;
+  conc,
+  ctsr,
+  cdcx: Variant;
 begin
-  if Cadastro.State = dsBrowse then
+  tipo := CadastroROM_STCO.AsString;
+  conc := IntToStr(CadastroROM_CONC.AsInteger);
+  cdcx := IntToStr(CadastroROM_CDCX.AsInteger);
+
+  if cdcx = 0 then
+     Exit;
+
+  with SQLFKEdicao do
   begin
-    if cadastroROM_TDSC.AsString = '%' then
-    dbgConsultaROM_DESC.Caption := 'Desc (%)'
-    else if cadastroROM_TDSC.AsString = '$' then
-    dbgConsultaROM_DESC.Caption := 'Desc ($)';
+    Close;
+    SQL.Clear;
+    SQL.Add('SELECT ID FROM CAI_TSR');
+    SQL.Add('WHERE  CAI_DESC = ''' + tipo + '''');
+    ExecQuery;
+    if Eof then
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add('SELECT ID FROM CAI_TSR');
+      SQL.Add('WHERE  CAI_DESC = ''CAIXA INICIAL''');
+      ExecQuery;
+    end;
+    ctsr := fields[0].AsInteger;
 
-    siARO.Enabled := (cadastroROM_STA.AsString  = '0');
-    siGRO.Enabled := (cadastroROM_STA.AsString  = '0');
-    siCRO.Enabled := (cadastroROM_STA.AsString  = '0');
-    siBRO.Enabled := (cadastroROM_STA.AsString  = '0') and (cadastroROM_STPD.AsString <> 'DEVOLUÇÃO') and (cadastroROM_STPD.AsString <> 'ABATIMENTO');
+    Close;
+    SQL.Clear;
+    SQL.Add('SELECT ID FROM TAB_COB');
+    SQL.Add('WHERE  VEN_TIPO = ''' + tipo +'''');
+    ExecQuery;
+    doct := conc + oStrZero(Fields[0].AsInteger,19);
 
-    siCRO.ImageIndex := 2;
-    if cadastroROM_CDBX.AsInteger > 0 then
-    siCRO.ImageIndex := 13;
+    Close;
+    SQL.Clear;
+    SQL.Add('DELETE FROM '+SLPrincipal.Values['fin_rec_car_bai']);
+    SQL.Add('WHERE  FIN_CDBX = ''' + IntToStr(CadastroROM_CDBX.AsInteger) + '''');
+    ExecQuery;
 
-    sbMSG.Panels[1].Text := cadastroROM_CONC.AsString;
-    sbMSG.Panels[2].Text := '';
+    Close;
+    SQL.Clear;
+    SQL.Add('DELETE FROM '+SLPrincipal.Values['fin_rec_ban_bai']);
+    SQL.Add('WHERE  FIN_CDBX = ''' + IntToStr(CadastroROM_CDBX.AsInteger) + '''');
+    ExecQuery;
 
-    if cadastroROM_DSEP.AsString <> '' then
-    sbMSG.Panels[2].Text := 'Separador '+cadastroROM_DSEP.AsString;
+    Close;
+    SQL.Clear;
+    SQL.Add('DELETE FROM CAI_MOV');
+    SQL.Add('WHERE  CAI_CCAB = ''' + cdcx + '''');
+    SQL.Add('AND    CAI_DESC = ''' + tipo + '''');
+    SQL.Add('AND    CAI_CONC = ''' + conc + '''');
+    ExecQuery;
 
-    if cadastroROM_DEXP.AsDateTime > cadastroROM_DROM.AsDateTime then
-    sbMSG.Panels[2].Text := TRIM(sbMSG.Panels[2].Text)+' '+'Data Limite para Separação: '+formatDateTime('dd/mm/yy',cadastroROM_DEXP.AsDateTime)+' '+TRIM(cadastroROM_CTNR.AsString)+' '+TRIM(cadastroROM_OBSE.AsString);
+    Close;
+    SQL.Clear;
+    SQL.Add('SELECT SUM(FIN_VALO) FROM ' + SLPrincipal.Values[IFThen(Pos(LeftStr(CadastroROM_STCO.AsString,3),'BANBOLDUP') > 0,'fin_rec_ban_bai','fin_rec_car_bai')]);
+    SQL.Add('WHERE  FIN_CDCX = ''' + cdcx + '''');
+    SQL.Add('AND    FIN_TIPO = ''' + tipo + '''');
+    SQL.Add('AND    FIN_CONC = ''' + conc + '''');
+    ExecQuery;
+    valo := Fields[0].AsFloat;
 
-    sbMSG.Panels[2].Text := TRIM(sbMSG.Panels[2].Text)+' '+TRIM(cadastroROM_CTNR.AsString)+' '+TRIM(cadastroROM_OBSE.AsString);
+    if valo <> 0 then
+    begin
+      SPEdicao.Close;
+      SPEdicao.StoredProcName := 'SP_CAI_MOV';
+      SPEdicao.Prepare;
+      SPEdicao.ParamByName('ID').Value   := 0;
+      SPEdicao.ParamByName('CCAB').Value := cdcx;
+      SPEdicao.ParamByName('CTSR').Value := ctsr;
+      SPEdicao.ParamByName('CDBX').Value := 0;
+      SPEdicao.ParamByName('CONC').Value := conc;
+      SPEdicao.ParamByName('DESC').Value := tipo;
+      SPEdicao.ParamByName('DOCT').Value := doct;
+      SPEdicao.ParamByName('DCAD').Value := CadastroROM_DROM.AsDateTime;
+      SPEdicao.ParamByName('HCAD').Value := time;
+      SPEdicao.ParamByName('SANT').Value := 0;
+      SPEdicao.ParamByName('CRED').Value := valo;
+      SPEdicao.ParamByName('DEBI').Value := 0;
+      SPEdicao.ParamByName('SATU').Value := 0;
+      SPEdicao.ParamByName('BCON').Value := 0;
+      SPEdicao.ParamByName('DCON').Value := '';
+      SPEdicao.ExecProc;
+    end;
+  end;
+  
+  with SQLEdicao do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add('SELECT SUM(CAI_CRED),SUM(CAI_DEBI),SUM(CAI_CRED-CAI_DEBI) FROM CAI_MOV');
+    SQL.Add('WHERE  CAI_CCAB = ''' + cdcx + '''');
+    ExecQuery;
+  end;
 
-    edobse.Lines.Clear;
-    edobse.Lines.Add(TRIM(cadastroROM_CTNR.AsString));
-    edobse.Lines.Add(TRIM(cadastroROM_OBSE.AsString));
-
+  with SQLFKEdicao do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add('UPDATE CAI_LAF');
+    SQL.Add('SET    CAI_CRED = '''+ oStrTran(SQLEdicao.Fields[0].AsString,',','.') + ''',');
+    SQL.Add('       CAI_DEBI = '''+ oStrTran(SQLEdicao.Fields[1].AsString,',','.') + ''',');
+    SQL.Add('       CAI_SATU = '''+ oStrTran(SQLEdicao.Fields[2].AsString,',','.') + '''' );
+    SQL.Add('WHERE  ID       = '''+ cdcx +'''');
+    ExecQuery;
   end;
 end;
 
-procedure Tfrmctr_ped.writefotoClick(Sender: TObject);
+procedure Tfrmctr_ped.CadastroBeforeOpen(DataSet: TDataSet);
 begin
-  frmcad_pro_img := tfrmcad_pro_img.create(self);
-  try
-    frmcad_pro_img.carregaFoto(rom_itePRO_FOTO.BlobSize,rom_itePRO_FOTO,rom_ite,frmprincipal.parametros);
-    frmcad_pro_img.Caption := rom_iteROM_DPRO.AsString;
-    frmcad_pro_img.showmodal;
-  finally
-    FreeAndNil(frmcad_pro_img);
-    frmcad_pro_img.free;
-  end;
+  dbgConsultaREP_FANT.Visible := False;
 end;
 
+procedure Tfrmctr_ped.CadastroAfterScroll(DataSet: TDataSet);
+begin
+  if RECParametros.IDRepresentante <> CadastroROM_CREP.AsInteger then
+  dbgConsultaREP_FANT.Visible := True;
+end;
+
+procedure Tfrmctr_ped.siPRNClick(Sender: TObject);
+begin
+  frmrelatorio_geral := TFrmrelatorio_geral.Create(self);
+  try
+    frmrelatorio_geral.CDPD                 := CadastroID.AsString;
+    frmrelatorio_geral.CDRO                 := CadastroROM_CDRO.AsString;
+    frmrelatorio_geral.CDBX                 := CadastroROM_CDBX.AsString;
+    frmrelatorio_geral.CDNF                 := CadastroROM_CDNF.AsString;
+    frmrelatorio_geral.tsVEN_PED.TabVisible := true;
+    frmrelatorio_geral.pcMAIN.ActivePage    := frmrelatorio_geral.tsVEN_PED;
+    frmrelatorio_geral.cbVEN_PED_TREL.Text  := frmprincipal.parametrosPAR_PREL.AsString;
+    frmrelatorio_geral.ShowModal;
+  finally
+    freeAndNil(frmrelatorio_geral);
+    frmrelatorio_geral.Free;
+  end;
+end;
 
 end.

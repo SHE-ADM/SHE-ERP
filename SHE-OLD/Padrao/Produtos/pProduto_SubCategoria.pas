@@ -103,7 +103,6 @@ type
     DBGConsultaLOGCA: TdxDBGridMaskColumn;
     DBGConsultaLOGED: TdxDBGridMaskColumn;
     DBGConsultaLOGST: TdxDBGridMaskColumn;
-    DBGConsultaDESTA: TdxDBGridMaskColumn;
     DBGConsultaFLAG_ERP_INS: TdxDBGridCheckColumn;
     DBGConsultaFLAG_ERP_DEL: TdxDBGridCheckColumn;
     DBGConsultaFLAG_B2B_INS: TdxDBGridCheckColumn;
@@ -215,6 +214,7 @@ type
     CadastroCDST: TSmallintField;
     CadastroREST: TIBStringField;
     ProdutosDEST: TIBStringField;
+    DBGConsultaDESTA: TdxDBGridPickColumn;
     procedure FormCreate(Sender: TObject);
     procedure DBGConsultaNCMValidate(Sender: TObject;
       var ErrorText: String; var Accept: Boolean);
@@ -246,6 +246,8 @@ type
     procedure ProdutosCalcFields(DataSet: TDataSet);
     procedure ACTRefreshExecute(Sender: TObject);
     procedure DTSCadastroDataChange(Sender: TObject; Field: TField);
+    procedure DBGConsultaDESTAValidate(Sender: TObject;
+      var ErrorText: String; var Accept: Boolean);
   private
     { Private declarations }
     procedure _Inicializa_Precos;
@@ -1316,6 +1318,27 @@ begin
 
   if Cadastro.State = dsBrowse then
      DBGConsulta.ApplyBestFit(DBGConsultaARTIGO);
+end;
+
+procedure TFrmProduto_SubCategoria.DBGConsultaDESTAValidate(
+  Sender: TObject; var ErrorText: String; var Accept: Boolean);
+begin
+  if TRIM(DBGConsulta.EditingText) <> EmptyStr then
+  with SQLConsulta do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add('SELECT ID,REFERENCIA,DESCRICAO FROM TAB_STA');
+    SQL.Add('WHERE  DESCRICAO = ''' + TRIM(DBGConsulta.EditingText) + '''');
+    ExecQuery;
+
+    if not Eof then
+    begin
+      CadastroCDST.Value := Current.Vars[0].AsInteger;
+      CadastroREST.Value := Current.Vars[1].AsString;
+      CadastroDEST.Value := Current.Vars[2].AsString;
+    end;
+  end;  
 end;
 
 end.

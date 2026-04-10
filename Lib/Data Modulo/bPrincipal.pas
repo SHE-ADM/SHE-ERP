@@ -484,17 +484,17 @@ begin
       RECParametros.EP_ID := Current.ByName('ID').AsString;
 
       { EMPRESA FÍSICA }
-      RECParametros.EP_NO       := Current.ByName('EP_NO').AsString;       { Nome Fantasia  }
-      RECParametros.EP_NO_ABREV := Current.ByName('EP_NO_ABREV').AsString; { Nome Abreviado }
-      RECParametros.EP_NO_SG    := Current.ByName('EP_NO_SG').AsString;    { Sigla          }
-      RECParametros.EP_NO_RZ    := Current.ByName('EP_NO_RZ').AsString;    { Razão Social   }
+      RECParametros.EP_NO    := Current.ByName('EP_NO').AsString;       { Nome Fantasia  }
+      RECParametros.EP_AB_NO := Current.ByName('EP_NO_ABREV').AsString; { Nome Abreviado }
+      RECParametros.EP_SG_NO := Current.ByName('EP_NO_SG').AsString;    { Sigla          }
+      RECParametros.EP_RZ_NO := Current.ByName('EP_NO_RZ').AsString;    { Razão Social   }
 
       { GRUPOS }
-      RECParametros.EP_NO_GP := Current.ByName('EP_NO_GP').AsString; { Principal  }
-      RECParametros.EP_NO_GC := Current.ByName('EP_GC').AsString;    { Compras    }
-      RECParametros.EP_NO_GV := Current.ByName('EP_GV').AsString;    { Vendas     }
-      RECParametros.EP_NO_GR := Current.ByName('EP_GR').AsString;    { Financeiro }
-      RECParametros.EP_NO_GF := Current.ByName('EP_GF').AsString;    { Fiscal     }
+      RECParametros.EP_GP_NO := Current.ByName('EP_NO_GP').AsString; { Principal  }
+      RECParametros.EP_GC_CD := Current.ByName('EP_GC').AsString;    { Compras    }
+      RECParametros.EP_GV_CD := Current.ByName('EP_GV').AsString;    { Vendas     }
+      RECParametros.EP_GR_CD := Current.ByName('EP_GR').AsString;    { Financeiro }
+      RECParametros.EP_GF_CD := Current.ByName('EP_GF').AsString;    { Fiscal     }
 
       { SITUAÇÃO }
       RECParametros.CDST := Current.ByName('CDST').AsString; { Código     }
@@ -797,7 +797,7 @@ begin
       ExecQuery;
 
       { EMPRESA VIEWS }
-      RECParametros.EP_ID_VW := Current.ByName('VW_IDEP').AsString; { Código }
+      RECParametros.EP_VW_ID := Current.ByName('VW_IDEP').AsString; { Código }
 
       { IMAGENS }
       Close;

@@ -46,6 +46,23 @@ type
     cadastroNAT_INDT: TIBStringField;
     cadastroNAT_CFOP: TIBStringField;
     dbgConsultaNAT_CFOP: TdxDBGridMaskColumn;
+    CadastroCBENEF: TIBStringField;
+    CadastroCSTIS: TIBStringField;
+    CadastroCCLASSTRIBIS: TIBStringField;
+    CadastroPIS: TIBBCDField;
+    CadastroPISESPEC: TIBBCDField;
+    CadastroCSTCBS: TIBStringField;
+    CadastroCCLASSTRIBCBS: TIBStringField;
+    CadastroPCBS: TIBBCDField;
+    CadastroINDDOACAO: TIBStringField;
+    DBGConsultaCBENEF: TdxDBGridMaskColumn;
+    DBGConsultaCSTIS: TdxDBGridMaskColumn;
+    DBGConsultaCCLASSTRIBIS: TdxDBGridMaskColumn;
+    DBGConsultaPIS: TdxDBGridCurrencyColumn;
+    DBGConsultaPISESPEC: TdxDBGridCurrencyColumn;
+    DBGConsultaCSTCBS: TdxDBGridMaskColumn;
+    DBGConsultaCCLASSTRIBCBS: TdxDBGridMaskColumn;
+    DBGConsultaPCBS: TdxDBGridCurrencyColumn;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure SIMEAppendClick(Sender: TObject);
@@ -97,7 +114,7 @@ begin
 
   frmtab_nat_edi := Tfrmtab_nat_edi.Create(self);
   try
-    frmtab_nat_edi.Tag := frmtab_nat.Tag;
+    frmtab_nat_edi.Tag := 0;
     frmtab_nat_edi.ShowModal;
   finally
     if frmtab_nat_edi.editado then
@@ -117,7 +134,7 @@ begin
 
   frmtab_nat_edi := Tfrmtab_nat_edi.Create(self);
   try
-    frmtab_nat_edi.Tag := frmtab_nat.Tag;
+    frmtab_nat_edi.Tag := 1;
     frmtab_nat_edi.ShowModal;
   finally
     if frmtab_nat_edi.editado then

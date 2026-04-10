@@ -1542,7 +1542,19 @@ end;
 
 procedure TFrmPrincipal.FormCloseQuery(Sender: TObject;
   var CanClose: Boolean);
+  var i: word;
 begin
+  try
+    for i := MDIChildCount - 1 downto 0 do
+        if   MDIChildren[i] <> Nil then
+             MDIChildren[i].Free;
+  except
+    on E: Exception do
+       oException(Nil,'Falha ao tentar fechar automaticamente as páginas do sistema !' +#13+
+                      'Favor fechar manualmente.' +#13 +#13+
+                       E.Message + '.');
+  end;
+
   if oYesNo(handle, 'Confirma saída do sistema ?') = mrNo then Abort;
 end;
 

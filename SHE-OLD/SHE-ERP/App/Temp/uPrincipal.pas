@@ -1,3 +1,4 @@
+
 unit uPrincipal;
 
 interface
@@ -11,403 +12,469 @@ uses
   Grids, DBGrids, IBStoredProc, ImgList, Shellapi, DBTables, jpeg, math,
   XPStyleActnCtrls, IdBaseComponent, IdComponent, qrPrev,
   IdIPWatch, Provider, cxGraphics, cxControls, dxStatusBar, ACBrBarCode,
-  IBSQL, dxDBGrid, dxTL, dxDBCtrl, TypInfo, dxsbar, dxDockPanel,
-  dxDockControl, dxBar, dxBarExtItems, rxAnimate, rxGIFCtrl;
-
-type
-  TRunProcessThread = class(TThread)
-  protected
-    procedure Execute; override;
-    procedure SyncEvent;
-
-  public
-    ATHR_TB_PK: String;
-    ATHR_EP_ID,
-    ATHR_PK_ID,
-
-    FTHR_EP_ID,
-    FTHR_PK_ID,
-    FTHR_CP_ID: String;
-
-    constructor Create(const ATB_PK: String;
-                             AEP_ID,
-                             APK_ID: Variant;
-
-                             FEP_ID,
-                             FPK_ID,
-                             FCP_ID: String);
-
-    destructor  Destroy; override;
-  end;
+  IBSQL, dxDBGrid, dxTL, dxDBCtrl, TypInfo;
 
 type
   TFrmPrincipal = class(TForm)
-    TPrincipal: TTimer;
-    EPrincipal: TOpenDialog;
-    IPrincipal: TImage;
-    ILPrincipal: TImageList;
-
-    ACBrBarCode: TACBrBarCode;
-    ACBrBarCodeV: TACBrBarCode;
-
-    SBRodape: TdxStatusBar;
-    PNLRodape: TPanel;
-    PNLSBRodapeSynchronize: TPanel;
-    PNLSynchronize: TPanel;
-    PNLGF: TPanel;
-    GFSynchronize: TRxGIFAnimator;
-
+    MMPrincipal: TMainMenu;
+    MPCadastros: TMenuItem;
+    MPTabelas: TMenuItem;
+    MPVendas: TMenuItem;
     AMPrincipal: TActionManager;
-    ACTMP_ABOUT: TAction;
-    ACTMP_SAIDA: TAction;
-
-    ACTADM_DENIED: TAction;
-    ACTADM_PARAMETROS: TAction;
-    ACTADM_BACKUP: TAction;
-    ACTADM_COMISSAO: TAction;
-
-    ACTUSER_LOGIN: TAction;
-    ACTUSER_PASSWORD: TAction;
-
-    ACTCAI_ABR_PAD: TAction;
-    ACTCAI_ABR_FST: TAction;
-    ACTCAI_FEC: TAction;
-    ACTCAI_RAB: TAction;
-    ACTCAI_LSS: TAction;
-    ACTCAI_TSS: TAction;
+    ACTClientes: TAction;
+    MICAD_REP: TMenuItem;
+    MICAD_COM: TMenuItem;
+    MICAD_TRA: TMenuItem;
+    MITAB_NAT: TMenuItem;
+    MITAB_PRZ: TMenuItem;
+    MPNotaFiscal: TMenuItem;
+    MINFE_LAN: TMenuItem;
+    MINotaFiscal: TMenuItem;
+    MIFIN_REC_DUP: TMenuItem;
+    MPConteudo: TMenuItem;
+    MIHELP: TMenuItem;
+    MIABOUT: TMenuItem;
+    ACTProdutos: TAction;
+    ACTRepresentantes: TAction;
+    ACTTransportadoras: TAction;
+    ACTFornecedores: TAction;
+    ACTTAB_PRZ: TAction;
+    ACTTAB_GRD_COR: TAction;
+    ACTTAB_COL: TAction;
+    ACTEST_LAN: TAction;
+    ACTEstoque: TAction;
+    ACTRomaneios: TAction;
+    ACTAgenda: TAction;
+    ACTLogin: TAction;
+    ACTPassword: TAction;
+    ACTPrinters: TAction;
+    ACTSistema: TAction;
+    ACTPED_LAN: TAction;
+    MPFinanceiro: TMenuItem;
+    MICompras: TMenuItem;
+    ACTCOM_LAN: TAction;
+    ACTHELP: TAction;
+    MPCompras: TMenuItem;
+    MIFIN_CAL_VCT: TMenuItem;
+    MIFIN_N3: TMenuItem;
+    MIFIN_REC_BOL: TMenuItem;
+    MPCaixa: TMenuItem;
+    MIFIN_EMI_REC: TMenuItem;
+    MIFIN_EMI_VFU: TMenuItem;
+    MITAB_N4: TMenuItem;
+    MIEST_LAN: TMenuItem;
+    MIEstoque: TMenuItem;
+    ACTFIN_PAG_CMV: TAction;
+    MICAD_CLI: TMenuItem;
+    MICAD_FOR: TMenuItem;
+    MICAD_N1: TMenuItem;
+    MICAI_TSS: TMenuItem;
+    ACTTAB_SSP: TAction;
+    MICAI_ABR: TMenuItem;
+    MICAI_FEC: TMenuItem;
+    MICAI_N2: TMenuItem;
+    MICAI_MSS: TMenuItem;
+    MICAI_N3: TMenuItem;
     ACTCAI_FLC: TAction;
-
-    ACTPRN_ADM: TAction;
-    ACTPRN_EXE: TAction;
-
+    MICAI_MOV: TMenuItem;
+    ACTCAI_SSP: TAction;
+    ACTPRG_LAN: TAction;
+    ACTEXP_MAN: TAction;
+    MITAB_ORI: TMenuItem;
+    ACTTAB_CAT: TAction;
+    ACTCAI_ABR: TAction;
+    MPSheild: TMenuItem;
+    ACTCAI_FEC: TAction;
+    ACTFIN_REC_DUP: TAction;
+    MIFIN_PAG_CMV: TMenuItem;
+    ACTFIN_REC_CAR: TAction;
+    ACTFIN_REC_BAN: TAction;
+    MICAI_RAB: TMenuItem;
+    MICAI_N1: TMenuItem;
+    ACTCAI_RAB: TAction;
+    ACTEST_ETQ: TAction;
+    MPRelatorios: TMenuItem;
+    MIFIN_REC_IBB: TMenuItem;
+    ACTCAD_CTNR: TAction;
+    ACTTAB_NAT: TAction;
+    IPrincipal: TImage;
+    MICheques: TMenuItem;
+    MIComissao: TMenuItem;
+    MIRelProdutos: TMenuItem;
+    MIRelatorios_1: TMenuItem;
+    MIRelClientes: TMenuItem;
+    MIRelVendedores: TMenuItem;
+    MIRelRepresentantes: TMenuItem;
+    MIRelatorios_3: TMenuItem;
+    MIRelGerencial: TMenuItem;
+    MIRelProduto_Venda: TMenuItem;
+    MIRelProduto_Ranking: TMenuItem;
+    MIRelProdutos_2: TMenuItem;
+    MIRelGProduto_Tabela_Preco: TMenuItem;
+    MIRelProdutos_3: TMenuItem;
+    MIRelProduto_Estoque: TMenuItem;
+    MIRelProdutosSPEDFiscal: TMenuItem;
+    MIRelProdutos_4: TMenuItem;
+    MIRelProduto_Compra_Planejamento: TMenuItem;
+    MIRelProdutosKardex: TMenuItem;
+    MIRelCliente_Venda_Produto: TMenuItem;
+    MIRelClientesRanking: TMenuItem;
+    MIRelClientes_1: TMenuItem;
+    MIRelClientesFicha: TMenuItem;
+    MIRelCliente_Cadastro_Listagem: TMenuItem;
+    MIRelVendedoresFat: TMenuItem;
+    MIRelVendedoresRanking: TMenuItem;
+    MIRelVendedores_1: TMenuItem;
+    MIRelVendedoresComissoes: TMenuItem;
+    MIRelVendedoresVales: TMenuItem;
+    MIRelRepresentante_Venda_Produto: TMenuItem;
+    MIRelRepresentante_Ranking: TMenuItem;
+    MIRelRepresentantes_1: TMenuItem;
+    MIRelRepresentantesComissoes: TMenuItem;
+    MIRelRepresentantesVales: TMenuItem;
+    MIRelRepresentantes_2: TMenuItem;
+    MIRelRepresentantesFicha: TMenuItem;
+    MIRelRepresentante_Cadastro_Listagem: TMenuItem;
+    MIRelGerenciaisNFe: TMenuItem;
+    ACTPRO_ETQ: TAction;
     ACTRelatorios: TAction;
-    ACTREL_GER_PDV_CRD: TAction;
-
-    ACTCAD_PRO_ADM: TAction;
-    ACTCAD_PRO_GRD_COR: TAction;
-    ACTCAD_PRO_EST_ADM: TAction;
-    ACTCAD_PRO_EST_LCT: TAction;
-    ACTCAD_PRO_EST_EXP_COL: TAction;
-    ACTCAD_PRO_EST_EXP_MAN: TAction;
-    ACTCAD_PRO_EST_ETQ: TAction;
-
-    ACTPED_PDV_ADM: TAction;
-    ACTPED_PDV_CLT: TAction;
-    ACTPED_RDV_ADM: TAction;
-
-    ACTPED_PDC_ADM: TAction;
-
-    ACTFIS_NFE_ADM: TAction;
+    MIRelProduto_Devolucao_Cancelamento: TMenuItem;
+    ACTProduto_Venda: TAction;
+    ACTProduto_Ranking: TAction;
+    ACTProduto_Compra_Planejamento: TAction;
+    ACTGProduto_Tabela_Preco: TAction;
+    ACTProduto_Estoque: TAction;
+    ACTRPROSPEDFiscal: TAction;
+    ACTRPROKardex: TAction;
+    ACTGerencial_Tipo_Credito: TAction;
+    ACTRGERNF: TAction;
+    ACTEmConstrucao: TAction;
+    MIFIN_REC_CAR: TMenuItem;
+    MIFIN_REC_BAN: TMenuItem;
+    ACBrBarCode: TACBrBarCode;
+    N5: TMenuItem;
+    MIRelGerenciaisCFeSat: TMenuItem;
+    ACTCFE_LAN: TAction;
+    MIRelProdutosProg: TMenuItem;
+    SBRodape: TdxStatusBar;
+    MITAB_N3: TMenuItem;
     PNLUtil: TPanel;
     TBPrincipal: TToolBar;
     TBN: TToolButton;
-    RSBMU_FIS_NFE_PSQ: TRxSpeedButton;
-    RSBMU_FIS_NFE_SAI: TRxSpeedButton;
-    TBN1: TToolButton;
-    RSBMU_FIS_CFE_EDT: TRxSpeedButton;
+    RTBNFConsulta: TRxSpeedButton;
+    RTBCFEmissao: TRxSpeedButton;
     TBN2: TToolButton;
-    TBN3: TToolButton;
-    RSBMU_Etiquetas: TRxSpeedButton;
-    RSBMU_Impressoras: TRxSpeedButton;
+    RTBPEtiquetas: TRxSpeedButton;
+    RTBPrinters: TRxSpeedButton;
     TBN4: TToolButton;
-    TBN5: TToolButton;
-    RSBMU_USER_LOGIN: TRxSpeedButton;
-    RSBMU_USER_PASSWORD: TRxSpeedButton;
-    TBN7: TToolButton;
-    RSBADM_PARAMETROS: TRxSpeedButton;
-    RSBADM_BACKUP: TRxSpeedButton;
+    RTBLogin: TRxSpeedButton;
+    RTBPassword: TRxSpeedButton;
+    TBN6: TToolButton;
+    RTBSistema: TRxSpeedButton;
+    RTBBackup: TRxSpeedButton;
     TBN8: TToolButton;
-    TBN9: TToolButton;
-    RSBMU_ABOUT: TRxSpeedButton;
+    RTBAbout: TRxSpeedButton;
     TBN10: TToolButton;
-    RSBMU_SAIDA: TRxSpeedButton;
-    PNLPrincipal: TPanel;
-    Bevel8: TBevel;
-    PNLADM: TPanel;
-    RSBCliente: TRxSpeedButton;
-    RSBProdutos: TRxSpeedButton;
-    RSBRomaneios: TRxSpeedButton;
-    RSBPedidos: TRxSpeedButton;
-    RSBCompras: TRxSpeedButton;
-    RSBProgramados: TRxSpeedButton;
-    RSBRepresentante: TRxSpeedButton;
-    RSBPEDEstoque: TRxSpeedButton;
-    RSBFornecedor: TRxSpeedButton;
-    RSBTransportadora: TRxSpeedButton;
-    RSBNFControle: TRxSpeedButton;
-    RSBNFTerceiros: TRxSpeedButton;
-    Panel7: TPanel;
-    LALegenda: TLabel;
-    ACTMU_FIS_NFE_PSQ: TAction;
-    ACTMU_FIS_NFE_SAI: TAction;
-    ACTMU_FIS_CFE_EDT: TAction;
-    ACTMU_Etiquetas: TAction;
-    ACTMU_Impressoras: TAction;
-    ACTMU_USER_LOGIN: TAction;
-    ACTMU_USER_PASSWORD: TAction;
-    ACTMU_ABOUT: TAction;
-    ACTMU_SAIDA: TAction;
-    MMPrincipal: TMainMenu;
-    MPCadastros: TMenuItem;
-    MICAD_CLI_ADM: TMenuItem;
-    MICAD_REP_ADM: TMenuItem;
-    NPCadastros: TMenuItem;
-    MICAD_FOR_ADM: TMenuItem;
-    MICAD_TRA_ADM: TMenuItem;
-    NPCadastros1: TMenuItem;
-    MICAD_CTNR_ADM: TMenuItem;
+    RTBSaida: TRxSpeedButton;
+    MINFE_LAN_TER: TMenuItem;
+    MINFE_N1: TMenuItem;
+    ACTPAGPROComissao: TAction;
+    TTempo: TTimer;
+    RTBNFSaidas: TRxSpeedButton;
+    ACTNFE_LAN: TAction;
+    ACBrBarCodeV: TACBrBarCode;
+    ACTRCLVEN: TAction;
+    MIRelCliente_Ranking: TMenuItem;
+    ACTCliente_Ranking: TAction;
+    ACTRCLABC: TAction;
+    ACTRepresentante_Venda_Produto: TAction;
+    ACTRepresentante_Ranking: TAction;
+    ACTRCRABC: TAction;
+    MIDSP_CTNR: TMenuItem;
+    ACTTAB_SEG: TAction;
+    ACTTAB_GRP: TAction;
+    ACTTAB_SGP: TAction;
+    ACTTAB_SCT: TAction;
+    MITAB_ICMS_ST: TMenuItem;
+    N12: TMenuItem;
+    N14: TMenuItem;
+    ACTProduto_Devolucao_Cancelamento: TAction;
+    N16: TMenuItem;
+    MIRelFinanceiro: TMenuItem;
+    MIRelFinanceiro_Abatimento: TMenuItem;
+    ACTFinanceiro_Abatimento: TAction;
+    N18: TMenuItem;
+    ACTCliente_Venda_Produto: TAction;
+    ACTCliente_Produto_Atendido: TAction;
+    MIRelCliente_Produto_Atendido: TMenuItem;
+    ACTCliente_Cadastro_Listagem: TAction;
+    MIRelCliente_Grupo_Venda_Produto: TMenuItem;
+    N19: TMenuItem;
+    ACTCliente_Grupo_Venda_Produto: TAction;
+    MIRelProduto_Estoque_Etiqueta: TMenuItem;
+    ACTPRO_FCT: TAction;
+    MIRelFinanceiro_Cadastros_Duplicata: TMenuItem;
+    ACTFinanceiro_Cadastros_Duplicata: TAction;
+    ACTRepresentante_Cadastro_Listagem: TAction;
+    MIRelProduto_Tabela_Preco: TMenuItem;
+    ACTProduto_Tabela_Preco: TAction;
+    MIRelGerencial_Tipo_Credito: TMenuItem;
+    MIRelGerencial_Tipo_Venda: TMenuItem;
+    MIRelGerencial_N1: TMenuItem;
+    MIRelGerencial_Estoque_Unidade_Medida: TMenuItem;
+    ACTGerencial_Estoque_Unidade_Medida: TAction;
+    ACTGerencial_Tipo_Venda: TAction;
+    N24: TMenuItem;
+    MIRelGerencial_NF_Tipo_Operacao: TMenuItem;
+    MIRelGerencial_NF_Peso: TMenuItem;
+    ACTGerencial_NF_Tipo_Operacao: TAction;
+    ACTGerencial_NF_Peso: TAction;
+    MIRelGerencial_Performance_Venda: TMenuItem;
+    N25: TMenuItem;
+    ACTGerencial_Performance_Venda: TAction;
+    MIRelProduto_Venda_Inativo: TMenuItem;
+    ACTProduto_Venda_Inativo: TAction;
+    MIRelProduto_Venda_Mensal: TMenuItem;
+    N28: TMenuItem;
+    ACTProduto_Venda_Mensal: TAction;
+    MIRelProduto_Venda_Localidade: TMenuItem;
+    ACTProduto_Venda_Regiao_Nacional: TAction;
+    MIProduto_Venda_Regiao_UF: TMenuItem;
+    MIProduto_Venda_Regiao_Nacional: TMenuItem;
+    ACTProduto_Venda_Regiao_UF: TAction;
+    Fornecedores1: TMenuItem;
+    MIRelFornecedoresCPCAD: TMenuItem;
+    ACTGFornecedoresProdutosCadastrados: TAction;
     MPEstoque: TMenuItem;
-    MICAD_PRO_EST_ETQ: TMenuItem;
-    SNEstoque1: TMenuItem;
-    MICAD_PRO_EST_LCT: TMenuItem;
-    MICAD_PRO_EST_ADM: TMenuItem;
-    SNEstoque2: TMenuItem;
-    MICAD_PRO_EST_EXP_COL: TMenuItem;
-    MICAD_PRO_EST_EXP_MAN: TMenuItem;
-    SNEstoque3: TMenuItem;
-    MICAD_PRO_EST_DEF: TMenuItem;
-    MPCompras: TMenuItem;
-    MIPED_PDC_ADM: TMenuItem;
-    MIPED_PDC_CUSTO: TMenuItem;
-    MPVendas: TMenuItem;
-    MIPED_PDP_ADM: TMenuItem;
-    NPVendas: TMenuItem;
-    MIPED_PDV_ADM: TMenuItem;
-    MIPED_RDV_ADM: TMenuItem;
-    MPFiscal: TMenuItem;
-    MIFIS_NFE_EDI_TER: TMenuItem;
-    MIFIS_NFE_ADM: TMenuItem;
-    MPFinanceiro: TMenuItem;
-    MIFIN_REC_BAN: TMenuItem;
-    MIFIN_REC_CRT: TMenuItem;
-    SNRecebimentos: TMenuItem;
-    MIFIN_REC_DUP: TMenuItem;
-    MIFIN_REC_BOL: TMenuItem;
-    MIFIN_REC_CHQ: TMenuItem;
-    NPFinanceiro1: TMenuItem;
-    MIFIN_PAG_CMV: TMenuItem;
-    NPFinanceiro2: TMenuItem;
-    MIRecibos: TMenuItem;
-    MIVales: TMenuItem;
-    MPCaixa: TMenuItem;
-    MICAI_ABR_PAD: TMenuItem;
-    MICAI_RAB: TMenuItem;
-    NPCaixa: TMenuItem;
-    MICAI_FEC: TMenuItem;
-    NPCaixa2: TMenuItem;
-    MICAI_LSS: TMenuItem;
-    MCAI_TSS: TMenuItem;
-    NPCaixa3: TMenuItem;
-    MICAI_FLC: TMenuItem;
-    MPRelatorios: TMenuItem;
-    MPTabelas: TMenuItem;
-    MINFCFOP: TMenuItem;
-    MIPrazos: TMenuItem;
-    MPUtilitarios: TMenuItem;
-    MIUsuarios: TMenuItem;
-    MILogin: TMenuItem;
-    MIPassword: TMenuItem;
-    NPUtilitarios3: TMenuItem;
-    MIHOST: TMenuItem;
-    NPUtilitarios4: TMenuItem;
-    MIPrinters: TMenuItem;
-    MISistema: TMenuItem;
-    NPUtilitarios5: TMenuItem;
-    MIBackup: TMenuItem;
-    MPSheild: TMenuItem;
-    MIComissao: TMenuItem;
-    estedemesa1: TMenuItem;
-    MPSistema: TMenuItem;
-    MIMU_ABOUT: TMenuItem;
-    ACTCAD_CLI_ADM: TAction;
-    ACTCAD_FOR_ADM: TAction;
-    ACTCAD_REP_ADM: TAction;
-    ACTCAD_TRA_ADM: TAction;
-    ACTCAD_PRO_GRD_EST: TAction;
-    ACTCAD_PRO_COL: TAction;
-    ACTCAD_PRO_SEG: TAction;
-    ACTCAD_PRO_GRP: TAction;
-    ACTCAD_PRO_SGP: TAction;
-    ACTCAD_PRO_CAT: TAction;
-    ACTCAD_PRO_SCT: TAction;
-    ACTCAD_PRO_EST_DEF: TAction;
-    ACTPED_PDP_ADM: TAction;
-    ACTTAB_PRZ: TAction;
-    ACTTAB_CFOP: TAction;
-    ACTFIS_NFE_EDI_TER: TAction;
-    RSBTAB_CFOP: TRxSpeedButton;
-    ACTCAD_CTNR_ADM: TAction;
+    MIEST_N2: TMenuItem;
+    MIEST_QUA: TMenuItem;
+    MITAB_N5: TMenuItem;
+    ACTEST_QUA: TAction;
+    MIRelCliente_Produto_Nao_Atendido: TMenuItem;
+    ACTCliente_Produto_Nao_Atendido: TAction;
+    N22: TMenuItem;
+    ACTNotaFiscal: TAction;
+    ACTNFE_PSQ: TAction;
+    ACTEXP_COL: TAction;
+    ACTPagamentos: TAction;
+    ACTExecPrinter: TAction;
+    ACTNFE_LAN_TER: TAction;
+    MIEXP_MAN: TMenuItem;
+    ACTDSP_CTNR: TAction;
+    MIFIN_N4: TMenuItem;
+    MIEXP_COL: TMenuItem;
+    ACTSaida: TAction;
+    MIEST_ETQ: TMenuItem;
+    MIEST_N1: TMenuItem;
+    PNLPrincipal: TPanel;
+    RSBClientes: TRxSpeedButton;
+    RSBRepresentantes: TRxSpeedButton;
+    RSBTransportadoras: TRxSpeedButton;
+    RSBFornecedores: TRxSpeedButton;
+    ACTCompras: TAction;
+    ACTProgramados: TAction;
+    RSBContainers: TRxSpeedButton;
+    RSBCustos: TRxSpeedButton;
+    RSBProdutos: TRxSpeedButton;
+    RSBGrade: TRxSpeedButton;
+    RSBEST_LAN: TRxSpeedButton;
+    RSBEstoque: TRxSpeedButton;
+    RSBEST_ETQ: TRxSpeedButton;
+    RSBEST_DEF: TRxSpeedButton;
+    RSBEXP_COL: TRxSpeedButton;
+    RSBEXP_MAN: TRxSpeedButton;
+    RSBCOM_LAN: TRxSpeedButton;
+    RSBCompras: TRxSpeedButton;
+    RSBPRG_LAN: TRxSpeedButton;
+    RSBProgramados: TRxSpeedButton;
+    RSBVEN_LAN: TRxSpeedButton;
+    RSBPedidos: TRxSpeedButton;
+    RSBRomaneios: TRxSpeedButton;
+    RSBTAB_PRZ: TRxSpeedButton;
+    RSBNFE_LAN: TRxSpeedButton;
+    RSBNotaFiscal: TRxSpeedButton;
+    RSBNFE_LAN_TER: TRxSpeedButton;
+    RSBTAB_NAT: TRxSpeedButton;
+    esteCompras1: TMenuItem;
+    MICAD_N2: TMenuItem;
     MPProdutos: TMenuItem;
-    MICAD_PRO_ADM: TMenuItem;
-    N2: TMenuItem;
-    MICAD_PRO_GRD_COR: TMenuItem;
-    MICAD_PRO_GRD_EST: TMenuItem;
-    N3: TMenuItem;
-    MICAD_PRO_COL: TMenuItem;
-    MICAD_PRO_SEG: TMenuItem;
-    N4: TMenuItem;
-    MICAD_PRO_GRP: TMenuItem;
-    MICAD_PRO_SGP: TMenuItem;
-    N6: TMenuItem;
-    MICAD_PRO_CAT: TMenuItem;
-    MICAD_PRO_SCT: TMenuItem;
-    ACTPED_PDC_CUSTO: TAction;
-    ACTFIN_REC_BAN: TAction;
-    ACTFIN_REC_CRT: TAction;
-    ACTFIN_REC_DUP: TAction;
-    ACTFIN_PAG_CMV: TAction;
-    N7: TMenuItem;
-    MIPED_PDV_CLT: TMenuItem;
-    ACTFIN_PAG_ADM: TAction;
-    N8: TMenuItem;
-    RSBCAD_PRO_GRD_COR: TRxSpeedButton;
-    RSBCAD_PRO_EST_LCT: TRxSpeedButton;
-    RSBFIS_NFE_LCT: TRxSpeedButton;
-    ACTFIS_NFE_LCT: TAction;
-    MIREL_PRODUTO: TMenuItem;
-    MIREL_N1: TMenuItem;
-    MIREL_CLIENTE: TMenuItem;
-    MIREL_REPRESENTANTE: TMenuItem;
-    MIREL_VENDEDOR: TMenuItem;
-    MIREL_N3: TMenuItem;
-    MIREL_FORNECEDOR: TMenuItem;
-    MIREL_FINANCEIRO: TMenuItem;
-    MIREL_GER: TMenuItem;
-    MIREL_FISCAL: TMenuItem;
-    MIREL_N2: TMenuItem;
-    MIREL_N5: TMenuItem;
-    MIREL_N7: TMenuItem;
-    MIREL_N6: TMenuItem;
-    MIREL_N4: TMenuItem;
-    MIREL_GER_N1: TMenuItem;
-    MIREL_GER_N2: TMenuItem;
-    MIREL_GER_PDV_CRD: TMenuItem;
-    ACTREL_GER_EST_PRO: TAction;
-    MIREL_GER_EST_PRO: TMenuItem;
-    ACTREL_GER_FIS_CFOP: TAction;
-    ACTREL_GER_FIS_PESO: TAction;
-    MIREL_GER_FIS_CFOP: TMenuItem;
-    ACTREL_GER_EST_INV: TAction;
-    MIREL_GER_EST_INV: TMenuItem;
-    MIREL_GER_PDV_TPO: TMenuItem;
-    ACTREL_GER_PDV_TPO: TAction;
-    MIREL_GER_FIS_PESO: TMenuItem;
-
-    procedure _DoneEvent(Sender: TObject);
-
+    MICAD_PRO: TMenuItem;
+    MIPRO_N1: TMenuItem;
+    MITAB_COR: TMenuItem;
+    MITAB_GRD: TMenuItem;
+    MIPRO_N2: TMenuItem;
+    MIPRO_ETQ: TMenuItem;
+    MIPRO_FCT: TMenuItem;
+    MIPRO_N3: TMenuItem;
+    MITAB_SEG: TMenuItem;
+    MITAB_COL: TMenuItem;
+    MIPRO_N4: TMenuItem;
+    MITAB_GRP: TMenuItem;
+    MITAB_SGP: TMenuItem;
+    MIPRO_N5: TMenuItem;
+    MITAB_CAT: TMenuItem;
+    MITAB_SCT: TMenuItem;
+    MITAB_N1: TMenuItem;
+    MITAB_COB: TMenuItem;
+    MITAB_PED: TMenuItem;
+    MITAB_N2: TMenuItem;
+    MITAB_NCM: TMenuItem;
+    MITAB_UCOM: TMenuItem;
+    MITAB_CMUN: TMenuItem;
+    MITAB_ICMS: TMenuItem;
+    MICOM_LAN: TMenuItem;
+    MPContainers: TMenuItem;
+    MICAD_CTNR: TMenuItem;
+    MPProgramados: TMenuItem;
+    MIPRG_LAN: TMenuItem;
+    MIProgramados: TMenuItem;
+    MIPED_LAN: TMenuItem;
+    MIPedidos: TMenuItem;
+    MPRomaneios: TMenuItem;
+    MIROM_LAN: TMenuItem;
+    MIRomaneios: TMenuItem;
+    MIFIN_N1: TMenuItem;
+    MPExpedicao: TMenuItem;
+    MPCupomFiscal: TMenuItem;
+    MICFE_LAN: TMenuItem;
+    MICupomFiscal: TMenuItem;
+    MICAD_VEN: TMenuItem;
+    ImageList1: TImageList;
+    ACTCupomFiscal: TAction;
+    ACTPedidos: TAction;
+    ACTTAB_GRD_EST: TAction;
+    ACTFIN_REC_BOL: TAction;
+    ACTCHQ_LAN: TAction;
+    ACTCheques: TAction;
+    MPCheques: TMenuItem;
+    MICHQ_LAN: TMenuItem;
+    ACTROM_LAN: TAction;
+    MINFE_N2: TMenuItem;
+    MI: TMenuItem;
+    ACTCAD_VEN: TAction;
+    ACTCAD_COM: TAction;
+    ACTNFE_SAI_LAN: TAction;
+    ACTNFE_SAI: TAction;
+    ACTFIN_REC_IBB: TAction;
+    ACTFIN_CAL_VCT: TAction;
+    ACTFIN_EMI_REC: TAction;
+    ACTFIN_EMI_VFU: TAction;
+    MIFIN_N2: TMenuItem;
+    ACTTAB_COB: TAction;
+    ACTTAB_PED: TAction;
+    ACTTAB_NCM: TAction;
+    ACTTAB_UCOM: TAction;
+    ACTTAB_CMUN: TAction;
+    ACTTAB_ICMS: TAction;
+    ACTTAB_ICMS_ST: TAction;
+    ACTTAB_ORI: TAction;
+    AMRelatorios: TActionManager;
+    ACRCOM_POR_ITEM_PED: TAction;
+    ACTCOM_POR_ITEM_PED: TAction;
     procedure FormCreate(Sender: TObject);
-    procedure FormShow(Sender: TObject);
-    procedure FormActivate(Sender: TObject);
-    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure ACTClientesExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure FormPaint(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure FormShow(Sender: TObject);
+    procedure ACTRepresentantesExecute(Sender: TObject);
+    procedure ACTTransportadorasExecute(Sender: TObject);
+    procedure ACTFornecedoresExecute(Sender: TObject);
+    procedure ACTEST_LANExecute(Sender: TObject);
+    procedure ACTEstoqueExecute(Sender: TObject);
+    procedure ACTLoginExecute(Sender: TObject);
+    procedure ACTPrintersExecute(Sender: TObject);
+    procedure ACTHELPExecute(Sender: TObject);
     procedure FormResize(Sender: TObject);
+    procedure ACTCAI_FLCExecute(Sender: TObject);
+    procedure ACTEXP_MANExecute(Sender: TObject);
+    procedure FormPaint(Sender: TObject);
+    procedure ACTRomaneiosExecute(Sender: TObject);
+    procedure ACTTAB_CATExecute(Sender: TObject);
+    procedure ACTCAI_ABRExecute(Sender: TObject);
+    procedure ACTCAI_SSPExecute(Sender: TObject);
+    procedure ACTCAI_FECExecute(Sender: TObject);
+    procedure ACTFIN_REC_DUPExecute(Sender: TObject);
+    procedure ACTFIN_REC_CARExecute(Sender: TObject);
+    procedure ACTFIN_REC_BANExecute(Sender: TObject);
+    procedure ACTCAI_RABExecute(Sender: TObject);
+    procedure ACTEST_ETQExecute(Sender: TObject);
+    procedure ACTCAD_CTNRExecute(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure TTempoTimer(Sender: TObject);
+    procedure ACTRelatoriosExecute(Sender: TObject);
+    procedure ACTEmConstrucaoExecute(Sender: TObject);
+    procedure ACTPRO_ETQExecute(Sender: TObject);
+    procedure ACTProdutosExecute(Sender: TObject);
+    procedure ACTFIN_PAG_CMVExecute(Sender: TObject);
+    procedure ACTPasswordExecute(Sender: TObject);
+    procedure ACTCFE_LANExecute(Sender: TObject);
+    procedure ACTTAB_GRPExecute(Sender: TObject);
+    procedure ACTTAB_SEGExecute(Sender: TObject);
+    procedure ACTTAB_SGPExecute(Sender: TObject);
+    procedure ACTTAB_SCTExecute(Sender: TObject);
+    procedure ACTTAB_GRD_CORExecute(Sender: TObject);
+    procedure ACTExecPrinterExecute(Sender: TObject);
+    procedure MIComissaoClick(Sender: TObject);
+    procedure ACTCOM_LANExecute(Sender: TObject);
+    procedure ACTPRG_LANExecute(Sender: TObject);
+    procedure ACTEST_QUAExecute(Sender: TObject);
+    procedure MIRelProdutosProgClick(Sender: TObject);
+    procedure ACTNFE_LAN_TERExecute(Sender: TObject);
+    procedure ACTEXP_COLExecute(Sender: TObject);
+    procedure ACTDSP_CTNRExecute(Sender: TObject);
+    procedure ACTSaidaExecute(Sender: TObject);
     procedure FormMouseMove(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
-    procedure TPrincipalTimer(Sender: TObject);
-
-    { Menu Principal }
-    procedure ACTMP_ABOUTExecute(Sender: TObject);
-    procedure ACTMP_SAIDAExecute(Sender: TObject);
-
-    { Admin }
-    procedure ACTADM_DENIEDExecute(Sender: TObject);
-    procedure ACTADM_PARAMETROSExecute(Sender: TObject);
-    procedure ACTADM_BACKUPExecute(Sender: TObject);
-    procedure ACTADM_COMISSAOExecute(Sender: TObject);
-
-    { Usuários }
-    procedure ACTUSER_LOGINExecute(Sender: TObject);
-    procedure ACTUSER_PASSWORDExecute(Sender: TObject);
-    procedure ACTUSER_LOGINUpdate(Sender: TObject);
-    
-    procedure ACTCAI_ABR_PADExecute(Sender: TObject);
-    procedure ACTCAI_ABR_FSTExecute(Sender: TObject);
-    procedure ACTCAI_FECExecute(Sender: TObject);
-    procedure ACTCAI_RABExecute(Sender: TObject);
-    procedure ACTCAI_LSSExecute(Sender: TObject);
-    procedure ACTCAI_TSSExecute(Sender: TObject);
-    procedure ACTCAI_FLCExecute(Sender: TObject);
-    procedure ACTPRN_ADMExecute(Sender: TObject);
-    procedure ACTPRN_EXEExecute(Sender: TObject);
-    procedure ACTRelatoriosExecute(Sender: TObject);
-    
-    procedure ACTMU_FIS_NFE_PSQExecute(Sender: TObject);
-    procedure ACTMU_FIS_NFE_SAIExecute(Sender: TObject);
-    procedure ACTMU_FIS_CFE_EDTExecute(Sender: TObject);
-    procedure ACTMU_EtiquetasExecute(Sender: TObject);
-    procedure ACTMU_USER_LOGINExecute(Sender: TObject);
-    procedure ACTMU_USER_PASSWORDExecute(Sender: TObject);
-    procedure ACTMU_ABOUTExecute(Sender: TObject);
-    procedure ACTMU_SAIDAExecute(Sender: TObject);
-    procedure ACTCAD_CLI_ADMExecute(Sender: TObject);
-    procedure ACTCAD_FOR_ADMExecute(Sender: TObject);
-    procedure ACTCAD_REP_ADMExecute(Sender: TObject);
-    procedure ACTCAD_TRA_ADMExecute(Sender: TObject);
-    procedure ACTCAD_PRO_ADMExecute(Sender: TObject);
-    procedure ACTCAD_PRO_GRD_CORExecute(Sender: TObject);
-    procedure ACTCAD_PRO_GRD_ESTExecute(Sender: TObject);
-    procedure ACTCAD_PRO_COLExecute(Sender: TObject);
-    procedure ACTCAD_PRO_SEGExecute(Sender: TObject);
-    procedure ACTCAD_PRO_GRPExecute(Sender: TObject);
-    procedure ACTCAD_PRO_SGPExecute(Sender: TObject);
-    procedure ACTCAD_PRO_CATExecute(Sender: TObject);
-    procedure ACTCAD_PRO_SCTExecute(Sender: TObject);
-    procedure ACTCAD_PRO_EST_ADMExecute(Sender: TObject);
-    procedure ACTCAD_PRO_EST_LCTExecute(Sender: TObject);
-    procedure ACTCAD_PRO_EST_ETQExecute(Sender: TObject);
-    procedure ACTCAD_PRO_EST_DEFExecute(Sender: TObject);
-    procedure ACTCAD_PRO_EST_EXP_COLExecute(Sender: TObject);
-    procedure ACTCAD_PRO_EST_EXP_MANExecute(Sender: TObject);
-    procedure ACTPED_PDC_ADMExecute(Sender: TObject);
-    procedure ACTPED_PDP_ADMExecute(Sender: TObject);
-    procedure ACTPED_PDV_ADMExecute(Sender: TObject);
-    procedure ACTPED_RDV_ADMExecute(Sender: TObject);
-    procedure ACTPED_PDV_CLTExecute(Sender: TObject);
     procedure ACTTAB_PRZExecute(Sender: TObject);
-    procedure ACTTAB_CFOPExecute(Sender: TObject);
-    procedure ACTFIS_NFE_ADMExecute(Sender: TObject);
-    procedure ACTFIS_NFE_EDI_TERExecute(Sender: TObject);
-    procedure ACTCAD_CTNR_ADMExecute(Sender: TObject);
-    procedure ACTPED_PDC_CUSTOExecute(Sender: TObject);
-    procedure ACTFIN_REC_BANExecute(Sender: TObject);
-    procedure ACTFIN_REC_CRTExecute(Sender: TObject);
-    procedure ACTFIN_REC_DUPExecute(Sender: TObject);
-    procedure ACTFIN_PAG_CMVExecute(Sender: TObject);
-    procedure ACTFIS_NFE_LCTExecute(Sender: TObject);
-    procedure ACTREL_GER_PDV_TPOExecute(Sender: TObject);
-
+    procedure ACTPedidosExecute(Sender: TObject);
+    procedure ACTTAB_GRD_ESTExecute(Sender: TObject);
+    procedure ACTTAB_COLExecute(Sender: TObject);
+    procedure ACTCAD_VENExecute(Sender: TObject);
+    procedure ACTCAD_COMExecute(Sender: TObject);
+    procedure ACTComprasExecute(Sender: TObject);
+    procedure ACTProgramadosExecute(Sender: TObject);
+    procedure ACTPED_LANExecute(Sender: TObject);
+    procedure ACTROM_LANExecute(Sender: TObject);
+    procedure ACTNFE_SAI_LANExecute(Sender: TObject);
+    procedure ACTNFE_SAIExecute(Sender: TObject);
+    procedure ACTNFE_LANExecute(Sender: TObject);
+    procedure ACTNotaFiscalExecute(Sender: TObject);
+    procedure ACTNFE_PSQExecute(Sender: TObject);
+    procedure ACTTAB_NATExecute(Sender: TObject);
+    procedure ACTCupomFiscalExecute(Sender: TObject);
+    procedure ACTFIN_REC_BOLExecute(Sender: TObject);
+    procedure ACTFIN_REC_IBBExecute(Sender: TObject);
+    procedure ACTFIN_CAL_VCTExecute(Sender: TObject);
+    procedure ACTFIN_EMI_RECExecute(Sender: TObject);
+    procedure ACTFIN_EMI_VFUExecute(Sender: TObject);
+    procedure ACTPagamentosExecute(Sender: TObject);
+    procedure ACTCHQ_LANExecute(Sender: TObject);
+    procedure ACTChequesExecute(Sender: TObject);
+    procedure ACTTAB_SSPExecute(Sender: TObject);
+    procedure ACTTAB_COBExecute(Sender: TObject);
+    procedure ACTTAB_PEDExecute(Sender: TObject);
+    procedure ACTTAB_NCMExecute(Sender: TObject);
+    procedure ACTTAB_UCOMExecute(Sender: TObject);
+    procedure ACTTAB_CMUNExecute(Sender: TObject);
+    procedure ACTTAB_ICMSExecute(Sender: TObject);
+    procedure ACTTAB_ICMS_STExecute(Sender: TObject);
+    procedure ACTTAB_ORIExecute(Sender: TObject);
+    procedure ACRCOM_POR_ITEM_PEDExecute(Sender: TObject);
   private
     { Private declarations }
-    AREC_SHE_DEF: TREC_SHE_DEF;
-    
-    procedure _USER_LOGIN(AIDUSER: Variant; AIDEP,ADEEP: String);
+    procedure _Aviso_Reserva;
+    procedure _TrimAppMemorySize;
+    procedure _Login(AIDUSER: Variant; AIDEP,ADEEP: String);
 
     procedure _SetHintDefault;
     procedure _SetMouseLeave(var AMessage: TMessage); message WM_MOUSELEAVE;
     function  _SetMouseTracking: Boolean;
-
-    procedure _Aviso_Reserva;
   public
     { Public declarations }
   end;
 
-{ MAIN PROCEDURES }
-procedure uSP_CAD_PRO_EST_LAN_UPD (ATHR_TB_PK: String;
-                                   ATHR_EP_ID,
-                                   ATHR_PK_ID: Variant;
-
-                                   FTHR_EP_ID,
-                                   FTHR_PK_ID,
-                                   FTHR_CP_ID: String); STDCALL;
-
-{ OLD PROCEDURE }
-procedure uConstrucao(ACaption: String = ''); STDCall;
-procedure uFrmCreate(AOwner: TComponent;AFClass: TFormClass; var AInstance); STDCall;
-
-procedure uPSQ_CAD_PAD(var AREC_SHE_DEF: TREC_SHE_DEF); STDCALL;
-procedure uPSQ_CAD_PRO(var AREC_SHE_PSQ: TREC_SHE_PSQ); STDCALL;
-
+{ procedures do Sistema }
 procedure uPSQCAD(var ARECPedido : TRECPedidos); STDCall; { Cadastros: Clientes, Fornecedores, Transportadoras, Compradores, Vendedores, Representantes e Agenda; }
 procedure uPSQEND(var ARECEndereco: TRECPedidos;AForceShowModal: Boolean = False); STDCall;
 procedure uPSQCMUN(var RECEndereco: TRECPedidos); STDCall;
@@ -419,8 +486,11 @@ procedure uPSQNF (var ARECPSQNF : TRECEdicao;ASQLConsulta: TIBSQL;AWinControl: T
 
 procedure uPSQLogradouros(var ARECEndereco: TRECEnderecos); STDCall;
 
-procedure uPSQSCORE(ATForm: TForm; AIDPK: Variant; ADEPK: String); STDCall;
+procedure uPesquisa(var RECPrincipal: TRECPrincipal); STDCall;
+procedure uPSQSCORE(ATForm: TForm;AIDCadastro,ADECadastro: Variant); STDCall;
 procedure uLiberaFinanceiro; STDCall;
+procedure uEmConstrucao(ACaption: String = ''); STDCall;
+procedure uFrmCreate(AOwner: TComponent;AFClass: TFormClass; var AInstance); STDCall;
 procedure uBXPedidos(AaIDPedido: array of Integer; ABSheildEdicao: Boolean = False); STDCall;
 procedure uBX_DUP(AEmpresa,ANotaFiscal,AIDRomaneio: Variant); STDCall;
 procedure uBxCaixa(AIDPedido: Integer); STDCAll;
@@ -440,14 +510,7 @@ function uFIN_BLQ(ASTCobranca,ASTFatura,AIDCliente: String): String; STDCall;
 function uLimiteVenda(ASTCobranca,ASTFatura,AIDCliente: String;ATotal: Double): string; STDCall;
 
 var
-  FrmPrincipal: TFrmPrincipal;
-
-  ATrackMouseEvent: TTrackMouseEvent;
-  ATHR_ITEM: LongInt;
-  ATHR_SYNC: String;
-
-
-  //***** RICARDO - TENPORÁRIO *****/
+  FrmPrincipal  : TFrmPrincipal;
   DATA_MEDIA    : TDate;
   ITENS_PEDIDO,
   ITENS_BANCARIO,
@@ -456,475 +519,45 @@ var
   VALOR_SALDO,
   VALOR_BANCARIO,
   VALOR_CARTEIRA: Double;
-
-  APSQ_CAD_PAD,
-  APSQ_CAD_ADC,
-  APSQ_CAD_PRD,
-
-  APSQ_PDV_PAD,
-  APSQ_PDV_ADC,
-  APSQ_PDV_PRD,
-
-  APSQ_PED_PDC,
-  APSQ_PED_PDP,
-  APSQ_PED_PDV,
-  APSQ_PED_RDV,
-
-  APSQ_FIS_NFE,
-  APSQ_FIN_REC: String;
-
-  APSQ_CAD,
-  APSQ_CAD_FOR,
-  APSQ_CAD_REP,
-  APSQ_CAD_TRA: String;
-
+  ATrackMouseEvent: TTrackMouseEvent;
+  APSQ_PED_PRG,APSQ_PED_VEN,APSQ_ROM_CAB: String;
 
 implementation
 
 uses bPrincipal,
-  pSobre, pLogin, psenha, pImpressoras, pProduto, pPSQEND,
-  pPSQCAD, pPesquisaCodigoMunicipal, pPesquisaLogradouros, 
-  pcad_cli_inf, pPSQ_CAD_PAD, pProduto_Imagem, pProduto_Pesquisa,
-  pConsultaCNPJ, pcai_abr, pcai_fec, pcai_sar, pcai_mov, pProduto_Cor, pProduto_Grupo,
-  pProduto_SubGrupo, pProduto_Categoria, pProduto_SubCategoria, pctr_ped,
-  pctr_rom, pNFeConsulta, pNFeSaida, pNFeSaidaConsulta, pEtiqueta_Geral,
-  pEstoque, pent_pro, peti_pro, pEstoqueDefeitos, pEXP_SEP_COL,
-  pEXP_SEP_MAN, pctr_prc, pctr_prg, ptab_nat, ptab_pag, pctr_nfe, pven_nfd,
-  pcad_con, pProduto_Custo_Importado, pfin_rec_con, pfin_dup, ppag_com,
-  pProduto_Segmento, pCAD_PRO_PSQ, pven_nfe, pcad_cli, pcad_rep, pcad_for,
-  pcad_tra, pAviso_Reserva, pRelatorios, pConstrucao;
+  AJBarcode,
+  pLogin, pcad_cli, pSobre,
+  pcad_rep, pcad_tra, pcad_for,
+  ptab_nat, ptab_pag,
+  pent_pro,
+  pcai_abr, pcai_mov,
+  pven_prg, pctr_prg, pctr_ped,
+  pctr_rom, pctr_nfe,
+  pcai_sar, pcai_fec,
+  pven_prc, pctr_prc,
+  pven_nfd, pcad_con,
+  pcai_sar_edi, ppesquisa_geral,
+  pfin_rec_con, petiqueta_geral,
+  pEmConstrucao, pRelatorios, pcad_cli_inf, pSenha, pImpressoras,
+  pPesquisa, pNFeConsulta, pemail, pven_nfe,
+  pConsultaCNPJ, pCFeSat,
+  peti_pro, pNFeSaida,
+  pNFeSaidaConsulta,
+  pProduto_Custo_Importado,pProduto_Custo_Importado_Edicao,
+  pAviso_Reserva, pProduto_SubCategoria,pProduto_Grupo,
+  pProduto_SubGrupo, pProduto_Categoria,
+  pPesquisaCodigoMunicipal, pProduto_Cor, pProduto_Imagem, pfin_dup,
+  ppag_com, pProduto, pNFeConsultaSefaz,
+  pPesquisaLogradouros, pEstoqueDefeitos,
+  prelatorio_geral, pProduto_Pesquisa, pPSQCAD,
+  pSegmentos, pEstoque, pPSQEND, peti_pro_new, pNFeSaida_NEW,
+  pEXP_PED_SEP_MAN, pEXP_PED_SEP_COL, pven_ped;
 
 {$R *.dfm}
 
-function ClientWindowProc(wnd: HWND; msg: Cardinal; wparam, lparam: Integer ): Integer; STDCall;
-var
-  Ponteiro: Pointer;
+procedure uEmConstrucao(ACaption: String = ''); STDCall;
 begin
-  Ponteiro := Nil;
-  Result   := 0;
-  try
-    Ponteiro := Pointer(GetWindowLong(wnd,GWL_USERDATA));
-    case msg of
-         WM_NCCALCSIZE: if (GetWindowLong(wnd,GWL_STYLE) and (WS_HSCROLL or WS_VSCROLL)) <> 0 then
-                            SetWindowLong(wnd,GWL_STYLE,GetWindowLong(wnd,GWL_STYLE) and Not (WS_HSCROLL or WS_VSCROLL or WS_CAPTION));
-    end;
-    Result := CallWindowProc(Ponteiro,wnd,msg,wparam,lparam);
-  except
-    ;
-  end;
-end;
-
-procedure uSP_CAD_PRO_EST_LAN_UPD (ATHR_TB_PK: String;
-                                   ATHR_EP_ID,
-                                   ATHR_PK_ID: Variant;
-
-                                   FTHR_EP_ID,
-                                   FTHR_PK_ID,
-                                   FTHR_CP_ID: String); STDCALL;
-var
-  Thread: TRunProcessThread;
-begin
-  if (ATHR_TB_PK <> EmptyStr) and (ATHR_EP_ID <> EmptyStr)  and (ATHR_PK_ID <> EmptyStr) then
-
-  with FrmPrincipal do
-  begin
-    Thread := TRunProcessThread.Create(ATHR_TB_PK,
-                                       ATHR_EP_ID,
-                                       ATHR_PK_ID,
-
-                                       FTHR_EP_ID,
-                                       FTHR_PK_ID,
-                                       FTHR_CP_ID);
-
-    Thread.OnTerminate := _DoneEvent;
-    Thread.Priority    := tpTimeCritical;
-    Thread.Resume;
-  end;
-end;
-
-constructor TRunProcessThread.Create(const ATB_PK: String;
-                                           AEP_ID,
-                                           APK_ID: Variant;
-
-                                           FEP_ID,
-                                           FPK_ID,
-                                           FCP_ID: String);
-
-begin
-  inherited Create(True);
-
-  FreeOnTerminate := True;
-
-  ATHR_TB_PK := ATB_PK;
-  ATHR_EP_ID := AEP_ID;
-  ATHR_PK_ID := APK_ID;
-
-  FTHR_EP_ID := FEP_ID;
-  FTHR_PK_ID := FPK_ID;
-  FTHR_CP_ID := FCP_ID;
-
-  oCTransact(FBird.TFBEdicao);
-  oOTransact(FBird.TFBEdicao);
-end;
-
-destructor TRunProcessThread.Destroy;
-  var i: Word;
-begin
-  ATHR_ITEM := 0;
-
-  with FrmPrincipal do
-  for i := MDIChildCount - 1 downto 0 do
-  if MDIChildren[i] <> Nil then
-     MDIChildren[i].Repaint;
-
-  oCTransact(FBird.TFBEdicao);
-  inherited;
-end;
-
-procedure TRunProcessThread.SyncEvent;
-begin
-  if   ATHR_ITEM > 1 then
-  with Frmprincipal do
-  begin
-    PNLSynchronize.Caption := ATHR_SYNC;
-    PNLSynchronize.Refresh;
-
-    PNLRodape.Height := 75;
-    PNLRodape.Refresh;
-
-    GFSynchronize.Animate := True;
-  end
-end;
-
-procedure TRunProcessThread.Execute;
-begin
-  inherited;
-  with FrmPrincipal do
-  try
-    ATHR_ITEM := 0;
-    ATHR_SYNC := EmptyStr;
-
-    with FBird.SQLFBEdicao do
-    begin
-      Close;
-      SQL.Clear;
-      SQL.Add('SELECT CP.CP_ID,CP.SKU');
-
-      SQL.Add('FROM ' + ATHR_TB_PK + ' AS PK');
-      SQL.Add('JOIN CAD_PRO AS CP ON (CP.CP_ID = PK.' + FTHR_CP_ID + ')');
-
-      SQL.Add('WHERE ' + 'PK.' + FTHR_EP_ID + ' = ''' + ATHR_EP_ID + '''');
-      SQL.Add('AND '   + 'PK.' + FTHR_PK_ID + ' = ''' + ATHR_PK_ID + '''');
-
-      SQL.Add('GROUP BY 1,2');
-      SQL.Add('ORDER BY 2');
-      ExecQuery;
-    end;
-
-    while not FBird.SQLFBEdicao.Eof do
-    begin
-      INC(ATHR_ITEM);
-      ATHR_SYNC := 'Atualizando Estoque ... ' +
-                   'Produto: ' + FBird.SQLFBEdicao.Current.ByName('SKU').AsString;
-
-      Synchronize(SyncEvent);
-
-      FBird.SPFBEdicao.Close;
-      FBird.SPFBEdicao.StoredProcName := 'SP_CAD_PRO_EST_LAN';
-      FBird.SPFBEdicao.Prepare;
-
-      FBird.SPFBEdicao.ParamByName('AEP_ID').Value := ATHR_EP_ID;
-      FBird.SPFBEdicao.ParamByName('ACP_ID').Value := FBird.SQLFBEdicao.Current.ByName('CP_ID').AsString;
-      FBird.SPFBEdicao.ParamByName('AIDEV' ).Value := 0;
-      FBird.SPFBEdicao.ExecProc;
-      FBird.SQLFBEdicao.Next;
-    end;
-  except
-    oCTransact(FBird.TFBEdicao,ltRollback);
-  end;
-end;
-
-procedure TFrmPrincipal._DoneEvent(Sender: TObject);
-begin
-  if   ATHR_ITEM > 1 then
-  with Frmprincipal do
-  begin
-    { SINCRONIA }
-    PNLRodape.Height := 25;
-    PNLRodape.Refresh;
-
-    PNLSynchronize.Caption := EmptyStr;
-    PNLSynchronize.Refresh;
-
-    GFSynchronize.Animate := False;
-    GFSynchronize.Refresh;
-
-    Repaint;
-  end;
-end;
-
-procedure uFrmCreate(AOwner: TComponent;AFClass: TFormClass; var AInstance); STDCall;
-begin
-  with FrmPrincipal do
-       if Assigned(TForm(AInstance)) then
-       begin
-         TForm(AInstance).WindowState := wsNormal;
-         TForm(AInstance).BringToFront;
-         TForm(AInstance).SetFocus;
-       end else
-       begin
-         TForm(AInstance) := AFClass.Create(AOwner);
-         if TForm(AInstance).FormStyle = fsNormal then
-            try
-              TForm(AInstance).BorderIcons := [];
-              TForm(AInstance).Visible     := False;
-              TForm(AInstance).ShowModal;
-            finally
-              FreeAndNil(TForm(AInstance));
-            end;
-       end;
-end;
-
-procedure uConstrucao(ACaption: String = ''); STDCall;
-begin
-  FrmConstrucao := TFrmConstrucao.Create(Application,ACaption);
-  FrmConstrucao.Show;
-end;
-
-procedure uPSQ_CAD_PAD(var AREC_SHE_DEF: TREC_SHE_DEF); STDCALL;
-begin
-end;
-
-procedure uPSQ_CAD_PRO(var AREC_SHE_PSQ: TREC_SHE_PSQ); STDCALL;
-begin
-  AREC_SHE_PSQ.PSQ_OK := False;
-
-  if AREC_SHE_PSQ.FWinControl <> Nil then
-  begin
-    if AREC_SHE_PSQ.FWinControl.ClassType = TdxDBGridMaskColumn then
-    AREC_SHE_PSQ.FPoint     := AREC_SHE_PSQ.FWinControl.ClientToScreen(Point(0,0));
-    AREC_SHE_PSQ.PSQ_TFD_PK := EmptyStr;
-    AREC_SHE_PSQ.PSQ_TVD_PK := EmptyStr;
-
-    if AREC_SHE_PSQ.FWinControl.ClassType = TdxEdit then
-    begin
-      AREC_SHE_PSQ.PSQ_TFD_PK := TdxEdit(AREC_SHE_PSQ.FWinControl).HelpKeyword;
-      AREC_SHE_PSQ.PSQ_TVD_PK := TdxEdit(AREC_SHE_PSQ.FWinControl).Text;
-    end else
-
-    if AREC_SHE_PSQ.FWinControl.ClassType = TdxMaskEdit then
-    begin
-      AREC_SHE_PSQ.PSQ_TFD_PK := TdxMaskEdit(AREC_SHE_PSQ.FWinControl).HelpKeyword;
-      AREC_SHE_PSQ.PSQ_TVD_PK := TdxMaskEdit(AREC_SHE_PSQ.FWinControl).Text;
-    end else
-
-    if AREC_SHE_PSQ.FWinControl.ClassType = TdxCurrencyEdit then
-    begin
-      AREC_SHE_PSQ.PSQ_TFD_PK := TdxCurrencyEdit(AREC_SHE_PSQ.FWinControl).HelpKeyword;
-      AREC_SHE_PSQ.PSQ_TVD_PK := TdxCurrencyEdit(AREC_SHE_PSQ.FWinControl).Text;
-    end else
-
-    if AREC_SHE_PSQ.FWinControl.ClassType = TdxButtonEdit then
-    begin
-      AREC_SHE_PSQ.PSQ_TFD_PK := TdxButtonEdit(AREC_SHE_PSQ.FWinControl).HelpKeyword;
-      AREC_SHE_PSQ.PSQ_TVD_PK := TdxButtonEdit(AREC_SHE_PSQ.FWinControl).Text;
-    end else
-
-    if AREC_SHE_PSQ.FWinControl.ClassType = TdxDBGridMaskColumn then
-    begin
-      AREC_SHE_PSQ.PSQ_TFD_PK := TdxDBGridMaskColumn(AREC_SHE_PSQ.FWinControl).FieldName;
-      AREC_SHE_PSQ.PSQ_TVD_PK := TdxDBGridMaskColumn(AREC_SHE_PSQ.FWinControl).Field.AsString;
-    end;
-  end;
-
-  if  (AREC_SHE_PSQ.PSQ_TVD_PK <> EmptyStr) and (AREC_SHE_PSQ.PSQ_TFD_PK <> EmptyStr) then
-  begin
-    AREC_SHE_PSQ.FException := 'Produto não Encontrado !';
-
-    IF Pos('ID',AREC_SHE_PSQ.PSQ_TFD_PK) > 0 then
-    begin
-      AREC_SHE_PSQ.PSQ_WHERE := ' = ';
-      AREC_SHE_PSQ.PSQ_LKPK  := '''';
-      AREC_SHE_PSQ.PSQ_LKFK  := '''';
-    end else
-    begin
-      AREC_SHE_PSQ.PSQ_WHERE := ' LIKE ';
-      AREC_SHE_PSQ.PSQ_LKPK  := '''' ;
-      AREC_SHE_PSQ.PSQ_LKFK  := '%''';
-    end;
-
-    if not AREC_SHE_PSQ.FB_SQL.Transaction.InTransaction then
-    oOTransact(AREC_SHE_PSQ.FB_SQL.Transaction);
-
-    with AREC_SHE_PSQ.FB_SQL do
-    begin
-      Close;
-      SQL.Clear;
-
-      { RECURSIVE INI }
-      SQL.Add('WITH RECURSIVE PK');
-      SQL.Add('AS (');
-
-      SQL.Add('SELECT PK.*');
-      SQL.Add('FROM   VW_PSQ_CAD_PRO AS PK');
-
-      SQL.Add('),'); { RECURSIVE FIM }
-
-      { CTE INI }
-      SQL.Add('CTE_PSQ');
-      SQL.Add('AS (');
-
-      SQL.Add('SELECT PK.* FROM PK');
-      SQL.Add('WHERE ' + AREC_SHE_PSQ.PSQ_TFD_PK + AREC_SHE_PSQ.PSQ_WHERE + AREC_SHE_PSQ.PSQ_LKPK + AREC_SHE_PSQ.PSQ_TVD_PK + AREC_SHE_PSQ.PSQ_LKFK);
-      SQL.Add(')'); { CTE FIM }
-
-      { CTE SELECT }
-      SQL.Add('SELECT DISTINCT PK.*,');
-
-      SQL.Add('       -- Estoque Pronta Entrega');
-      SQL.Add('       COALESCE(CAST(SUM(EF.EPE_QTDE) OVER(PARTITION BY PK.CP_ID) AS NUMERIC(12,2)),0) AS EPE_QTDE,COALESCE(CAST(SUM(EF.EPE_QTRL) OVER(PARTITION BY PK.CP_ID) AS INTEGER),0) AS EPE_QTRL,');
-      SQL.Add('       COALESCE(CAST(SUM(EF.EST_QTDE) OVER(PARTITION BY PK.CP_ID) AS NUMERIC(12,2)),0) AS EST_QTDE,COALESCE(CAST(SUM(EF.EST_QTRL) OVER(PARTITION BY PK.CP_ID) AS INTEGER),0) AS EST_QTRL,');
-
-      SQL.Add('       -- Estoque Antecipado');
-      SQL.Add('       COALESCE(CAST(SUM(EF.EAT_QTDE) OVER(PARTITION BY PK.CP_ID) AS NUMERIC(12,2)),0) AS EAT_QTDE,COALESCE(CAST(SUM(EF.EAT_QTRL) OVER(PARTITION BY PK.CP_ID) AS INTEGER),0) AS EAT_QTRL,');
-
-      SQL.Add('       -- Estoque Revisado');
-      SQL.Add('       COALESCE(CAST(SUM(EF.ERV_QTDE) OVER(PARTITION BY PK.CP_ID) AS NUMERIC(12,2)),0) AS ERV_QTDE,COALESCE(CAST(SUM(EF.ERV_QTRL) OVER(PARTITION BY PK.CP_ID) AS INTEGER),0) AS ERV_QTRL,');
-      SQL.Add('       COALESCE(CAST(SUM(EF.EAA_QTDE) OVER(PARTITION BY PK.CP_ID) AS NUMERIC(12,2)),0) AS EAA_QTDE,COALESCE(CAST(SUM(EF.EAA_QTRL) OVER(PARTITION BY PK.CP_ID) AS INTEGER),0) AS EAA_QTRL,');
-      SQL.Add('       COALESCE(CAST(SUM(EF.EA_QTDE ) OVER(PARTITION BY PK.CP_ID) AS NUMERIC(12,2)),0) AS EA_QTDE ,COALESCE(CAST(SUM(EF.EA_QTRL ) OVER(PARTITION BY PK.CP_ID) AS INTEGER),0) AS EA_QTRL ,');
-      SQL.Add('       COALESCE(CAST(SUM(EF.EB_QTDE ) OVER(PARTITION BY PK.CP_ID) AS NUMERIC(12,2)),0) AS EB_QTDE ,COALESCE(CAST(SUM(EF.EB_QTRL ) OVER(PARTITION BY PK.CP_ID) AS INTEGER),0) AS EB_QTRL ,');
-      SQL.Add('       COALESCE(CAST(SUM(EF.EC_QTDE ) OVER(PARTITION BY PK.CP_ID) AS NUMERIC(12,2)),0) AS EC_QTDE ,COALESCE(CAST(SUM(EF.EC_QTRL ) OVER(PARTITION BY PK.CP_ID) AS INTEGER),0) AS EC_QTRL ,');
-
-      SQL.Add('       -- Pilotagem');
-      SQL.Add('       COALESCE(CAST(SUM(EF.EPI_QTDE) OVER(PARTITION BY PK.CP_ID) AS NUMERIC(12,2)),0) AS EPI_QTDE,COALESCE(CAST(SUM(EF.EPI_QTRL) OVER(PARTITION BY PK.CP_ID) AS INTEGER),0) AS EPI_QTRL,');
-
-      SQL.Add('       -- Estoque Substituto');
-      SQL.Add('       COALESCE(CAST(SUM(EF.ESU_QTDE_ENT) OVER(PARTITION BY PK.CP_ID) AS NUMERIC(12,2)),0) AS ESU_QTDE_ENT,COALESCE(CAST(SUM(EF.ESU_QTRL_ENT) OVER(PARTITION BY PK.CP_ID) AS INTEGER),0) AS ESU_QTRL_ENT,');
-      SQL.Add('       COALESCE(CAST(SUM(EF.ESU_QTDE_SAI) OVER(PARTITION BY PK.CP_ID) AS NUMERIC(12,2)),0) AS ESU_QTDE_SAI,COALESCE(CAST(SUM(EF.ESU_QTRL_SAI) OVER(PARTITION BY PK.CP_ID) AS INTEGER),0) AS ESU_QTRL_SAI,');
-
-      SQL.Add('       -- Compras');
-      SQL.Add('       COALESCE(CAST(SUM(EF.EPC_QTDE) OVER(PARTITION BY PK.CP_ID) AS NUMERIC(12,2)),0) AS EPC_QTDE,COALESCE(CAST(SUM(EF.EPC_QTRL) OVER(PARTITION BY PK.CP_ID) AS INTEGER),0) AS EPC_QTRL,');
-      SQL.Add('       MAX(EF.EPC_CTNR) OVER(PARTITION BY PK.CP_ID) AS EPC_CTNR,');
-
-      SQL.Add('       -- Vendas Programadas');
-      SQL.Add('       COALESCE(CAST(SUM(EF.EPP_QTDE     ) OVER(PARTITION BY PK.CP_ID) AS NUMERIC(12,2)),0) AS EPP_QTDE     ,COALESCE(CAST(SUM(EF.EPP_QTRL     ) OVER(PARTITION BY PK.CP_ID) AS INTEGER),0) AS EPP_QTRL     ,');
-      SQL.Add('       COALESCE(CAST(SUM(EF.EPP_QTDE_CTNR) OVER(PARTITION BY PK.CP_ID) AS NUMERIC(12,2)),0) AS EPP_QTDE_CTNR,COALESCE(CAST(SUM(EF.EPP_QTRL_CTNR) OVER(PARTITION BY PK.CP_ID) AS INTEGER),0) AS EPP_QTRL_CTNR,');
-      SQL.Add('       COALESCE(CAST(SUM(EF.EEP_QTDE     ) OVER(PARTITION BY PK.CP_ID) AS NUMERIC(12,2)),0) AS EEP_QTDE     ,COALESCE(CAST(SUM(EF.EEP_QTRL     ) OVER(PARTITION BY PK.CP_ID) AS INTEGER),0) AS EEP_QTRL     ,');
-
-      SQL.Add('       -- Vendas Pronta Entrega');
-      SQL.Add('       COALESCE(CAST(SUM(EF.EPV_QTDE) OVER(PARTITION BY PK.CP_ID) AS NUMERIC(12,2)),0) AS EPV_QTDE,');
-      SQL.Add('       COALESCE(CAST(SUM(EF.EPV_QTRL) OVER(PARTITION BY PK.CP_ID) AS INTEGER      ),0) AS EPV_QTRL,');
-
-      SQL.Add('       -- Vendas Separadas');
-      SQL.Add('       COALESCE(CAST(SUM(EF.ESP_QTDE) OVER(PARTITION BY PK.CP_ID) AS NUMERIC(12,2)),0) AS ESP_QTDE,');
-      SQL.Add('       COALESCE(CAST(SUM(EF.EPV_QTRL) OVER(PARTITION BY PK.CP_ID) AS INTEGER      ),0) AS ESP_QTRL ');
-
-                                              
-      SQL.Add('FROM     CTE_PSQ AS PK');
-      SQL.Add('LEFT     JOIN VW_PSQ_CAD_PRO_EST_SLD_NEW AS EF ON (EF.CP_ID = PK.CP_ID AND EF.EP_LG = ''' + RECParametros.EP_ID + ''')');
-      SQL.Add('ORDER BY PK.ARTIGO,PK.GRD_NO');
-
-      Prepare;
-      ExecQuery;
-
-      if Eof then
-      if AREC_SHE_PSQ.FWinControl = Nil then
-      oException(Nil,AREC_SHE_PSQ.FException) else
-
-      if AREC_SHE_PSQ.FWinControl.ClassType = TdxDBGridMaskColumn then
-      oException(Nil,AREC_SHE_PSQ.FException) else
-      oException(AREC_SHE_PSQ.FWinControl,AREC_SHE_PSQ.FException) else
-    end;
-
-    if oLast(AREC_SHE_PSQ.FB_SQL) > 1 then
-
-    try
-      if Assigned(FrmCAD_PRO_PSQ) then FrmCAD_PRO_PSQ.BringToFront else
-      begin
-        TFrmCAD_PRO_PSQ._ExecForm(
-
-        Application,    { Owner    }
-        FrmCAD_PRO_PSQ, { Form     }
-        False,      { Pesquisa }
-        fsStayOnTop, { Tipo     }
-
-        0,  { Código Principal }
-        '', { Descrição Principal }
-
-        0,  { Evento Principal }
-        2,  { Tipo   Evento - 0: Copiado    1: Vazio  2: Romaneado }
-        1,  { Código Evento - 0: Triangular 1: Normal 2: Complementar 3: Ajustes 4:Devolução }
-
-        '', { Tabela }
-        AREC_SHE_PSQ.FB_SQL.SQL.GetText { Get }
-        );
-      end;
-
-      if AREC_SHE_PSQ.FWinControl <> Nil then
-      begin
-        FrmCAD_PRO_PSQ.REC_SHE_PSQ.FTop  := AREC_SHE_PSQ.FPoint.Y + AREC_SHE_PSQ.FWinControl.Height;
-        FrmCAD_PRO_PSQ.REC_SHE_PSQ.FLeft := AREC_SHE_PSQ.FPoint.X;
-      end;
-
-      oOTransact(FrmCAD_PRO_PSQ.TConsulta);
-
-      FrmCAD_PRO_PSQ.REC_SHE_PSQ.PSQ_TFD_TP := AREC_SHE_PSQ.PSQ_TFD_TP;
-
-      FrmCAD_PRO_PSQ.Consulta.Close;
-      FrmCAD_PRO_PSQ.Consulta.SQL.Clear;
-      FrmCAD_PRO_PSQ.Consulta.SQL.Assign(AREC_SHE_PSQ.FB_SQL.SQL);
-      
-      FrmCAD_PRO_PSQ.Consulta.Prepare;
-      FrmCAD_PRO_PSQ.Consulta.Open;
-
-      FrmCAD_PRO_PSQ.REC_SHE_PSQ.FInitialize := True;
-      FrmCAD_PRO_PSQ.ShowModal;
-
-    finally
-      if FrmCAD_PRO_PSQ.REC_SHE_PSQ.PSQ_OK then
-      begin
-        AREC_SHE_PSQ.FWinControl := Nil;
-        AREC_SHE_PSQ.PSQ_TFD_PK   := 'PK.CP_ID';
-        AREC_SHE_PSQ.PSQ_TVD_PK   := IntToStr(FrmCAD_PRO_PSQ.ConsultaCP_ID.AsInteger);
-
-        uPSQ_CAD_PRO(AREC_SHE_PSQ);
-      end;
-    end else
-
-    AREC_SHE_PSQ.PSQ_OK := True;
-  end;
-
-  if AREC_SHE_PSQ.FWinControl <> Nil then
-  begin
-    if not AREC_SHE_PSQ.PSQ_OK then
-    begin
-      if AREC_SHE_PSQ.FWinControl.ClassType = TdxEdit then
-      TdxEdit(AREC_SHE_PSQ.FWinControl).Reset else
-
-      if AREC_SHE_PSQ.FWinControl.ClassType = TdxMaskEdit then
-      TdxMaskEdit(AREC_SHE_PSQ.FWinControl).Reset else
-
-      if AREC_SHE_PSQ.FWinControl.ClassType = TdxCurrencyEdit then
-      TdxCurrencyEdit(AREC_SHE_PSQ.FWinControl).Reset else
-
-      if AREC_SHE_PSQ.FWinControl.ClassType = TdxButtonEdit then
-      TdxButtonEdit(AREC_SHE_PSQ.FWinControl).Reset else
-
-      if AREC_SHE_PSQ.FWinControl.ClassType = TdxMemo then
-      TdxMemo(AREC_SHE_PSQ.FWinControl).Reset;
-
-      if (AREC_SHE_PSQ.FWinControl.Showing) and (AREC_SHE_PSQ.FWinControl.Enabled) then
-      TWinControl(AREC_SHE_PSQ.FWinControl).SetFocus;
-    end;
-
-    AREC_SHE_PSQ.FWinControl := Nil;
-  end;
-
-{  if AREC_SHE_PSQ.FB_SQL <> Nil then
-  begin
-    AREC_SHE_PSQ.FB_SQL.Close;
-    AREC_SHE_PSQ.FB_SQL := Nil;
-  end;}
+  uFrmCreate(Nil,TFrmEmConstrucao,FrmEmConstrucao);
 end;
 
 procedure uPSQEND(var ARECEndereco: TRECPedidos;AForceShowModal: Boolean = False); STDCall;
@@ -1011,18 +644,14 @@ begin
         end else
         if (ARECEndereco.AQConsulta.RecNo > 1) or (AForceShowModal) then
             try
-              TFrmPSQEND._ExecForm(Application,FrmPSQEND,false,fsStayOnTop); //,-3,'Consulta',ARECPedido.CDCD,ARECPedido.FIELD+' '+IFThen(Pos('ID',ARECPedido.FIELD) > 0,'=','CONTAINING')+' '''+ARECPedido.VALUE+'''');
-
-              FrmPSQEND.Consulta.Close;
-              FrmPSQEND.Consulta.SQL.Clear;
-              FrmPSQEND.Consulta.SQL.Assign(ARECEndereco.AQConsulta.SQL);
-              FrmPSQEND.Consulta.Open;
-
-              FrmPSQEND.REC_SHE_DEF.FTop  := ARECEndereco.APoint.Y + ARECEndereco.AWinControl.Height;
-              FrmPSQEND.REC_SHE_DEF.FLeft := ARECEndereco.APoint.X;
-              FrmPSQEND.ShowModal;
+              TFrmPSQEND.ExecForm(Nil,FrmPSQEND,fsStayOnTop,-3,'Consulta',ARECEndereco.CDCD,ARECEndereco.FIELD+' '+IFThen(Pos('ID',ARECEndereco.FIELD) > 0,'=','CONTAINING')+' '''+ARECEndereco.VALUE+'''');
+               FrmPSQEND.RECDefault.Top  := ARECEndereco.APoint.Y + ARECEndereco.AWinControl.Height;
+               FrmPSQEND.RECDefault.Left := ARECEndereco.APoint.X;
+               FrmPSQEND.Consulta.SQL.Clear;
+               FrmPSQEND.Consulta.SQL.Assign(ARECEndereco.AQConsulta.SQL);
+               FrmPSQEND.ShowModal;
             finally
-              if (FrmPSQEND.REC_SHE_DEF.Selected) or (AForceShowModal) then
+              if (FrmPSQEND.RECDefault.Selected) or (AForceShowModal) then
               begin
                 if FrmPSQEND.ConsultaID.AsInteger > 0 then
                 begin
@@ -1153,7 +782,7 @@ begin
         SQL.Add('PK.INFADCAD,PK.INFADFIN');
 
         SQL.Add('FROM ' + ARECPedido.VWCD + ' AS PK');
-        SQL.Add('LEFT JOIN CAD_CLI_CRD AS FK ON (FK.IDCD = PK.IDCD AND FK.IDEP = '''+IFThen(ARECPedido.CDCD = 0,RECParametros.EP_ID,'99')+''')');
+        SQL.Add('LEFT JOIN CAD_CLI_CRD AS FK ON (FK.IDCD = PK.IDCD AND FK.IDEP = '''+IFThen(ARECPedido.CDCD = 0,RECParametros.Id,'99')+''')');
 
         SQL.Add('WHERE ' + ARECPedido.FIELD + ' ' + IFThen(Pos('ID',ARECPedido.FIELD) > 0,'=','CONTAINING')+' '''+ARECPedido.VALUE+'''');
         SQL.Add('ORDER BY PK.DECD,PK.REST');
@@ -1287,18 +916,14 @@ begin
         end else
         if RecNo > 1 then
            try
-             TFrmPSQCAD._ExecForm(Application,FrmPSQCAD,false,fsStayOnTop); //,-3,'Consulta',ARECPedido.CDCD,ARECPedido.FIELD+' '+IFThen(Pos('ID',ARECPedido.FIELD) > 0,'=','CONTAINING')+' '''+ARECPedido.VALUE+'''');
-
-             FrmPSQCAD.Consulta.Close;
-             FrmPSQCAD.Consulta.SQL.Clear;
-             FrmPSQCAD.Consulta.SQL.Assign(ARECPedido.AQConsulta.SQL);
-             FrmPSQCAD.Consulta.Open;
-
-             FrmPSQCAD.REC_SHE_DEF.FTop  := ARECPedido.APoint.Y + ARECPedido.AWinControl.Height;
-             FrmPSQCAD.REC_SHE_DEF.FLeft := ARECPedido.APoint.X;
-             FrmPSQCAD.ShowModal;
+             TFrmPSQCAD.ExecForm(Nil,FrmPSQCAD,fsStayOnTop,-3,'Consulta',ARECPedido.CDCD,ARECPedido.FIELD+' '+IFThen(Pos('ID',ARECPedido.FIELD) > 0,'=','CONTAINING')+' '''+ARECPedido.VALUE+'''');
+              FrmPSQCAD.RECDefault.Top  := ARECPedido.APoint.Y + ARECPedido.AWinControl.Height;
+              FrmPSQCAD.RECDefault.Left := ARECPedido.APoint.X;
+              FrmPSQCAD.Consulta.SQL.Clear;
+              FrmPSQCAD.Consulta.SQL.Assign(ARECPedido.AQConsulta.SQL);
+              FrmPSQCAD.ShowModal;
            finally
-             if FrmPSQCAD.REC_SHE_DEF.Selected then
+             if FrmPSQCAD.RECDefault.Selected then
              begin
                ARECPedido.AWinControl := Nil;
                ARECPedido.Value := IntToStr(FrmPSQCAD.ConsultaIDCD.AsInteger);
@@ -1433,7 +1058,7 @@ begin
         ARECPedido.BXPG := (Current.ByName('BXPG').AsInteger = 1);      { Baixa Automática }
 
         { CFOP }
-        ARECPedido.CFOP := Current.ByName(IFThen((ARECPedido.UF = EmptyStr) or (ARECPEdido.UF = RECParametros.LOG_UF),'CFOPDUF','CFOFDUF')).AsString;
+        ARECPedido.CFOP := Current.ByName(IFThen((ARECPedido.UF = EmptyStr) or (ARECPEdido.UF = RECParametros.SGUF),'CFOPDUF','CFOFDUF')).AsString;
 
         { DEU BOM! }
         ARECPedido.Selected := True;
@@ -1612,12 +1237,12 @@ begin
              ARECProduto.AEdicao.FieldByName('INFADCAD').Value := FieldByName('INFADCAD').Value;
            end else
 {           try
-             TFrmPesquisaPRO._ExecForm(Application,FrmPesquisaPRO,false,fsStayOnTop,-3,ARECProduto.FIPD+ARECProduto.RPPD,ARECProduto.IDEV);
+             TFrmPesquisaPRO.ExecForm(Nil,FrmPesquisaPRO,fsStayOnTop,-3,ARECProduto.FIPD+ARECProduto.RPPD,ARECProduto.IDEV);
              FrmPesquisaPRO.Consulta.SQL.Clear;
              FrmPesquisaPRO.Consulta.SQL.Assign(ARECProduto.AQConsulta.SQL);
              FrmPesquisaPRO.ShowModal;
            finally
-             if FrmPesquisaPRO.REC_SHE_DEF.Selected then
+             if FrmPesquisaPRO.RECDefault.Selected then
              begin
                ARECProduto.AWinControl := Nil;
                ARECProduto.Value := IntToStr(FrmPesquisaPRO.ConsultaID.AsInteger);
@@ -1627,7 +1252,7 @@ begin
              end;
            end;}
       end;
-
+      
   if ARECProduto.AWinControl <> Nil then
   begin
     if not ARECProduto.Selected then
@@ -1726,7 +1351,7 @@ begin
     SQL.Add('       PK.IDCA,PK.DTCA,PK.CDST,PK.REST,PK.DEST,');
     SQL.Add('       PK.IDPK,CAST(PK.DTCA AS DATE) AS DTPK,LG_PK.LOGIN AS LGPK,PK.CDPK,PK.DEPK,');
     SQL.Add('       PK.IDCD,CD.FANTASIA  AS DECD,PK.IDCR ,CR.REP_FANT AS DECR');
-    SQL.Add('FROM ' + oREPZero(ARECEdicao.TBPK,'_',RECParametros.EP_ID,3) + ' AS PK');
+    SQL.Add('FROM ' + oREPZero(ARECEdicao.TBPK,'_',RECParametros.Id,3) + ' AS PK');
 
     if ARECEdicao.TPPK = 1 then { Compras }
     SQL.Add('JOIN  CAD_FOR     AS CD    ON (CD.ID    = PK.IDCD)');
@@ -1909,14 +1534,36 @@ begin
   end;
 end;
 
+procedure uFrmCreate(AOwner: TComponent;AFClass: TFormClass; var AInstance); STDCall;
+begin
+  with FrmPrincipal do
+       if Assigned(TForm(AInstance)) then
+       begin
+         TForm(AInstance).WindowState := wsNormal;
+         TForm(AInstance).BringToFront;
+         TForm(AInstance).SetFocus;
+       end else
+       begin
+         TForm(AInstance) := AFClass.Create(AOwner);
+         if TForm(AInstance).FormStyle = fsNormal then
+            try
+              TForm(AInstance).BorderIcons := [];
+              TForm(AInstance).Visible     := False;
+              TForm(AInstance).ShowModal;
+            finally
+              FreeAndNil(TForm(AInstance));
+            end;
+       end;
+end;
+
 procedure uPSQCMUN(var RECEndereco: TRECPedidos); STDCall;
 begin
   with FrmPesquisaCodigoMunicipal do
   try
-    TFrmPesquisaCodigoMunicipal._ExecForm(Application,FrmPesquisaCodigoMunicipal,False,fsNormal,0,0,0,0,RECEndereco.UF); //,False,fsNormal,0,0,RECEndereco.CMUN,0,'');
+    TFrmPesquisaCodigoMunicipal.ExecForm(Nil,FrmPesquisaCodigoMunicipal,fsNormal,RECEndereco.CMUN,-1,RECEndereco.UF);
   finally
-    if REC_SHE_DEF.Selected then
-    RECEndereco.CMUN := REC_SHE_DEF.FB_SQL_TAB;
+    if RECPrincipal.Selected then
+       RECEndereco.CMUN := RECPrincipal.Tabela;
   end;
 end;
 
@@ -1941,9 +1588,9 @@ begin
 
   with FrmPesquisaLogradouros do
   try
-    TFrmPesquisaLogradouros._ExecForm(Application,FrmPesquisaLogradouros,false,fsNormal);
+    TFrmPesquisaLogradouros.ExecForm(Nil,FrmPesquisaLogradouros,fsNormal);
   finally
-    if REC_SHE_DEF.Selected then
+    if RECPrincipal.Selected then
        with FrmPesquisaLogradouros do
        begin
          ARECEndereco.Selected         := True;
@@ -1963,12 +1610,25 @@ begin
   end;
 end;
 
+procedure uPesquisa(var RECPrincipal: TRECPrincipal); STDCall;
+begin
+  FrmPesquisa := TFrmPesquisa.Create(Nil,RECPrincipal);
+  FrmPesquisa.ShowModal;
+  try
+    RECPrincipal.Selected := FrmPesquisa.RECPesquisa.Selected;
+    if RECPrincipal.Selected then
+       RECPrincipal := FrmPesquisa.RECPesquisa;
+  finally
+    FreeAndNil(FrmPesquisa);
+  end;
+end;
+
 function uLoadZoom(Imagem: TPicture; aProduto: Array of String): LongInt; STDCall;
 begin
   result := 0;
   if (Imagem <> Nil) and (not oEmpty(aProduto[0])) then
   try
-    FrmProduto_Imagem := TFrmProduto_Imagem.Create(Application,Imagem,aProduto);
+    FrmProduto_Imagem := TFrmProduto_Imagem.Create(Nil,Imagem,aProduto);
     FrmProduto_Imagem.ShowModal;
   finally
     FreeAndNil(FrmProduto_Imagem);
@@ -1989,7 +1649,7 @@ begin
     begin
       Close;
       SQL.Clear;
-      SQL.Add('SELECT * FROM SP_CAD_PRO_PSQ_TMP');
+      SQL.Add('SELECT * FROM SP_CAD_PRO_PSQ');
       SQL.Add('(');
 
       SQL.Add(''''+IntToStr(AIDEP)+''',');
@@ -2053,23 +1713,23 @@ procedure uBXPedidos(AaIDPedido: array of Integer; ABSheildEdicao: Boolean = Fal
 begin
 end;
 
-procedure uPSQSCORE(ATForm: TForm; AIDPK: Variant; ADEPK: String); STDCall;
+procedure uPSQSCORE(ATForm: TForm;AIDCadastro,ADECadastro: Variant); STDCall;
 begin
   if Assigned(frmcad_cli_inf) then
   begin
-    frmcad_cli_inf._Pedidos(AIDPK,ADEPK);
+    frmcad_cli_inf._Pedidos(AIDCadastro,ADECadastro);
     frmcad_cli_inf.BringToFront;
     frmcad_cli_inf.SetFocus;
   end else
   begin
-    frmcad_cli_inf := Tfrmcad_cli_inf.Create(Application,AIDPK,ADEPK);
+    frmcad_cli_inf := Tfrmcad_cli_inf.Create(Nil,AIDCadastro,ADECadastro);
     frmcad_cli_inf.Show;
   end;
 end;
 
 function uPSQCadastroFiscal(ATexto: String): TRECCadastros; STDCall;
 begin
-  FrmConsultaCNPJ := TFrmConsultaCNPJ.Create(Application,ATexto);
+  FrmConsultaCNPJ := TFrmConsultaCNPJ.Create(Nil,ATexto);
   try FrmConsultaCNPJ.ShowModal
   finally
     Result := FrmConsultaCNPJ.RECCadastros;
@@ -2080,7 +1740,7 @@ end;
 function uRETDTVencimento(AData: TDate): TDate; STDCall;
 begin
   if AData <= 0 then
-     AData := RECParametros.SHE_DATA;
+     AData := RECParametros.DTServer;
 
  { with FrmPrincipal,FBird do
   try
@@ -2130,8 +1790,9 @@ begin
         SQL.Add('FROM   TAB_PAR_SIS AS EP,'+oREPZero('nfe_cab','_',i,3)+ ' "NFE_CAB"');
         SQL.Add('WHERE  EP.ID     = '''+IntToStr(i)+'''');
         SQL.Add('AND    EP.CNPJ   = '''+RECParametros.CNPJ+'''');
-        SQL.Add('AND    NFE_CAB.CDNF  = '''+ACDNF             +'''');
-        SQL.Add('AND    NFE_CAB.TPCHV = 44');
+        SQL.Add('AND    NFE_CAB.NFE_CDNF   = '''+ACDNF             +'''');
+        SQL.Add('AND    NFE_CAB.NFE_FINNFE < 5');
+        SQL.Add('AND    CHAR_LENGTH(NFE_CAB.NFE_CHAV) = 44');
         if i < 9 then
         SQL.Add('UNION');
       end;
@@ -2156,7 +1817,7 @@ end;
 function uFIN_BLQ(ASTCobranca,ASTFatura,AIDCliente: String): String;
 begin
   result := EmptyStr;
-  if (RECParametros.FIN_LIMITE_CARTEIRA > 0) and (ASTCobranca <> 'SEM COBRANÇA') and (ASTFatura = '1') and (AIDCliente <> RECParametros.CD_ID) then
+  if (RECParametros.FIN_LIMITE_CARTEIRA > 0) and (ASTCobranca <> 'SEM COBRANÇA') and (ASTFatura = '1') and (AIDCliente <> RECParametros.IDCL_PAD) then
   try
     oOTransact(FBird.TFBConsulta);
     with FBird.SQLFBConsulta do
@@ -2164,7 +1825,7 @@ begin
       { Carteira Logada }
       Close;
       SQL.Clear;
-      SQL.Add('SELECT   ''AGUARDANDO LIBERAÇÃO'' AS STFI FROM ' + oREPZero('VW_FIN_REC_CAR','_',RECParametros.EP_ID,3) + ' AS PK');
+      SQL.Add('SELECT   ''AGUARDANDO LIBERAÇÃO'' AS STFI FROM ' + oREPZero('VW_FIN_REC_CAR','_',RECParametros.Id,3) + ' AS PK');
       SQL.Add('WHERE    PK.IDCD    = :IDCD');
       SQL.Add('AND      PK.FIN_BLQ = 1');
       SQL.Add('GROUP BY 1');
@@ -2241,7 +1902,7 @@ begin
       Close;
       SQL.Clear;
       SQL.Add('SELECT VCRD FROM CAD_CLI_CRD');
-      SQL.Add('WHERE  IDEP = ''' + RECParametros.EP_ID + '''');
+      SQL.Add('WHERE  IDEP = ''' + RECParametros.ID + '''');
       SQL.Add('AND    IDCD = ''' + AIDCLIENTE       + '''');
       ExecQuery;
       AVCRD := Current.Vars[0].AsCurrency;
@@ -2271,8 +1932,8 @@ begin
       Close;
       SQL.Clear;
       SQL.Add('SELECT SUM(PK.TCDE),COUNT(*)');
-      SQL.Add('FROM '+oREPZero('VW_PED_VEN_CAB','_',RECParametros.EP_ID,3)+' AS PK');
-      SQL.Add('WHERE  PK.IDEP = '''+RECParametros.EP_ID+'''');
+      SQL.Add('FROM '+oREPZero('VW_PED_VEN_CAB','_',RECParametros.Id,3)+' AS PK');
+      SQL.Add('WHERE  PK.IDEP = '''+RECParametros.Id+'''');
       SQL.Add('AND    PK.IDCD = '''+AIDCliente      +'''');
       SQL.Add('AND    PK.FAPD = 1'); // Tipo   Faturamento
       SQL.Add('AND    PK.BQPD = 1'); // Tipo   Bloqueável Financeiramente
@@ -2311,7 +1972,7 @@ procedure uLiberaFinanceiro; STDCall;
 begin
 end;
 
-procedure TFrmPrincipal.TPrincipalTimer(Sender: TObject);
+procedure TFrmPrincipal.TTempoTimer(Sender: TObject);
           function SecondsIdle: DWord;
           var
             liInfo: TLastInputInfo;
@@ -2327,70 +1988,113 @@ begin
      begin
        RECParametros.SecondsIdle := SecondsIdle;
 
-       { RODAPÉ }
-       SBRodape.Panels[4].Text := RECParametros.STCX; { Caixa }
-       SBRodape.Panels[6].Text := Format('Tempo Ocioso: %d',[RECParametros.SecondsIdle]); { Tempo }
+       ACTCAI_ABR.Enabled := (((RECParametros.STCX = 'Caixa Fechado') or (RECParametros.STCX = 'Caixa não aberto')) and (RECUsuarios.Caixa));
+       ACTCAI_RAB.Enabled := (ACTCAI_ABR.Enabled);
+       ACTCAI_FEC.Enabled := ((not ACTCAI_ABR.Enabled) and (RECUsuarios.Caixa));
+
+       SBRodape.Panels[2].Text := RECParametros.STCX;
+       SBRodape.Panels[4].Text := Format('Tempo Ocioso: %d',[RECParametros.SecondsIdle]);
 
        if RECParametros.SecondsIdle > 0 then
-       if RECParametros.SecondsIdle mod 300 = 0  then
-       begin
-         { MAIN DB }
-         if not FBird.DBErp.TestConnected then
-            try
-              DBErp.CloseDataSets;
-              DBErp.ForceClose;
+          if RECParametros.SecondsIdle mod 180 = 0  then
+          begin
+            { Main DB }
+            if not FBird.DBErp.TestConnected then
+               try
+                 DBErp.CloseDataSets;
+                 DBErp.ForceClose;
 
-              SleepEx(100,False);
-              DBErp.Connected := True;
-            except
-              ;
+                 SleepEx(100,False);
+                 DBErp.Connected := True;
+               except
+                 ;
+               end;
+
+            if FBird.DBErp.TestConnected then
+               bResumo_Pedido;
+               
+            { Edição }
+            if not FBird.DBEdicao.TestConnected then
+               try
+                 DBEdicao.CloseDataSets;
+                 DBEdicao.ForceClose;
+
+                 SleepEx(100,False);
+                 DBEdicao.Connected := true;
+               except
+                 ;
+               end;
+
+            if FBird.DBErp.TestConnected then
+               try
+                 oOTransact(TFBSEdicao);
+                 with SQLFBSEdicao do
+                 begin
+                   Close;
+                   SQL.Clear;
+                   SQL.Add('SELECT * FROM rdb$Database');
+                   ExecQuery;
+                 end;
+                 oCTransact(TFBSEdicao);
+               except
+                 oCTransact(TFBSEdicao,ltRollback);
+               end;
+
+            if RECParametros.CDCX = 0 then
+               bExecEvent('Caixa');
+
+            try _TrimAppMemorySize;
+            except ;
             end;
+          end;
+     end;     
+end;
 
-         { VER CAIXA }
-         if RECParametros.CDCX = 0 then
-         bExecEvent('Caixa');
-       end;
-
-       { EXEC CAIXA }
-       ACTCAI_ABR_PAD.Enabled := (((RECParametros.STCX = 'Caixa Fechado') or (RECParametros.STCX = 'Caixa não aberto')) and (RECUsuarios.Caixa));
-       ACTCAI_RAB.Enabled     := (ACTCAI_ABR_PAD.Enabled);
-       ACTCAI_FEC.Enabled     := ((not ACTCAI_ABR_PAD.Enabled) and (RECUsuarios.Caixa));
-     end;
+function ClientWindowProc(wnd: HWND; msg: Cardinal; wparam, lparam: Integer ): Integer; STDCall;
+var
+  Ponteiro: Pointer;
+begin
+  Ponteiro := Nil;
+  Result   := 0;
+  try
+    Ponteiro := Pointer(GetWindowLong(wnd,GWL_USERDATA));
+    case msg of
+         WM_NCCALCSIZE: if (GetWindowLong(wnd,GWL_STYLE) and (WS_HSCROLL or WS_VSCROLL)) <> 0 then
+                            SetWindowLong(wnd,GWL_STYLE,GetWindowLong(wnd,GWL_STYLE) and Not (WS_HSCROLL or WS_VSCROLL or WS_CAPTION));
+    end;
+    Result := CallWindowProc(Ponteiro,wnd,msg,wparam,lparam);
+  except
+    ;
+  end;    
 end;
 
 procedure TFrmPrincipal.FormCreate(Sender: TObject);
 begin
-  Randomize;
-
   if ClientHandle <> 0 then
-  if not(GetWindowLong(ClientHandle, GWL_USERDATA) <> 0)  then
-  SetWindowLong(ClientHandle, GWL_USERDATA, SetWindowLong(ClientHandle, GWL_WNDPROC, integer(@ClientWindowProc)));
+     if (not(GetWindowLong(ClientHandle, GWL_USERDATA) <> 0))  then
+         SetWindowLong(ClientHandle, GWL_USERDATA, SetWindowLong(ClientHandle, GWL_WNDPROC, integer(@ClientWindowProc)));
 
   CurrencyString    := 'R$';
   ThousandSeparator := '.';
   DecimalSeparator  := ',';
 
-  try TPrincipal.Enabled := False;
+  _Login(FrmLogin.RECLogin.ID,FrmLogin.RECLogin.IDEP,FrmLogin.RECLogin.DEEP);
 
   _SetHintDefault;
-  _USER_LOGIN(FrmLogin.RECLogin.ID,FrmLogin.RECLogin.IDEP,FrmLogin.RECLogin.DEEP);
-
-  finally TPrincipal.Enabled := True;
-  end;
 end;
 
 procedure TFrmPrincipal.FormShow(Sender: TObject);
 begin
   OnShow := Nil;
   if oEmpty(RECUsuarios.Id) then
-  Close;
+     Close;
 end;
 
 procedure TFrmPrincipal.FormActivate(Sender: TObject);
 begin
   OnActivate := Nil;
   if oEmpty(RECUsuarios.Id) then
-  Exit;
+     Exit;
 
   _Aviso_Reserva;
 end;
@@ -2400,23 +2104,22 @@ procedure TFrmPrincipal.FormCloseQuery(Sender: TObject;
   var i: Word;
 begin
   if oEmpty(RECUsuarios.Id) then
-  Exit;
+     Exit;
 
   try
     for i := MDIChildCount - 1 downto 0 do
-        if   MDIChildren[i] <> Nil then
-             MDIChildren[i].Free;
+        if MDIChildren[i] <> Nil then
+           MDIChildren[i].Free;
   except
     on E: Exception do
-       oException(Nil,'Falha ao tentar fechar automaticamente as páginas do sistema !' +#13+
-                      'Favor fechar manualmente.' +#13 +#13+
-                       E.Message + '.');
+       oException(Nil,'Falha ao tentar fechar automaticamente as páginas !'+#13+
+                      'Favor fechá-los manualmente.'+#13+#13+
+                      'Error Code: '+E.Message);
   end;
 
   if oYesNo(Handle,'Sair do Sistema ?') = mrNo then
-  Abort;
+     Abort;
 end;
-
 
 procedure TFrmPrincipal.FormClose(Sender: TObject;
   var Action: TCloseAction);
@@ -2424,115 +2127,179 @@ begin
   Action := caFree;
 end;
 
-procedure TFrmPrincipal.FormPaint(Sender: TObject);
+procedure TFrmPrincipal.FormDestroy(Sender: TObject);
 begin
-  SBRodape.Panels[3].Width := SBRodape.Width - 20 - (SBRodape.Panels[0].Width + SBRodape.Panels[1].Width + SBRodape.Panels[2].Width + SBRodape.Panels[4].Width + SBRodape.Panels[5].Width + SBRodape.Panels[6].Width + SBRodape.Panels[7].Width);
-  SBRodape.Repaint;
+  FrmPrincipal := Nil;
+  _TrimAppMemorySize;
+end;
+
+procedure TFrmPrincipal.FormPaint(Sender: TObject);
+var
+  XRect   : TRect;
+  WLargura: Word;
+begin
+  if Showing then
+  begin
+    WLargura := SBRodape.Panels[3].MinWidth;
+    Case Length(SBRodape.Panels[3].Text) of
+      25..30: WLargura := 185;
+          31: WLargura := 190;
+          32: WLargura := 195;
+      33..40: WLargura := 210;
+    end;
+    SBRodape.Panels[3].Width := WLargura;
+
+    { Painel Usuário }
+    WLargura := SBRodape.Panels[1].MinWidth;
+    Case Length(SBRodape.Panels[1].Text) of
+      31..35: WLargura := 250;
+      36..40: WLargura := 300;
+      41..45: WLargura := 350;
+      46..50: WLargura := 400;
+      51..55: WLargura := 450;
+      56..60: WLargura := 500;
+      61..65: WLargura := 550;
+      66..70: WLargura := 600;
+    end;
+    SBRodape.Panels[1].Width := WLargura;
+    SBRodape.Panels[0].Width := SBRodape.Width - 20 - (SBRodape.Panels[1].Width+SBRodape.Panels[2].Width+SBRodape.Panels[3].Width+
+                                                       SBRodape.Panels[4].Width+SBRodape.Panels[5].Width+SBRodape.Panels[6].Width);
+    XRect.Left   := 0;
+    XRect.Right  := Screen.Width;
+    XRect.Top    := 0;
+    XRect.Bottom := Screen.Height;
+
+    Canvas.StretchDraw(xRect,IPrincipal.Picture.Graphic);
+
+    if Screen.Height <= 768 then
+       for WLargura := MDIChildCount - 1 downto 0 do
+           if MDIChildren[WLargura] <> Nil then
+              MDIChildren[WLargura].Repaint;
+  end;
 end;
 
 procedure TFrmPrincipal.FormResize(Sender: TObject);
-var
-  XRect: TRect;
 begin
   if FrmPrincipal <> Nil then
-  begin
-    GetWindowRect(Application.MainForm.ClientHandle,XRect);
-    XRect.Top := IPrincipal.Top;
+     Paint;
+end;
 
-    Canvas.FillRect(XRect);
-    Canvas.StretchDraw(xRect,IPrincipal.Picture.Graphic);
+procedure TFrmPrincipal.ACTPrintersExecute(Sender: TObject);
+begin
+  uFrmCreate(Nil,TFrmImpressoras,FrmImpressoras);
+end;
 
-    Paint;
+procedure TFrmPrincipal.ACTExecPrinterExecute(Sender: TObject);
+begin
+  if oEmpty(ACTExecPrinter.Hint) then
+            ACTExecPrinter.Hint := 'Relatórios';
+
+  try
+    oExecPrinter(Handle,ACTExecPrinter.Hint);
+  finally
+    ACTExecPrinter.Hint := EmptyStr;
   end;
 end;
 
-procedure TFrmPrincipal.FormMouseMove(Sender: TObject; Shift: TShiftState;
-  X, Y: Integer);
+procedure TFrmPrincipal.ACTRelatoriosExecute(Sender: TObject);
+begin
+  FrmRelatorios := TFrmRelatorios.Create(Nil,TAction(Sender).Hint,TAction(Sender).Tag,TAction(Sender).HelpContext,TAction(Sender).HelpKeyword,TAction(Sender).HelpKeyword);
+  Try FrmRelatorios.ShowModal;
+  Finally FreeAndNil(FrmRelatorios);
+  End;
+end;
+
+procedure TFrmPrincipal.ACTLoginExecute(Sender: TObject);
 var
-  APoint  : TPoint;
-  AControl: TControl;
+  i: integer;
 begin
-  if _SetMouseTracking then
-  begin
-    GetCursorPos(APoint);
-    AControl := FindDragTarget(APoint, True);  { Mouse.CursorPos }
+  for i := MDIChildCount - 1 downto 0 do
+  if MDIChildren[i] <> Nil then
+     MDIChildren[i].Close;
 
-    if (AControl = Nil) or (AControl <> Sender) then
-        Perform(WM_MOUSELEAVE, 0, 0) else
-        AControl.Hint := IFThen(Self.Hint <> EmptyStr,Self.Hint + 'SAIU',AControl.HelpKeyword);
-  end;
-end;
-
-procedure TFrmPrincipal._SetMouseLeave(var AMessage: TMessage);
-begin
-  inherited;
-  AMessage.Result := 1;
-end;
-
-function TFrmPrincipal._SetMouseTracking: Boolean;
-begin
-  with ATrackMouseEvent do
-  begin
-    cbSize      := sizeof(ATrackMouseEvent);
-    dwFlags     := TME_LEAVE;
-    hwndTrack   := Self.Handle;
-    dwHoverTime := HOVER_DEFAULT;
-  end;
-
-  result := TrackMouseEvent(ATrackMouseEvent);
-end;
-
-procedure TFrmPrincipal._SetHintDefault;
-var
-  AhintBK: String;
-  AHintPI,
-  AHelpPI: PPropInfo;
-  i: Word;
-begin
-  for i := 0 to ComponentCount - 1 do
-  begin
-    if Components[i].ClassType = TPanel then
-       tag := 0;
-
-    AHelpPI := GetPropInfo(Components[i].ClassInfo,'HelpKeyword');
-    AHintPI := GetPropInfo(Components[i].ClassInfo,'Hint');
-
-    if (AHintPI <> Nil) and (AHelpPI <> Nil) then
+  FrmLogin := TFrmLogin.create(Nil);
+  FrmLogin.Caption := 'Alternando usuário';
+  try
+    FrmLogin.ShowModal;
+  finally
+    if (FBird.DBErp.TestConnected) and (FrmLogin.RECLogin.Selected) then
+       _Login(FrmLogin.RECLogin.ID,FrmLogin.RECLogin.IDEP,FrmLogin.RECLogin.DEEP) else
     begin
-       AHintBK := GetStrProp(Components[i] , AHintPI);
-       SetStrProp(Components[i], AHelpPI   , AHintBK);
+      RECUsuarios.Id := 0;
+      Close;
     end;
+    FreeAndNil(FrmLogin);
   end;
+  _Aviso_Reserva;
 end;
 
-procedure TFrmPrincipal.ACTMP_ABOUTExecute(Sender: TObject);
+procedure TFrmPrincipal.ACTPasswordExecute(Sender: TObject);
 begin
-  uFrmCreate(Application,Tfrmsobre,Frmsobre);
+  uFrmCreate(Nil,TFrmSenha,FrmSenha);
 end;
 
-procedure TFrmPrincipal.ACTMP_SAIDAExecute(Sender: TObject);
+procedure TFrmPrincipal.ACTHELPExecute(Sender: TObject);
 begin
-  if ATHR_ITEM = 0 THEN
+  uFrmCreate(Nil,Tfrmsobre,Frmsobre);
+end;
+
+procedure TFrmPrincipal.ACTSaidaExecute(Sender: TObject);
+begin
   Close;
 end;
 
-procedure TFrmPrincipal.ACTADM_DENIEDExecute(Sender: TObject);
+procedure TFrmPrincipal.ACTEmConstrucaoExecute(Sender: TObject);
 begin
-  raise exception.Create(PChar(ACTADM_DENIED.Caption) + #13 +
-                         PChar(ACTADM_DENIED.Hint));
+  uEmConstrucao;
 end;
 
-procedure TFrmPrincipal.ACTADM_PARAMETROSExecute(Sender: TObject);
+procedure TFrmPrincipal._TrimAppMemorySize;
+var
+  MainHandle: THandle;
 begin
-  ACTADM_DENIED.Execute;
+  try
+    MainHandle := OpenProcess(PROCESS_ALL_ACCESS, False, GetCurrentProcessID);
+    SetProcessWorkingSetSize(MainHandle, $FFFFFFFF, $FFFFFFFF);
+    CloseHandle(MainHandle);
+  except
+    ;
+  end;
 end;
 
-procedure TFrmPrincipal.ACTADM_BACKUPExecute(Sender: TObject);
+procedure TFrmPrincipal._Aviso_Reserva;
+var
+  nRecNo: Integer;
 begin
-  ACTADM_DENIED.Execute;
+  if RECUsuarios.Id = 0 then
+     Exit;
+     
+  nRecNo := 0;
+  if ((RECUsuarios.Grupo = 'VEN') or (RECUsuarios.Grupo = 'DIR') or (bPSQUSER('USU_AUTO','Vendas','Pedidos','Autorizar Outros Usuários',False))) then
+  with FBird do
+  try
+    oOTransact(TFBConsulta);
+    with SQLFBConsulta do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add('SELECT MAX(PK.ID) FROM VW_PED_VEN_AVR AS PK');
+      SQL.Add('WHERE  PK.IDEP = '''+RECParametros.Id+'''');
+
+      if RECUsuarios.Grupo = 'VEN' then
+         SQL.Add('AND PK.IDCV = '''+RECUsuarios.Id+'''');
+
+      ExecQuery;
+      nRecNo := Current.Vars[0].AsInteger;
+    end;
+  finally
+    oCTransact(TFBConsulta);
+  end;
+
+  if nRecNo > 0 then
+     TFrmAviso_Reserva.ExecForm(Nil,FrmAviso_Reserva);
 end;
 
-procedure TFrmPrincipal.ACTADM_COMISSAOExecute(Sender: TObject);
+procedure TFrmPrincipal.MIComissaoClick(Sender: TObject);
           procedure OTMComissoes;
           var
             DtMedia: Integer;
@@ -2554,8 +2321,8 @@ procedure TFrmPrincipal.ACTADM_COMISSAOExecute(Sender: TObject);
                 SQL.Add('FROM     PED_VEN_CAB AS PK');
                 SQL.Add('JOIN     CAD_REP     AS CR ON (CR.ID = PK.IDCR)');
                 SQL.Add('JOIN     TAB_PAG     AS PG ON (PG.ID = PK.CDPG)');
-               // SQL.Add('WHERE    CAST(PK.DTBX AS DATE) >= DATEADD(MONTH,-1,DATEADD(1 - EXTRACT(DAY FROM CURRENT_DATE) DAY TO CURRENT_DATE))');
-                SQL.Add('WHERE    CAST(PK.DTBX AS DATE) >= ''01/01/26''');
+                SQL.Add('WHERE    CAST(PK.DTBX AS DATE) >= DATEADD(MONTH,-1,DATEADD(1 - EXTRACT(DAY FROM CURRENT_DATE) DAY TO CURRENT_DATE))');
+                SQL.Add('AND      PK.FAPD  = 1');
               //SQL.Add('AND      PK.DEPD = ''109506''');
                 SQL.Add('ORDER BY PK.DTBX');
                 ExecQuery;
@@ -2584,8 +2351,7 @@ procedure TFrmPrincipal.ACTADM_COMISSAOExecute(Sender: TObject);
 
                 while not FBird.SQLFBFKConsulta.Eof do
                 begin
-                  Application.ProcessMessages;
-                  SBRodape.Panels[0].Text := 'OTMPed '+FBird.SQLFBConsulta.Current.Vars[0].AsString+' de '+FormatDateTime('dd/mm/yy',FBird.SQLFBConsulta.Current.Vars[25].AsDateTime)+' Item '+FBird.SQLFBFKConsulta.Current.Vars[0].AsString;
+                  SBRodape.Panels[1].Text := 'OTMPed '+FBird.SQLFBConsulta.Current.Vars[0].AsString+' de '+FormatDateTime('dd/mm/yy',FBird.SQLFBConsulta.Current.Vars[25].AsDateTime)+' Item '+FBird.SQLFBFKConsulta.Current.Vars[0].AsString;
                   SBRodape.Refresh;
 
                   { Subtraindo 5% do Preco de Tabela }
@@ -2602,9 +2368,9 @@ procedure TFrmPrincipal.ACTADM_COMISSAOExecute(Sender: TObject);
                   if (ComissaoItem = 3) and
                      (FBird.SQLFBConsulta.Current.Vars[1].AsString <> 'ABATIMENTO') and (FBird.SQLFBConsulta.Current.Vars[1].AsString <> 'DEVOLUÇÃO') then
                   begin
-                    if ((FBird.SQLFBConsulta.Current.Vars[4].AsInteger <= 21) and (FBird.SQLFBFKConsulta.Current.Vars[2].AsFloat >= PrecoTabelaMenos5)) or
-                       ((DtMedia <= 75 )                                      and (FBird.SQLFBFKConsulta.Current.Vars[2].AsFloat  = FBird.SQLFBFKConsulta.Current.Vars[3].AsFloat)) or
-                       ((DtMedia >  75 )                                      and (FBird.SQLFBFKConsulta.Current.Vars[2].AsFloat >= PrecoTabelaMais5 )) then
+                    if ((FBird.SQLFBConsulta.Current.Vars[4].AsInteger <= 21) and (FBird.SQLFBFKConsulta.Current.Vars[2].AsFloat >= PrecoTabelaMenos5))             or
+                       ((DtMedia <= 75 )                              and (FBird.SQLFBFKConsulta.Current.Vars[2].AsFloat  = FBird.SQLFBFKConsulta.Current.Vars[3].AsFloat)) or
+                       ((DtMedia >  75 )                              and (FBird.SQLFBFKConsulta.Current.Vars[2].AsFloat >= PrecoTabelaMais5 )) then
                     ComissaoItem := 4;
                   end;
 
@@ -2625,7 +2391,7 @@ procedure TFrmPrincipal.ACTADM_COMISSAOExecute(Sender: TObject);
                   except
                     FBird.TFBEdicao.Rollback;
 
-                    SBRodape.Panels[0].Text := 'OTMErro Ped '+FBird.SQLFBConsulta.Current.Vars[0].AsString+' Item '+FBird.SQLFBFKConsulta.Current.Vars[0].AsString;
+                    SBRodape.Panels[1].Text := 'OTMErro Ped '+FBird.SQLFBConsulta.Current.Vars[0].AsString+' Item '+FBird.SQLFBFKConsulta.Current.Vars[0].AsString;
                     SBRodape.Refresh;
           
                     Abort;
@@ -2668,7 +2434,7 @@ procedure TFrmPrincipal.ACTADM_COMISSAOExecute(Sender: TObject);
                 except
                   FBird.TFBEdicao.Rollback;
 
-                  SBRodape.Panels[0].Text := 'OTM Erro Cabec Ped '+FBird.SQLFBConsulta.Current.Vars[0].AsString+' Item '+FBird.SQLFBFKConsulta.Current.Vars[0].AsString;
+                  SBRodape.Panels[1].Text := 'OTM Erro Cabec Ped '+FBird.SQLFBConsulta.Current.Vars[0].AsString+' Item '+FBird.SQLFBFKConsulta.Current.Vars[0].AsString;
                   SBRodape.Refresh;
 
                   Abort;
@@ -2678,7 +2444,7 @@ procedure TFrmPrincipal.ACTADM_COMISSAOExecute(Sender: TObject);
             finally
               oCTransact(FBird.TFBConsulta);
 
-              SBRodape.Panels[0].Text := 'Otimotex Fim';
+              SBRodape.Panels[1].Text := 'Otimotex Fim';
               SBRodape.Refresh;
             end;
           end;
@@ -2699,8 +2465,8 @@ procedure TFrmPrincipal.ACTADM_COMISSAOExecute(Sender: TObject);
                 SQL.Add('FROM     PED_VEN_CAB_004 AS PK');
                 SQL.Add('JOIN     CAD_REP         AS CR ON (CR.ID = PK.IDCR)');
                 SQL.Add('JOIN     TAB_PAG         AS PG ON (PG.ID = PK.CDPG)');
-                //SQL.Add('WHERE    CAST(PK.DTBX AS DATE) >= DATEADD(MONTH,-1,DATEADD(1 - EXTRACT(DAY FROM CURRENT_DATE) DAY TO CURRENT_DATE))');
-                SQL.Add('WHERE    CAST(PK.DTBX AS DATE) >= ''01/01/26''');
+                SQL.Add('WHERE    CAST(PK.DTBX AS DATE) >= DATEADD(MONTH,-1,DATEADD(1 - EXTRACT(DAY FROM CURRENT_DATE) DAY TO CURRENT_DATE))');
+                SQL.Add('AND      PK.FAPD  = 1');
               //SQL.Add('AND      PK.DEPD = ''99669''');
                 SQL.Add('ORDER BY PK.DTBX');
                 ExecQuery;
@@ -2725,8 +2491,7 @@ procedure TFrmPrincipal.ACTADM_COMISSAOExecute(Sender: TObject);
                   ComissaoItem := 0;
                   while not FBird.SQLFBFKConsulta.Eof do
                   begin
-                    Application.ProcessMessages;
-                    SBRodape.Panels[1].Text := 'LEBPed '+FBird.SQLFBConsulta.Current.Vars[0].AsString+' de '+FormatDateTime('dd/mm/yy',FBird.SQLFBConsulta.Current.Vars[4].AsDateTime)+' Item '+FBird.SQLFBFKConsulta.Current.Vars[0].AsString;
+                    SBRodape.Panels[2].Text := 'LEBPed '+FBird.SQLFBConsulta.Current.Vars[0].AsString+' de '+FormatDateTime('dd/mm/yy',FBird.SQLFBConsulta.Current.Vars[4].AsDateTime)+' Item '+FBird.SQLFBFKConsulta.Current.Vars[0].AsString;
                     SBRodape.Refresh;
 
                     { Procura na tabela de categorias a faixa de preço correspondente }
@@ -2781,7 +2546,7 @@ procedure TFrmPrincipal.ACTADM_COMISSAOExecute(Sender: TObject);
                     except
                       FBird.TFBEdicao.Rollback;
 
-                      SBRodape.Panels[1].Text := 'LEBErro Ped '+FBird.SQLFBConsulta.Current.Vars[0].AsString+' Item '+FBird.SQLFBFKConsulta.Current.Vars[0].AsString;
+                      SBRodape.Panels[2].Text := 'LEBErro Ped '+FBird.SQLFBConsulta.Current.Vars[0].AsString+' Item '+FBird.SQLFBFKConsulta.Current.Vars[0].AsString;
                       SBRodape.Refresh;
 
                       Abort;
@@ -2826,7 +2591,7 @@ procedure TFrmPrincipal.ACTADM_COMISSAOExecute(Sender: TObject);
                 except
                   FBird.TFBEdicao.Rollback;
 
-                  SBRodape.Panels[1].Text := 'LEBErro Cabec Ped '+FBird.SQLFBConsulta.Current.Vars[0].AsString+' Item '+FBird.SQLFBFKConsulta.Current.Vars[0].AsString;
+                  SBRodape.Panels[2].Text := 'LEBErro Cabec Ped '+FBird.SQLFBConsulta.Current.Vars[0].AsString+' Item '+FBird.SQLFBFKConsulta.Current.Vars[0].AsString;
                   SBRodape.Refresh;
 
                   Abort;
@@ -2836,534 +2601,422 @@ procedure TFrmPrincipal.ACTADM_COMISSAOExecute(Sender: TObject);
             finally
               oCTransact(FBird.TFBConsulta);
 
-              SBRodape.Panels[1].Text := 'Lebianco Fim';
+              SBRodape.Panels[2].Text := 'Lebianco Fim';
               SBRodape.Refresh;
             end;
           end;
 begin
-  try
-    IPrincipal.Enabled := False;
   OTMComissoes;
   LEBComissoes;
+end;
 
+procedure TFrmPrincipal.MIRelProdutosProgClick(Sender: TObject);
+begin
+  frmrelatorio_geral := TFrmrelatorio_geral.Create(Self);
+  try
+    frmrelatorio_geral.CDPD                   := '0';
+    frmrelatorio_geral.CDRO                   := '0';
+    frmrelatorio_geral.CDBX                   := '0';
+    frmrelatorio_geral.CDNF                   := '0';
+    frmrelatorio_geral.tsVEN_PRG.TabVisible   := true;
+    frmrelatorio_geral.cbVEN_PRG_TREL.Text    := 'PROGRAMAÇÕES DE VENDAS DE PRODUTOS - GERAL';
+    frmrelatorio_geral.cbVEN_PRG_TREL.Enabled := False;
+    frmrelatorio_geral.pcMAIN.ActivePage      := frmrelatorio_geral.tsVEN_PRG;
+    frmrelatorio_geral.ShowModal;
   finally
-    IPrincipal.Enabled := True;
+    freeAndNil(frmrelatorio_geral);
   end;
 end;
 
-procedure TFrmPrincipal.ACTUSER_LOGINExecute(Sender: TObject);
-var
-  i: integer;
+procedure TFrmPrincipal._SetMouseLeave(var AMessage: TMessage);
 begin
-  try
-    for i := MDIChildCount - 1 downto 0 do
-        if   MDIChildren[i] <> Nil then
-             MDIChildren[i].Free;
-  except
-    on E: Exception do
-       oException(Nil,'Falha ao tentar fechar automaticamente as páginas do sistema !' +#13+
-                      'Favor fechar manualmente.' +#13 +#13+
-                       E.Message + '.');
-  end;
-
-  FrmLogin         := TFrmLogin.create(Nil);
-  FrmLogin.Caption := 'Login de Usuário';
-
-  try
-    FrmLogin.ShowModal;
-  finally
-    try
-      if (FBird.DBErp.TestConnected) and (FrmLogin.RECLogin.Selected) then
-          _USER_LOGIN(FrmLogin.RECLogin.ID,FrmLogin.RECLogin.IDEP,FrmLogin.RECLogin.DEEP) else
-      begin
-        RECUsuarios.Id := 0;
-        Close;
-      end;
-    finally
-      FreeAndNil(FrmLogin);
-    end;
-  end;
+  inherited;
+  AMessage.Result := 1;
 end;
 
-procedure TFrmPrincipal.ACTUSER_PASSWORDExecute(Sender: TObject);
+function TFrmPrincipal._SetMouseTracking: Boolean;
 begin
-  uFrmCreate(Application,TFrmSenha,FrmSenha);
-end;
-
-procedure TFrmPrincipal.ACTUSER_LOGINUpdate(Sender: TObject);
-begin
-  { nothing }
-end;
-
-procedure TFrmPrincipal._USER_LOGIN(AIDUSER: Variant; AIDEP,ADEEP: String);
-          procedure _RSBAction(AAction: TAction; ARxSpeedButton: TRxSpeedButton; ARxSpeedCaption: String = '');
-          begin
-            ARxSpeedButton.Glyph   := Nil;
-            ARxSpeedButton.Action  := Nil;
-
-            AAction.ImageIndex := AAction.Tag + IFThen(AAction.Enabled,0,1);
-
-            ARxSpeedButton.Action  := AAction;
-            ARxSpeedButton.Enabled := True;
-            ARxSpeedButton.Cursor  := IFThen(AAction.Enabled,crHandPoint,crNo);
-            ARxSpeedButton.Caption := IFThen(ARxSpeedCaption = EmptyStr ,ARXSpeedButton.Caption,ARxSpeedCaption);
-          end;
-var
-  AREC_SHE_DEF: TREC_SHE_DEF;
-begin
-  if oEmpty(AIDUSER) then
-  Exit;
-
-  with FBird do
-  try
-    oOTransact(TFBEdicao);
-    with SQLFBEdicao do
-    begin
-      Close;
-      SQL.Clear;
-      SQL.Add('UPDATE TAB_USER');
-      SQL.Add('SET    IDEP_UEP = ''' + AIDEP + ''',');
-      SQL.Add('       IDEP_UDT = CURRENT_TIMESTAMP,');
-
-      SQL.Add('       IP   = ''' + RECParametros.IP   + ''',');
-      SQL.Add('       HOST = ''' + RECParametros.HOST + '''' );
-      SQL.Add('WHERE  ID   = ''' + AIDUSER + '''');
-      ExecQuery;
-    end;
-    oCTransact(TFBEdicao);
-
-    bExecParametros(AIDEP);
-    bExecUsuarios(AIDUSER);
-    bExecCaixa;
-
-    { PATH - Área de Trabalho }
-    EPrincipal.InitialDir := RECParametros.SHE_PATH_DESKTOP;
-
-    if EPrincipal.InitialDir  = EmptyStr then
-       EPrincipal.InitialDir := 'C:\Sheild\Coletor';
-
-    Application.ProcessMessages;
-  except
-    { nothing }
-  end;
-
-  { Parâmetros de Aberturas de Querys }
-  FreeAndNil(SLPrincipal);
-  SLPrincipal := TStringList.Create;
-
-  SLPrincipal.Values['fin_rec_ban_bai'] := oREPZero('fin_rec_ban_bai','_',RECParametros.EP_ID,3);
-  SLPrincipal.Values['fin_rec_car_bai'] := oREPZero('fin_rec_car_bai','_',RECParametros.EP_ID,3);
-  SLPrincipal.Values['nfe_cab']         := oREPZero('nfe_cab'        ,'_',RECParametros.EP_ID,3);
-  SLPrincipal.Values['nfe_dup']         := oREPZero('nfe_dup'        ,'_',RECParametros.EP_ID,3);
-  SLPrincipal.Values['nfe_ite']         := oREPZero('nfe_ite'        ,'_',RECParametros.EP_ID,3);
-  SLPrincipal.Values['nfe_tra']         := oREPZero('nfe_tra'        ,'_',RECParametros.EP_ID,3);
-  SLPrincipal.Values['ped_com_cab']     := oREPZero('ped_com_cab'    ,'_',RECParametros.EP_ID,3);
-  SLPrincipal.Values['ped_com_ite']     := oREPZero('ped_com_ite'    ,'_',RECParametros.EP_ID,3);
-  SLPrincipal.Values['ped_prg_cab']     := oREPZero('ped_prg_cab'    ,'_',RECParametros.EP_ID,3);
-  SLPrincipal.Values['ped_prg_ite']     := oREPZero('ped_prg_ite'    ,'_',RECParametros.EP_ID,3);
-  SLPrincipal.Values['ped_ven_cab']     := oREPZero('ped_ven_cab'    ,'_',RECParametros.EP_ID,3);
-  SLPrincipal.Values['ped_ven_ite']     := oREPZero('ped_ven_ite'    ,'_',RECParametros.EP_ID,3);
-  SLPrincipal.Values['rom_cab']         := oREPZero('rom_cab'        ,'_',RECParametros.EP_ID,3);
-  SLPrincipal.Values['rom_ite']         := oREPZero('rom_ite'        ,'_',RECParametros.EP_ID,3);
-  SLPrincipal.Values['fin_caption']     := 'Consultas em Carteira';
-  SLPrincipal.Values['fin_hint']        := '';
-  SLPrincipal.Values['fin_baixa']       := '';
-  SLPrincipal.Values['fin_consulta']    := '';
-
-  { Sheild }
-  MPSheild.Visible := (RECUsuarios.Grupo = 'DEV');
-
-  { GRANT USER }
-  oIREC_SHE_DEF(AREC_SHE_DEF);
-  try
-    { ACESSOS UTILITÁRIOS }
-    { Nota Fiscal }
-    AREC_SHE_DEF.GDescricao := 'Fiscal'; AREC_SHE_DEF.GReferencia := 'NFe'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTFIS_NFE_ADM.Enabled  := AREC_SHE_DEF.GView;
-
-    { Logística }
-    AREC_SHE_DEF.GDescricao := 'Logística'; AREC_SHE_DEF.GReferencia := 'Saídas'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTFIS_NFE_ADM.Enabled  := AREC_SHE_DEF.GView;
-
-    { Cupom Fiscal Eletrônico }
-    AREC_SHE_DEF.GDescricao := 'Fiscal'; AREC_SHE_DEF.GReferencia := 'CFe'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTFIS_NFE_ADM.Enabled  := AREC_SHE_DEF.GView;
-
-
-    { ACESSOS CADASTROS }
-    { Clientes }
-    AREC_SHE_DEF.GDescricao := 'Cadastro'; AREC_SHE_DEF.GReferencia := 'Clientes'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTCAD_CLI_ADM.Enabled  := AREC_SHE_DEF.GView;
-
-    { Representantes }
-    AREC_SHE_DEF.GDescricao := 'Cadastro'; AREC_SHE_DEF.GReferencia := 'Representantes'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTCAD_REP_ADM.Enabled  := AREC_SHE_DEF.GView;
-
-    { Fornecedores }
-    AREC_SHE_DEF.GDescricao := 'Cadastro'; AREC_SHE_DEF.GReferencia := 'Fornecedores'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTCAD_FOR_ADM.Enabled  := AREC_SHE_DEF.GView;
-
-    { Transportadoras }
-    AREC_SHE_DEF.GDescricao := 'Cadastro'; AREC_SHE_DEF.GReferencia := 'Transportadoras'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTCAD_TRA_ADM.Enabled  := AREC_SHE_DEF.GView;
-
-    { Containers }
-    AREC_SHE_DEF.GDescricao := 'Cadastro'; AREC_SHE_DEF.GReferencia := 'Containers'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTCAD_CTNR_ADM.Enabled := AREC_SHE_DEF.GView;
-
-    
-    { ACESSOS CAIXA }
-    { Abartura }
-    AREC_SHE_DEF.GDescricao := 'Caixa'; AREC_SHE_DEF.GReferencia := 'Abertura'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTCAI_ABR_PAD.Enabled  := AREC_SHE_DEF.GView;
-
-    { Fechamento }
-    AREC_SHE_DEF.GDescricao := 'Caixa'; AREC_SHE_DEF.GReferencia := 'Fechamento'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTCAI_FEC.Enabled      := AREC_SHE_DEF.GView;
-
-    { Sangrias }
-    AREC_SHE_DEF.GDescricao := 'Caixa'; AREC_SHE_DEF.GReferencia := 'Sangrias'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTCAI_LSS.Enabled      := AREC_SHE_DEF.GView;
-
-    { Tabelas de Sangrias }
-    AREC_SHE_DEF.GDescricao := 'Caixa'; AREC_SHE_DEF.GReferencia := 'Tabela de Sangrias'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTCAI_TSS.Enabled      := AREC_SHE_DEF.GView;
-
-    { Fluxo de Caixa }
-    AREC_SHE_DEF.GDescricao := 'Caixa'; AREC_SHE_DEF.GReferencia := 'Fluxo de Caixa'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTCAI_FLC.Enabled      := AREC_SHE_DEF.GView;
-
-
-    { ACESSOS COMPRAS }
-    AREC_SHE_DEF.GDescricao := 'Pedidos'; AREC_SHE_DEF.GReferencia := 'Compras'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTPED_PDC_ADM.Enabled  := AREC_SHE_DEF.GView;
-
-
-    { ACESSOS CUSTOS }
-    AREC_SHE_DEF.GDescricao  := 'Custos'; AREC_SHE_DEF.GReferencia := 'Produtos'; AREC_SHE_DEF.GRegra := 'Importados'; oUSER(AREC_SHE_DEF);
-    ACTPED_PDC_CUSTO.Enabled := AREC_SHE_DEF.GView;
-
-
-    { ACESSOS ESTOQUE }
-    { Controle }
-    AREC_SHE_DEF.GDescricao    := 'Estoque'; AREC_SHE_DEF.GReferencia := 'Produtos'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTCAD_PRO_EST_ADM.Enabled := AREC_SHE_DEF.GView; { Controle }
-    ACTCAD_PRO_EST_LCT.Enabled := AREC_SHE_DEF.GView; { Entradas }
-
-    { Etiquetas }
-    AREC_SHE_DEF.GDescricao    := 'Estoque'; AREC_SHE_DEF.GReferencia := 'Etiquetas'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTCAD_PRO_EST_ETQ.Enabled := AREC_SHE_DEF.GView;
-
-    { Qualidade }
-    AREC_SHE_DEF.GDescricao    := 'Estoque'; AREC_SHE_DEF.GReferencia := 'Qualidade'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTCAD_PRO_EST_DEF.Enabled := AREC_SHE_DEF.GView;
-
-
-    { ACESSOS EXPEDIÇÃO }
-    AREC_SHE_DEF.GDescricao        := 'Estoque'; AREC_SHE_DEF.GReferencia := 'Expedição'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTCAD_PRO_EST_EXP_COL.Enabled := AREC_SHE_DEF.GView; { Coletor }
-    ACTCAD_PRO_EST_EXP_MAN.Enabled := AREC_SHE_DEF.GView; { Manual  }
-
-
-    { ACESSOS FINANCEIRO }
-    { Recebimentos Bancários }
-    AREC_SHE_DEF.GDescricao := 'Financeiro'; AREC_SHE_DEF.GReferencia := 'Recebimentos Bancários'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTFIN_REC_BAN.Enabled  := AREC_SHE_DEF.GView;
-
-    { Recebimentos em Carteira }
-    AREC_SHE_DEF.GDescricao := 'Financeiro'; AREC_SHE_DEF.GReferencia := 'Recebimentos Carteira'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTFIN_REC_CRT.Enabled  := AREC_SHE_DEF.GView;
-
-    { Duplicatas }
-    AREC_SHE_DEF.GDescricao := 'Financeiro'; AREC_SHE_DEF.GReferencia := 'Recebimentos Bancários'; AREC_SHE_DEF.GRegra := 'Boletos'; oUSER(AREC_SHE_DEF);
-    ACTFIN_REC_DUP.Enabled  := AREC_SHE_DEF.GView;
-
-    { Controle de Pagamentos }
-    AREC_SHE_DEF.GDescricao := 'Financeiro'; AREC_SHE_DEF.GReferencia := 'Pagamentos'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTFIN_PAG_CMV.Enabled  := AREC_SHE_DEF.GView;
-
-    { Pagamentos de Comissões }
-    AREC_SHE_DEF.GDescricao := 'Financeiro'; AREC_SHE_DEF.GReferencia := 'Pagamentos'; AREC_SHE_DEF.GRegra := 'Comissões'; oUSER(AREC_SHE_DEF);
-    ACTFIN_PAG_CMV.Enabled  := AREC_SHE_DEF.GView;
-
-
-    { ACESSOS FISCAIS }
-    { Nossa }
-    AREC_SHE_DEF.GDescricao    := 'Fiscal'; AREC_SHE_DEF.GReferencia := 'NFe'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTFIS_NFE_ADM.Enabled     := AREC_SHE_DEF.GView;
-    ACTFIS_NFE_LCT.Enabled     := AREC_SHE_DEF.GView;
-
-    { Terceiros }
-    AREC_SHE_DEF.GDescricao    := 'Fiscal'; AREC_SHE_DEF.GReferencia := 'NFe Terceiros'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTFIS_NFE_EDI_TER.Enabled := AREC_SHE_DEF.GView;
-
-
-    { ACESSOS PRODUTOS }
-    { Cadastro }
-    AREC_SHE_DEF.GDescricao := 'Produtos'; AREC_SHE_DEF.GReferencia := 'Cadastro'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTCAD_PRO_ADM.Enabled  := AREC_SHE_DEF.GView;
-
-    { Grade de Cores }
-    AREC_SHE_DEF.GDescricao    := 'Produtos'; AREC_SHE_DEF.GReferencia := 'Grade de Cores'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTCAD_PRO_GRD_COR.Enabled := AREC_SHE_DEF.GView;
-
-    { Grade de Estampas }
-    AREC_SHE_DEF.GDescricao    := 'Produtos'; AREC_SHE_DEF.GReferencia := 'Grade de Estampas'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTCAD_PRO_GRD_EST.Enabled := AREC_SHE_DEF.GView;
-
-    { Coleções }
-    AREC_SHE_DEF.GDescricao    := 'Produtos'; AREC_SHE_DEF.GReferencia := 'Coleções'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTCAD_PRO_COL.Enabled     := AREC_SHE_DEF.GView;
-
-    { Segmentos }
-    AREC_SHE_DEF.GDescricao    := 'Produtos'; AREC_SHE_DEF.GReferencia := 'Segmentos'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTCAD_PRO_SEG.Enabled     := AREC_SHE_DEF.GView;
-
-    { Grupos }
-    AREC_SHE_DEF.GDescricao    := 'Produtos'; AREC_SHE_DEF.GReferencia := 'Grupos'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTCAD_PRO_GRP.Enabled     := AREC_SHE_DEF.GView;
-    ACTCAD_PRO_SGP.Enabled     := AREC_SHE_DEF.GView;
-
-    { Sub Grupos }
-    AREC_SHE_DEF.GDescricao    := 'Produtos'; AREC_SHE_DEF.GReferencia := 'Sub Grupos'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTCAD_PRO_GRP.Enabled     := AREC_SHE_DEF.GView;
-    ACTCAD_PRO_SGP.Enabled     := AREC_SHE_DEF.GView;
-
-    { Categorias }
-    AREC_SHE_DEF.GDescricao    := 'Produtos'; AREC_SHE_DEF.GReferencia := 'Categorias'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTCAD_PRO_CAT.Enabled     := AREC_SHE_DEF.GView;
-    ACTCAD_PRO_SCT.Enabled     := AREC_SHE_DEF.GView;
-
-    { Sub Categorias }
-    AREC_SHE_DEF.GDescricao    := 'Produtos'; AREC_SHE_DEF.GReferencia := 'Sub Categorias'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTCAD_PRO_CAT.Enabled     := AREC_SHE_DEF.GView;
-    ACTCAD_PRO_SCT.Enabled     := AREC_SHE_DEF.GView;
-
-
-    { ACESSOS VENDAS PROGRAMADAS }
-    AREC_SHE_DEF.GDescricao := 'Pedidos'; AREC_SHE_DEF.GReferencia := 'Programados'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTPED_PDP_ADM.Enabled  := AREC_SHE_DEF.GView;
-
-
-    { ACESSOS TABELAS }
-    { Natureza de Operações }
-    AREC_SHE_DEF.GDescricao  := 'Tabelas'; AREC_SHE_DEF.GReferencia := 'CFOP'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTTAB_CFOP.Enabled      := AREC_SHE_DEF.GView;
-
-    { Condições de Pagamentos }
-    AREC_SHE_DEF.GDescricao  := 'Tabelas'; AREC_SHE_DEF.GReferencia := 'Prazos'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTTAB_PRZ.Enabled       := AREC_SHE_DEF.GView;
-
-
-    { ACESSOS VENDAS PRONTA ENTREGA }
-    AREC_SHE_DEF.GDescricao := 'Pedidos'; AREC_SHE_DEF.GReferencia := 'Vendas'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTPED_PDV_ADM.Enabled  := AREC_SHE_DEF.GView; { Controle }
-    ACTPED_PDV_CLT.Enabled  := AREC_SHE_DEF.GView; { Coletor }
-
-
-    { ACESSOS VENDAS ROMANEADAS }
-    AREC_SHE_DEF.GDescricao := 'Pedidos'; AREC_SHE_DEF.GReferencia := 'Romaneios'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTPED_RDV_ADM.Enabled  := AREC_SHE_DEF.GView;
-
-  finally
-
-    oFREC_SHE_DEF(AREC_SHE_DEF);
-  end;
-
-  with FrmPrincipal do
+  with ATrackMouseEvent do
   begin
-    { RODAPÉ }
-    SBRodape.Width := Screen.Width + 1;
-
-    { EMPRESA }
-    SBRodape.Panels[0].Text  := RECParametros.EP_NO;
-    SBRodape.Panels[0].Width := Length(SBRodape.Panels[0].Text) * 12;
-
-    { USUÁRIO }
-    SBRodape.Panels[1].Text  := oPrimeiraLetraMaiuscula(RECUsuarios.Login) + ' - ' + oPrimeiraLetraMaiuscula(RECUsuarios.Cargo);
-    SBRodape.Panels[1].Width := Length(SBRodape.Panels[1].Text) * IFThen(Length(SBRodape.Panels[1].Text) > 15,7,9);
-
-    { DEPARTAMENTO }
-    SBRodape.Panels[2].Text  := 'Departamento de ' + oPrimeiraLetraMaiuscula(RECUsuarios.Departamento);
-    SBRodape.Panels[2].Width := Length(SBRodape.Panels[2].Text) * IFThen(Length(SBRodape.Panels[2].Text) > 15,7,9);
-
-    { HOST }
-    SBRodape.Panels[5].Text  := RECParametros.ServerHost;
-    SBRodape.Panels[5].Width := Length(SBRodape.Panels[5].Text) * IFThen(Length(SBRodape.Panels[5].Text) > 15,6,8);
-
-    { SHEILD }
-    SBRodape.Panels[3].Text := EmptyStr;
-    SBRodape.Panels[7].Text := 'Copyright © ' + oStrZero(YearOf(Date),4) + ' Sheild';
-    SBRodape.Refresh;
-
-    _oLoadJPG(Nil,Nil,IPrincipal,True,'JPG_SPLASH');
-    Repaint;
+    cbSize      := sizeof(ATrackMouseEvent);
+    dwFlags     := TME_LEAVE;
+    hwndTrack   := Self.Handle;
+    dwHoverTime := HOVER_DEFAULT;
   end;
 
-  { Impressoras }
-  oPRN_EXE(Application.Handle,'Relatórios');
-
-  { ADMIN }
-  if RECUsuarios.ID > 0 then
-  //BSIADM.Visible := ivNever;
+  result := TrackMouseEvent(ATrackMouseEvent);
 end;
 
-procedure TFrmPrincipal.ACTCAI_ABR_PADExecute(Sender: TObject);
-begin
-  uFrmCreate(Application,Tfrmcai_abr,Frmcai_abr);
-end;
-
-procedure TFrmPrincipal.ACTCAI_ABR_FSTExecute(Sender: TObject);
+procedure TFrmPrincipal._SetHintDefault;
 var
-  ACAI_LAF_ID,
-  ACAI_TSR_ID: Variant;
+  AhintBK: String;
+  AHintPI,
+  AHelpPI: PPropInfo;
+  i: Word;
 begin
-  if oYesNo(handle,'Confirma abertura do caixa ?') = mrno then
-  Abort;
+  for i := 0 to ComponentCount - 1 do
+  begin
+    if Components[i].ClassType = TPanel then
+       tag := 0;
 
-  with FBird do
-  try
-    oOTransact(TFBEdicao);
+    AHelpPI := GetPropInfo(Components[i].ClassInfo,'HelpKeyword');
+    AHintPI := GetPropInfo(Components[i].ClassInfo,'Hint');
 
-    with SQLFBEdicao do
+    if (AHintPI <> Nil) and (AHelpPI <> Nil) then
     begin
-      { VER CAIXA INICIAL }
-      Close;
-      SQL.Clear;
-      SQL.Add('SELECT ID FROM CAI_TSR');
-      SQL.Add('WHERE  CAI_DESC = ''CAIXA INICIAL''');
-      ExecQuery;
-      ACAI_TSR_ID := Current.Vars[0].AsString;
-
-      if Eof then
-      oException(Nil,'CAIXA INICIAL não encontrado !');
-
-      { VER TERMINAIS }
-      Close;
-      SQL.Clear;
-      SQL.Add('SELECT EP.FANTASIA,CAI_IP,CAI_DABR,CAI_HABR,USU_DUSU,CAI_DECX,CAI_DFEC,CAI_HFEC');
-      SQL.Add('FROM   CAI_LAF,CAD_USU,TAB_PAR_SIS AS EP');
-
-      SQL.Add('WHERE  CAD_USU.USU_CUSU = CAI_CUSU');
-      SQL.Add('AND    EP.ID            = CAI_CDEP');
-      SQL.Add('AND    CAI_CDEP         = ''' + RECParametros.EP_ID + '''');
-      SQL.Add('AND    CAI_DABR         = ''' + formatDateTime('mm/dd/yy',RECParametros.SHE_DATA) +'''');
-      SQL.Add('AND    CAI_DFEC IS NOT NULL');
-      ExecQuery;
-
-      if Eof then
-      oException(Nil,'Caixa '       + Current.Vars[5].AsString + ' selecionado já está registrado !' + #13 + #13 +
-                     'Empresa: '    + Current.Vars[0].AsString + #13 +
-
-                     'Abertura: '   + FormatDateTime('dd/mm/yy',Current.Vars[2].AsDateTime) + ' '   +
-                                      FormatDateTime('hh:mm:ss',Current.Vars[3].AsDateTime) + ' - ' +
-                                      'Terminal: ' + Current.Vars[1].AsString + #13 +
-
-                     'Fechamento: ' + FormatDateTime('dd/mm/yy',Current.Vars[6].AsDateTime) + ' '   +
-                                      FormatDateTime('hh:mm:ss',Current.Vars[7].AsDateTime) + ' - ' +
-                                      'Terminal: ' + Current.Vars[1].AsString + #13 +
-
-                     'Usuário  : '  + Current.Vars[4].AsString);
-
-      { VER CAIXA ABERTO }
-      Close;
-      SQL.Clear;
-      SQL.Add('SELECT FANTASIA,CAI_IP,CAI_DABR,CAI_HABR,USU_DUSU,CAI_DECX');
-      SQL.Add('FROM   CAI_LAF,CAD_USU,TAB_PAR_SIS AS EP');
-
-      SQL.Add('WHERE  CAD_USU.USU_CUSU = CAI_CUSU');
-      SQL.Add('AND    EP.ID            = CAI_CDEP');
-      SQL.Add('AND    CAI_CDEP         = ''' + RECParametros.EP_ID + '''');
-      SQL.Add('AND    CAI_DFEC IS NULL');
-      ExecQuery;
-
-      if not Eof then
-      oException(Nil,'Caixa '      + Current.Vars[5].AsString + ' selecionado já está aberto !' + #13 + #13 +
-                     'Empresa: '   + Current.Vars[0].AsString + #13 +
-
-                     'Abertura: '  + FormatDateTime('dd/mm/yy',Current.Vars[2].AsDateTime) + '  '  +
-                                     FormatDateTime('hh:mm:ss',Current.Vars[3].AsDateTime) + ' - ' +
-                                     'Terminal: '+ Current.Vars[1].AsString + #13  +
-
-                     'Usuário  : ' + Current.Vars[4].AsString);
-
-      { VER TERMINAL }
-      Close;
-      SQL.Clear;
-      SQL.Add('SELECT FANTASIA,CAI_DECX,CAI_DABR,CAI_HABR,USU_DUSU');
-      SQL.Add('FROM   CAI_LAF,CAD_USU,TAB_PAR_SIS AS EP');
-      SQL.Add('WHERE  CAD_USU.USU_CUSU = CAI_CUSU');
-      
-      SQL.Add('AND    EP.ID    = CAI_CDEP');
-      SQL.Add('AND    CAI_IP   = ''' + RECParametros.IP + '''');
-      SQL.Add('AND    CAI_CDEP = ''' + RECParametros.EP_ID + '''');
-      SQL.Add('AND    CAI_DFEC IS NULL');
-      ExecQuery;
-
-      if not Current.Vars[0].IsNull then
-      oException(Nil,'Terminal já possui caixa aberto !'      + #13   + #13 +
-                     'Empresa: '   + Current.Vars[0].AsString + #13   +
-                     'Caixa:'      + Current.Vars[1].AsString + ' - ' +
-
-                     'Abertura: '  + FormatDateTime('dd/mm/yy',Current.Vars[2].AsDateTime) + ' ' +
-                                     FormatDateTime('hh:mm:ss',Current.Vars[3].AsDateTime) + #13 +
-
-                     'Usuário  : ' + Current.Vars[4].AsString);
-
-      { ID CAI_LAF }
-      Close;
-      SQL.Clear;
-      SQL.Add('SELECT GEN_ID(ID_NO_CAI_LAF,1) FROM RDB$DATABASE');
-      ExecQuery;
-      ACAI_LAF_ID := Current.Vars[0].AsString;
-    end;
-
-    SPFBEdicao.Close;
-    SPFBEdicao.StoredProcName := 'SP_CAI_LAF';
-    SPFBEdicao.Prepare;
-
-    SPFBEdicao.ParamByName('ID' ).Value  := 0;
-    SPFBEdicao.ParamByName('CDEP').Value := RECParametros.EP_ID;
-    SPFBEdicao.ParamByName('CDCX').Value := '1';
-    SPFBEdicao.ParamByName('DECX').Value := '1 - CAIXA';
-    SPFBEdicao.ParamByName('DABR').Value := RECParametros.SHE_DATA;
-    SPFBEdicao.ParamByName('HABR').Value := FormatDateTime('hh:mm',Now);
-    SPFBEdicao.ParamByName('VABR').Value := 0;
-    SPFBEdicao.ParamByName('DFEC').Value := null;
-    SPFBEdicao.ParamByName('HFEC').Value := null;
-    SPFBEdicao.ParamByName('VFEC').Value := 0;
-    SPFBEdicao.ParamByName('CUSU').Value := RECUsuarios.Id;
-    SPFBEdicao.ParamByName('IP'  ).Value := RECParametros.IP;
-    SPFBEdicao.ParamByName('DETE').Value := RECParametros.HOST;
-    SPFBEdicao.ExecProc;
-
-    SPFBEdicao.Close;
-    SPFBEdicao.StoredProcName := 'SP_CAI_MOV';
-    SPFBEdicao.Prepare;
-
-    SPFBEdicao.ParamByName('ID'  ).Value := 0;
-    SPFBEdicao.ParamByName('CCAB').Value := ACAI_LAF_ID;
-    SPFBEdicao.ParamByName('CTSR').Value := ACAI_TSR_ID;
-    SPFBEdicao.ParamByName('CONC').Value := 1;
-    SPFBEdicao.ParamByName('DOCT').Value := ACAI_LAF_ID + oStrZero(ACAI_LAF_ID,20 - Length(ACAI_LAF_ID));
-    SPFBEdicao.ParamByName('DEMV').Value := 'CAIXA INICIAL';
-    SPFBEdicao.ParamByName('DCAD').Value := RECParametros.SHE_DATA;
-    SPFBEdicao.ParamByName('CRED').Value := 0;
-    SPFBEdicao.ParamByName('DEBI').Value := 0;
-    SPFBEdicao.ExecProc;
-
-    oCTransact(TFBEdicao);
-    oAviso(Application.Handle,'Abertura de caixa efetuada com sucesso !');
-  except
-    on E: Exception do
-    begin
-      oCTransact(TFBEdicao,ltRollback);
-      oException(Nil,'Falha ao tentar abrir caixa !' + #13 + #13 +
-                     'Código do Erro: ' + E.Message  + '.' + #13);
+       AHintBK := GetStrProp(Components[i] , AHintPI);
+       SetStrProp(Components[i], AHelpPI   , AHintBK);
     end;
   end;
+end;
 
-  bExecEvent('Caixa');
+procedure TFrmPrincipal.FormMouseMove(Sender: TObject; Shift: TShiftState;
+  X, Y: Integer);
+var
+  APoint  : TPoint;
+  AControl: TControl;
+begin
+  if _SetMouseTracking then
+  begin
+    GetCursorPos(APoint);
+    AControl := FindDragTarget(APoint, True);  { Mouse.CursorPos }
+
+    if (AControl = Nil) or (AControl <> Sender) then
+        Perform(WM_MOUSELEAVE, 0, 0) else
+        AControl.Hint := IFThen(Self.Hint <> EmptyStr,Self.Hint + 'SAIU',AControl.HelpKeyword);
+  end;
+end;
+
+
+{ ********** CADASTROS ********** }
+procedure TFrmPrincipal.ACTClientesExecute(Sender: TObject);
+begin
+  TFrmcad_cli.ExecForm(Nil,frmcad_cli);
+end;
+
+procedure TFrmPrincipal.ACTTransportadorasExecute(Sender: TObject);
+begin
+  TFrmcad_tra.ExecForm(Nil,Frmcad_tra);
+end;
+
+procedure TFrmPrincipal.ACTRepresentantesExecute(Sender: TObject);
+begin
+  TFrmcad_rep.ExecForm(Nil,Frmcad_rep);
+end;
+
+procedure TFrmPrincipal.ACTCAD_VENExecute(Sender: TObject);
+begin
+  UEmConstrucao;
+end;
+
+procedure TFrmPrincipal.ACTFornecedoresExecute(Sender: TObject);
+begin
+  TFrmcad_for.ExecForm(Nil,Frmcad_for);
+end;
+
+procedure TFrmPrincipal.ACTCAD_COMExecute(Sender: TObject);
+begin
+  UEmConstrucao;
+end;
+
+{ ********** PRODUTOS ********** }
+procedure TFrmPrincipal.ACTProdutosExecute(Sender: TObject);
+begin
+  TFrmProduto.ExecForm(Nil,FrmProduto);
+end;
+
+procedure TFrmPrincipal.ACTTAB_GRD_CORExecute(Sender: TObject);
+begin
+  TFrmProduto_Cor.ExecForm(Nil,FrmProduto_Cor);
+end;
+
+procedure TFrmPrincipal.ACTTAB_GRD_ESTExecute(Sender: TObject);
+begin
+  UEmConstrucao;
+end;
+
+procedure TFrmPrincipal.ACTPRO_ETQExecute(Sender: TObject);
+begin
+  uFrmCreate(Nil,TFrmEtiqueta_Geral,FrmEtiqueta_Geral);
+end;
+
+procedure TFrmPrincipal.ACTTAB_COLExecute(Sender: TObject);
+begin
+  uEmConstrucao;
+end;
+
+procedure TFrmPrincipal.ACTTAB_SEGExecute(Sender: TObject);
+begin
+  TFrmSegmentos.ExecForm(Nil,FrmSegmentos);
+end;
+
+procedure TFrmPrincipal.ACTTAB_GRPExecute(Sender: TObject);
+begin
+  TFrmProduto_Grupo.ExecForm(Nil,FrmProduto_Grupo);
+end;
+
+procedure TFrmPrincipal.ACTTAB_SGPExecute(Sender: TObject);
+begin
+  TFrmProduto_SubGrupo.ExecForm(Nil,FrmProduto_SubGrupo);
+end;
+
+procedure TFrmPrincipal.ACTTAB_CATExecute(Sender: TObject);
+begin
+  TFrmProduto_Categoria.ExecForm(Nil,FrmProduto_Categoria);
+end;
+
+procedure TFrmPrincipal.ACTTAB_SCTExecute(Sender: TObject);
+begin
+  TFrmProduto_SubCategoria.ExecForm(Nil,FrmProduto_SubCategoria);
+end;
+
+{ ********** ESTOQUE ********** }
+procedure TFrmPrincipal.ACTEST_LANExecute(Sender: TObject);
+begin
+  uFrmCreate(Nil,Tfrment_pro,Frment_pro);
+end;
+
+procedure TFrmPrincipal.ACTEstoqueExecute(Sender: TObject);
+begin
+  TFrmEstoque.ExecForm(Nil,FrmEstoque);
+end;
+
+procedure TFrmPrincipal.ACTEST_ETQExecute(Sender: TObject);
+begin
+  uFrmCreate(Nil,Tfrmeti_pro,frmeti_pro);
+end;
+
+procedure TFrmPrincipal.ACTEST_QUAExecute(Sender: TObject);
+begin
+  TFrmEstoqueDefeitos.ExecForm(Nil,FrmEstoqueDefeitos);
+end;
+
+{ ********** EXPEDIÇÃO ********** }
+procedure TFrmPrincipal.ACTEXP_COLExecute(Sender: TObject);
+begin
+  TFrmEXP_PED_SEP_COL.ExecForm(Nil,FrmEXP_PED_SEP_COL);
+end;
+
+procedure TFrmPrincipal.ACTEXP_MANExecute(Sender: TObject);
+begin
+  uFrmCreate(Nil,TFrmEXP_PED_SEP_MAN,FrmEXP_PED_SEP_MAN);
+end;
+
+{ ********** CONTAINERS ********** }
+procedure TFrmPrincipal.ACTCAD_CTNRExecute(Sender: TObject);
+begin
+  Tfrmcad_con.ExecForm(Nil,frmcad_con);
+end;
+
+procedure TFrmPrincipal.ACTDSP_CTNRExecute(Sender: TObject);
+begin
+  TFrmProduto_Custo_Importado.ExecForm(Nil,FrmProduto_Custo_Importado);
+end;
+
+{ ********** COMPRAS ********** }
+procedure TFrmPrincipal.ACTCOM_LANExecute(Sender: TObject);
+begin
+  if Assigned(frmven_prc) then
+  begin
+    frmven_prc.BringToFront;
+    frmven_prc.SetFocus;
+  end else
+  begin
+    bExecEvent('Caixa',lwShowWarning);
+    uFrmCreate(Nil,Tfrmven_prc,frmven_prc);
+  end;
+end;
+
+procedure TFrmPrincipal.ACTComprasExecute(Sender: TObject);
+begin
+  uFrmCreate(Nil,Tfrmctr_prc,Frmctr_prc);
+end;
+
+{ ********** PROGRAMAÇÕES ********** }
+procedure TFrmPrincipal.ACTPRG_LANExecute(Sender: TObject);
+begin
+  if Assigned(frmven_prg) then
+  begin
+    frmven_prg.BringToFront;
+    frmven_prg.SetFocus;
+  end else
+  begin
+    bExecEvent('Caixa',lwShowWarning);
+    uFrmCreate(Nil,Tfrmven_prg,frmven_prg);
+  end;
+end;
+
+procedure TFrmPrincipal.ACTProgramadosExecute(Sender: TObject);
+begin
+  uFrmCreate(Nil,Tfrmctr_prg,Frmctr_prg);
+end;
+
+{ ********** PEDIDOS ********** }
+procedure TFrmPrincipal.ACTPED_LANExecute(Sender: TObject);
+begin
+  if Assigned(frmven_ped) then
+  begin
+    frmven_ped.BringToFront;
+    frmven_ped.SetFocus;
+  end else
+  begin
+    bExecEvent('Caixa',lwShowWarning);
+    uFrmCreate(Nil,Tfrmven_ped,frmven_ped);
+  end;
+end;
+
+procedure TFrmPrincipal.ACTPedidosExecute(Sender: TObject);
+begin
+  uFrmCreate(Nil,Tfrmctr_ped,Frmctr_ped);
+end;
+
+{ ********** ROMANEIOS ********** }
+procedure TFrmPrincipal.ACTROM_LANExecute(Sender: TObject);
+begin
+  uEmConstrucao;
+end;
+
+procedure TFrmPrincipal.ACTRomaneiosExecute(Sender: TObject);
+begin
+  uFrmCreate(Nil,TFrmctr_rom,Frmctr_rom);
+end;
+
+{ ********** NOTA FISCAL ********** }
+procedure TFrmPrincipal.ACTNFE_LANExecute(Sender: TObject);
+begin
+  if Assigned(frmven_nfe) then
+  begin
+    frmven_nfe.BringToFront;
+    frmven_nfe.SetFocus;
+  end else
+  uFrmCreate(Nil,Tfrmven_nfe,frmven_nfe);
+end;
+
+procedure TFrmPrincipal.ACTNotaFiscalExecute(Sender: TObject);
+begin
+   uFrmCreate(Nil,Tfrmctr_nfe,Frmctr_nfe);
+end;
+
+procedure TFrmPrincipal.ACTNFE_LAN_TERExecute(Sender: TObject);
+begin
+  uFrmCreate(Nil,Tfrmven_nfd,frmven_nfd);
+end;
+
+procedure TFrmPrincipal.ACTNFE_PSQExecute(Sender: TObject);
+begin
+  uFrmCreate(Nil,TFrmNFeConsulta,FrmNFeConsulta);
+end;
+
+procedure TFrmPrincipal.ACTNFE_SAI_LANExecute(Sender: TObject);
+begin
+  TFrmNFeSaida.ExecForm(Nil,FrmNFeSaida);
+end;
+
+procedure TFrmPrincipal.ACTNFE_SAIExecute(Sender: TObject);
+begin
+  TFrmNFeSaidaConsulta.ExecForm(Nil,FrmNFeSaidaConsulta);
+end;
+
+{ ********** CUPOM FISCAL ********** }
+procedure TFrmPrincipal.ACTCFE_LANExecute(Sender: TObject);
+var
+  Numero: String;
+begin
+  if oEmpty(RECParametros.CFE_API_TOKEN) then
+     oException(Nil,'Emissor de CFeSat não Disponível !');
+
+  if Assigned(frmctr_ped) then
+  Numero := frmctr_ped.cadastroDEPK.AsString else
+  Numero := '0';
+
+  FrmCFeSat := TFrmCFeSat.Create(Nil,Numero);
+  try FrmCFeSat.ShowModal;
+  finally FreeAndNil(FrmCFeSat);
+  end;
+end;
+
+procedure TFrmPrincipal.ACTCupomFiscalExecute(Sender: TObject);
+begin
+  uEmConstrucao;
+end;
+
+{ ********** RECEBIMENTOS ********** }
+procedure TFrmPrincipal.ACTFIN_REC_BANExecute(Sender: TObject);
+begin
+  SLPrincipal.Values['fin_caption']  := 'Consultas de Recebimentos Bancários';
+  SLPrincipal.Values['fin_hint']     := 'DUPLICATA';
+  SLPrincipal.Values['fin_baixa']    := SLPrincipal.Values['fin_rec_ban_bai'];
+  SLPrincipal.Values['fin_consulta'] := SLPrincipal.Values['fin_rec_car_bai'];
+
+  TFrmfin_rec_con.ExecForm(Nil,Frmfin_rec_con,'',-2);
+end;
+
+procedure TFrmPrincipal.ACTFIN_REC_CARExecute(Sender: TObject);
+begin
+  SLPrincipal.Values['fin_caption']  := 'Consultas de Recebimentos em Carteira';
+  SLPrincipal.Values['fin_hint']     := 'CARTEIRA';
+  SLPrincipal.Values['fin_baixa']    := SLPrincipal.Values['fin_rec_car_bai'];
+  SLPrincipal.Values['fin_consulta'] := SLPrincipal.Values['fin_rec_ban_bai'];
+
+  TFrmfin_rec_con.ExecForm(Nil,Frmfin_rec_con,'',-2);
+end;
+
+procedure TFrmPrincipal.ACTFIN_REC_DUPExecute(Sender: TObject);
+begin
+  uFrmCreate(Nil,Tfrmfin_dup,Frmfin_dup);
+end;
+
+procedure TFrmPrincipal.ACTFIN_REC_BOLExecute(Sender: TObject);
+begin
+  uEmConstrucao;
+end;
+
+procedure TFrmPrincipal.ACTFIN_REC_IBBExecute(Sender: TObject);
+begin
+  uEmConstrucao;
+end;
+
+procedure TFrmPrincipal.ACTFIN_CAL_VCTExecute(Sender: TObject);
+begin
+  uEmConstrucao;
+end;
+
+procedure TFrmPrincipal.ACTFIN_EMI_RECExecute(Sender: TObject);
+begin
+  uEmConstrucao;
+end;
+
+procedure TFrmPrincipal.ACTFIN_EMI_VFUExecute(Sender: TObject);
+begin
+ uEmConstrucao;
+end;
+
+{ ********** PAGAMENTOS ********** }
+procedure TFrmPrincipal.ACTFIN_PAG_CMVExecute(Sender: TObject);
+begin
+  uFrmCreate(Nil,TFrmpag_com,Frmpag_com);
+end;
+
+procedure TFrmPrincipal.ACTPagamentosExecute(Sender: TObject);
+begin
+  uEmConstrucao;
+end;
+
+{ ********** CHEQUES ********** }
+procedure TFrmPrincipal.ACTCHQ_LANExecute(Sender: TObject);
+begin
+  uEmConstrucao;
+end;
+
+procedure TFrmPrincipal.ACTChequesExecute(Sender: TObject);
+begin
+  uEmConstrucao;
+end;
+
+{ ********** CAIXA ********** }
+procedure TFrmPrincipal.ACTCAI_ABRExecute(Sender: TObject);
+begin
+  uFrmCreate(Nil,Tfrmcai_abr,Frmcai_abr);
 end;
 
 procedure TFrmPrincipal.ACTCAI_RABExecute(Sender: TObject);
@@ -3402,529 +3055,329 @@ end;
 
 procedure TFrmPrincipal.ACTCAI_FECExecute(Sender: TObject);
 begin
-  uFrmCreate(Application,Tfrmcai_fec,Frmcai_fec);
+  uFrmCreate(Nil,Tfrmcai_fec,Frmcai_fec);
 end;
 
-procedure TFrmPrincipal.ACTCAI_LSSExecute(Sender: TObject);
+procedure TFrmPrincipal.ACTCAI_SSPExecute(Sender: TObject);
 begin
-  uFrmCreate(Application,Tfrmcai_sar,Frmcai_sar);
+  Tfrmcai_sar.ExecForm(Nil,frmcai_sar);
 end;
 
-procedure TFrmPrincipal.ACTCAI_TSSExecute(Sender: TObject);
+procedure TFrmPrincipal.ACTTAB_SSPExecute(Sender: TObject);
 begin
-  // RICARDO uFrmCreate(Application,Tfrmcai_tsr,Frmcai_tsr);
+  uEmConstrucao;
 end;
 
 procedure TFrmPrincipal.ACTCAI_FLCExecute(Sender: TObject);
 begin
-  uFrmCreate(Application,Tfrmcai_mov,frmcai_mov);
+  uFrmCreate(Nil,Tfrmcai_mov,frmcai_mov);
 end;
 
-procedure TFrmPrincipal.ACTPRN_ADMExecute(Sender: TObject);
-begin
-  uFrmCreate(Application,TFrmImpressoras,FrmImpressoras);
-end;
-
-procedure TFrmPrincipal.ACTPRN_EXEExecute(Sender: TObject);
-begin
-  if oEmpty(ACTPRN_EXE.Hint) then
-            ACTPRN_EXE.Hint := 'Relatórios';
-
-  try
-    oPRN_EXE(Handle,ACTPRN_EXE.Hint);
-  finally
-    ACTPRN_EXE.Hint := EmptyStr;
-  end;
-end;
-
-procedure TFrmPrincipal.ACTRelatoriosExecute(Sender: TObject);
-begin
-  try
-    FrmRelatorios := TFrmRelatorios.Create(Application,TAction(Sender));
-    FrmRelatorios.ShowModal;
-
-  finally
-    FreeAndNil(FrmRelatorios);
-  end;
-end;
-
-procedure TFrmPrincipal.ACTMU_FIS_NFE_PSQExecute(Sender: TObject);
-begin
-  uFrmCreate(Application,TFrmNFeConsulta,FrmNFeConsulta);
-end;
-
-procedure TFrmPrincipal.ACTMU_FIS_NFE_SAIExecute(Sender: TObject);
-begin
-  AREC_SHE_DEF.GDescricao := 'Logística'; AREC_SHE_DEF.GReferencia := 'Saídas'; AREC_SHE_DEF.GRegra := 'Controle'; oUSER(AREC_SHE_DEF);
-
-  if AREC_SHE_DEF.GAppend then
-  TFrmNFeSaida._ExecForm(Application,FrmNFeSaida) else
-  TFrmNFeSaidaConsulta._ExecForm(Application,FrmNFeSaidaConsulta);
-end;
-
-procedure TFrmPrincipal.ACTMU_FIS_CFE_EDTExecute(Sender: TObject);
-//var
-//  Numero: String;
-begin
-//  if oEmpty(RECParametros.CFE_API_TOKEN) then
-//     oException(Application,'Emissor de CFeSat não Disponível !');
-//
-//  if Assigned(frmctr_ped) then
-//  Numero := frmctr_ped.cadastroDEPK.AsString else
-//  Numero := '0';
-//
-//  FrmCFeSat := TFrmCFeSat.Create(Application,Numero);
-//  try FrmCFeSat.ShowModal;
-//  finally FreeAndNil(FrmCFeSat);
-//  end;
-end;
-
-procedure TFrmPrincipal.ACTMU_EtiquetasExecute(Sender: TObject);
-begin
-  uFrmCreate(Application,TFrmEtiqueta_Geral,FrmEtiqueta_Geral);
-end;
-
-procedure TFrmPrincipal.ACTMU_USER_LOGINExecute(Sender: TObject);
-begin
-  ACTUSER_LOGIN.Execute;
-end;
-
-procedure TFrmPrincipal.ACTMU_USER_PASSWORDExecute(Sender: TObject);
-begin
-  ACTUSER_PASSWORD.Execute;
-end;
-
-procedure TFrmPrincipal.ACTMU_ABOUTExecute(Sender: TObject);
-begin
-  ACTMP_ABOUT.Execute;
-end;
-
-procedure TFrmPrincipal.ACTMU_SAIDAExecute(Sender: TObject);
-begin
-  ACTMP_SAIDA.Execute;
-end;
-
-procedure TFrmPrincipal.ACTCAD_CLI_ADMExecute(Sender: TObject);
-begin
-  TFrmcad_cli._ExecForm(Application,frmcad_cli);
-end;
-
-procedure TFrmPrincipal.ACTCAD_REP_ADMExecute(Sender: TObject);
-begin
-  TFrmcad_rep._ExecForm(Application,Frmcad_rep);
-end;
-
-procedure TFrmPrincipal.ACTCAD_FOR_ADMExecute(Sender: TObject);
-begin
-  TFrmcad_for._ExecForm(Application,Frmcad_for);
-end;
-
-procedure TFrmPrincipal.ACTCAD_TRA_ADMExecute(Sender: TObject);
-begin
-  TFrmcad_tra._ExecForm(Application,Frmcad_tra);
-end;
-
-procedure TFrmPrincipal.ACTCAD_PRO_ADMExecute(Sender: TObject);
-begin
-  TFrmProduto._ExecForm(Application,FrmProduto, True);
-end;
-
-procedure TFrmPrincipal.ACTCAD_PRO_GRD_CORExecute(Sender: TObject);
-begin
-  TFrmProduto_Cor._ExecForm(Application,FrmProduto_Cor);
-end;
-
-procedure TFrmPrincipal.ACTCAD_PRO_GRD_ESTExecute(Sender: TObject);
-begin
-  ACTADM_DENIED.Execute;
-end;
-
-procedure TFrmPrincipal.ACTCAD_PRO_COLExecute(Sender: TObject);
-begin
-  ACTADM_DENIED.Execute;
-end;
-
-procedure TFrmPrincipal.ACTCAD_PRO_SEGExecute(Sender: TObject);
-begin
-  TFrmProduto_Segmento._ExecForm(Application,FrmProduto_Segmento);
-end;
-
-procedure TFrmPrincipal.ACTCAD_PRO_GRPExecute(Sender: TObject);
-begin
-  TFrmProduto_Grupo._ExecForm(Application,FrmProduto_Grupo);
-end;
-
-procedure TFrmPrincipal.ACTCAD_PRO_SGPExecute(Sender: TObject);
-begin
-  TFrmProduto_SubGrupo._ExecForm(Application,FrmProduto_SubGrupo);
-end;
-
-procedure TFrmPrincipal.ACTCAD_PRO_CATExecute(Sender: TObject);
-begin
-  TFrmProduto_Categoria._ExecForm(Application,FrmProduto_Categoria);
-end;
-
-procedure TFrmPrincipal.ACTCAD_PRO_SCTExecute(Sender: TObject);
-begin
-  TFrmProduto_SubCategoria._ExecForm(Application,FrmProduto_SubCategoria);
-end;
-
-procedure TFrmPrincipal.ACTCAD_PRO_EST_ADMExecute(Sender: TObject);
-begin
-  TFrmEstoque._ExecForm(Application,FrmEstoque);
-end;
-
-procedure TFrmPrincipal.ACTCAD_PRO_EST_LCTExecute(Sender: TObject);
-begin
-  uFrmCreate(Application,Tfrment_pro,Frment_pro);
-end;
-
-procedure TFrmPrincipal.ACTCAD_PRO_EST_ETQExecute(Sender: TObject);
-begin
-  uFrmCreate(Application,Tfrmeti_pro,frmeti_pro);
-//  TFrmCAD_PRO_EST_ETQ._ExecForm(Application,FrmCAD_PRO_EST_ETQ);
-end;
-
-procedure TFrmPrincipal.ACTCAD_PRO_EST_DEFExecute(Sender: TObject);
-begin
-  TFrmEstoqueDefeitos._ExecForm(Application,FrmEstoqueDefeitos);
-end;
-
-procedure TFrmPrincipal.ACTCAD_PRO_EST_EXP_COLExecute(Sender: TObject);
-begin
-  TFrmEXP_SEP_COL._ExecForm(Application,FrmEXP_SEP_COL);
-end;
-
-procedure TFrmPrincipal.ACTCAD_PRO_EST_EXP_MANExecute(Sender: TObject);
-begin
-  uFrmCreate(Application,TFrmEXP_SEP_MAN,FrmEXP_SEP_MAN);
-end;
-
-procedure TFrmPrincipal.ACTPED_PDC_ADMExecute(Sender: TObject);
-begin
-  TFrmCTR_PRC._ExecForm(Application,FrmCTR_PRC);
-end;
-
-procedure TFrmPrincipal.ACTPED_PDP_ADMExecute(Sender: TObject);
-begin
-  TFrmCTR_PRG._ExecForm(Application,FrmCTR_PRG);
-end;
-
-procedure TFrmPrincipal.ACTPED_PDV_ADMExecute(Sender: TObject);
-begin
-  TFrmCTR_PED._ExecForm(Application,FrmCTR_PED);
-end;
-
-procedure TFrmPrincipal.ACTPED_RDV_ADMExecute(Sender: TObject);
-begin
-  TFrmCTR_ROM._ExecForm(Application,FrmCTR_ROM);
-end;
-
-procedure TFrmPrincipal.ACTPED_PDV_CLTExecute(Sender: TObject);
-var
-  TFArquivo: TextFile;
-  SLTexto  : TStringList;
-
-  AFileName,
-  ALinha,
-  ACDET: String;
-
-  AEtiquetas: Array of String;
-  i: integer;
-
-  AIDG_IDEV_PDV: Variant;
-begin
-  if RECParametros.CDCX = 0 then
-     oException(Nil,RECParametros.STCX + ' !' + #13 +
-                    'Favor efetuar os procedimentos para a abertura do caixa.');
-
-  if not EPrincipal.Execute then
-  Abort;
-
-  AFileName := ExtractFileName(EPrincipal.FileName);
-  AFileName := LeftStr(AFileName,Length(AFileName) - 4);
-
-  AssignFile(TFArquivo,EPrincipal.FileName);
-  Reset(TFArquivo);
-
-  SLTexto := TStringList.Create;
-  SLTexto.LoadFromFile(EPrincipal.FileName);
-
-  SetLength(AEtiquetas,SLTexto.Count);
-
-  AIDG_IDEV_PDV := '0';
-  i:= 0;
-
-  try
-    if SLTexto.Count = 0 then
-    oException(Nil,'Nenhuma Etiqueta Coletada !' + #13 +
-                   'Verifique o conteúdo do arquivo selecionado.');
-
-    try
-      While not Eof(TFArquivo) do
-      Begin
-        Readln(TFArquivo,ALinha);
-        Delimitador := 0;
-        ALinha      := oUTF8ToStr(ALinha);
-
-        ACDET := Trim(oGetLinha(ALinha,','));
-        ACDET := IFThen(Length(ACDET)  >= 13,Copy(ACDET,5,8),ACDET);
-        ACDET := IFThen(Length(ACDET)   = 00,'0',ACDET);
-        ACDET := oStrZero(StrToInt64(ACDET),10);
-
-        if ACDET <> EmptyStr then
-        AEtiquetas[i] := ACDET;
-        inc(i);
-
-        Next;
-      end;
-    except
-      on E: Exception do
-      begin
-        oException(Nil,'Falha ao tentar coletar informações !' + #13 + #13 +
-                       'Registro: ' + ALinha);
-      end;
-    end;
-  finally
-    CloseFile(TFArquivo);
-    SLTexto.Free;
-  end;
-
-  with FBird do
-  try
-    { VER ETIQUETAS }
-    oOTransact(TFBETQConsulta);
-    for  i := LOW(AEtiquetas) to HIGH(AEtiquetas) do
-    begin
-      with SQLFBETQConsulta do
-      begin
-        Close;
-        SQL.Clear;
-        SQL.Add('SELECT PK.IDPK,PK.DEPK,PK.DTPK,');
-
-        SQL.Add('       PK.IDCD,CD.FANTASIA AS DECD,');
-        SQL.Add('       PK.IDCR,CR.FANTASIA AS DECR,');
-        SQL.Add('       PK.IDCV,CV.LOGIN    AS DECV,');
-        SQL.Add('       LG_SP.LOGIN AS LGSP,PK.DTSP ');
-
-        SQL.Add('FROM   CAD_PRO_EST AS PK');
-        SQL.Add('JOIN   CAD_CLI     AS CD    ON (CD.IDCD    = PK.IDCD)');
-        SQL.Add('JOIN   CAD_REP     AS CR    ON (CR.IDCR    = PK.IDCR)');
-        SQL.Add('JOIN   TAB_USER    AS CV    ON (CV.IDLG    = PK.IDCV)');
-        SQL.Add('JOIN   TAB_USER    AS LG_SP ON (LG_SP.IDLG = PK.IDSP)');
-
-        SQL.Add('WHERE  PK.CDET = ''' + AEtiquetas[i] + '''');
-        ExecQuery;
-
-        if Eof then
-        oErro(Application.Handle,'Etiqueta Nº ' + AEtiquetas[i] + ' não Encontrada.');
-
-     {   if Current.ByName('IDPK').AsInteger > 0 then
-        oException(Nil,'Etiqueta Nº ' + AEtiquetas[i] + ' já Separada !' + #13 +
-                       Current.ByName('LGSP').AsString  + ' - ' + FormatDateTime('dd/mm/yy',Current.ByName('DTSP').AsDateTime) + #13 + #13 +
-
-                       'Pedido Nº '   + Current.ByName('DEPK').AsString  + ' - ' + FormatDateTime('dd/mm/yy',Current.ByName('DTPK').AsDateTime) + #13 +
-                       Current.ByName('DECD').AsString + #13 +
-                       Current.ByName('DECV').AsString);
-      }
-      end;
-    end;
-    oCTransact(TFBConsulta);
-
-    try
-      oOTransact(TFBEdicao);
-
-      { GERAR PEDIDO }
-      with SQLFBEdicao do
-      begin
-        Close;
-        SQL.Clear;
-        SQL.Add('SELECT GEN_ID(IDG_IDEV_PDV,1) FROM RDB$DATABASE');
-        ExecQuery;
-
-        AIDG_IDEV_PDV := Current.Vars[0].AsString;
-      end;
-
-      for  i := LOW(AEtiquetas) to HIGH(AEtiquetas) do
-      begin
-        with SQLFBEdicao do
-        begin
-          Close;
-          SQL.Clear;
-          SQL.Add('UPDATE CAD_PRO_EST');
-          SQL.Add('SET    IDEV = ''' + AIDG_IDEV_PDV + ''',');
-          SQL.Add('       CDEV = 28');
-          SQL.Add('WHERE  CDET = ''' + AEtiquetas[i] + '''' );
-          ExecQuery;
-        end;
-      end;
-
-      oCTransact(TFBEdicao);
-    except
-      on E: Exception do
-      begin
-        oCTransact(TFBEdicao,ltRollback);
-        oException(Nil,'Falha ao tentar salvar eventos de estoque !' + #13 + #13 +
-                       'Evento: ' + AIDG_IDEV_PDV + '.' + #13 +
-                        E.Message);
-      end;
-    end;
-
-    try
-      oOTransact(TFBEdicao);
-
-      with SPFBEdicao do
-      begin
-        Close;
-        StoredProcName := 'SP_PED_PDV_CLD';
-        Prepare;
-
-        ParamByName('AEP_ID').Value := RECParametros.EP_ID;
-        ParamByName('AIDEV' ).Value := AIDG_IDEV_PDV;
-        ParamByName('AIDCA' ).Value := RECUsuarios.ID;
-        ParamByName('ACDCX' ).Value := RECParametros.CDCX;
-        ParamByName('APDSC' ).Value := 14;
-        ParamByName('AFILE' ).Value := AFileName;
-        ExecProc;
-      end;
-
-      oCTransact(TFBEdicao);
-      oAviso(Application.Handle,'Pedido Gerado com Sucesso !');
-    except
-      on E: Exception do
-      begin
-        oCTransact(TFBEdicao,ltRollback);
-        oException(Nil,'Falha ao tentar salvar cabeçalho !'+#13+
-                       'Favor entrar em contato com o administrador do sistema.'+#13+#13+
-                       'Erro: '+E.Message);
-      end;
-    end;
-  finally
-    oCTransact(TFBConsulta);
-  end;
-
-  { Renomeia e move para a basta de backup }
-  oFileRename(EPrincipal.FileName,ExtractFilePath(EPrincipal.FileName) + '\Backup\' + AFileName + ' - ' + FormatDateTime('dd-mm-yy hh-mm',Now) + '.txt');
-end;
-
-procedure TFrmPrincipal.ACTTAB_CFOPExecute(Sender: TObject);
-begin
-  Tfrmtab_nat._ExecForm(Application,Frmtab_nat);
-end;
-
+{ ********** TABELAS ********** }
 procedure TFrmPrincipal.ACTTAB_PRZExecute(Sender: TObject);
 begin
-  uFrmCreate(Application,Tfrmtab_pag,Frmtab_pag);
+  uFrmCreate(Nil,Tfrmtab_pag,Frmtab_pag);
 end;
 
-procedure TFrmPrincipal.ACTFIS_NFE_ADMExecute(Sender: TObject);
+procedure TFrmPrincipal.ACTTAB_NATExecute(Sender: TObject);
 begin
-  TFrmCTR_NFE._ExecForm(Application,FrmCTR_NFE);
+  Tfrmtab_nat.ExecForm(Nil,Frmtab_nat);
 end;
 
-procedure TFrmPrincipal.ACTFIS_NFE_LCTExecute(Sender: TObject);
+procedure TFrmPrincipal.ACTTAB_COBExecute(Sender: TObject);
 begin
-  TFrmVEN_NFE._ExecForm(
-
-  Application, { Owner    }
-  FrmVEN_NFE,  { Form     }
-  False,       { Pesquisa }
-  fsMDIChild,  { Tipo     }
-
-  0,  { Código Principal }
-  '', { Descrição Principal }
-
-  0, { Evento Principal }
-  2, { Tipo   Evento - 0: Copiado    1: Vazio  2: Romaneado }
-  1, { Código Evento - 0: Triangular 1: Normal 2: Complementar 3: Ajustes 4:Devolução }
-
-  '', { Tabela }
-  ''  { Get }
-  );
+  uEmConstrucao;
 end;
 
-procedure TFrmPrincipal.ACTFIS_NFE_EDI_TERExecute(Sender: TObject);
+procedure TFrmPrincipal.ACTTAB_PEDExecute(Sender: TObject);
 begin
-  uFrmCreate(Application,Tfrmven_nfd,Frmven_nfd);
+  uEmConstrucao;
 end;
 
-procedure TFrmPrincipal.ACTCAD_CTNR_ADMExecute(Sender: TObject);
+procedure TFrmPrincipal.ACTTAB_NCMExecute(Sender: TObject);
 begin
-  Tfrmcad_con._ExecForm(Application,frmcad_con);
+  uEmConstrucao;
 end;
 
-procedure TFrmPrincipal.ACTPED_PDC_CUSTOExecute(Sender: TObject);
+procedure TFrmPrincipal.ACTTAB_UCOMExecute(Sender: TObject);
 begin
-  TFrmProduto_Custo_Importado._ExecForm(Application,FrmProduto_Custo_Importado);
+  uEmConstrucao;
 end;
 
-procedure TFrmPrincipal.ACTFIN_REC_BANExecute(Sender: TObject);
+procedure TFrmPrincipal.ACTTAB_CMUNExecute(Sender: TObject);
 begin
-  SLPrincipal.Values['fin_caption']  := 'Consultas de Recebimentos Bancários';
-  SLPrincipal.Values['fin_hint']     := 'DUPLICATA';
-  SLPrincipal.Values['fin_baixa']    := SLPrincipal.Values['fin_rec_ban_bai'];
-  SLPrincipal.Values['fin_consulta'] := SLPrincipal.Values['fin_rec_car_bai'];
-
-  TFrmfin_rec_con._ExecForm(Application,Frmfin_rec_con);
+  uEmConstrucao;
 end;
 
-procedure TFrmPrincipal.ACTFIN_REC_CRTExecute(Sender: TObject);
+procedure TFrmPrincipal.ACTTAB_ICMSExecute(Sender: TObject);
 begin
-  SLPrincipal.Values['fin_caption']  := 'Consultas de Recebimentos em Carteira';
-  SLPrincipal.Values['fin_hint']     := 'CARTEIRA';
-  SLPrincipal.Values['fin_baixa']    := SLPrincipal.Values['fin_rec_car_bai'];
-  SLPrincipal.Values['fin_consulta'] := SLPrincipal.Values['fin_rec_ban_bai'];
-
-  TFrmfin_rec_con._ExecForm(Application,Frmfin_rec_con);
+  uEmConstrucao;
 end;
 
-procedure TFrmPrincipal.ACTFIN_REC_DUPExecute(Sender: TObject);
+procedure TFrmPrincipal.ACTTAB_ICMS_STExecute(Sender: TObject);
 begin
-  uFrmCreate(Application,Tfrmfin_dup,Frmfin_dup);
+  uEmConstrucao;
 end;
 
-procedure TFrmPrincipal.ACTFIN_PAG_CMVExecute(Sender: TObject);
+procedure TFrmPrincipal.ACTTAB_ORIExecute(Sender: TObject);
 begin
-  uFrmCreate(Application,TFrmpag_com,Frmpag_com);
+  uEmConstrucao;
 end;
 
-procedure TFrmPrincipal._Aviso_Reserva;
+procedure TFrmPrincipal._Login(AIDUSER: Variant; AIDEP,ADEEP: String);
+          procedure _RSBAction(AAction: TAction; ARxSpeedButton: TRxSpeedButton; ARxSpeedCaption: String = '');
+          begin
+            ARxSpeedButton.Glyph   := Nil;
+            ARxSpeedButton.Action  := Nil;
+
+            AAction.ImageIndex := AAction.Tag + IFThen(AAction.Enabled,0,1);
+
+            ARxSpeedButton.Action  := AAction;
+            ARxSpeedButton.Enabled := True;
+            ARxSpeedButton.Cursor  := IFThen(AAction.Enabled,crHandPoint,crNo);
+            ARxSpeedButton.Caption := IFThen(ARxSpeedCaption = EmptyStr ,ARXSpeedButton.Caption,ARxSpeedCaption);
+          end;
 var
-  nRecNo: Integer;
+  i: Word;
 begin
-  if RECUsuarios.Id = 0 then
+  if oEmpty(AIDUSER) then
      Exit;
-     
-  nRecNo := 0;
-  if (RECParametros.EP_ID = 1) then
-  if (RECUsuarios.Grupo = 'VEN') or (RECUsuarios.Grupo = 'GER') then
+
   with FBird do
   try
-    oOTransact(TFBConsulta);
-    with SQLFBConsulta do
+    oOTransact(TFBEdicao);
+    with SQLFBFKEdicao do
     begin
       Close;
       SQL.Clear;
-      SQL.Add('SELECT MAX(PK.ID) FROM VW_PED_VEN_AVR AS PK');
-      SQL.Add('WHERE  PK.IDEP = '''+RECParametros.EP_ID+'''');
+      SQL.Add('UPDATE TAB_USER');
+      SQL.Add('SET    IDEP_UEP = ''' + AIDEP + ''',');
+      SQL.Add('       IDEP_UDT = CURRENT_TIMESTAMP,');
 
-      if RECUsuarios.Grupo = 'VEN' then
-         SQL.Add('AND PK.IDCV = '''+RECUsuarios.Id+'''');
-
+      SQL.Add('       IP   = ''' + RECParametros.IP   + ''',');
+      SQL.Add('       HOST = ''' + RECParametros.HOST + '''' );
+      SQL.Add('WHERE  ID   = ''' + AIDUSER + '''');
       ExecQuery;
-      nRecNo := Current.Vars[0].AsInteger;
     end;
-  finally
-    oCTransact(TFBConsulta);
+    oCTransact(TFBEdicao);
+
+    bExecParametros(AIDEP);
+    bExecUsuarios(AIDUSER);
+    bExecPrinter;
+    bExecCaixa;
+  except
+    { nothing }
   end;
 
-  if nRecNo > 0 then
-  TFrmAviso_Reserva._ExecForm(Nil,FrmAviso_Reserva);
+  { Parâmetros de Aberturas de Querys }
+  FreeAndNil(SLPrincipal);
+  SLPrincipal := TStringList.Create;
+
+  { Array de Pesquisas }
+  aPesquisa := Nil;
+  SetLength(aPesquisa,Length(aPerfilPesquisa));
+  for i := Low(aPerfilPesquisa) to High(aPerfilPesquisa) do
+  begin
+    SetLength(aPesquisa[i],13);
+    aPesquisa[i,00] := aPerfilPesquisa[i,00];
+    aPesquisa[i,01] := aPerfilPesquisa[i,01];
+    aPesquisa[i,02] := aPerfilPesquisa[i,02];
+    aPesquisa[i,03] := aPerfilPesquisa[i,03];
+    aPesquisa[i,04] := aPerfilPesquisa[i,04];
+    aPesquisa[i,05] := aPerfilPesquisa[i,05];
+    aPesquisa[i,06] := '';
+    aPesquisa[i,07] := '';
+    aPesquisa[i,08] := '';
+    aPesquisa[i,09] := '';
+    aPesquisa[i,10] := '';
+    aPesquisa[i,11] := '';
+    aPesquisa[i,12] := '';
+  end;
+
+  { OBJ Tabelas }
+  SLPrincipal.Values['fin_rec_ban_bai'] := oREPZero('fin_rec_ban_bai','_',RECParametros.Id,3);
+  SLPrincipal.Values['fin_rec_car_bai'] := oREPZero('fin_rec_car_bai','_',RECParametros.Id,3);
+  SLPrincipal.Values['nfe_cab']         := oREPZero('nfe_cab'        ,'_',RECParametros.Id,3);
+  SLPrincipal.Values['nfe_dup']         := oREPZero('nfe_dup'        ,'_',RECParametros.Id,3);
+  SLPrincipal.Values['nfe_ite']         := oREPZero('nfe_ite'        ,'_',RECParametros.Id,3);
+  SLPrincipal.Values['nfe_tra']         := oREPZero('nfe_tra'        ,'_',RECParametros.Id,3);
+  SLPrincipal.Values['ped_com_cab']     := oREPZero('ped_com_cab'    ,'_',RECParametros.Id,3);
+  SLPrincipal.Values['ped_com_ite']     := oREPZero('ped_com_ite'    ,'_',RECParametros.Id,3);
+  SLPrincipal.Values['ped_prg_cab']     := oREPZero('ped_prg_cab'    ,'_',RECParametros.Id,3);
+  SLPrincipal.Values['ped_prg_ite']     := oREPZero('ped_prg_ite'    ,'_',RECParametros.Id,3);
+  SLPrincipal.Values['ped_ven_cab']     := oREPZero('ped_ven_cab'    ,'_',RECParametros.Id,3);
+  SLPrincipal.Values['ped_ven_ite']     := oREPZero('ped_ven_ite'    ,'_',RECParametros.Id,3);
+  SLPrincipal.Values['rom_cab']         := oREPZero('rom_cab'        ,'_',RECParametros.Id,3);
+  SLPrincipal.Values['rom_ite']         := oREPZero('rom_ite'        ,'_',RECParametros.Id,3);
+  SLPrincipal.Values['fin_caption']     := 'Consultas em Carteira';
+  SLPrincipal.Values['fin_hint']        := '';
+  SLPrincipal.Values['fin_baixa']       := '';
+  SLPrincipal.Values['fin_consulta']    := '';
+
+  { Grant Users }
+  { Cadastros }
+  ACTClientes.Enabled        := bPSQUSER('USU_VISU','Clientes'       ,'Cadastro','Permissões Gerais',False);
+  ACTTransportadoras.Enabled := bPSQUSER('USU_VISU','Transportadoras','Cadastro','Permissões Gerais',False);
+  ACTRepresentantes.Enabled  := bPSQUSER('USU_VISU','Representantes' ,'Cadastro','Permissões Gerais',False);
+  ACTFornecedores.Enabled    := bPSQUSER('USU_VISU','Fornecedores'   ,'Cadastro','Permissões Gerais',False);
+
+  { Produtos }
+  ACTProdutos.Enabled := bPSQUSER('USU_VISU','Produtos','Cadastro'     ,'Permissões Gerais',False);
+
+  ACTPRO_FCT.Enabled := bPSQUSER('USU_VISU','Produtos','Ficha Técnica','Permissões Gerais',False);
+  ACTPRO_ETQ.Enabled := bPSQUSER('USU_VISU','Produtos','Etiquetas'    ,'Permissões Gerais',False);
+
+  { Estoque }
+  ACTEstoque.Enabled := bPSQUSER('USU_VISU','Produtos','Estoque','Controle de Lançamentos');
+  ACTEST_LAN.Enabled := bPSQUSER('USU_NOVO','Produtos','Estoque','Lançamentos');
+  ACTEST_ETQ.Enabled := bPSQUSER('USU_NOVO','Produtos','Estoque','Lançamentos');
+  ACTEST_QUA.Enabled := bPSQUSER('USU_NOVO','Produtos','Estoque','Qualidade');
+
+  { Expedição }
+  ACTEXP_MAN.Enabled := bPSQUSER('USU_AUTO','Vendas','Pedidos','Separar');
+  ACTEXP_COL.Enabled := ACTEXP_MAN.Enabled;
+
+  { Containers }
+  ACTCAD_CTNR.Enabled := bPSQUSER('USU_VISU','Tabelas','Containers','Permissões Gerais');
+  ACTDSP_CTNR.Enabled := bPSQUSER('USU_VISU','Tabelas','Custo de Artigos Importados','Permissões Gerais');
+
+  { Compras }
+  ACTCOM_LAN.Enabled := bPSQUSER('USU_NOVO','Compras','Programações','Controlar');
+  ACTCompras.Enabled := bPSQUSER('USU_VISU','Compras','Programações','Controlar');
+
+  { Programações }
+  ACTPRG_LAN.Enabled     := bPSQUSER('USU_NOVO','Vendas','Programações','Controlar');
+  ACTProgramados.Enabled := bPSQUSER('USU_VISU','Vendas','Programações','Controlar');
+
+  { Vendas }
+  ACTPED_LAN.Enabled := bPSQUSER('USU_NOVO','Vendas','Pedidos','Incluir');
+  ACTPedidos.Enabled := bPSQUSER('USU_VISU','Vendas','Pedidos','Controlar') or (Pos(RECUsuarios.Grupo,'PCPEXP') > 0);
+
+  { Romaneios }
+  ACTRomaneios.Enabled := bPSQUSER('USU_VISU','Vendas','Romaneios','Controlar');
+
+  { Notas Fiscais }
+  ACTNFE_LAN.Enabled     := bPSQUSER('USU_VISU','Nota Fiscal','Vendas' ,'Incluir');
+  ACTNotaFiscal.Enabled  := bPSQUSER('USU_VISU','Nota Fiscal','Vendas' ,'Incluir');
+  ACTNFE_LAN_TER.Enabled := bPSQUSER('USU_VISU','Nota Fiscal','Compras','Incluir');
+  ACTNFE_SAI_LAN.Enabled := bPSQUSER('USU_NOVO','Nota Fiscal','Logística','Permissões Gerais');
+
+  { Cupons Fiscai }
+  ACTCFE_LAN.Enabled     := bPSQUSER('USU_NOVO','Fiscal','CFE','Permissões Gerais');
+  ACTCupomFiscal.Enabled := bPSQUSER('USU_CTRL','Fiscal','CFE','Permissões Gerais');
+
+  { Recebimentos }
+  ACTFIN_REC_BAN.Enabled   := bPSQUSER('USU_VISU','Financeiro','Contas a Receber','Permissões Gerais');
+  ACTFIN_REC_CAR.Enabled   := ACTFIN_REC_BAN.Enabled;
+  ACTFIN_REC_DUP.Enabled := bPSQUSER('USU_VISU','Financeiro','Controle Bancário','Duplicatas');
+
+  { Pagamentos }
+  ACTFIN_PAG_CMV.Enabled := bPSQUSER('USU_VISU','Financeiro','Contas a Pagar'   ,'Permissões Gerais');
+
+  { Cheques }
+  ACTCHQ_LAN.Enabled := bPSQUSER('USU_NOVO','Cheques','Cadastro','Permissões Gerais');
+  ACTCheques.Enabled := bPSQUSER('USU_CTRL','Cheques','Cadastro','Permissões Gerais');
+
+  { Caixa }
+  ACTCAI_ABR.Enabled := bPSQUSER('USU_VISU','Financeiro','Caixa','Abertura');
+  ACTCAI_FEC.Enabled := bPSQUSER('USU_VISU','Financeiro','Caixa','Fechamento');
+  ACTCAI_SSP.Enabled := bPSQUSER('USU_VISU','Financeiro','Caixa','Sangria \ Reforço');
+  ACTTAB_SSP.Enabled := bPSQUSER('USU_VISU','Financeiro','Caixa','Tipos de Sangria \ Reforço');
+  ACTCAI_FLC.Enabled := bPSQUSER('USU_VISU','Financeiro','Caixa','Movimentos');
+
+  { Tabelas }
+  ACTTAB_NAT.Enabled := bPSQUSER('USU_VISU','Tabelas','Naturezas de Operações' ,'Permissões Gerais');
+  ACTTAB_PRZ.Enabled := bPSQUSER('USU_VISU','Tabelas','Condições de Pagamentos','Permissões Gerais');
+
+  ACTTAB_GRD_COR.Enabled := bPSQUSER('USU_VISU','Tabelas','Cores'   ,'Permissões Gerais',False);
+  ACTTAB_GRD_EST.Enabled := bPSQUSER('USU_VISU','Tabelas','Estampas','Permissões Gerais',False);
+
+  ACTTAB_COL.Enabled := bPSQUSER('USU_VISU','Tabelas','Coleções'      ,'Permissões Gerais',False);
+  ACTTAB_SEG.Enabled := bPSQUSER('USU_VISU','Tabelas','Segmentos'     ,'Permissões Gerais',False);
+
+  ACTTAB_GRP.Enabled := bPSQUSER('USU_VISU','Tabelas','Grupos'        ,'Permissões Gerais',False);
+  ACTTAB_SGP.Enabled := bPSQUSER('USU_VISU','Tabelas','Sub Grupos'    ,'Permissões Gerais',False);
+
+  ACTTAB_CAT.Enabled := bPSQUSER('USU_VISU','Tabelas','Categorias'    ,'Permissões Gerais',False);
+  ACTTAB_SCT.Enabled := bPSQUSER('USU_VISU','Tabelas','Sub Categorias','Permissões Gerais',False);
+
+  { Sheild }
+  MPSheild.Visible := (RECUsuarios.Grupo = 'DEV');
+
+  with FrmPrincipal do
+  begin
+    if RECUsuarios.Grupo = 'PCP' then
+    begin
+      { Linha 1}
+      _RSBAction(ACTProdutos,RSBProdutos,'Produtos');
+      RSBProdutos.Top     := 3;
+      RSBProdutos.Left    := 3;
+      RSBProdutos.Visible := True;
+
+      _RSBAction(ACTEST_ETQ,RSBEST_ETQ);
+      RSBEST_ETQ.Top     := 03;
+      RSBEST_ETQ.Left    := 80;
+      RSBEST_ETQ.Visible := True;
+
+      { Linha 2}
+      _RSBAction(ACTEST_LAN,RSBEST_LAN,'Estoque');
+      RSBEST_LAN.Top     := 70;
+      RSBEST_LAN.Left    := 03;
+      RSBEST_LAN.Visible := True;
+
+      _RSBAction(ACTEstoque,RSBEstoque,'Controle...');
+      RSBEstoque.Top     := 70;
+      RSBEstoque.Left    := 80;
+      RSBEstoque.Visible := True;
+
+      { Linha 3}
+      _RSBAction(ACTEXP_COL,RSBEXP_COL);
+      RSBEXP_COL.Top     := 137;
+      RSBEXP_COL.Left    := 003;
+      RSBEXP_COL.Visible := True;
+
+      _RSBAction(ACTEXP_MAN,RSBEXP_MAN);
+      RSBEXP_MAN.Top     := 137;
+      RSBEXP_MAN.Left    := 080;
+      RSBEXP_MAN.Visible := True;
+
+      { Linha 4}
+      _RSBAction(ACTPedidos,RSBPedidos,'Pedidos');
+      RSBPedidos.Top     := 204;
+      RSBPedidos.Left    := 003;
+      RSBPedidos.Visible := True;
+
+      _RSBAction(ACTRomaneios,RSBRomaneios,'Romaneios');
+      RSBRomaneios.Top     := 204;
+      RSBRomaneios.Left    := 080;
+      RSBRomaneios.Visible := True;
+    end;
+
+    { Preenchendo o rodapé do Form Principal }
+    SBRodape.Width          := Screen.Width + 1;
+    SBRodape.Panels[0].Text := RECParametros.Fantasia;
+    SBRodape.Panels[1].Text := RECUsuarios.Login+' - '+RECUsuarios.Cargo;
+    SBRodape.Panels[3].Text := RECParametros.ServerHost;
+    SBRodape.Panels[6].Text := 'Copyright © '+oStrZero(YearOf(Date),4)+' Sheild';
+
+    Caption := 'Sheild '+IFThen(RECUsuarios.Grupo = 'PCP','PCP',
+                         IFThen(RECUsuarios.Grupo = 'EXP','EXP',
+                         IFThen(RECUsuarios.Grupo = 'FIN','Financeiro','Erp')));
+
+    { Foto de Fundo da Tela Principal}
+    oLoadJPG(RECParametros.IMG_JPG_SPLASH,IPrincipal.Picture);
+    Application.ProcessMessages;
+    Repaint;
+  end;
+
+  { Resumo }
+  bResumo_Pedido;
 end;
 
-procedure TFrmPrincipal.ACTREL_GER_PDV_TPOExecute(Sender: TObject);
+procedure TFrmPrincipal.ACRCOM_POR_ITEM_PEDExecute(Sender: TObject);
 begin
-  uConstrucao('Em desenvolvimento ...');
+{  QRPCOM_POR_ITEM_PED := TQRPCOM_POR_ITEM_PED.Create(Self,RECRelatorios);
+  QRPCOM_POR_ITEM_PED.WinControlFormCreate(QRPCOM_POR_ITEM_PED);}
 end;
 
 end.

@@ -1831,7 +1831,7 @@ inherited frmctr_ped: Tfrmctr_ped
               FieldName = 'DECD'
               SummaryFooterType = cstSum
               SummaryFooterField = 'CNCD'
-              SummaryFooterFormat = '0 Clientes(s) novo(s)'
+              SummaryFooterFormat = '0 Novos'
             end
             object DBGConsultaCNCD: TdxDBGridMaskColumn
               Font.Charset = ANSI_CHARSET
@@ -2534,7 +2534,7 @@ inherited frmctr_ped: Tfrmctr_ped
         object DPResumoDiario: TdxDockPanel
           Left = 0
           Top = 0
-          Width = 850
+          Width = 810
           Height = 140
           Cursor = crHandPoint
           Color = clBtnFace
@@ -2553,7 +2553,7 @@ inherited frmctr_ped: Tfrmctr_ped
           ImageIndex = 0
           AutoHidePosition = 2
           DockType = 1
-          OriginalWidth = 850
+          OriginalWidth = 810
           OriginalHeight = 140
           object DBGResumoDiario: TdxDBGrid
             Left = 0
@@ -2574,10 +2574,10 @@ inherited frmctr_ped: Tfrmctr_ped
                 Caption = 'Entradas de Pedidos'
               end
               item
-                Caption = 'Pedidos Faturados'
+                Caption = 'Pedidos Separados'
               end
               item
-                Caption = 'Pedidos Separados'
+                Caption = 'Pedidos Faturados'
               end>
             DefaultLayout = False
             HeaderPanelRowCount = 1
@@ -2629,7 +2629,7 @@ inherited frmctr_ped: Tfrmctr_ped
             ShowGrid = False
             OnCustomDrawCell = DBGResumoDiarioCustomDrawCell
             object DBGResumoDiarioCP_ABEP: TdxDBGridMaskColumn
-              Color = clHighlightText
+              Color = clBtnFace
               Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
               Font.Height = -12
@@ -2641,10 +2641,10 @@ inherited frmctr_ped: Tfrmctr_ped
               FieldName = 'CP_ABEP'
               SummaryFooterType = cstCount
               SummaryFooterField = 'DTPK'
-              SummaryFooterFormat = '0'
+              SummaryFooterFormat = ',##,0'
             end
             object DBGResumoDiarioDTPK: TdxDBGridDateColumn
-              Color = clHighlightText
+              Color = clBtnFace
               Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
               Font.Height = -12
@@ -2656,41 +2656,41 @@ inherited frmctr_ped: Tfrmctr_ped
               FieldName = 'DTPK'
             end
             object DBGResumoDiarioCLI_ITCD: TdxDBGridMaskColumn
-              Color = clHighlightText
+              Color = clBtnFace
               Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
               Font.Height = -12
               Font.Name = 'Tahoma'
               Font.Style = []
               HeaderAlignment = taRightJustify
-              Width = 56
+              Width = 40
               BandIndex = 1
               RowIndex = 0
               FieldName = 'CLI_ITCD'
               SummaryFooterType = cstSum
               SummaryFooterField = 'CLI_ITCD'
-              SummaryFooterFormat = '0'
+              SummaryFooterFormat = ',##,0'
               DisableFilter = True
             end
             object DBGResumoDiarioCLI_INCD: TdxDBGridMaskColumn
-              Color = clHighlightText
+              Color = clBtnFace
               Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
               Font.Height = -12
               Font.Name = 'Tahoma'
               Font.Style = []
               HeaderAlignment = taRightJustify
-              Width = 63
+              Width = 43
               BandIndex = 1
               RowIndex = 0
               FieldName = 'CLI_INCD'
               SummaryFooterType = cstSum
               SummaryFooterField = 'CLI_INCD'
-              SummaryFooterFormat = '0'
+              SummaryFooterFormat = ',##,0'
               DisableFilter = True
             end
             object DBGResumoDiarioPED_VLPK: TdxDBGridMaskColumn
-              Color = clHighlightText
+              Color = clBtnFace
               Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
               Font.Height = -12
@@ -2707,7 +2707,7 @@ inherited frmctr_ped: Tfrmctr_ped
               DisableFilter = True
             end
             object DBGResumoDiarioPED_ILPK: TdxDBGridMaskColumn
-              Color = clHighlightText
+              Color = clBtnFace
               Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
               Font.Height = -12
@@ -2720,19 +2720,19 @@ inherited frmctr_ped: Tfrmctr_ped
               FieldName = 'PED_ILPK'
               SummaryFooterType = cstSum
               SummaryFooterField = 'PED_ILPK'
-              SummaryFooterFormat = '0'
+              SummaryFooterFormat = ',##,0'
               DisableFilter = True
             end
             object DBGResumoDiarioPED_VLSP: TdxDBGridMaskColumn
-              Color = clWindowText
+              Color = clBtnFace
               Font.Charset = ANSI_CHARSET
-              Font.Color = clHighlightText
+              Font.Color = clWindowText
               Font.Height = -12
               Font.Name = 'Tahoma'
               Font.Style = []
               HeaderAlignment = taRightJustify
               Width = 110
-              BandIndex = 4
+              BandIndex = 3
               RowIndex = 0
               FieldName = 'PED_VLSP'
               SummaryFooterType = cstSum
@@ -2741,32 +2741,32 @@ inherited frmctr_ped: Tfrmctr_ped
               DisableFilter = True
             end
             object DBGResumoDiarioPED_ILSP: TdxDBGridMaskColumn
-              Color = clWindowText
+              Color = clBtnFace
               Font.Charset = ANSI_CHARSET
-              Font.Color = clHighlightText
+              Font.Color = clWindowText
               Font.Height = -12
               Font.Name = 'Tahoma'
               Font.Style = []
               HeaderAlignment = taRightJustify
               Width = 51
-              BandIndex = 4
+              BandIndex = 3
               RowIndex = 0
               FieldName = 'PED_ILSP'
               SummaryFooterType = cstSum
               SummaryFooterField = 'PED_ILSP'
-              SummaryFooterFormat = '0'
+              SummaryFooterFormat = ',##,0'
               DisableFilter = True
             end
             object DBGResumoDiarioPED_PLSP: TdxDBGridMaskColumn
-              Color = clWindowText
+              Color = clBtnFace
               Font.Charset = ANSI_CHARSET
-              Font.Color = clHighlightText
+              Font.Color = clWindowText
               Font.Height = -12
               Font.Name = 'Tahoma'
               Font.Style = []
               HeaderAlignment = taRightJustify
               Width = 60
-              BandIndex = 4
+              BandIndex = 3
               RowIndex = 0
               FieldName = 'PED_PLSP'
               SummaryFooterType = cstAvg
@@ -2774,15 +2774,15 @@ inherited frmctr_ped: Tfrmctr_ped
               SummaryFooterFormat = ',##,0.00%'
             end
             object DBGResumoDiarioPED_VTLQ: TdxDBGridMaskColumn
-              Color = 15268825
+              Color = clBtnFace
               Font.Charset = ANSI_CHARSET
-              Font.Color = 4422672
+              Font.Color = clWindowText
               Font.Height = -12
               Font.Name = 'Tahoma'
               Font.Style = []
               HeaderAlignment = taRightJustify
               Width = 110
-              BandIndex = 3
+              BandIndex = 4
               RowIndex = 0
               FieldName = 'PED_VTLQ'
               SummaryFooterType = cstSum
@@ -2791,20 +2791,20 @@ inherited frmctr_ped: Tfrmctr_ped
               DisableFilter = True
             end
             object DBGResumoDiarioPED_ITLQ: TdxDBGridMaskColumn
-              Color = 15268825
+              Color = clBtnFace
               Font.Charset = ANSI_CHARSET
-              Font.Color = 4422672
+              Font.Color = clWindowText
               Font.Height = -12
               Font.Name = 'Tahoma'
               Font.Style = []
               HeaderAlignment = taRightJustify
               Width = 50
-              BandIndex = 3
+              BandIndex = 4
               RowIndex = 0
               FieldName = 'PED_ITLQ'
               SummaryFooterType = cstSum
               SummaryFooterField = 'PED_ITLQ'
-              SummaryFooterFormat = '0'
+              SummaryFooterFormat = ',##,0'
               DisableFilter = True
             end
           end
@@ -2812,7 +2812,7 @@ inherited frmctr_ped: Tfrmctr_ped
         object DPResumoMensal: TdxDockPanel
           Left = 0
           Top = 0
-          Width = 850
+          Width = 810
           Height = 140
           Cursor = crHandPoint
           Font.Charset = ANSI_CHARSET
@@ -2829,7 +2829,7 @@ inherited frmctr_ped: Tfrmctr_ped
           ImageIndex = 0
           AutoHidePosition = 2
           DockType = 1
-          OriginalWidth = 850
+          OriginalWidth = 810
           OriginalHeight = 140
           object DBGResumoMensal: TdxDBGrid
             Left = 0
@@ -2907,7 +2907,7 @@ inherited frmctr_ped: Tfrmctr_ped
             ShowGrid = False
             OnCustomDrawCell = DBGResumoMensalCustomDrawCell
             object DBGResumoMensalCP_ABEP: TdxDBGridMaskColumn
-              Color = clHighlightText
+              Color = clBtnFace
               Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
               Font.Height = -12
@@ -2919,10 +2919,10 @@ inherited frmctr_ped: Tfrmctr_ped
               FieldName = 'CP_ABEP'
               SummaryFooterType = cstCount
               SummaryFooterField = 'AMPK'
-              SummaryFooterFormat = '0'
+              SummaryFooterFormat = ',##,0'
             end
             object DBGResumoMensalDMPK: TdxDBGridMaskColumn
-              Color = clHighlightText
+              Color = clBtnFace
               Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
               Font.Height = -12
@@ -2934,7 +2934,7 @@ inherited frmctr_ped: Tfrmctr_ped
               FieldName = 'DMPK'
             end
             object DBGResumoMensalAMPK: TdxDBGridColumn
-              Color = clHighlightText
+              Color = clBtnFace
               Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
               Font.Height = -12
@@ -2946,41 +2946,41 @@ inherited frmctr_ped: Tfrmctr_ped
               FieldName = 'AMPK'
             end
             object DBGResumoMensalCLI_ITCD: TdxDBGridColumn
-              Color = clHighlightText
+              Color = clBtnFace
               Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
               Font.Height = -12
               Font.Name = 'Tahoma'
               Font.Style = []
               HeaderAlignment = taRightJustify
-              Width = 56
+              Width = 40
               BandIndex = 1
               RowIndex = 0
               FieldName = 'CLI_ITCD'
               SummaryFooterType = cstSum
               SummaryFooterField = 'CLI_ITCD'
-              SummaryFooterFormat = '0'
+              SummaryFooterFormat = ',##,0'
               DisableFilter = True
             end
             object DBGResumoMensalCLI_INCD: TdxDBGridColumn
-              Color = clHighlightText
+              Color = clBtnFace
               Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
               Font.Height = -12
               Font.Name = 'Tahoma'
               Font.Style = []
               HeaderAlignment = taRightJustify
-              Width = 63
+              Width = 43
               BandIndex = 1
               RowIndex = 0
               FieldName = 'CLI_INCD'
               SummaryFooterType = cstSum
               SummaryFooterField = 'CLI_INCD'
-              SummaryFooterFormat = '0'
+              SummaryFooterFormat = ',##,0'
               DisableFilter = True
             end
             object DBGResumoMensalPED_VLPK: TdxDBGridMaskColumn
-              Color = clHighlightText
+              Color = clBtnFace
               Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
               Font.Height = -12
@@ -2997,7 +2997,7 @@ inherited frmctr_ped: Tfrmctr_ped
               DisableFilter = True
             end
             object DBGResumoMensalPED_ILPK: TdxDBGridColumn
-              Color = clHighlightText
+              Color = clBtnFace
               Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
               Font.Height = -12
@@ -3010,11 +3010,11 @@ inherited frmctr_ped: Tfrmctr_ped
               FieldName = 'PED_ILPK'
               SummaryFooterType = cstSum
               SummaryFooterField = 'PED_ILPK'
-              SummaryFooterFormat = '0'
+              SummaryFooterFormat = ',##,0'
               DisableFilter = True
             end
             object DBGResumoMensalPED_VLSP: TdxDBGridMaskColumn
-              Color = clWindowText
+              Color = clBtnFace
               Font.Charset = ANSI_CHARSET
               Font.Color = clHighlightText
               Font.Height = -12
@@ -3031,7 +3031,7 @@ inherited frmctr_ped: Tfrmctr_ped
               DisableFilter = True
             end
             object DBGResumoMensalPED_ILSP: TdxDBGridColumn
-              Color = clWindowText
+              Color = clBtnFace
               Font.Charset = ANSI_CHARSET
               Font.Color = clHighlightText
               Font.Height = -12
@@ -3044,12 +3044,12 @@ inherited frmctr_ped: Tfrmctr_ped
               FieldName = 'PED_ILSP'
               SummaryFooterType = cstSum
               SummaryFooterField = 'PED_ILSP'
-              SummaryFooterFormat = '0'
+              SummaryFooterFormat = ',##,0'
               DisableFilter = True
             end
             object DBGResumoMensalPED_PLSP: TdxDBGridMaskColumn
               Alignment = taRightJustify
-              Color = clWindowText
+              Color = clBtnFace
               Font.Charset = ANSI_CHARSET
               Font.Color = clHighlightText
               Font.Height = -12
@@ -3065,7 +3065,7 @@ inherited frmctr_ped: Tfrmctr_ped
               SummaryFooterFormat = ',##,0.00%'
             end
             object DBGResumoMensalPED_VTLQ: TdxDBGridMaskColumn
-              Color = 15268825
+              Color = clBtnFace
               Font.Charset = ANSI_CHARSET
               Font.Color = 4422672
               Font.Height = -12
@@ -3082,7 +3082,7 @@ inherited frmctr_ped: Tfrmctr_ped
               DisableFilter = True
             end
             object DBGResumoMensalPED_ITLQ: TdxDBGridColumn
-              Color = 15268825
+              Color = clBtnFace
               Font.Charset = ANSI_CHARSET
               Font.Color = 4422672
               Font.Height = -12
@@ -3095,7 +3095,7 @@ inherited frmctr_ped: Tfrmctr_ped
               FieldName = 'PED_ITLQ'
               SummaryFooterType = cstSum
               SummaryFooterField = 'PED_ITLQ'
-              SummaryFooterFormat = '0'
+              SummaryFooterFormat = ',##,0'
               DisableFilter = True
             end
           end

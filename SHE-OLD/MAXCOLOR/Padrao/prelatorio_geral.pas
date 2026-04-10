@@ -649,10 +649,7 @@ type
     procedure CAD_PRO_ESTOQUE;
     procedure CAD_PRO_TABELA_PRECO;
     procedure CAD_PRO_FICHA_VENDA_FOTO;
-    procedure VEN_OCA_ORCAMENTO_VENDA_CUPOM;
     procedure VEN_PED_PEDIDO_VENDA;
-    procedure VEN_PED_PEDIDO_VENDA_CUPOM;
-    procedure VEN_PED_SIMPLES_CUPOM;
     procedure VEN_PED_PEDIDO_CONFERENCIA;
     procedure VEN_PED_PEDIDO_SEPARACAO;
     procedure VEN_PED_PEDIDO_COBRANCA;
@@ -681,6 +678,9 @@ type
     procedure CAI_MOV_FLUXO_CAIXA_CARTEIRA;
     procedure CAI_MOV_FLUXO_CAIXA_BANCARIO;
     procedure ENVIA_RELATORIO(WTag: Word);
+
+    procedure PED_CUP_SCO;
+    procedure PED_CUP_VEN;
   end;
 
 var
@@ -689,14 +689,14 @@ var
 implementation
 
 uses uPrincipal, parquivo_geral, qcad_pro_fic_foto,
-  qent_pro_rom, qent_pro_con, qven_oca_bematech,
+  qent_pro_rom, qent_pro_con, QPED_CUP_VEN, QPED_CUP_SCO,
   qfin_dup, pfin_dup, qcai_mov_flx_car,
   qcai_mov_flx_ban, qcai_mov_cai_ana, qcai_mov_cai_sin, qcai_mov_ger,
   qcai_mov_ger_ana, qcob_ped, qprg_con, qrom_con_001,
-  qrom_con_002, qven_con, qven_sim_bematech, qven_ped_bematech, qven_ped,
+  qrom_con_002, qven_con, qven_ped,
   qcob_rom, qcob_rom_ref, qsep_ped, qcad_pro_est,
   qfin_rec_ger, qpag_com, qnfe_ger, qProduto_Preco_Tabela, qcad_fun_eti;
- 
+
 {$R *.dfm}
 
 procedure Tfrmrelatorio_geral.FormCreate(Sender: TObject);
@@ -1197,108 +1197,6 @@ begin
     end;
   finally
     freeAndNil(qrpent_pro_con);
-  end;
-end;
-
-procedure Tfrmrelatorio_geral.VEN_OCA_ORCAMENTO_VENDA_CUPOM;
-begin
-  if (tag = 0) or (tag = 1) then
-  frmprincipal.FazPrnAtualVirarDefault('Pedidos (Cupom)');
-
-  if qrpven_oca_bematech = nil then
-  qrpven_oca_bematech := Tqrpven_oca_bematech.Create(self);
-
-  try
-    qrpven_oca_bematech.qrlie.Caption   := frmprincipal.parametrosPAR_INSC.AsString;
-    qrpven_oca_bematech.qrlcnpj.Caption := copy(frmprincipal.parametrosPAR_CNPJ.AsString,1,2)+'.'+copy(frmprincipal.parametrosPAR_CNPJ.AsString,3,3)+'.'+
-                                           copy(frmprincipal.parametrosPAR_CNPJ.AsString,6,3)+'/'+copy(frmprincipal.parametrosPAR_CNPJ.AsString,9,4)+'-'+
-                                           copy(frmprincipal.parametrosPAR_CNPJ.AsString,13,2);
-
-    with qrpven_oca_bematech.roman do
-    begin
-      SQL.Clear;
-      SQL.Add('SELECT   PED_VEN_CAB.*,CAD_CLI.CLI_FANT,CAD_USU.USU_DUSU,CAD_REP.REP_FANT,PAG_DPAG');
-      SQL.Add('FROM     CAD_CLI,CAD_USU,CAD_REP,TAB_PAG,'+SLPrincipal.Values['ped_oca_cab']+' "PED_VEN_CAB"');
-      SQL.Add('WHERE    PED_VEN_CAB.ROM_CCLI = CAD_CLI.ID');
-      SQL.Add('AND      PED_VEN_CAB.ROM_CVEN = CAD_USU.USU_CUSU');
-      SQL.Add('AND      PED_VEN_CAB.ROM_CREP = CAD_REP.ID');
-      SQL.Add('AND      PED_VEN_CAB.ROM_CPAG = TAB_PAG.ID');
-      SQL.Add('AND      PED_VEN_CAB.ID = '''+cdpd+'''');
-      SQL.Add('ORDER BY PED_VEN_CAB.ID DESC');
-      Open;
-    end;
-
-    with qrpven_oca_bematech.ven_efe do
-    begin
-      SQL.Clear;
-      SQL.Add('SELECT   CAD_PRO.PRO_CART,CAD_PRO.PRO_CPRO,CAD_PRO.PRO_DCOR,CAD_PRO.PRO_DUNI,');
-      SQL.Add('         PED_VEN_ITE.ROM_DUNI,PED_VEN_ITE.ID,PED_VEN_ITE.ROM_ITEM,PED_VEN_ITE.ROM_DCOR,PED_VEN_ITE.ROM_DPRO,PED_VEN_ITE.ROM_QTDE,PED_VEN_ITE.ROM_UNIT,PED_VEN_ITE.ROM_TOTA');
-      SQL.Add('FROM     CAD_PRO,'+SLPrincipal.Values['ped_oca_ite']+' "PED_VEN_ITE"');
-      SQL.Add('WHERE    PED_VEN_ITE.ROM_CPRO = CAD_PRO.ID');
-      SQL.Add('AND      PED_VEN_ITE.ROM_CCAB = '''+cdpd+'''');
-      SQL.Add('ORDER BY PED_VEN_ITE.ROM_ITEM');
-      Open;
-    end;
-
-    qrpven_oca_bematech.carregaFoto(frmprincipal.parametrosPAR_FOT3.BlobSize,frmprincipal.parametrosPAR_FOT3,frmprincipal.parametros,frmprincipal.parametros);
-    qrpven_oca_bematech.qrlraza.Caption  := frmprincipal.parametrosPAR_RAZA.AsString;
-    qrpven_oca_bematech.qrlraza2.Caption := frmprincipal.parametrosPAR_RAZA.AsString;
-
-    qrpven_oca_bematech.ReportTitle       := 'Orçamento de Venda';
-    qrpven_oca_bematech.qrltitulo.Caption := 'Orçamento de Venda';
-
-    qrpven_oca_bematech.qrlstco.Caption := qrpven_oca_bematech.romanROM_STCO.AsString;
-
-    qrpven_oca_bematech.qrlend1.Caption := frmprincipal.parametrosPAR_TLOG.AsString+' '+frmprincipal.parametrosPAR_LOGR.AsString+', '+frmprincipal.parametrosPAR_NUME.AsString;
-    qrpven_oca_bematech.qrlend2.Caption := frmprincipal.parametrosPAR_BAI.AsString+' - '+frmprincipal.parametrosPAR_CID.AsString+' - '+frmprincipal.parametrosPAR_UF.AsString;
-
-    qrpven_oca_bematech.qrlfone.Caption := '('+frmprincipal.parametrosPAR_DDD.AsString+')'+' '+copy(frmprincipal.parametrosPAR_FONE.AsString,1,4)+'-'+
-                                                                         copy(frmprincipal.parametrosPAR_FONE.AsString,5,4);
-
-    qrpven_oca_bematech.qrlcli.Caption := '('+oStrZero(qrpven_oca_bematech.romanROM_CCLI.AsInteger,5)+') '+qrpven_oca_bematech.romanCLI_FANT.AsString;
-    qrpven_oca_bematech.qrlven.Caption := qrpven_oca_bematech.romanUSU_DUSU.AsString;
-    qrpven_oca_bematech.qrlrep.Caption := qrpven_oca_bematech.romanREP_FANT.AsString;
-
-    if qrpven_oca_bematech.romanROM_TDSC.AsString = '%' then
-    qrpven_oca_bematech.qrldesc.Caption   := 'Desconto (%)'
-    else
-    qrpven_oca_bematech.qrldesc.Caption   := 'Desconto ($)';
-
-    qrpven_oca_bematech.qrlpagina.Caption := qrpven_oca_bematech.romanROM_CONC.AsString;
-
-    with consulta do
-    begin
-      SQL.Clear;
-      SQL.Add('SELECT PAG_DPAG FROM TAB_PAG');
-      SQL.Add('WHERE  ID = '''+qrpven_oca_bematech.romanROM_CPAG.AsString+'''');
-      Open;
-
-      qrpven_oca_bematech.qrlpag.Caption := fields[0].AsString;
-    end;
-            
-    qrpven_oca_bematech.Prepare;
-
-    if tag = 0 then
-       qrpven_oca_bematech.Preview
-    else if tag = 1 then
-       qrpven_oca_bematech.Print
-    else if tag = 2 then
-    begin
-      qrpven_oca_bematech.ExportToFilter(
-                  TQRPDFDocumentFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.PDF')));
-    end
-    else if tag = 3 then
-    begin
-      qrpven_oca_bematech.ExportToFilter(
-                  TQRXLSFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.XLS')));
-    end
-    else if tag = 4 then
-    begin
-      qrpven_oca_bematech.ExportToFilter(
-                  TQRRTFExportFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.DOC')));
-    end;
-  finally
-    freeAndNil(qrpven_oca_bematech);
   end;
 end;
 
@@ -2874,229 +2772,6 @@ begin
     end;
   finally
     freeAndNil(qrpven_con);
-  end;
-end;
-
-procedure Tfrmrelatorio_geral.VEN_PED_SIMPLES_CUPOM;
-begin
-  if (tag = 0) or (tag = 1) then
-  frmprincipal.FazPrnAtualVirarDefault('Simples Conferencia (Cupom)');
-
-  if qrpven_sim_bematech = nil then
-  qrpven_sim_bematech := Tqrpven_sim_bematech.Create(self);
-
-  try
-    qrpven_sim_bematech.qrlie.Caption   := frmprincipal.parametrosPAR_INSC.AsString;
-    qrpven_sim_bematech.qrlcnpj.Caption := copy(frmprincipal.parametrosPAR_CNPJ.AsString,1,2)+'.'+copy(frmprincipal.parametrosPAR_CNPJ.AsString,3,3)+'.'+
-                                           copy(frmprincipal.parametrosPAR_CNPJ.AsString,6,3)+'/'+copy(frmprincipal.parametrosPAR_CNPJ.AsString,9,4)+'-'+
-                                           copy(frmprincipal.parametrosPAR_CNPJ.AsString,13,2);
-
-    with qrpven_sim_bematech.roman do
-    begin
-      SQL.Clear;
-      SQL.Add('SELECT   PED_VEN_CAB.*,CAD_CLI.CLI_FANT,CAD_USU.USU_DUSU,CAD_REP.REP_FANT,PAG_DPAG');
-      SQL.Add('FROM     CAD_CLI,CAD_USU,CAD_REP,TAB_PAG,'+SLPrincipal.Values['ped_ven_cab']+' "PED_VEN_CAB"');
-      SQL.Add('WHERE    PED_VEN_CAB.ROM_CCLI = CAD_CLI.ID');
-      SQL.Add('AND      PED_VEN_CAB.ROM_CVEN = CAD_USU.USU_CUSU');
-      SQL.Add('AND      PED_VEN_CAB.ROM_CREP = CAD_REP.ID');
-      SQL.Add('AND      PED_VEN_CAB.ROM_CPAG = TAB_PAG.ID');
-      SQL.Add('AND      PED_VEN_CAB.ID = '''+cdpd+'''');
-      SQL.Add('ORDER BY PED_VEN_CAB.ID DESC');
-      Open;
-    end;
-
-    with qrpven_sim_bematech.ven_efe do
-    begin
-      SQL.Clear;
-      SQL.Add('SELECT   CAD_PRO.PRO_CART,CAD_PRO.PRO_CPRO,CAD_PRO.PRO_DCOR,CAD_PRO.PRO_DUNI,');
-      SQL.Add('         PED_VEN_ITE.ROM_DUNI,PED_VEN_ITE.ID,PED_VEN_ITE.ROM_ITEM,PED_VEN_ITE.ROM_DCOR,PED_VEN_ITE.ROM_DPRO,PED_VEN_ITE.ROM_QTDE,PED_VEN_ITE.ROM_UNIT,PED_VEN_ITE.ROM_TOTA');
-      SQL.Add('FROM     CAD_PRO,'+SLPrincipal.Values['ped_ven_ite']+' "PED_VEN_ITE"');
-      SQL.Add('WHERE    PED_VEN_ITE.ROM_CPRO = CAD_PRO.ID');
-      SQL.Add('AND      PED_VEN_ITE.ROM_CCAB = '''+cdpd+'''');
-      SQL.Add('ORDER BY PED_VEN_ITE.ROM_ITEM');
-      Open;
-    end;
-
-    qrpven_sim_bematech.carregaFoto(frmprincipal.parametrosPAR_FOT3.BlobSize,frmprincipal.parametrosPAR_FOT3,frmprincipal.parametros,frmprincipal.parametros);
-    qrpven_sim_bematech.qrlraza.Caption   := frmprincipal.parametrosPAR_RAZA.AsString;
-
-    qrpven_sim_bematech.ReportTitle       := 'Simples Conferencia';
-    qrpven_sim_bematech.qrltitulo.Caption := 'Simples Conferencia';
-
-    qrpven_sim_bematech.qrlcli.Caption    := '('+oStrZero(qrpven_sim_bematech.romanROM_CCLI.AsInteger,5)+') '+qrpven_sim_bematech.romanCLI_FANT.AsString;
-    qrpven_sim_bematech.qrlven.Caption    := qrpven_sim_bematech.romanUSU_DUSU.AsString;
-    qrpven_sim_bematech.qrlrep.Caption    := qrpven_sim_bematech.romanREP_FANT.AsString;
-
-    if qrpven_sim_bematech.romanROM_TDSC.AsString = '%' then
-    qrpven_sim_bematech.qrldesc.Caption   := 'Desconto (%)'
-    else
-    qrpven_sim_bematech.qrldesc.Caption   := 'Desconto ($)';
-
-    qrpven_sim_bematech.qrlpagina.Caption := qrpven_sim_bematech.romanROM_CONC.AsString;
-
-    with consulta do
-    begin
-      qrpven_sim_bematech.qrlcbai.Caption := '';
-      if qrpven_sim_bematech.romanROM_CBAI.AsInteger > 0 then
-      begin
-        SQL.Clear;
-        SQL.Add('SELECT USU_DUSU FROM CAD_USU');
-        SQL.Add('WHERE  USU_CUSU = '''+qrpven_sim_bematech.romanROM_CBAI.AsString+'''');
-        Open;
-        qrpven_sim_bematech.qrlcbai.Caption := fields[0].AsString+' '+formatDateTime('dd/mm/yy hh:mm:ss',qrpven_sim_bematech.romanROM_TBAI.AsDateTime);
-      end;
-
-      SQL.Clear;
-      SQL.Add('SELECT PAG_DPAG FROM TAB_PAG');
-      SQL.Add('WHERE  ID = '''+qrpven_sim_bematech.romanROM_CPAG.AsString+'''');
-      Open;
-
-      qrpven_sim_bematech.qrlpag.Caption   := fields[0].AsString;
-    end;
-            
-    qrpven_sim_bematech.Prepare;
-
-    if tag = 0 then
-       qrpven_sim_bematech.Preview
-    else if tag = 1 then
-       qrpven_sim_bematech.Print
-    else if tag = 2 then
-    begin
-      qrpven_sim_bematech.ExportToFilter(
-                  TQRPDFDocumentFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.PDF')));
-    end
-    else if tag = 3 then
-    begin
-      qrpven_sim_bematech.ExportToFilter(
-                  TQRXLSFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.XLS')));
-    end
-    else if tag = 4 then
-    begin
-      qrpven_sim_bematech.ExportToFilter(
-                  TQRRTFExportFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.DOC')));
-    end;
-  finally
-    freeAndNil(qrpven_sim_bematech);
-  end;
-end;
-
-procedure Tfrmrelatorio_geral.VEN_PED_PEDIDO_VENDA_CUPOM;
-begin
-  if (tag = 0) or (tag = 1) then
-     frmprincipal.FazPrnAtualVirarDefault('Pedidos (Cupom)');
-
-  if qrpven_ped_bematech = nil then
-     qrpven_ped_bematech := Tqrpven_ped_bematech.Create(self);
-
-  try
-    with qrpven_ped_bematech.roman do
-    begin
-      SQL.Clear;
-      SQL.Add('SELECT   PED_VEN_CAB.*,CAD_CLI.CLI_FANT,CAD_CLI.CLI_RAZA,CAD_USU.USU_DUSU,CAD_REP.REP_FANT,PAG_DPAG');
-      SQL.Add('FROM     CAD_CLI,CAD_USU,CAD_REP,TAB_PAG,'+SLPrincipal.Values['ped_ven_cab']+' "PED_VEN_CAB"');
-      SQL.Add('WHERE    PED_VEN_CAB.ROM_CCLI = CAD_CLI.ID');
-      SQL.Add('AND      PED_VEN_CAB.ROM_CVEN = CAD_USU.USU_CUSU');
-      SQL.Add('AND      PED_VEN_CAB.ROM_CREP = CAD_REP.ID');
-      SQL.Add('AND      PED_VEN_CAB.ROM_CPAG = TAB_PAG.ID');
-      SQL.Add('AND      PED_VEN_CAB.ID = '''+cdpd+'''');
-      SQL.Add('ORDER BY PED_VEN_CAB.ID DESC');
-      Open;
-    end;
-
-    with qrpven_ped_bematech.ven_efe do
-    begin
-      SQL.Clear;
-      SQL.Add('SELECT   CAD_PRO.PRO_CART,CAD_PRO.PRO_CPRO,CAD_PRO.PRO_DCOR,CAD_PRO.PRO_DUNI,');
-      SQL.Add('         PED_VEN_ITE.ROM_DUNI,PED_VEN_ITE.ID,PED_VEN_ITE.ROM_ITEM,PED_VEN_ITE.ROM_DCOR,PED_VEN_ITE.ROM_DPRO,PED_VEN_ITE.ROM_QTDE,PED_VEN_ITE.ROM_UNIT,PED_VEN_ITE.ROM_VDSC,PED_VEN_ITE.ROM_PREC,PED_VEN_ITE.ROM_TOTA');
-      SQL.Add('FROM     CAD_PRO,'+SLPrincipal.Values['ped_ven_ite']+' "PED_VEN_ITE"');
-      SQL.Add('WHERE    PED_VEN_ITE.ROM_CPRO = CAD_PRO.ID');
-      SQL.Add('AND      PED_VEN_ITE.ROM_CCAB = '''+cdpd+'''');
-      SQL.Add('ORDER BY PED_VEN_ITE.ROM_ITEM');
-      Open;
-    end;
-
-    with consulta do
-    begin
-      qrpven_ped_bematech.qrlitem.Caption := '0';
-      SQL.Clear;
-      SQL.Add('SELECT COUNT(*) FROM '+SLPrincipal.Values['ped_ven_ite']+' "PED_VEN_ITE"');
-      SQL.Add('WHERE  PED_VEN_ITE.ROM_CCAB = '''+cdpd+'''');
-      Open;
-      qrpven_ped_bematech.qrlitem.Caption := fields[0].AsString;
-
-      SQL.Clear;
-      SQL.Add('SELECT PAG_DPAG FROM TAB_PAG');
-      SQL.Add('WHERE  ID = '''+qrpven_ped_bematech.romanROM_CPAG.AsString+'''');
-      Open;
-
-      qrpven_ped_bematech.qrlpag.Caption := 'Prazo '+fields[0].AsString;
-      qrpven_ped_bematech.qrlend.Caption := EmptyStr;
-
-      if qrpven_ped_bematech.romanROM_CBAI.AsInteger > 0 then
-      begin
-        SQL.Clear;
-        SQL.Add('SELECT USU_DUSU FROM CAD_USU');
-        SQL.Add('WHERE  USU_CUSU = '''+qrpven_ped_bematech.romanROM_CBAI.AsString+'''');
-        Open;
-        qrpven_ped_bematech.qrlend.Caption := 'Expedição: '+Fields[0].AsString+' '+formatDateTime('dd/mm/yy hh:mm:ss',qrpven_ped_bematech.romanROM_TBAI.AsDateTime)+#13;
-      end;
-    end;
-
-    qrpven_ped_bematech.qrlraza.Caption   :=  '';//frmprincipal.parametrosPAR_FANT.AsString+'. Fone: ('+frmprincipal.parametrosPAR_DDD.AsString+')'+' '+copy(frmprincipal.parametrosPAR_FONE.AsString,1,4)+'-'+copy(frmprincipal.parametrosPAR_FONE.AsString,5,4);
-    qrpven_ped_bematech.ReportTitle       := qrpven_ped_bematech.romanROM_STPD.AsString;
-    qrpven_ped_bematech.qrltitulo.Caption := qrpven_ped_bematech.romanROM_STPD.AsString;
-
-    if qrpven_ped_bematech.romanROM_STPD.AsString = 'DEVOLUÇÃO' then
-    begin
-      qrpven_ped_bematech.ReportTitle       := 'Pedido de Devolução';
-      qrpven_ped_bematech.qrltitulo.Caption := 'Pedido de Devolução';
-    end
-    else if qrpven_ped_bematech.romanROM_STPD.AsString = 'ABATIMENTO' then
-    begin
-      qrpven_ped_bematech.ReportTitle       := 'Pedido de Abatimento';
-      qrpven_ped_bematech.qrltitulo.Caption := 'Pedido de Abatimento';
-    end
-    else if qrpven_ped_bematech.romanROM_STPD.AsString = 'SERVIÇO' then
-    begin
-      qrpven_ped_bematech.ReportTitle       := 'Pedido de Serviço';
-      qrpven_ped_bematech.qrltitulo.Caption := 'Pedido de Serviço';
-    end;
-
-    qrpven_ped_bematech.qrlstco.Caption := qrpven_ped_bematech.romanROM_STCO.AsString;
-    qrpven_ped_bematech.qrlend.Caption  := qrpven_ped_bematech.qrlend.Caption + 'Transportadora ' + qrpven_ped_bematech.romanROM_DTRA.AsString+#13+qrpven_ped_bematech.romanROM_OBSE.AsString+#13+#13+FrmPrincipal.parametrosPAR_FANT.AsString;
-
-    qrpven_ped_bematech.qrlncli.Caption := 'Nº '+qrpven_ped_bematech.romanROM_CCLI.AsString+'-'+qrpven_ped_bematech.romanCLI_RAZA.AsString;
-    qrpven_ped_bematech.qrlven.Caption  := 'Vendedor '     +qrpven_ped_bematech.romanUSU_DUSU.AsString;
-    qrpven_ped_bematech.qrlrep.Caption  := 'Representante '+qrpven_ped_bematech.romanREP_FANT.AsString;
-
-    qrpven_ped_bematech.qrlpagina.Caption  := 'Página '+qrpven_ped_bematech.romanROM_CONC.AsString+' '+FormatDateTime('hh:mm',time);
-    if (qrpven_ped_bematech.romanROM_PPRN.AsInteger) >= 1 then
-    qrpven_ped_bematech.qrlpagina.Caption  := 'Página '+qrpven_ped_bematech.romanROM_CONC.AsString+'/'+inttostr(qrpven_ped_bematech.romanROM_PPRN.AsInteger + 1)+' '+FormatDateTime('hh:mm',time);
-
-    //qrpven_ped_bematech.QRBCabecalho.Height := IFThen(cbVEN_PED_VIA.Text = 'VIA DO CLIENTE',0,180);
-    qrpven_ped_bematech.Prepare;
-
-    if tag = 0 then
-       qrpven_ped_bematech.Preview
-    else if tag = 1 then
-       qrpven_ped_bematech.Print
-    else if tag = 2 then
-    begin
-      qrpven_ped_bematech.ExportToFilter(
-                  TQRPDFDocumentFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.PDF')));
-    end
-    else if tag = 3 then
-    begin
-      qrpven_ped_bematech.ExportToFilter(
-                  TQRXLSFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.XLS')));
-    end
-    else if tag = 4 then
-    begin
-      qrpven_ped_bematech.ExportToFilter(
-                  TQRRTFExportFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.DOC')));
-    end;
-  finally
-    freeAndNil(qrpven_ped_bematech);
   end;
 end;
 
@@ -5479,7 +5154,7 @@ begin
     end
     else if tsVEN_OCA.TabVisible then
     begin
-        VEN_OCA_ORCAMENTO_VENDA_CUPOM;
+      //  VEN_OCA_ORCAMENTO_VENDA_CUPOM;
     end
     else if tsENT_PRO.TabVisible then
     begin
@@ -5529,12 +5204,13 @@ begin
 
         VEN_PED_PEDIDO_VENDA;
       end
+
       else if cbVEN_PED_TREL.Text = 'PEDIDO DE VENDA (CUPOM)' then
       begin
         if cdpd = '' then
            raise exception.Create('Número do pedido não selecionado !');
 
-        VEN_PED_PEDIDO_VENDA_CUPOM;
+        PED_CUP_VEN;
       end
       else if cbVEN_PED_TREL.Text = 'SIMPLES CONFERENCIA' then
       begin
@@ -5551,7 +5227,7 @@ begin
         if cdpd = '' then
            raise exception.Create('Número do pedido não selecionado !');
 
-        VEN_PED_SIMPLES_CUPOM;
+        PED_CUP_SCO;
       end
       else if cbVEN_PED_TREL.Text = 'SEPARAÇÃO DE PEDIDO DE VENDA' then
         VEN_PED_PEDIDO_SEPARACAO
@@ -6463,6 +6139,144 @@ begin
     freeAndNil(qrpcad_fun_eti);
   end;
 
+end;
+
+procedure Tfrmrelatorio_geral.PED_CUP_VEN;
+begin
+  if (tag = 0) or (tag = 1) then
+     frmprincipal.FazPrnAtualVirarDefault('Pedidos (Cupom)');
+
+  if QRPPED_CUP_VEN = nil then
+     QRPPED_CUP_VEN := TQRPPED_CUP_VEN.Create(self);
+
+  try
+    with QRPPED_CUP_VEN.roman do
+    begin
+      SQL.Clear;
+      SQL.Add('SELECT   PED_VEN_CAB.*,CAD_CLI.CLI_FANT,CAD_CLI.CLI_RAZA,CAD_CLI.CLI_ESTA,CAD_USU.USU_DUSU,CAD_REP.REP_FANT,PAG_DPAG,');
+      SQL.Add('         TRIM(IIF(POSITION(''VISTA'' IN PED_VEN_CAB.ROM_STCO) = 0,PED_VEN_CAB.ROM_STCO,'''') || '' '' || IIF(TAB_PAG.ID > 1 ,TAB_PAG.PAG_PARC||''x''||'' [''||TAB_PAG.PAG_DPAG||'']'',''A VISTA'')) AS DECO,');
+      SQL.Add('         IIF(NULLIF(PED_VEN_CAB.ROM_DSEP,'''') IS NULL,PED_VEN_CAB.ROM_DSEP,CAD_USU.USU_DUSU) AS DESP');
+
+      SQL.Add('FROM     CAD_CLI,CAD_USU,CAD_REP,TAB_PAG,'+SLPrincipal.Values['ped_ven_cab']+' "PED_VEN_CAB"');
+      SQL.Add('WHERE    PED_VEN_CAB.ROM_CCLI = CAD_CLI.ID');
+      SQL.Add('AND      PED_VEN_CAB.ROM_CVEN = CAD_USU.USU_CUSU');
+      SQL.Add('AND      PED_VEN_CAB.ROM_CREP = CAD_REP.ID');
+      SQL.Add('AND      PED_VEN_CAB.ROM_CPAG = TAB_PAG.ID');
+
+      SQL.Add('AND      PED_VEN_CAB.ID = '''+cdpd+'''');
+      SQL.Add('ORDER BY PED_VEN_CAB.ID DESC');
+      Open;
+    end;
+
+    with QRPPED_CUP_VEN.ven_efe do
+    begin
+      SQL.Clear;
+      SQL.Add('SELECT   CAD_PRO.PRO_CART,CAD_PRO.PRO_CPRO,CAD_PRO.PRO_DCOR,CAD_PRO.PRO_DUNI,');
+      SQL.Add('         PED_VEN_ITE.ROM_DUNI,PED_VEN_ITE.ID,PED_VEN_ITE.ROM_ITEM,PED_VEN_ITE.ROM_DCOR,PED_VEN_ITE.ROM_DPRO,PED_VEN_ITE.ROM_QTDE,PED_VEN_ITE.ROM_UNIT,PED_VEN_ITE.ROM_VDSC,PED_VEN_ITE.ROM_PREC,PED_VEN_ITE.ROM_TOTA');
+      SQL.Add('FROM     CAD_PRO,'+SLPrincipal.Values['ped_ven_ite']+' "PED_VEN_ITE"');
+      SQL.Add('WHERE    PED_VEN_ITE.ROM_CPRO = CAD_PRO.ID');
+      SQL.Add('AND      PED_VEN_ITE.ROM_CCAB = '''+cdpd+'''');
+      SQL.Add('ORDER BY PED_VEN_ITE.ROM_ITEM');
+      Open;
+    end;
+
+    QRPPED_CUP_VEN.ReportTitle          := QRPPED_CUP_VEN.romanROM_STPD.AsString;
+    QRPPED_CUP_VEN.QRLTitulo.Caption    := QRPPED_CUP_VEN.romanROM_STPD.AsString;
+    QRPPED_CUP_VEN.QRLSubTitulo.Caption := QRPPED_CUP_VEN.romanROM_STCO.AsString;
+
+    QRPPED_CUP_VEN.qrlpagina.Caption  := 'Pág: ' +  QRPPED_CUP_VEN.romanROM_CONC.AsString;
+    if (QRPPED_CUP_VEN.romanROM_PPRN.AsInteger) >= 1 then
+    QRPPED_CUP_VEN.qrlpagina.Caption  := 'Pág: '+QRPPED_CUP_VEN.romanROM_CONC.AsString+'/'+inttostr(QRPPED_CUP_VEN.romanROM_PPRN.AsInteger + 1);
+    QRPPED_CUP_VEN.Prepare;
+
+    if tag = 0 then
+       QRPPED_CUP_VEN.Preview
+    else if tag = 1 then
+       QRPPED_CUP_VEN.Print
+    else if tag = 2 then
+    begin
+      QRPPED_CUP_VEN.ExportToFilter(
+                  TQRPDFDocumentFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.PDF')));
+    end
+    else if tag = 3 then
+    begin
+      QRPPED_CUP_VEN.ExportToFilter(
+                  TQRXLSFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.XLS')));
+    end
+    else if tag = 4 then
+    begin
+      QRPPED_CUP_VEN.ExportToFilter(
+                  TQRRTFExportFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.DOC')));
+    end;
+  finally
+    FreeAndNil(QRPPED_CUP_VEN);
+  end;
+end;
+
+procedure Tfrmrelatorio_geral.PED_CUP_SCO;
+begin
+  if (tag = 0) or (tag = 1) then
+     frmprincipal.FazPrnAtualVirarDefault('Pedidos (Cupom)');
+
+  if QRPPED_CUP_SCO = nil then
+     QRPPED_CUP_SCO := TQRPPED_CUP_SCO.Create(self);
+
+  try
+    with QRPPED_CUP_SCO.roman do
+    begin
+      SQL.Clear;
+      SQL.Add('SELECT   PED_VEN_CAB.*,CAD_CLI.CLI_FANT,CAD_CLI.CLI_RAZA,CAD_CLI.CLI_ESTA,CAD_USU.USU_DUSU,CAD_REP.REP_FANT,PAG_DPAG,');
+      SQL.Add('         TRIM(IIF(POSITION(''VISTA'' IN PED_VEN_CAB.ROM_STCO) = 0,PED_VEN_CAB.ROM_STCO,'''') || '' '' || IIF(TAB_PAG.ID > 1 ,TAB_PAG.PAG_PARC||''x''||'' [''||TAB_PAG.PAG_DPAG||'']'',''A VISTA'')) AS DECO,');
+      SQL.Add('         IIF(NULLIF(PED_VEN_CAB.ROM_DSEP,'''') IS NULL,PED_VEN_CAB.ROM_DSEP,CAD_USU.USU_DUSU) AS DESP');
+
+      SQL.Add('FROM     CAD_CLI,CAD_USU,CAD_REP,TAB_PAG,'+SLPrincipal.Values['ped_ven_cab']+' "PED_VEN_CAB"');
+      SQL.Add('WHERE    PED_VEN_CAB.ROM_CCLI = CAD_CLI.ID');
+      SQL.Add('AND      PED_VEN_CAB.ROM_CVEN = CAD_USU.USU_CUSU');
+      SQL.Add('AND      PED_VEN_CAB.ROM_CREP = CAD_REP.ID');
+      SQL.Add('AND      PED_VEN_CAB.ROM_CPAG = TAB_PAG.ID');
+
+      SQL.Add('AND      PED_VEN_CAB.ID = '''+cdpd+'''');
+      SQL.Add('ORDER BY PED_VEN_CAB.ID DESC');
+      Open;
+    end;
+
+    with QRPPED_CUP_SCO.ven_efe do
+    begin
+      SQL.Clear;
+      SQL.Add('SELECT   CAD_PRO.PRO_CART,CAD_PRO.PRO_CPRO,CAD_PRO.PRO_DCOR,CAD_PRO.PRO_DUNI,');
+      SQL.Add('         PED_VEN_ITE.ROM_DUNI,PED_VEN_ITE.ID,PED_VEN_ITE.ROM_ITEM,PED_VEN_ITE.ROM_DCOR,PED_VEN_ITE.ROM_DPRO,PED_VEN_ITE.ROM_QTDE,PED_VEN_ITE.ROM_UNIT,PED_VEN_ITE.ROM_VDSC,PED_VEN_ITE.ROM_PREC,PED_VEN_ITE.ROM_TOTA');
+      SQL.Add('FROM     CAD_PRO,'+SLPrincipal.Values['ped_ven_ite']+' "PED_VEN_ITE"');
+      SQL.Add('WHERE    PED_VEN_ITE.ROM_CPRO = CAD_PRO.ID');
+      SQL.Add('AND      PED_VEN_ITE.ROM_CCAB = '''+cdpd+'''');
+      SQL.Add('ORDER BY PED_VEN_ITE.ROM_ITEM');
+      Open;
+    end;
+
+    QRPPED_CUP_SCO.ReportTitle := 'SIMPLES CONFERÊNCIA Nº ' + QRPPED_CUP_SCO.romanROM_DERO.AsString;
+    QRPPED_CUP_SCO.Prepare;
+
+    if tag = 0 then
+       QRPPED_CUP_SCO.Preview
+    else if tag = 1 then
+       QRPPED_CUP_SCO.Print
+    else if tag = 2 then
+    begin
+      QRPPED_CUP_SCO.ExportToFilter(
+                  TQRPDFDocumentFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.PDF')));
+    end
+    else if tag = 3 then
+    begin
+      QRPPED_CUP_SCO.ExportToFilter(
+                  TQRXLSFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.XLS')));
+    end
+    else if tag = 4 then
+    begin
+      QRPPED_CUP_SCO.ExportToFilter(
+                  TQRRTFExportFilter.Create(PChar(frmarquivo_geral.cblfile.Text+'\'+frmarquivo_geral.edfile.Text+'.DOC')));
+    end;
+  finally
+    FreeAndNil(QRPPED_CUP_SCO);
+  end;
 end;
 
 end.

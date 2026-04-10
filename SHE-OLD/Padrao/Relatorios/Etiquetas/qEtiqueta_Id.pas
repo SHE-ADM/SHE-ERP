@@ -217,16 +217,49 @@ begin
 
     { Cabeçalho Página }
     //oLoadJPG(RECParametros.IMG_JPG_ETQ,QRITituloLogo.Picture);
-    QRLCDEmpresa.Caption := RECParametros.EP_NO_RZ;
+    QRLCDEmpresa.Caption := RECParametros.EP_RZ_NO;
     QRLCDCNPJ.Caption    := 'CNPJ: '+RECParametros.CNPJ_MASK;
 
     Prepare;
     case RECRelatorios.PrintTAG of
       0: PreviewModal;
       1: Print;
-      2: ExportToFilter(TQRPDFDocumentFilter.Create(PChar(FrmExporta.DELocal.Text+'\'+FrmExporta.EDArquivo.Text+'.PDF')));
-      3: ExportToFilter(TQRXLSFilter.Create        (PChar(FrmExporta.DELocal.Text+'\'+FrmExporta.EDArquivo.Text+'.XLS')));
-      4: ExportToFilter(TQRRTFExportFilter.Create  (PChar(FrmExporta.DELocal.Text+'\'+FrmExporta.EDArquivo.Text+'.DOC')));
+
+          { PDF }
+          2: try
+               ExportToFilter(TQRPDFDocumentFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + RECRelatorios.Titulo + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.pdf')));
+               oAviso(Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+             except
+               on E: Exception do
+               begin
+                 oErro(Handle,'Falha ao tentar converter relatório !' + #13 +
+                                          'Erro: ' + E.Message + '.');
+               end;
+             end;
+
+          { EXCEL }
+          3: try
+               ExportToFilter(TQRXLSFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + RECRelatorios.Titulo + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.xls')));
+               oAviso(Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+             except
+               on E: Exception do
+               begin
+                 oErro(Handle,'Falha ao tentar converter relatório !' + #13 +
+                                          'Erro: ' + E.Message + '.');
+               end;
+             end;
+
+          { WORD }
+          4: try
+               ExportToFilter(TQRRTFExportFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + RECRelatorios.Titulo + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.doc')));
+               oAviso(Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+             except
+               on E: Exception do
+               begin
+                 oErro(Handle,'Falha ao tentar converter relatório !' + #13 +
+                                          'Erro: ' + E.Message + '.');
+               end;
+             end;
     end;
   end;
 end;

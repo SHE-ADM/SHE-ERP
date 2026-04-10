@@ -35627,7 +35627,6 @@ object FrmPrincipal: TFrmPrincipal
       item
         PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
         MinWidth = 115
-        Text = 'CAIXA ANTERIOR ABERTO'
         Width = 150
       end
       item
@@ -35649,7 +35648,7 @@ object FrmPrincipal: TFrmPrincipal
       item
         PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
         MinWidth = 165
-        Text = 'Copyright '#169' 2018  S.H.E.I.L.D.'
+        Text = 'Copyright '#169' 2026  S.H.E.I.L.D.'
         Width = 165
       end>
     PaintStyle = stpsOffice11
@@ -41336,12 +41335,12 @@ object FrmPrincipal: TFrmPrincipal
     object parametrosCNPJSOFTWAREHOUSE: TIBStringField
       FieldName = 'CNPJSOFTWAREHOUSE'
       Origin = '"PAR_SIS"."CNPJSOFTWAREHOUSE"'
-      Size = 120
+      Size = 14
     end
     object parametrosTOKENSOFTWAREHOUSE: TIBStringField
       FieldName = 'TOKENSOFTWAREHOUSE'
       Origin = '"PAR_SIS"."TOKENSOFTWAREHOUSE"'
-      Size = 120
+      Size = 60
     end
   end
   object sp_sql: TIBQuery

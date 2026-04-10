@@ -111,9 +111,42 @@ begin
         case RECRelatorio.PrintTAG of
           0: PreviewModal;
           1: Print;
-        //  2: ExportToFilter(TQRPDFDocumentFilter.Create(PChar(oVER_DIR('C:\Sheild\Documentos\Ficha Técnica')        + '\' + RelatorioARTIGO.AsString + '.PDF')));
-//          3: ExportToFilter(TQRXLSFilter.Create        (PChar(FrmExporta.DELocal.Text+'\'+FrmExporta.EDArquivo.Text + '.XLS')));
-  //        4: ExportToFilter(TQRRTFExportFilter.Create  (PChar(FrmExporta.DELocal.Text+'\'+FrmExporta.EDArquivo.Text + '.DOC')));
+
+          { PDF }
+          2: try
+               ExportToFilter(TQRPDFDocumentFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + RECRelatorio.Titulo + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.pdf')));
+               oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+             except
+               on E: Exception do
+               begin
+                 oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                          'Erro: ' + E.Message + '.');
+               end;
+             end;
+
+          { EXCEL }
+          3: try
+               ExportToFilter(TQRXLSFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + RECRelatorio.Titulo + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.xls')));
+               oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+             except
+               on E: Exception do
+               begin
+                 oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                          'Erro: ' + E.Message + '.');
+               end;
+             end;
+
+          { WORD }
+          4: try
+               ExportToFilter(TQRRTFExportFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + RECRelatorio.Titulo + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.doc')));
+               oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+             except
+               on E: Exception do
+               begin
+                 oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                          'Erro: ' + E.Message + '.');
+               end;
+             end;
         end;
       end else oException(Nil,'Registros não Encontrados !');
     finally
@@ -193,6 +226,8 @@ begin
 
   oReportPageHeader_(Self,RECRelatorio); { Cabeçalho }
   oReportPageFooter_(Self,RECRelatorio); { Rodapé    }
+
+  QRLPageHeaderTitulo.Caption := 'Listagem de compras de produtos';
 end;
 
 end.

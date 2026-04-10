@@ -65,6 +65,7 @@ type
     procedure SIMEAppendClick(Sender: TObject);
     procedure SIMEEditClick(Sender: TObject);
     procedure SIMEDeleteClick(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -287,6 +288,12 @@ begin
     close;
   end else
   inherited;
+end;
+
+procedure Tfrmcad_for.FormActivate(Sender: TObject);
+begin
+  inherited;
+  DBGConsultaFOR_FANT.Field.FocusControl;
 end;
 
 end.

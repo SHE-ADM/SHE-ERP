@@ -3693,7 +3693,7 @@ object FrmVEN_NFE: TFrmVEN_NFE
                     Font.Height = -12
                     Font.Name = 'Tahoma'
                     Font.Style = []
-                    Width = 71
+                    Width = 132
                     BandIndex = 12
                     RowIndex = 0
                     FieldName = 'NFE_CENQ'
@@ -3705,11 +3705,17 @@ object FrmVEN_NFE: TFrmVEN_NFE
                     Font.Height = -12
                     Font.Name = 'Tahoma'
                     Font.Style = []
-                    Width = 65
+                    Width = 57
                     BandIndex = 12
                     RowIndex = 0
                     FieldName = 'NFE_CEST'
                     DisableFilter = True
+                  end
+                  object DBGEdicaoNFE_CBENEF: TdxDBGridColumn
+                    Width = 140
+                    BandIndex = 12
+                    RowIndex = 0
+                    FieldName = 'NFE_CBENEF'
                   end
                   object DBGEdicaoNFE_NFCI: TdxDBGridMaskColumn
                     Caption = 'NFCI'
@@ -3718,7 +3724,7 @@ object FrmVEN_NFE: TFrmVEN_NFE
                     Font.Height = -12
                     Font.Name = 'Segoe UI'
                     Font.Style = []
-                    Width = 100
+                    Width = 236
                     BandIndex = 13
                     RowIndex = 0
                     FieldName = 'NFE_NFCI'
@@ -3731,7 +3737,7 @@ object FrmVEN_NFE: TFrmVEN_NFE
                     Font.Name = 'Tahoma'
                     Font.Style = []
                     HeaderAlignment = taRightJustify
-                    Width = 71
+                    Width = 28
                     BandIndex = 12
                     RowIndex = 0
                     FieldName = 'NFE_EXTIPI'
@@ -24990,47 +24996,50 @@ object FrmVEN_NFE: TFrmVEN_NFE
         '   NFE_ADREMCBSRET, NFE_ADREMCBSRETEN, NFE_ADREMIBS, NFE_ADREMIB' +
         'SRET, NFE_ADREMIBSRETEN, '
       
-        '   NFE_CBENEFRBC, NFE_CBS_PCBS, NFE_CBS_PDIF, NFE_CBS_VBCCBS, NF' +
-        'E_CBS_VCBS, '
+        '   NFE_CBENEF, NFE_CBENEF_RBC, NFE_CBENEFRBC, NFE_CBS_PCBS, NFE_' +
+        'CBS_PDIF, '
       
-        '   NFE_CBS_VCREDPRES, NFE_CBS_VCREDPRESCONDSUS, NFE_CBS_VDEVTRIB' +
-        ', NFE_CBS_VDIF, '
+        '   NFE_CBS_VBCCBS, NFE_CBS_VCBS, NFE_CBS_VCREDPRES, NFE_CBS_VCRE' +
+        'DPRESCONDSUS, '
       
-        '   NFE_CDNF, NFE_CEAN, NFE_CEANTRIB, NFE_CENQ, NFE_CEST, NFE_CEX' +
-        'PORTADOR, '
+        '   NFE_CBS_VDEVTRIB, NFE_CBS_VDIF, NFE_CDNF, NFE_CEAN, NFE_CEANT' +
+        'RIB, NFE_CENQ, '
       
-        '   NFE_CFABRICANTE, NFE_CFOP, NFE_CHNFE, NFE_CLENQ, NFE_CLISTSER' +
-        'V, NFE_CMUNFG, '
+        '   NFE_CEST, NFE_CEXPORTADOR, NFE_CFABRICANTE, NFE_CFOP, NFE_CHN' +
+        'FE, NFE_CLENQ, '
       
-        '   NFE_CNPJFAB, NFE_CNPJPROD, NFE_CNPJTERCEIRO, NFE_CPROD, NFE_C' +
-        'ST, NFE_CSTCOFINS, '
+        '   NFE_CLISTSERV, NFE_CMUNFG, NFE_CNPJFAB, NFE_CNPJPROD, NFE_CNP' +
+        'JTERCEIRO, '
       
-        '   NFE_CSTIPI, NFE_CSTPIS, NFE_DDESEMB, NFE_DDI, NFE_EXTIPI, NFE' +
-        '_IBSCBS_CCLASSTRIBIS, '
+        '   NFE_CPROD, NFE_CST, NFE_CSTCOFINS, NFE_CSTIPI, NFE_CSTPIS, NF' +
+        'E_DDESEMB, '
       
-        '   NFE_IBSCBS_CSTIS, NFE_IBSCBS_INDDOACAO, NFE_IBSCBS_VBCIBSCBS,' +
-        ' NFE_IBSCBS_VIBSCBS, '
+        '   NFE_DDI, NFE_EXTIPI, NFE_IBSCBS_CCLASSTRIBIS, NFE_IBSCBS_CSTI' +
+        'S, NFE_IBSCBS_INDDOACAO, '
       
-        '   NFE_IBSMUN_PDIF, NFE_IBSMUN_PIBSMUN, NFE_IBSMUN_VBCIBSMUN, NF' +
-        'E_IBSMUN_VCREDPRES, '
+        '   NFE_IBSCBS_VBCIBSCBS, NFE_IBSCBS_VIBSCBS, NFE_IBSMUN_PDIF, NF' +
+        'E_IBSMUN_PIBSMUN, '
       
-        '   NFE_IBSMUN_VCREDPRESCONDSUS, NFE_IBSMUN_VDEVTRIB, NFE_IBSMUN_' +
-        'VDIF, NFE_IBSMUN_VIBSMUN, '
+        '   NFE_IBSMUN_VBCIBSMUN, NFE_IBSMUN_VCREDPRES, NFE_IBSMUN_VCREDP' +
+        'RESCONDSUS, '
       
-        '   NFE_IBSUF_PDIF, NFE_IBSUF_PIBSUF, NFE_IBSUF_VBCIBSUF, NFE_IBS' +
-        'UF_VDEVTRIB, '
+        '   NFE_IBSMUN_VDEVTRIB, NFE_IBSMUN_VDIF, NFE_IBSMUN_VIBSMUN, NFE' +
+        '_IBSUF_PDIF, '
       
-        '   NFE_IBSUF_VDIF, NFE_IBSUF_VIBSUF, NFE_INDDEDUZDESON, NFE_INDE' +
-        'SCALA, '
+        '   NFE_IBSUF_PIBSUF, NFE_IBSUF_VBCIBSUF, NFE_IBSUF_VDEVTRIB, NFE' +
+        '_IBSUF_VDIF, '
       
-        '   NFE_INDINCENTIVO, NFE_INDTOT, NFE_INFADCAD, NFE_IS_CCLASSTRIB' +
-        'IS, NFE_IS_CSTIS, '
+        '   NFE_IBSUF_VIBSUF, NFE_INDDEDUZDESON, NFE_INDESCALA, NFE_INDIN' +
+        'CENTIVO, '
       
-        '   NFE_IS_PIS, NFE_IS_PISESPEC, NFE_IS_QTRIB, NFE_IS_UTRIB, NFE_' +
-        'IS_VBCIS, '
+        '   NFE_INDTOT, NFE_INFADCAD, NFE_IS_CCLASSTRIBIS, NFE_IS_CSTIS, ' +
+        'NFE_IS_PIS, '
       
-        '   NFE_IS_VIS, NFE_ISSQN_CMUN, NFE_ISSQN_CPAIS, NFE_ISSQN_CSERVI' +
-        'CO, NFE_ISSQN_INDISS, '
+        '   NFE_IS_PISESPEC, NFE_IS_QTRIB, NFE_IS_UTRIB, NFE_IS_VBCIS, NF' +
+        'E_IS_VIS, '
+      
+        '   NFE_ISSQN_CMUN, NFE_ISSQN_CPAIS, NFE_ISSQN_CSERVICO, NFE_ISSQ' +
+        'N_INDISS, '
       
         '   NFE_ISSQN_NPROCESSO, NFE_ISSQN_VALIQ, NFE_ISSQN_VBCISSQN, NFE' +
         '_ISSQN_VDEDUCAO, '
@@ -25130,83 +25139,86 @@ object FrmVEN_NFE: TFrmVEN_NFE
         '   :IP, :LGCA, :NFE_ADREMCBS, :NFE_ADREMCBSRET, :NFE_ADREMCBSRET' +
         'EN, :NFE_ADREMIBS, '
       
-        '   :NFE_ADREMIBSRET, :NFE_ADREMIBSRETEN, :NFE_CBENEFRBC, :NFE_CB' +
-        'S_PCBS, '
+        '   :NFE_ADREMIBSRET, :NFE_ADREMIBSRETEN, :NFE_CBENEF, :NFE_CBENE' +
+        'F_RBC, '
       
-        '   :NFE_CBS_PDIF, :NFE_CBS_VBCCBS, :NFE_CBS_VCBS, :NFE_CBS_VCRED' +
-        'PRES, :NFE_CBS_VCREDPRESCONDSUS, '
+        '   :NFE_CBENEFRBC, :NFE_CBS_PCBS, :NFE_CBS_PDIF, :NFE_CBS_VBCCBS' +
+        ', :NFE_CBS_VCBS, '
       
-        '   :NFE_CBS_VDEVTRIB, :NFE_CBS_VDIF, :NFE_CDNF, :NFE_CEAN, :NFE_' +
-        'CEANTRIB, '
+        '   :NFE_CBS_VCREDPRES, :NFE_CBS_VCREDPRESCONDSUS, :NFE_CBS_VDEVT' +
+        'RIB, :NFE_CBS_VDIF, '
       
-        '   :NFE_CENQ, :NFE_CEST, :NFE_CEXPORTADOR, :NFE_CFABRICANTE, :NF' +
-        'E_CFOP, '
+        '   :NFE_CDNF, :NFE_CEAN, :NFE_CEANTRIB, :NFE_CENQ, :NFE_CEST, :N' +
+        'FE_CEXPORTADOR, '
       
-        '   :NFE_CHNFE, :NFE_CLENQ, :NFE_CLISTSERV, :NFE_CMUNFG, :NFE_CNP' +
-        'JFAB, :NFE_CNPJPROD, '
+        '   :NFE_CFABRICANTE, :NFE_CFOP, :NFE_CHNFE, :NFE_CLENQ, :NFE_CLI' +
+        'STSERV, '
       
-        '   :NFE_CNPJTERCEIRO, :NFE_CPROD, :NFE_CST, :NFE_CSTCOFINS, :NFE' +
-        '_CSTIPI, '
+        '   :NFE_CMUNFG, :NFE_CNPJFAB, :NFE_CNPJPROD, :NFE_CNPJTERCEIRO, ' +
+        ':NFE_CPROD, '
       
-        '   :NFE_CSTPIS, :NFE_DDESEMB, :NFE_DDI, :NFE_EXTIPI, :NFE_IBSCBS' +
-        '_CCLASSTRIBIS, '
+        '   :NFE_CST, :NFE_CSTCOFINS, :NFE_CSTIPI, :NFE_CSTPIS, :NFE_DDES' +
+        'EMB, :NFE_DDI, '
       
-        '   :NFE_IBSCBS_CSTIS, :NFE_IBSCBS_INDDOACAO, :NFE_IBSCBS_VBCIBSC' +
-        'BS, :NFE_IBSCBS_VIBSCBS, '
+        '   :NFE_EXTIPI, :NFE_IBSCBS_CCLASSTRIBIS, :NFE_IBSCBS_CSTIS, :NF' +
+        'E_IBSCBS_INDDOACAO, '
       
-        '   :NFE_IBSMUN_PDIF, :NFE_IBSMUN_PIBSMUN, :NFE_IBSMUN_VBCIBSMUN,' +
-        ' :NFE_IBSMUN_VCREDPRES, '
+        '   :NFE_IBSCBS_VBCIBSCBS, :NFE_IBSCBS_VIBSCBS, :NFE_IBSMUN_PDIF,' +
+        ' :NFE_IBSMUN_PIBSMUN, '
       
-        '   :NFE_IBSMUN_VCREDPRESCONDSUS, :NFE_IBSMUN_VDEVTRIB, :NFE_IBSM' +
-        'UN_VDIF, '
+        '   :NFE_IBSMUN_VBCIBSMUN, :NFE_IBSMUN_VCREDPRES, :NFE_IBSMUN_VCR' +
+        'EDPRESCONDSUS, '
       
-        '   :NFE_IBSMUN_VIBSMUN, :NFE_IBSUF_PDIF, :NFE_IBSUF_PIBSUF, :NFE' +
-        '_IBSUF_VBCIBSUF, '
+        '   :NFE_IBSMUN_VDEVTRIB, :NFE_IBSMUN_VDIF, :NFE_IBSMUN_VIBSMUN, ' +
+        ':NFE_IBSUF_PDIF, '
       
-        '   :NFE_IBSUF_VDEVTRIB, :NFE_IBSUF_VDIF, :NFE_IBSUF_VIBSUF, :NFE' +
-        '_INDDEDUZDESON, '
+        '   :NFE_IBSUF_PIBSUF, :NFE_IBSUF_VBCIBSUF, :NFE_IBSUF_VDEVTRIB, ' +
+        ':NFE_IBSUF_VDIF, '
       
-        '   :NFE_INDESCALA, :NFE_INDINCENTIVO, :NFE_INDTOT, :NFE_INFADCAD' +
-        ', :NFE_IS_CCLASSTRIBIS, '
+        '   :NFE_IBSUF_VIBSUF, :NFE_INDDEDUZDESON, :NFE_INDESCALA, :NFE_I' +
+        'NDINCENTIVO, '
       
-        '   :NFE_IS_CSTIS, :NFE_IS_PIS, :NFE_IS_PISESPEC, :NFE_IS_QTRIB, ' +
-        ':NFE_IS_UTRIB, '
+        '   :NFE_INDTOT, :NFE_INFADCAD, :NFE_IS_CCLASSTRIBIS, :NFE_IS_CST' +
+        'IS, :NFE_IS_PIS, '
       
-        '   :NFE_IS_VBCIS, :NFE_IS_VIS, :NFE_ISSQN_CMUN, :NFE_ISSQN_CPAIS' +
-        ', :NFE_ISSQN_CSERVICO, '
+        '   :NFE_IS_PISESPEC, :NFE_IS_QTRIB, :NFE_IS_UTRIB, :NFE_IS_VBCIS' +
+        ', :NFE_IS_VIS, '
       
-        '   :NFE_ISSQN_INDISS, :NFE_ISSQN_NPROCESSO, :NFE_ISSQN_VALIQ, :N' +
-        'FE_ISSQN_VBCISSQN, '
+        '   :NFE_ISSQN_CMUN, :NFE_ISSQN_CPAIS, :NFE_ISSQN_CSERVICO, :NFE_' +
+        'ISSQN_INDISS, '
       
-        '   :NFE_ISSQN_VDEDUCAO, :NFE_ISSQN_VDESCCOND, :NFE_ISSQN_VDESCIN' +
-        'COND, :NFE_ISSQN_VISSQN, '
+        '   :NFE_ISSQN_NPROCESSO, :NFE_ISSQN_VALIQ, :NFE_ISSQN_VBCISSQN, ' +
+        ':NFE_ISSQN_VDEDUCAO, '
       
-        '   :NFE_ISSQN_VISSRET, :NFE_ISSQN_VOUTRO, :NFE_MODBC, :NFE_MODBC' +
-        'ST, :NFE_MOTDESICMS, '
+        '   :NFE_ISSQN_VDESCCOND, :NFE_ISSQN_VDESCINCOND, :NFE_ISSQN_VISS' +
+        'QN, :NFE_ISSQN_VISSRET, '
       
-        '   :NFE_MOTDESICMSST, :NFE_NADICAO, :NFE_NCM, :NFE_NDI, :NFE_NDR' +
-        'AW, :NFE_NFCI, '
+        '   :NFE_ISSQN_VOUTRO, :NFE_MODBC, :NFE_MODBCST, :NFE_MOTDESICMS,' +
+        ' :NFE_MOTDESICMSST, '
       
-        '   :NFE_NITEMPED, :NFE_NRE, :NFE_NSEQADIC, :NFE_NVE, :NFE_ORIG, ' +
-        ':NFE_PBCOP, '
+        '   :NFE_NADICAO, :NFE_NCM, :NFE_NDI, :NFE_NDRAW, :NFE_NFCI, :NFE' +
+        '_NITEMPED, '
       
-        '   :NFE_PCOFINS, :NFE_PCOFINSST, :NFE_PCREDSN, :NFE_PDIF, :NFE_P' +
-        'DIFCBS, '
+        '   :NFE_NRE, :NFE_NSEQADIC, :NFE_NVE, :NFE_ORIG, :NFE_PBCOP, :NF' +
+        'E_PCOFINS, '
       
-        '   :NFE_PDIFIBS, :NFE_PFCP, :NFE_PFCPDIF, :NFE_PFCPST, :NFE_PFCP' +
-        'STRET, '
+        '   :NFE_PCOFINSST, :NFE_PCREDSN, :NFE_PDIF, :NFE_PDIFCBS, :NFE_P' +
+        'DIFIBS, '
       
-        '   :NFE_PFCPUFDEST, :NFE_PICMS, :NFE_PICMSINTER, :NFE_PICMSINTER' +
-        'PART, :NFE_PICMSST, '
+        '   :NFE_PFCP, :NFE_PFCPDIF, :NFE_PFCPST, :NFE_PFCPSTRET, :NFE_PF' +
+        'CPUFDEST, '
       
-        '   :NFE_PICMSUFDEST, :NFE_PIPI, :NFE_PMVAST, :NFE_PPIS, :NFE_PPI' +
-        'SST, :NFE_PREDBC, '
+        '   :NFE_PICMS, :NFE_PICMSINTER, :NFE_PICMSINTERPART, :NFE_PICMSS' +
+        'T, :NFE_PICMSUFDEST, '
       
-        '   :NFE_PREDBCST, :NFE_PSBR, :NFE_PSLQ, :NFE_PST, :NFE_QBCMONO, ' +
-        ':NFE_QBCMONORET, '
+        '   :NFE_PIPI, :NFE_PMVAST, :NFE_PPIS, :NFE_PPISST, :NFE_PREDBC, ' +
+        ':NFE_PREDBCST, '
       
-        '   :NFE_QBCMONORETEN, :NFE_QCOM, :NFE_QEXPORT, :NFE_QTRIB, :NFE_' +
-        'RCOM, :NFE_RED_PALIQEFET, '
+        '   :NFE_PSBR, :NFE_PSLQ, :NFE_PST, :NFE_QBCMONO, :NFE_QBCMONORET' +
+        ', :NFE_QBCMONORETEN, '
+      
+        '   :NFE_QCOM, :NFE_QEXPORT, :NFE_QTRIB, :NFE_RCOM, :NFE_RED_PALI' +
+        'QEFET, '
       
         '   :NFE_RED_PREDALIQ, :NFE_RTRIB, :NFE_TPINTERMEDIO, :NFE_TPVIAT' +
         'RANSP, '
@@ -25520,7 +25532,9 @@ object FrmVEN_NFE: TFrmVEN_NFE
       '  HOST,'
       '  FLAG,'
       '  FLAG_CTRL,'
-      '  FLAG_SEQ'
+      '  FLAG_SEQ,'
+      '  NFE_CBENEF,'
+      '  NFE_CBENEF_RBC'
       'from FIS_NFE_ITE '
       'where'
       '  ID = :ID')
@@ -25572,6 +25586,8 @@ object FrmVEN_NFE: TFrmVEN_NFE
       '  NFE_ADREMIBS = :NFE_ADREMIBS,'
       '  NFE_ADREMIBSRET = :NFE_ADREMIBSRET,'
       '  NFE_ADREMIBSRETEN = :NFE_ADREMIBSRETEN,'
+      '  NFE_CBENEF = :NFE_CBENEF,'
+      '  NFE_CBENEF_RBC = :NFE_CBENEF_RBC,'
       '  NFE_CBENEFRBC = :NFE_CBENEFRBC,'
       '  NFE_CBS_PCBS = :NFE_CBS_PCBS,'
       '  NFE_CBS_PDIF = :NFE_CBS_PDIF,'
@@ -25960,16 +25976,19 @@ object FrmVEN_NFE: TFrmVEN_NFE
       Size = 8
     end
     object EdicaoNFE_CEST: TIBStringField
+      DisplayLabel = 'CEST'
       FieldName = 'NFE_CEST'
       Origin = '"FIS_NFE_ITE"."NFE_CEST"'
       Size = 7
     end
     object EdicaoNFE_EXTIPI: TIBStringField
+      DisplayLabel = 'TIPI'
       FieldName = 'NFE_EXTIPI'
       Origin = '"FIS_NFE_ITE"."NFE_EXTIPI"'
       Size = 3
     end
     object EdicaoNFE_CENQ: TIBStringField
+      DisplayLabel = 'C'#243'd. Enquadramento'
       FieldName = 'NFE_CENQ'
       Origin = '"FIS_NFE_ITE"."NFE_CENQ"'
       Size = 3
@@ -27288,6 +27307,17 @@ object FrmVEN_NFE: TFrmVEN_NFE
       BlobType = ftMemo
       Size = 8
     end
+    object EdicaoNFE_CBENEF: TIBStringField
+      DisplayLabel = 'C'#243'd. Beneficiamento'
+      FieldName = 'NFE_CBENEF'
+      Origin = '"FIS_NFE_ITE"."NFE_CBENEF"'
+      Size = 10
+    end
+    object EdicaoNFE_CBENEF_RBC: TIBStringField
+      FieldName = 'NFE_CBENEF_RBC'
+      Origin = '"FIS_NFE_ITE"."NFE_CBENEF_RBC"'
+      Size = 10
+    end
     object EdicaoIP: TIBStringField
       FieldName = 'IP'
       Origin = '"FIS_NFE_ITE"."IP"'
@@ -28268,7 +28298,7 @@ object FrmVEN_NFE: TFrmVEN_NFE
       '       PK.TPNF AS CFOP_TPNF  ,PK.TIPO       AS CFOP_TPNF_NO,'
       
         '       PK.FAPD AS CFOP_FAT   ,PK.FINALIDADE AS CFOP_TPFN_NO,PK.F' +
-        'INALIDADE_ABREV,'
+        'INALIDADE_ABREV,CBENEF,CBENEF_RBC,'
       ''
       
         '       TRIM(CAST(IIF(EP.REGIME = '#39'LUCRO PRESUMIDO'#39',PK.CST_CSOSN,' +
@@ -28482,6 +28512,16 @@ object FrmVEN_NFE: TFrmVEN_NFE
       FieldName = 'FINALIDADE_ABREV'
       Origin = '"TAB_NAT"."FINALIDADE_ABREV"'
       Size = 30
+    end
+    object TAB_CFOPCBENEF: TIBStringField
+      FieldName = 'CBENEF'
+      Origin = '"TAB_NAT"."CBENEF"'
+      Size = 10
+    end
+    object TAB_CFOPCBENEF_RBC: TIBStringField
+      FieldName = 'CBENEF_RBC'
+      Origin = '"TAB_NAT"."CBENEF_RBC"'
+      Size = 10
     end
   end
   object FIS_NFE_SUM: TIBQuery

@@ -169,12 +169,11 @@ procedure TqrpEST_ETQ_PEQ.WinControlFormCreate(Sender: TObject);
               SQL.Clear;
 
               SQL.Add('SELECT PK.CDRO,PK.CDET,PK.LOTE,PK.CDRO || ''_'' || IIF(NOT FEMPTY(PK.CTNR),PK.CTNR,LPad(Extract(Day FROM PK.DTRO),2,0) || ''-'' || LPad(Extract(Month FROM PK.DTRO),2,0) || ''-'' || RIGHT(LPad(Extract(Year FROM PK.DTRO),4,0),2)) AS D_DERO,');
-              SQL.Add('       PK.SKU ,CP.CEAN,TRIM(PK.DECP    || '' '' || COALESCE(PK.DGCP,'''')) AS D_DECP,CP.CMP_PAD,');
-              SQL.Add('       TRIM(CAST(FFMTINT(PK.QTDE)      || '' '' || COALESCE(PK.UCOM,'''')  AS VARCHAR(30))) AS N_QTDE,');
+              SQL.Add('       CP.SKU ,CP.CEAN,TRIM(CP.DECP    || '' '' || COALESCE(CP.DGCP,'''')) AS D_DECP,CP.CMP_PAD,');
+              SQL.Add('       TRIM(CAST(FFMTINT(PK.QTDE)      || '' '' || COALESCE(CP.UCOM,'''')  AS VARCHAR(30))) AS N_QTDE,');
               SQL.Add('       TRIM(REPLACE(REPLACE(CAST(CAST(PK.QTDE AS NUMERIC(12,2)) || '' '' || COALESCE(CP.UCOM,'''') AS VARCHAR(30)),''.'','',''),'',00'','''')) AS D_QTDE,');
               SQL.Add('       CP.UCON,CP.MREND,CP.MGRAMA,CP.MLGRU,CP.MLGRT,');
               SQL.Add('       IL.ILA_BMP1,IL.ILA_BMP2,IL.ILA_BMP3,IL.ILA_BMP4,IL.ILA_BMP5,IL.ILA_BMP6,IL.ILA_BMP7,IL.ILA_BMP8');
-
 
               SQL.Add('FROM ' + IFThen(RECRelatorios.Tipo = 'ANTECIPADO','CAD_PRO_ENI','CAD_PRO_EST') + ' AS PK');
               SQL.Add('JOIN     CAD_PRO             AS CP ON (CP.CP_ID = PK.CP_ID)');
@@ -210,9 +209,41 @@ begin
         case RECRelatorios.PrintTAG of
           0: PreviewModal;
           1: Print;
-          2: ExportToFilter(TQRPDFDocumentFilter.Create(PChar(FrmExporta.DELocal.Text+'\'+FrmExporta.EDArquivo.Text+'.PDF')));
-          3: ExportToFilter(TQRXLSFilter.Create        (PChar(FrmExporta.DELocal.Text+'\'+FrmExporta.EDArquivo.Text+'.XLS')));
-          4: ExportToFilter(TQRRTFExportFilter.Create  (PChar(FrmExporta.DELocal.Text+'\'+FrmExporta.EDArquivo.Text+'.DOC')));
+          { PDF }
+          2: try
+               ExportToFilter(TQRPDFDocumentFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + RECRelatorios.Titulo + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.pdf')));
+               oAviso(Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+             except
+               on E: Exception do
+               begin
+                 oErro(Handle,'Falha ao tentar converter relatório !' + #13 +
+                                          'Erro: ' + E.Message + '.');
+               end;
+             end;
+
+          { EXCEL }
+          3: try
+               ExportToFilter(TQRXLSFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + RECRelatorios.Titulo + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.xls')));
+               oAviso(Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+             except
+               on E: Exception do
+               begin
+                 oErro(Handle,'Falha ao tentar converter relatório !' + #13 +
+                                          'Erro: ' + E.Message + '.');
+               end;
+             end;
+
+          { WORD }
+          4: try
+               ExportToFilter(TQRRTFExportFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + RECRelatorios.Titulo + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.doc')));
+               oAviso(Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+             except
+               on E: Exception do
+               begin
+                 oErro(Handle,'Falha ao tentar converter relatório !' + #13 +
+                                          'Erro: ' + E.Message + '.');
+               end;
+             end;
         end;
      end else oException(Nil,'Registros não Encontrados !');
     finally

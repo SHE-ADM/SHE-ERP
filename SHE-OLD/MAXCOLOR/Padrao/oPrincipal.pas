@@ -1074,6 +1074,9 @@ function ConsultaGtin(chave : shortstring) : shortstring; stdcall; External dllN
   Function oRdatabase(Adatabase: TIBdatabase;AWarning: TWarning = lwNone;Adatabasename: String = ''): String; STDCall;
   Function oCdatabase(Adatabase: TIBdatabase;AWarning: TWarning = lwNone;Adatabasename: String = ''): String; STDCall;
   Function oLast(AIBSQL: TIBSQL): Integer; STDCAll;
+  function oPrimeiraLetraMaiuscula(ATexto: String): String; STDCall;
+  function oLowerCase(ATexto: String): String; STDCall;
+  function oUpperCase(ATexto: String): String; STDCall;
 
   { Biblioteca de Procedures - Última Versão 21/09/2017 09:42 }
   Procedure oTreeDeleteItem(var Sender: TTreeView; ItemList: TStrings; Level: Integer); STDCall;
@@ -4633,6 +4636,55 @@ begin
   finally
     Regedit.Free;
   end;
+end;
+
+{ Formata String }
+(****************************************************************)
+function oPrimeiraLetraMaiuscula(ATexto: String): String; STDCall;
+(****************************************************************)
+var
+  i: Integer;
+begin
+  ATexto :=  oLowerCase(ATexto);
+  for i  :=  1 to Length(ATexto) do
+      if i = 1 then ATexto[i] := UpCase(ATexto[i]) else
+      if i <> Length(ATexto) then
+      if (ATexto[i] = ' ') then
+      if (ATexto[i+1]+ATexto[i+2]+ATexto[i+3] <> 'de ') and (ATexto[i+1]+ATexto[i+2]+ATexto[i+3]+ATexto[i+4] <> 'pôr ') and (ATexto[i+1]+ATexto[i+2]+ATexto[i+3]+ATexto[i+4] <> 'por ') and
+                                                            (ATexto[i+1]+ATexto[i+2]+ATexto[i+3]+ATexto[i+4] <> 'até ') and (ATexto[i+1]+ATexto[i+2]+ATexto[i+3]+ATexto[i+4] <> 'ate ') and
+                                                            (ATexto[i+1]+ATexto[i+2]+ATexto[i+3]+ATexto[i+4] <> 'não ') and (ATexto[i+1]+ATexto[i+2]+ATexto[i+3]+ATexto[i+4] <> 'nao ') and
+                                                            (ATexto[i+1]+ATexto[i+2]+ATexto[i+3]+ATexto[i+4] <> 'já ' ) and (ATexto[i+1]+ATexto[i+2]+ATexto[i+3]+ATexto[i+4] <> 'ja ' ) and
+                                                            (ATexto[i+1]+ATexto[i+2]+ATexto[i+3]+ATexto[i+4] <> 'sim ') and
+                                                            (not oEmpty(ATexto[i+2])) then
+      ATexto[i+1] := UpCase(ATexto[i+1]) else
+      ATexto[i+1] := ATexto[i+1];
+  Result := ATexto;
+end;
+
+{ Converte para minúsculo - Considera Acentos }
+(***************************************************)
+function oLowerCase(ATexto: String): String; STDCall;
+(***************************************************)
+var
+  i: Word;
+begin
+  ATexto := Trim(LowerCase(ATexto));
+  for i  := 1 to High(aCarUP) do
+  ATexto := StringReplace(ATexto, aCarUP[i],aCarLW[i],[rfreplaceall]);
+  result := Trim(ATexto);
+end;
+
+{ Converte para maiúsculo - Considera Acentos }
+(***************************************************)
+function oUpperCase(ATexto: String): String; STDCall;
+(***************************************************)
+var
+  i: Word;
+begin
+  ATexto := Trim(UpperCase(ATexto));
+  for i  := 1 to High(aCarLW) do
+  ATexto := StringReplace(ATexto, aCarLW[i],aCarUP[i],[rfreplaceall]);
+  result := Trim(ATexto);
 end;
 
 end.

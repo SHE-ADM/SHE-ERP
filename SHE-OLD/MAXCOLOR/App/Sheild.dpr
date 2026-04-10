@@ -64,12 +64,9 @@ uses
   qcad_pro_fic_foto in '..\padrao\qcad_pro_fic_foto.pas' {qrpcad_pro_fic_foto: TQuickRep},
   qprg_con in '..\padrao\qprg_con.pas' {qrpprg_con: TQuickRep},
   qcob_rom_ref in '..\padrao\qcob_rom_ref.pas' {qrpcob_rom_ref: TQuickRep},
-  qven_ped_bematech in '..\padrao\qven_ped_bematech.pas' {qrpven_ped_bematech: TQuickRep},
   qent_pro_rom in '..\padrao\qent_pro_rom.pas' {qrpent_pro_rom: TQuickRep},
-  qven_oca_bematech in '..\padrao\qven_oca_bematech.pas' {qrpven_oca_bematech: TQuickRep},
   qent_pro_con in '..\padrao\qent_pro_con.pas' {qrpent_pro_con: TQuickRep},
   pimporta_geral_favorecido in '..\padrao\pimporta_geral_favorecido.pas' {frmimporta_geral_favorecido},
-  qven_sim_bematech in '..\padrao\qven_sim_bematech.pas' {qrpven_sim_bematech: TQuickRep},
   pcad_pro_img in '..\padrao\pcad_pro_img.pas' {frmcad_pro_img},
   qcai_mov_ger_ana in '..\padrao\qcai_mov_ger_ana.pas' {qrpcai_mov_ger_ana: TQuickRep},
   qrom_con_001 in '..\padrao\qrom_con_001.pas' {qrprom_con_001: TQuickRep},
@@ -96,7 +93,9 @@ uses
   StrInt in '..\..\..\Lib\Default\StrInt.pas',
   StrIntImp in '..\..\..\Lib\Default\StrIntImp.pas',
   pLogin in '..\Padrao\pLogin.pas' {FrmLogin},
-  pSplash in '..\..\..\Lib\Default\pSplash.pas' {FrmSplash};
+  pSplash in '..\..\..\Lib\Default\pSplash.pas' {FrmSplash},
+  qPED_CUP_SCO in '..\Padrao\qPED_CUP_SCO.pas' {QRPPED_CUP_SCO: TQuickRep},
+  qPED_CUP_VEN in '..\Padrao\qPED_CUP_VEN.pas' {QRPPED_CUP_VEN: TQuickRep};
 
 {$R *.res}
 

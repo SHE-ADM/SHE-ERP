@@ -1,13 +1,16 @@
 object frmctr_ped_bai: Tfrmctr_ped_bai
-  Left = 217
-  Top = 70
+  Left = 556
+  Top = 149
+  HelpType = htKeyword
+  HelpKeyword = '5'
   ActiveControl = dbgConsulta
-  AutoSize = True
+  Align = alCustom
+  AlphaBlendValue = 0
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Baixa de Pedidos'
   ClientHeight = 610
-  ClientWidth = 1029
+  ClientWidth = 1166
   Color = clBtnFace
   Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
@@ -265,8 +268,8 @@ object frmctr_ped_bai: Tfrmctr_ped_bai
   object SpeedBar2: TSpeedBar
     Left = 0
     Top = 0
-    Width = 1029
-    Height = 114
+    Width = 1166
+    Height = 95
     Cursor = crHandPoint
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -278,7 +281,7 @@ object frmctr_ped_bai: Tfrmctr_ped_bai
     BtnOffsetHorz = 2
     BtnOffsetVert = 2
     BtnWidth = 110
-    BtnHeight = 110
+    BtnHeight = 90
     Images = imageOPC
     BevelOuter = bvNone
     Ctl3D = True
@@ -307,9 +310,7 @@ object frmctr_ped_bai: Tfrmctr_ped_bai
       Spacing = 1
       Left = 2
       Top = 2
-      Visible = True
       WordWrap = True
-      OnClick = siPSQClick
       SectionName = 'Movimento'
     end
     object siREF: TSpeedItem
@@ -328,18 +329,19 @@ object frmctr_ped_bai: Tfrmctr_ped_bai
       Hint = '[Esc] - Fecha Janela'
       ImageIndex = 2
       Spacing = 1
-      Left = 222
+      Left = 112
       Top = 2
       Visible = True
       OnClick = siSAIRClick
       SectionName = 'Movimento'
     end
     object siSAV: TSpeedItem
-      BtnCaption = '[F10] Salvar'
+      BtnCaption = 'Salvar'
+      Cursor = crHandPoint
       Hint = 'Salvar Lan'#231'amentos de Baixa'
       ImageIndex = 5
       Spacing = 1
-      Left = 112
+      Left = 2
       Top = 2
       Visible = True
       OnClick = siSAVClick
@@ -348,16 +350,16 @@ object frmctr_ped_bai: Tfrmctr_ped_bai
   end
   object pnlpri: TPanel
     Left = 0
-    Top = 114
-    Width = 1029
-    Height = 238
+    Top = 95
+    Width = 1166
+    Height = 257
     Align = alClient
     TabOrder = 1
     object pcPED: TdxPageControl
       Left = 1
       Top = 1
-      Width = 1027
-      Height = 236
+      Width = 1164
+      Height = 255
       ActivePage = tsPED
       Align = alClient
       HideButtons = False
@@ -375,8 +377,8 @@ object frmctr_ped_bai: Tfrmctr_ped_bai
         object dbgConsulta: TdxDBGrid
           Left = 0
           Top = 0
-          Width = 1027
-          Height = 212
+          Width = 1164
+          Height = 231
           Bands = <
             item
             end>
@@ -499,532 +501,17 @@ object frmctr_ped_bai: Tfrmctr_ped_bai
   object pnlbot: TPanel
     Left = 0
     Top = 352
-    Width = 1029
+    Width = 1166
     Height = 258
     Align = alBottom
     TabOrder = 2
-    object pnldir: TPanel
-      Left = 257
-      Top = 1
-      Width = 771
-      Height = 256
-      Align = alClient
-      TabOrder = 0
-      object pclan: TdxPageControl
-        Left = 1
-        Top = 1
-        Width = 769
-        Height = 254
-        ActivePage = tslan
-        Align = alClient
-        HideButtons = False
-        HotTrack = False
-        MultiLine = False
-        OwnerDraw = False
-        RaggedRight = False
-        ScrollOpposite = False
-        TabHeight = 0
-        TabOrder = 0
-        TabPosition = dxtpTop
-        TabWidth = 0
-        object tslan: TdxTabSheet
-          Caption = 'Lan'#231'amentos'
-          OnShow = tslanShow
-          object dbgprz1: TdxDBGrid
-            Left = 49
-            Top = 0
-            Width = 720
-            Height = 230
-            Bands = <
-              item
-              end>
-            DefaultLayout = True
-            HeaderPanelRowCount = 1
-            KeyField = 'ID'
-            ShowSummaryFooter = True
-            SummaryGroups = <>
-            SummarySeparator = ', '
-            Align = alClient
-            Color = 10789888
-            Ctl3D = True
-            Font.Charset = ANSI_CHARSET
-            Font.Color = clBlack
-            Font.Height = -12
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            ParentCtl3D = False
-            ParentFont = False
-            TabOrder = 0
-            OnKeyDown = dbgprz1KeyDown
-            AutoSearchColor = 9395
-            AutoSearchTextColor = clWhite
-            BandFont.Charset = ANSI_CHARSET
-            BandFont.Color = clBlack
-            BandFont.Height = -12
-            BandFont.Name = 'Tahoma'
-            BandFont.Style = []
-            DataSource = dtsfin_rec_bai
-            Filter.Criteria = {00000000}
-            GridLineColor = clSilver
-            HeaderFont.Charset = ANSI_CHARSET
-            HeaderFont.Color = clBlack
-            HeaderFont.Height = -12
-            HeaderFont.Name = 'Tahoma'
-            HeaderFont.Style = []
-            HideSelectionColor = 14789952
-            HighlightColor = 14789952
-            LookAndFeel = lfUltraFlat
-            OptionsBehavior = [edgoAutoSort, edgoCaseInsensitive, edgoCollapsedReload, edgoDragCollapse, edgoDragExpand, edgoDragScroll, edgoEditing, edgoEnterShowEditor, edgoImmediateEditor, edgoSeekDetail, edgoShowHourGlass, edgoTabThrough, edgoVertThrough]
-            OptionsCustomize = [edgoBandMoving, edgoBandSizing, edgoColumnMoving, edgoColumnSizing, edgoNotHideColumn]
-            OptionsDB = [edgoCancelOnExit, edgoCanNavigation, edgoConfirmDelete, edgoLoadAllRecords, edgoSyncSelection, edgoUseBookmarks]
-            OptionsView = [edgoAutoCalcPreviewLines, edgoBandHeaderWidth, edgoHotTrack, edgoPreview, edgoUseBitmap]
-            PreviewFont.Charset = DEFAULT_CHARSET
-            PreviewFont.Color = clBlack
-            PreviewFont.Height = -12
-            PreviewFont.Name = 'Tahoma'
-            PreviewFont.Style = []
-            RowFooterTextColor = clBlack
-            object dbgprz1FIN_TIPO: TdxDBGridImageColumn
-              Alignment = taLeftJustify
-              MinWidth = 16
-              Width = 170
-              BandIndex = 0
-              RowIndex = 0
-              OnChange = dbgprz1FIN_TIPOChange
-              FieldName = 'FIN_TIPO'
-              SummaryFooterType = cstCount
-              SummaryFooterField = 'ID'
-              SummaryFooterFormat = '0'
-              Images = ImageList1
-              ImageIndexes.Strings = (
-                '0'
-                '1'
-                '2'
-                '3'
-                '4'
-                '5'
-                '6'
-                '7'
-                '8'
-                '9'
-                '10'
-                '11'
-                '12')
-              ShowDescription = True
-            end
-            object dbgprz1FIN_VALO: TdxDBGridMaskColumn
-              HeaderAlignment = taRightJustify
-              Width = 80
-              BandIndex = 0
-              RowIndex = 0
-              OnValidate = dbgprz1FIN_VALOValidate
-              FieldName = 'FIN_VALO'
-              SummaryFooterType = cstSum
-              SummaryFooterField = 'FIN_VALO'
-              SummaryFooterFormat = '#,0.00'
-            end
-            object dbgprz1FIN_PRAZ: TdxDBGridMaskColumn
-              HeaderAlignment = taRightJustify
-              Width = 35
-              BandIndex = 0
-              RowIndex = 0
-              FieldName = 'FIN_PRAZ'
-            end
-            object dbgprz1FIN_DVEN: TdxDBGridDateColumn
-              Width = 74
-              BandIndex = 0
-              RowIndex = 0
-              FieldName = 'FIN_DVEN'
-              DateValidation = True
-              UseEditMask = True
-            end
-            object dbgprz1FIN_BANC: TdxDBGridMaskColumn
-              Width = 40
-              BandIndex = 0
-              RowIndex = 0
-              FieldName = 'FIN_BANC'
-            end
-            object dbgprz1FIN_AGEN: TdxDBGridMaskColumn
-              Width = 60
-              BandIndex = 0
-              RowIndex = 0
-              FieldName = 'FIN_AGEN'
-            end
-            object dbgprz1FIN_CONT: TdxDBGridMaskColumn
-              Width = 100
-              BandIndex = 0
-              RowIndex = 0
-              FieldName = 'FIN_CONT'
-            end
-            object dbgprz1FIN_NCHQ: TdxDBGridMaskColumn
-              Width = 70
-              BandIndex = 0
-              RowIndex = 0
-              FieldName = 'FIN_NCHQ'
-            end
-            object dbgprz1FIN_STA: TdxDBGridCheckColumn
-              Width = 55
-              BandIndex = 0
-              RowIndex = 0
-              FieldName = 'FIN_STA'
-              ValueChecked = '1'
-              ValueUnchecked = '0'
-            end
-            object dbgprz1FIN_CPF: TdxDBGridMaskColumn
-              Width = 100
-              BandIndex = 0
-              RowIndex = 0
-              FieldName = 'FIN_CPF'
-            end
-            object dbgprz1FIN_OBSE: TdxDBGridBlobColumn
-              HeaderAlignment = taCenter
-              Width = 30
-              BandIndex = 0
-              RowIndex = 0
-              FieldName = 'FIN_OBSE'
-            end
-          end
-          object sblan: TSpeedBar
-            Left = 0
-            Top = 0
-            Width = 49
-            Height = 230
-            Cursor = crHandPoint
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -12
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            BoundLines = [blTop, blBottom, blLeft, blRight]
-            Align = alLeft
-            Options = [sbAllowDrag, sbAllowResize, sbFlatBtns, sbTransparentBtns, sbStretchBitmap]
-            BtnOffsetHorz = 2
-            BtnOffsetVert = 2
-            BtnWidth = 45
-            BtnHeight = 45
-            Images = imageITEM
-            BevelOuter = bvNone
-            TabOrder = 1
-            InternalVer = 1
-            object SpeedbarSection1: TSpeedbarSection
-              Caption = 'Movimento'
-            end
-            object SpeedbarSection2: TSpeedbarSection
-              Caption = 'Edicao'
-            end
-            object SpeedbarSection3: TSpeedbarSection
-              Caption = 'Confirmacao'
-            end
-            object SpeedbarSection4: TSpeedbarSection
-              Caption = 'Utilitarios'
-            end
-            object b1I: TSpeedItem
-              Caption = 'Incluir'
-              Cursor = crHandPoint
-              Hint = '[Ins] - Inclui'
-              ImageIndex = 2
-              Spacing = 1
-              Left = 2
-              Top = 2
-              Visible = True
-              OnClick = b1IClick
-              SectionName = 'Movimento'
-            end
-            object b1A: TSpeedItem
-              Caption = 'Alterar'
-              Cursor = crHandPoint
-              Hint = '[Enter] - Altera'
-              ImageIndex = 0
-              Spacing = 1
-              Left = 2
-              Top = 47
-              Visible = True
-              OnClick = b1AClick
-              SectionName = 'Movimento'
-            end
-            object b1D: TSpeedItem
-              Caption = 'Excluir'
-              Cursor = crHandPoint
-              Hint = '[Del] - Exclui'
-              ImageIndex = 3
-              Spacing = 1
-              Left = 2
-              Top = 92
-              Visible = True
-              OnClick = b1DClick
-              SectionName = 'Movimento'
-            end
-            object b1S: TSpeedItem
-              Caption = 'Salvar'
-              Enabled = False
-              Cursor = crHandPoint
-              Hint = '[Ctrl+S] - Salva'
-              ImageIndex = 1
-              Spacing = 1
-              Left = 2
-              Top = 137
-              Visible = True
-              OnClick = b1SClick
-              SectionName = 'Movimento'
-            end
-            object b1C: TSpeedItem
-              Caption = 'Cancelar'
-              Enabled = False
-              Cursor = crHandPoint
-              Hint = '[Esc] - Cancela'
-              ImageIndex = 4
-              Spacing = 1
-              Left = 2
-              Top = 182
-              Visible = True
-              OnClick = b1CClick
-              SectionName = 'Movimento'
-            end
-          end
-        end
-        object tscar: TdxTabSheet
-          Caption = 'Carteira'
-          OnShow = tscarShow
-          object dbgprz2: TdxDBGrid
-            Left = 49
-            Top = 0
-            Width = 720
-            Height = 230
-            Bands = <
-              item
-              end>
-            DefaultLayout = True
-            HeaderPanelRowCount = 1
-            KeyField = 'ID'
-            ShowSummaryFooter = True
-            SummaryGroups = <>
-            SummarySeparator = ', '
-            Align = alClient
-            Color = 14803200
-            Ctl3D = True
-            Font.Charset = ANSI_CHARSET
-            Font.Color = clBlack
-            Font.Height = -12
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            ParentCtl3D = False
-            ParentFont = False
-            TabOrder = 0
-            OnKeyDown = dbgprz2KeyDown
-            AutoSearchColor = 9395
-            AutoSearchTextColor = clWhite
-            BandFont.Charset = ANSI_CHARSET
-            BandFont.Color = clWindowText
-            BandFont.Height = -12
-            BandFont.Name = 'Tahoma'
-            BandFont.Style = []
-            DataSource = dtsfin_rec_bai
-            Filter.Criteria = {00000000}
-            GridLineColor = clSilver
-            HeaderFont.Charset = ANSI_CHARSET
-            HeaderFont.Color = clWindowText
-            HeaderFont.Height = -12
-            HeaderFont.Name = 'Tahoma'
-            HeaderFont.Style = []
-            HideSelectionColor = 14789952
-            HighlightColor = 14789952
-            LookAndFeel = lfUltraFlat
-            OptionsBehavior = [edgoAutoSort, edgoCaseInsensitive, edgoCollapsedReload, edgoDragCollapse, edgoDragExpand, edgoDragScroll, edgoEditing, edgoEnterShowEditor, edgoImmediateEditor, edgoSeekDetail, edgoShowHourGlass, edgoTabThrough, edgoVertThrough]
-            OptionsCustomize = [edgoBandMoving, edgoBandSizing, edgoColumnMoving, edgoColumnSizing, edgoNotHideColumn]
-            OptionsDB = [edgoCancelOnExit, edgoCanNavigation, edgoConfirmDelete, edgoLoadAllRecords, edgoSyncSelection, edgoUseBookmarks]
-            OptionsView = [edgoAutoCalcPreviewLines, edgoBandHeaderWidth, edgoHotTrack, edgoPreview, edgoUseBitmap]
-            PreviewFont.Charset = DEFAULT_CHARSET
-            PreviewFont.Color = clBlue
-            PreviewFont.Height = -12
-            PreviewFont.Name = 'Tahoma'
-            PreviewFont.Style = []
-            object dbgprz2FIN_TIPO: TdxDBGridImageColumn
-              Alignment = taLeftJustify
-              MinWidth = 16
-              Width = 170
-              BandIndex = 0
-              RowIndex = 0
-              FieldName = 'FIN_TIPO'
-              SummaryFooterType = cstCount
-              SummaryFooterField = 'ID'
-              SummaryFooterFormat = '0'
-              ShowDescription = True
-            end
-            object dbgprz2FIN_VALO: TdxDBGridMaskColumn
-              HeaderAlignment = taRightJustify
-              Width = 80
-              BandIndex = 0
-              RowIndex = 0
-              FieldName = 'FIN_VALO'
-              SummaryFooterType = cstSum
-              SummaryFooterField = 'FIN_VALO'
-              SummaryFooterFormat = '#,0.00'
-            end
-            object dbgprz2FIN_PRAZ: TdxDBGridMaskColumn
-              Width = 35
-              BandIndex = 0
-              RowIndex = 0
-              FieldName = 'FIN_PRAZ'
-            end
-            object dbgprz2FIN_DVEN: TdxDBGridDateColumn
-              BandIndex = 0
-              RowIndex = 0
-              FieldName = 'FIN_DVEN'
-              DateValidation = True
-              UseEditMask = True
-            end
-            object dbgprz2FIN_BANC: TdxDBGridMaskColumn
-              Width = 40
-              BandIndex = 0
-              RowIndex = 0
-              FieldName = 'FIN_BANC'
-            end
-            object dbgprz2FIN_AGEN: TdxDBGridMaskColumn
-              Width = 60
-              BandIndex = 0
-              RowIndex = 0
-              FieldName = 'FIN_AGEN'
-            end
-            object dbgprz2FIN_CONT: TdxDBGridMaskColumn
-              Width = 100
-              BandIndex = 0
-              RowIndex = 0
-              FieldName = 'FIN_CONT'
-            end
-            object dbgprz2FIN_NCHQ: TdxDBGridMaskColumn
-              Width = 70
-              BandIndex = 0
-              RowIndex = 0
-              FieldName = 'FIN_NCHQ'
-            end
-            object dbgprz2FIN_STA: TdxDBGridCheckColumn
-              Width = 55
-              BandIndex = 0
-              RowIndex = 0
-              FieldName = 'FIN_STA'
-              ValueChecked = 'True'
-              ValueUnchecked = 'False'
-            end
-            object dbgprz2FIN_CPF: TdxDBGridMaskColumn
-              Width = 100
-              BandIndex = 0
-              RowIndex = 0
-              FieldName = 'FIN_CPF'
-            end
-            object dbgprz2FIN_OBSE: TdxDBGridBlobColumn
-              Width = 30
-              BandIndex = 0
-              RowIndex = 0
-              FieldName = 'FIN_OBSE'
-            end
-          end
-          object SpeedBar3: TSpeedBar
-            Left = 0
-            Top = 0
-            Width = 49
-            Height = 230
-            Cursor = crHandPoint
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -12
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            BoundLines = [blTop, blBottom, blLeft, blRight]
-            Align = alLeft
-            Options = [sbAllowDrag, sbAllowResize, sbFlatBtns, sbTransparentBtns, sbStretchBitmap]
-            BtnOffsetHorz = 2
-            BtnOffsetVert = 2
-            BtnWidth = 45
-            BtnHeight = 45
-            Images = imageITEM
-            BevelOuter = bvNone
-            TabOrder = 1
-            InternalVer = 1
-            object SpeedbarSection9: TSpeedbarSection
-              Caption = 'Movimento'
-            end
-            object SpeedbarSection10: TSpeedbarSection
-              Caption = 'Edicao'
-            end
-            object SpeedbarSection11: TSpeedbarSection
-              Caption = 'Confirmacao'
-            end
-            object SpeedbarSection12: TSpeedbarSection
-              Caption = 'Utilitarios'
-            end
-            object c1I: TSpeedItem
-              Caption = 'Incluir'
-              Cursor = crHandPoint
-              Hint = '[Ins] - Inclui'
-              ImageIndex = 2
-              Spacing = 1
-              Left = 2
-              Top = 2
-              Visible = True
-              OnClick = b1IClick
-              SectionName = 'Movimento'
-            end
-            object c1A: TSpeedItem
-              Caption = 'Alterar'
-              Cursor = crHandPoint
-              Hint = '[Enter] - Altera'
-              ImageIndex = 0
-              Spacing = 1
-              Left = 2
-              Top = 47
-              Visible = True
-              OnClick = b1AClick
-              SectionName = 'Movimento'
-            end
-            object c1D: TSpeedItem
-              Caption = 'Excluir'
-              Cursor = crHandPoint
-              Hint = '[Del] - Exclui'
-              ImageIndex = 3
-              Spacing = 1
-              Left = 2
-              Top = 92
-              Visible = True
-              OnClick = b1DClick
-              SectionName = 'Movimento'
-            end
-            object c1S: TSpeedItem
-              Caption = 'Salvar'
-              Enabled = False
-              Cursor = crHandPoint
-              Hint = '[Ctrl+S] - Salva'
-              ImageIndex = 1
-              Spacing = 1
-              Left = 2
-              Top = 137
-              Visible = True
-              OnClick = b1SClick
-              SectionName = 'Movimento'
-            end
-            object c1C: TSpeedItem
-              Caption = 'Cancelar'
-              Enabled = False
-              Cursor = crHandPoint
-              Hint = '[Esc] - Cancela'
-              ImageIndex = 4
-              Spacing = 1
-              Left = 2
-              Top = 182
-              Visible = True
-              OnClick = b1CClick
-              SectionName = 'Movimento'
-            end
-          end
-        end
-      end
-    end
     object pnlesq: TPanel
       Left = 1
       Top = 1
       Width = 256
       Height = 256
       Align = alLeft
-      TabOrder = 1
+      TabOrder = 0
       object gbPED: TGroupBox
         Left = 1
         Top = 150
@@ -1321,6 +808,264 @@ object frmctr_ped_bai: Tfrmctr_ped_bai
           Date = -700000.000000000000000000
           UseEditMask = True
           StoredValues = 4
+        end
+      end
+    end
+    object Panel1: TPanel
+      Left = 257
+      Top = 1
+      Width = 908
+      Height = 256
+      Align = alClient
+      BevelOuter = bvNone
+      TabOrder = 1
+      object dbgprz1: TdxDBGrid
+        Left = 49
+        Top = 0
+        Width = 859
+        Height = 256
+        Bands = <
+          item
+          end>
+        DefaultLayout = True
+        HeaderPanelRowCount = 1
+        KeyField = 'ID'
+        ShowSummaryFooter = True
+        SummaryGroups = <>
+        SummarySeparator = ', '
+        Align = alClient
+        Color = 10789888
+        Ctl3D = True
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -12
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentCtl3D = False
+        ParentFont = False
+        TabOrder = 0
+        OnKeyDown = dbgprz1KeyDown
+        AutoSearchColor = 9395
+        AutoSearchTextColor = clWhite
+        BandFont.Charset = ANSI_CHARSET
+        BandFont.Color = clBlack
+        BandFont.Height = -12
+        BandFont.Name = 'Tahoma'
+        BandFont.Style = []
+        DataSource = dtsfin_rec_bai
+        Filter.Criteria = {00000000}
+        GridLineColor = clSilver
+        HeaderFont.Charset = ANSI_CHARSET
+        HeaderFont.Color = clBlack
+        HeaderFont.Height = -12
+        HeaderFont.Name = 'Tahoma'
+        HeaderFont.Style = []
+        HideSelectionColor = 14789952
+        HighlightColor = 14789952
+        LookAndFeel = lfUltraFlat
+        OptionsBehavior = [edgoAutoSort, edgoCaseInsensitive, edgoCollapsedReload, edgoDragCollapse, edgoDragExpand, edgoDragScroll, edgoEditing, edgoEnterShowEditor, edgoImmediateEditor, edgoSeekDetail, edgoShowHourGlass, edgoTabThrough, edgoVertThrough]
+        OptionsCustomize = [edgoBandMoving, edgoBandSizing, edgoColumnMoving, edgoColumnSizing, edgoNotHideColumn]
+        OptionsDB = [edgoCancelOnExit, edgoCanNavigation, edgoConfirmDelete, edgoLoadAllRecords, edgoSyncSelection, edgoUseBookmarks]
+        OptionsView = [edgoAutoCalcPreviewLines, edgoBandHeaderWidth, edgoHotTrack, edgoPreview, edgoUseBitmap]
+        PreviewFont.Charset = DEFAULT_CHARSET
+        PreviewFont.Color = clBlack
+        PreviewFont.Height = -12
+        PreviewFont.Name = 'Tahoma'
+        PreviewFont.Style = []
+        RowFooterTextColor = clBlack
+        object dbgprz1FIN_TIPO: TdxDBGridImageColumn
+          Alignment = taLeftJustify
+          MinWidth = 16
+          Width = 170
+          BandIndex = 0
+          RowIndex = 0
+          FieldName = 'FIN_TIPO'
+          SummaryFooterType = cstCount
+          SummaryFooterField = 'ID'
+          SummaryFooterFormat = '0'
+          Images = ImageList1
+          ImageIndexes.Strings = (
+            '0'
+            '1'
+            '2'
+            '3'
+            '4'
+            '5'
+            '6'
+            '7'
+            '8'
+            '9'
+            '10'
+            '11'
+            '12')
+          ShowDescription = True
+        end
+        object dbgprz1FIN_VALO: TdxDBGridMaskColumn
+          HeaderAlignment = taRightJustify
+          Width = 90
+          BandIndex = 0
+          RowIndex = 0
+          FieldName = 'FIN_VALO'
+          SummaryFooterType = cstSum
+          SummaryFooterField = 'FIN_VALO'
+          SummaryFooterFormat = '#,0.00'
+        end
+        object dbgprz1FIN_PRAZ: TdxDBGridMaskColumn
+          HeaderAlignment = taRightJustify
+          Width = 35
+          BandIndex = 0
+          RowIndex = 0
+          FieldName = 'FIN_PRAZ'
+        end
+        object dbgprz1FIN_DVEN: TdxDBGridDateColumn
+          Width = 74
+          BandIndex = 0
+          RowIndex = 0
+          FieldName = 'FIN_DVEN'
+          DateValidation = True
+          UseEditMask = True
+        end
+        object dbgprz1FIN_BANC: TdxDBGridMaskColumn
+          Width = 40
+          BandIndex = 0
+          RowIndex = 0
+          FieldName = 'FIN_BANC'
+        end
+        object dbgprz1FIN_AGEN: TdxDBGridMaskColumn
+          Width = 60
+          BandIndex = 0
+          RowIndex = 0
+          FieldName = 'FIN_AGEN'
+        end
+        object dbgprz1FIN_CONT: TdxDBGridMaskColumn
+          Width = 100
+          BandIndex = 0
+          RowIndex = 0
+          FieldName = 'FIN_CONT'
+        end
+        object dbgprz1FIN_NCHQ: TdxDBGridMaskColumn
+          Width = 70
+          BandIndex = 0
+          RowIndex = 0
+          FieldName = 'FIN_NCHQ'
+        end
+        object dbgprz1FIN_STA: TdxDBGridCheckColumn
+          Width = 55
+          BandIndex = 0
+          RowIndex = 0
+          FieldName = 'FIN_STA'
+          ValueChecked = '1'
+          ValueUnchecked = '0'
+        end
+        object dbgprz1FIN_CPF: TdxDBGridMaskColumn
+          Width = 100
+          BandIndex = 0
+          RowIndex = 0
+          FieldName = 'FIN_CPF'
+        end
+        object dbgprz1FIN_OBSE: TdxDBGridBlobColumn
+          HeaderAlignment = taCenter
+          Width = 30
+          BandIndex = 0
+          RowIndex = 0
+          FieldName = 'FIN_OBSE'
+        end
+      end
+      object sblan: TSpeedBar
+        Left = 0
+        Top = 0
+        Width = 49
+        Height = 256
+        Cursor = crHandPoint
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        BoundLines = [blTop, blBottom, blLeft, blRight]
+        Align = alLeft
+        Options = [sbAllowDrag, sbAllowResize, sbFlatBtns, sbTransparentBtns, sbStretchBitmap]
+        BtnOffsetHorz = 2
+        BtnOffsetVert = 2
+        BtnWidth = 45
+        BtnHeight = 45
+        Images = imageITEM
+        BevelOuter = bvNone
+        TabOrder = 1
+        InternalVer = 1
+        object SpeedbarSection1: TSpeedbarSection
+          Caption = 'Movimento'
+        end
+        object SpeedbarSection2: TSpeedbarSection
+          Caption = 'Edicao'
+        end
+        object SpeedbarSection3: TSpeedbarSection
+          Caption = 'Confirmacao'
+        end
+        object SpeedbarSection4: TSpeedbarSection
+          Caption = 'Utilitarios'
+        end
+        object b1I: TSpeedItem
+          Caption = 'Incluir'
+          Cursor = crHandPoint
+          Hint = '[Ins] - Inclui'
+          ImageIndex = 2
+          Spacing = 1
+          Left = 2
+          Top = 2
+          Visible = True
+          OnClick = b1IClick
+          SectionName = 'Movimento'
+        end
+        object b1A: TSpeedItem
+          Caption = 'Alterar'
+          Cursor = crHandPoint
+          Hint = '[Enter] - Altera'
+          ImageIndex = 0
+          Spacing = 1
+          Left = 2
+          Top = 47
+          Visible = True
+          OnClick = b1AClick
+          SectionName = 'Movimento'
+        end
+        object b1D: TSpeedItem
+          Caption = 'Excluir'
+          Cursor = crHandPoint
+          Hint = '[Del] - Exclui'
+          ImageIndex = 3
+          Spacing = 1
+          Left = 2
+          Top = 92
+          Visible = True
+          OnClick = b1DClick
+          SectionName = 'Movimento'
+        end
+        object b1S: TSpeedItem
+          Caption = 'Salvar'
+          Enabled = False
+          Cursor = crHandPoint
+          Hint = '[Ctrl+S] - Salva'
+          ImageIndex = 1
+          Spacing = 1
+          Left = 2
+          Top = 137
+          Visible = True
+          OnClick = b1SClick
+          SectionName = 'Movimento'
+        end
+        object b1C: TSpeedItem
+          Caption = 'Cancelar'
+          Enabled = False
+          Cursor = crHandPoint
+          Hint = '[Esc] - Cancela'
+          ImageIndex = 4
+          Spacing = 1
+          Left = 2
+          Top = 182
+          Visible = True
+          OnClick = b1CClick
+          SectionName = 'Movimento'
         end
       end
     end
@@ -11384,6 +11129,7 @@ object frmctr_ped_bai: Tfrmctr_ped_bai
       00000000000000000000000000000000000000000000}
   end
   object fin_rec: TIBDataSet
+    Tag = 1
     Database = dmDADOS.bSHEILD
     Transaction = tSHEILD
     AfterOpen = fin_recAfterOpen
@@ -11419,7 +11165,7 @@ object frmctr_ped_bai: Tfrmctr_ped_bai
       
         '   FIN_VALO, FIN_VCHQ, FIN_VDES, FIN_VENC, FIN_VEND, FIN_VJUR, F' +
         'IN_VMUL, '
-      '   FIN_VPAG, FIN_VPEN, ID)'
+      '   FIN_VPAG, FIN_VPEN, ID, RECO, TPCO)'
       'values'
       
         '  (:FIN_ATRA, :FIN_CBCO, :FIN_CCLI, :FIN_CCUS, :FIN_CDBX, :FIN_C' +
@@ -11445,7 +11191,7 @@ object frmctr_ped_bai: Tfrmctr_ped_bai
       
         '   :FIN_VALO, :FIN_VCHQ, :FIN_VDES, :FIN_VENC, :FIN_VEND, :FIN_V' +
         'JUR, :FIN_VMUL, '
-      '   :FIN_VPAG, :FIN_VPEN, :ID)')
+      '   :FIN_VPAG, :FIN_VPEN, :ID, :RECO, :TPCO)')
     RefreshSQL.Strings = (
       'Select '
       '  ID,'
@@ -11506,7 +11252,9 @@ object frmctr_ped_bai: Tfrmctr_ped_bai
       '  FIN_COBR,'
       '  FIN_DERD,'
       '  FIN_OBSE,'
-      '  FIN_DTST'
+      '  FIN_DTST,'
+      '  TPCO,'
+      '  RECO'
       'from FIN_REC '
       'where'
       '  ID = :ID')
@@ -11573,7 +11321,9 @@ object frmctr_ped_bai: Tfrmctr_ped_bai
       '  FIN_VMUL = :FIN_VMUL,'
       '  FIN_VPAG = :FIN_VPAG,'
       '  FIN_VPEN = :FIN_VPEN,'
-      '  ID = :ID'
+      '  ID = :ID,'
+      '  RECO = :RECO,'
+      '  TPCO = :TPCO'
       'where'
       '  ID = :OLD_ID')
     Left = 488
@@ -11869,6 +11619,16 @@ object frmctr_ped_bai: Tfrmctr_ped_bai
       FieldName = 'FIN_DTST'
       Origin = '"FIN_REC"."FIN_DTST"'
     end
+    object fin_recTPCO: TSmallintField
+      FieldName = 'TPCO'
+      Origin = '"FIN_REC"."TPCO"'
+    end
+    object fin_recRECO: TIBStringField
+      FieldName = 'RECO'
+      Origin = '"FIN_REC"."RECO"'
+      FixedChar = True
+      Size = 3
+    end
   end
   object dtsfin_rec: TDataSource
     DataSet = fin_rec
@@ -11899,6 +11659,7 @@ object frmctr_ped_bai: Tfrmctr_ped_bai
     Top = 40
   end
   object tab_pag: TIBQuery
+    Tag = 1
     Database = dmDADOS.ibDB
     Transaction = ibTRA
     AutoCalcFields = False
@@ -11999,6 +11760,7 @@ object frmctr_ped_bai: Tfrmctr_ped_bai
     Top = 72
   end
   object fin_rec_bai: TIBDataSet
+    Tag = 1
     Database = dmDADOS.bSHEILD
     Transaction = tSHEILD
     AfterCancel = fin_rec_baiAfterCancel
@@ -12039,7 +11801,7 @@ object frmctr_ped_bai: Tfrmctr_ped_bai
       
         '   FIN_VDES, FIN_VENC, FIN_VEND, FIN_VJUR, FIN_VMUL, FIN_VPAG, F' +
         'IN_VPEN, '
-      '   ID)'
+      '   ID, RECO, TPCO)'
       'values'
       
         '  (:FIN_AGEN, :FIN_ATRA, :FIN_BANC, :FIN_CCAB, :FIN_CCLI, :FIN_C' +
@@ -12065,7 +11827,7 @@ object frmctr_ped_bai: Tfrmctr_ped_bai
       
         '   :FIN_VDES, :FIN_VENC, :FIN_VEND, :FIN_VJUR, :FIN_VMUL, :FIN_V' +
         'PAG, :FIN_VPEN, '
-      '   :ID)')
+      '   :ID, :RECO, :TPCO)')
     RefreshSQL.Strings = (
       'Select '
       '  ID,'
@@ -12124,7 +11886,9 @@ object frmctr_ped_bai: Tfrmctr_ped_bai
       '  FIN_COBR,'
       '  FIN_DERD,'
       '  FIN_OBSE,'
-      '  FIN_DTST'
+      '  FIN_DTST,'
+      '  TPCO,'
+      '  RECO'
       'from FIN_REC_BAI '
       'where'
       '  ID = :ID')
@@ -12189,7 +11953,9 @@ object frmctr_ped_bai: Tfrmctr_ped_bai
       '  FIN_VMUL = :FIN_VMUL,'
       '  FIN_VPAG = :FIN_VPAG,'
       '  FIN_VPEN = :FIN_VPEN,'
-      '  ID = :ID'
+      '  ID = :ID,'
+      '  RECO = :RECO,'
+      '  TPCO = :TPCO'
       'where'
       '  ID = :OLD_ID')
     Left = 488
@@ -12273,7 +12039,7 @@ object frmctr_ped_bai: Tfrmctr_ped_bai
       Origin = '"FIN_REC_BAI"."FIN_STFI"'
     end
     object fin_rec_baiFIN_VALO: TIBBCDField
-      DisplayLabel = 'Valor'
+      DisplayLabel = 'Valor R$'
       FieldName = 'FIN_VALO'
       Origin = '"FIN_REC_BAI"."FIN_VALO"'
       DisplayFormat = '#,0.00'
@@ -12481,6 +12247,16 @@ object frmctr_ped_bai: Tfrmctr_ped_bai
       FieldName = 'FIN_DTST'
       Origin = '"FIN_REC_BAI"."FIN_DTST"'
     end
+    object fin_rec_baiTPCO: TSmallintField
+      FieldName = 'TPCO'
+      Origin = '"FIN_REC_BAI"."TPCO"'
+    end
+    object fin_rec_baiRECO: TIBStringField
+      FieldName = 'RECO'
+      Origin = '"FIN_REC_BAI"."RECO"'
+      FixedChar = True
+      Size = 3
+    end
   end
   object dtsfin_rec_bai: TDataSource
     DataSet = fin_rec_bai
@@ -12488,8 +12264,8 @@ object frmctr_ped_bai: Tfrmctr_ped_bai
     Top = 8
   end
   object ImageList1: TImageList
-    Left = 364
-    Top = 287
+    Left = 436
+    Top = 215
     Bitmap = {
       494C01010D000E00040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000004000000001002000000000000040
@@ -13051,6 +12827,7 @@ object frmctr_ped_bai: Tfrmctr_ped_bai
     Top = 40
   end
   object psq_ped: TIBQuery
+    Tag = 1
     Database = dmDADOS.ibDB
     Transaction = ibTRA
     SQL.Strings = (
@@ -13294,6 +13071,7 @@ object frmctr_ped_bai: Tfrmctr_ped_bai
     end
   end
   object psq_ped_ite: TIBQuery
+    Tag = 1
     Database = dmDADOS.ibDB
     Transaction = ibTRA
     SQL.Strings = (
@@ -13451,19 +13229,32 @@ object frmctr_ped_bai: Tfrmctr_ped_bai
       Origin = '"PED_VEN_ITE"."ROM_PCO2"'
       Size = 30
     end
+    object psq_ped_iteROM_DSEP: TIBStringField
+      FieldName = 'ROM_DSEP'
+      Origin = '"PED_VEN_ITE"."ROM_DSEP"'
+      Size = 15
+    end
+    object psq_ped_iteIDSP: TSmallintField
+      FieldName = 'IDSP'
+      Origin = '"PED_VEN_ITE"."IDSP"'
+    end
+    object psq_ped_iteDTSP: TDateTimeField
+      FieldName = 'DTSP'
+      Origin = '"PED_VEN_ITE"."DTSP"'
+    end
   end
   object pEVE: TIBEvents
     AutoRegister = False
     Database = dmDADOS.ibDB
     Registered = False
     Left = 784
-    Top = 304
+    Top = 272
   end
   object pSP: TIBStoredProc
     Database = dmDADOS.ibDB
     Transaction = pTRA
     Left = 816
-    Top = 304
+    Top = 272
   end
   object pTRA: TIBTransaction
     DefaultDatabase = dmDADOS.ibDB
@@ -13474,6 +13265,6 @@ object frmctr_ped_bai: Tfrmctr_ped_bai
       'nowait')
     AutoStopAction = saCommit
     Left = 848
-    Top = 304
+    Top = 272
   end
 end

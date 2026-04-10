@@ -557,7 +557,6 @@ type
     PED_HSTVPRC_COM: TFloatField;
     PED_HSTQTDE: TIBBCDField;
     PED_HSTDECP: TIBStringField;
-    PED_HSTDGCP: TIBStringField;
     PED_HSTUCOM: TIBStringField;
     PED_HSTSKU: TIBStringField;
     DBGPED_HSTDEPK: TdxDBGridMaskColumn;
@@ -567,7 +566,6 @@ type
     DBGPED_HSTUCOM: TdxDBGridMaskColumn;
     DBGPED_HSTSKU: TdxDBGridMaskColumn;
     DBGPED_HSTDECP: TdxDBGridMaskColumn;
-    DBGPED_HSTDGCP: TdxDBGridMaskColumn;
     ILMenuPrincipal: TImageList;
     ILMenuEdicao: TImageList;
     GBMenuEdicao: TGroupBox;
@@ -685,8 +683,6 @@ type
     procedure FormActivate(Sender: TObject);
     procedure FormPaint(Sender: TObject);
     procedure FormResize(Sender: TObject);
-    procedure PED_HSTBeforeOpen(DataSet: TDataSet);
-    procedure PED_HSTAfterScroll(DataSet: TDataSet);
     procedure SIMEAppendClick(Sender: TObject);
     procedure SIMEEditClick(Sender: TObject);
     procedure SIMEDeleteClick(Sender: TObject);
@@ -922,7 +918,7 @@ begin
         try
           edobse.Tag   := 1;
 
-          PESQUISA_CLIENTE('I',frmctr_ped.cadastroROM_CCLI.AsString,frmctr_ped.cadastroROM_CDSC.AsFloat,false,false);
+          PESQUISA_CLIENTE('I',frmctr_ped.cadastroROM_CCLI.AsString,0,false,false);
           PESQUISA_VENDEDOR('C',frmctr_ped.cadastroROM_CVEN.AsString);
           PESQUISA_REPRESENTANTE('C',frmctr_ped.cadastroROM_CREP.AsString);
 
@@ -960,10 +956,8 @@ begin
             latdsc.Caption := frmctr_ped.cadastroROM_TDSC.AsString;
             edpdsc.Text    := formatfloat('#,0.00',frmctr_ped.cadastroROM_PDSC.AsFloat);
             edodsc.Text    := formatfloat('#,0.00',frmctr_ped.cadastroROM_PDSC.AsFloat);
-            edcdsc.Text    := formatfloat('#,0.00',frmctr_ped.cadastroROM_CDSC.AsFloat);
-            edadsc.Text    := formatfloat('#,0.00',frmctr_ped.cadastroROM_ADSC.AsFloat);
-            if frmctr_ped.cadastroROM_ADSC.AsFloat > 0 then
-               edddsc.Text := 'Desconto adicional: '+formatfloat('0.00% '+cbstpd.Text,frmctr_ped.cadastroROM_ADSC.AsFloat);
+            edcdsc.Text    := '0.00';
+            edadsc.Text    := '0.00';
 
             PESQUISA_FPAGTO('C',frmctr_ped.cadastroROM_CPAG.AsString);
 
@@ -4411,7 +4405,7 @@ begin
     SQL.Add('SELECT FIRST 500');
     SQL.Add('       PK.ID AS IDPK,FK.ID AS IDFK,PK.ROM_DERO AS DEPK,PK.ROM_DROM AS DTPK,');
     SQL.Add('       FK.ROM_UNIT AS VPRC_COM,FK.ROM_QTDE AS QTDE,FK.ROM_DUNI AS UCOM,');
-    SQL.Add('       CP.PRO_CPRO AS SKU,FK.ROM_DPRO AS DECP,FK.ROM_DCOR AS DGCP');
+    SQL.Add('       CP.PRO_CPRO AS SKU,FK.ROM_DPRO || COALESCE(FK.ROM_DCOR,'''') AS DECP');
 
     SQL.Add('FROM ' + oREPZero('PED_VEN_CAB','_',FrmPrincipal.ParametrosID.AsInteger,3) + ' AS PK');
     SQL.Add('JOIN ' + oREPZero('PED_VEN_ITE','_',FrmPrincipal.ParametrosID.AsInteger,3) + ' AS FK ON (FK.ROM_CCAB = PK.ID)');
@@ -4423,17 +4417,6 @@ begin
     Prepare;
     Open;
   end;  
-end;
-
-procedure Tfrmven_ped.PED_HSTBeforeOpen(DataSet: TDataSet);
-begin
-  DBGPED_HSTDGCP.Visible := False;
-end;
-
-procedure Tfrmven_ped.PED_HSTAfterScroll(DataSet: TDataSet);
-begin
-  if PED_HSTDGCP.AsString <> EmptyStr then
-  DBGPED_HSTDGCP.Visible := True;
 end;
 
 procedure Tfrmven_ped.SIMEAppendClick(Sender: TObject);
@@ -4499,7 +4482,6 @@ end;
 procedure Tfrmven_ped.DTSPED_HSTDataChange(Sender: TObject; Field: TField);
 begin
   DBGPED_HST.ApplyBestFit(DBGPED_HSTSKU );
-  DBGPED_HST.ApplyBestFit(DBGPED_HSTDECP);
 end;
 
 end.

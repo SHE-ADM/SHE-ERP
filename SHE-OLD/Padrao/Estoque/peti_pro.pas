@@ -1106,7 +1106,7 @@ var
 begin
   ActiveControl := Nil;
   if oEmpty(EDCDET.Text) then
-     oException(EDCDET,'Número de Etiqueta não Informado !');
+  oException(EDCDET,'Número de Etiqueta não Informado !');
 
   try
     oIRECRelatorios(RECRelatorios);

@@ -508,7 +508,7 @@ begin
       begin
         if API_ST <> EmptyStr then
         Break;
-        
+
         with SQLPKConsulta do
         begin
           Close;
@@ -536,12 +536,35 @@ begin
       end;
 
       if API_ST <> EmptyStr then
-      oException(Nil,'Falha ao tentar emitir título ' + SQLConsulta.Current.ByName('TITULO').AsString + '. ' + #13 + #13 +
+      begin
+        SBRodape.Panels[2].Text :=
 
-                     'Nossa Situação: '    + SQLConsulta.Current.ByName('DEST'  ).AsString + '.' + #13 +
-                     'Situação Bancária: ' + API_ST + '.' + #13 + #13 +
+        'Falha ao tentar emitir título ' + SQLConsulta.Current.ByName('TITULO').AsString + '. ' + #13 + #13 +
 
-                     'Somente é permitido a emissão de título baixado, descartado ou rejeitado');
+        'Nossa Situação: '    + SQLConsulta.Current.ByName('DEST'  ).AsString + '.' + #13 +
+        'Situação Bancária: ' + API_ST + '.' + #13 + #13 +
+
+        'Somente é permitido a emissão de título baixado, descartado ou rejeitado';
+
+        { FALHAS DE EMISSÕES }
+        with SQLFKConsulta do
+        begin
+          Close;
+          SQL.Clear;
+          SQL.Add('SELECT PK.TITULO FROM FIN_REC_LOG_API AS PK');
+          SQL.Add('WHERE  PK.TITULO LIKE ''' + EDCDNF.Text + '%''');
+          SQL.Add('AND    (PK.API_ST = ''FALHA'' OR PK.API_ST = ''DESCARTADO'')');
+          ExecQuery;
+        end;
+
+        if not SQLFKConsulta.Eof then
+        begin
+          if oYesNo(Application.Handle,SBRodape.Panels[2].Text + #13 + #13 +
+                    'Continuar com a emissão ?') = mrNo then
+          Abort;
+        end else
+        oException(EDCDNF,SBRodape.Panels[2].Text);
+      end;
     end;
 
     if SQLConsulta.Current.ByName('DTVC').AsDate < RECParametros.SHE_DATA then

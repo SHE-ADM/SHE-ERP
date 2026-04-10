@@ -222,7 +222,7 @@ begin
   begin
     Close;
     SQL.Clear;
-    SQL.Add('SELECT   PS.FANTASIA AS PAR_FANT,');
+    SQL.Add('SELECT   FIRST 5000 PS.FANTASIA AS PAR_FANT,');
     SQL.Add('         PK.*,');
     SQL.Add('         CT.CONTATO,CT.FONE,CT.FONE2,CT.FONE3,CT.CELULAR,');
     SQL.Add('         CT.EMAIL,CT.EMAIL2,CT.EMAIL3,CT.EMAILCEL,');
@@ -243,7 +243,7 @@ begin
   begin
     Close;
     SQL.Clear;
-    SQL.Add('SELECT   PS.FANTASIA AS PAR_FANT,');
+    SQL.Add('SELECT   FIRST 5000 PS.FANTASIA AS PAR_FANT,');
     SQL.Add('         PK.*,');
     SQL.Add('         CT.CONTATO,CT.FONE,CT.FONE2,CT.FONE3,CT.CELULAR,');
     SQL.Add('         CT.EMAIL,CT.EMAIL2,CT.EMAIL3,CT.EMAILCEL,');
@@ -264,7 +264,7 @@ begin
   begin
     Close;
     SQL.Clear;
-    SQL.Add('SELECT   PS.FANTASIA AS PAR_FANT,');
+    SQL.Add('SELECT   FIRST 5000 PS.FANTASIA AS PAR_FANT,');
     SQL.Add('         PK.*,');
     SQL.Add('         CT.CONTATO,CT.FONE,CT.FONE2,CT.FONE3,CT.CELULAR,');
     SQL.Add('         CT.EMAIL,CT.EMAIL2,CT.EMAIL3,CT.EMAILCEL,');

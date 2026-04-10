@@ -204,17 +204,15 @@ inherited FrmProduto_SubCategoria: TFrmProduto_SubCategoria
                       RowIndex = 0
                       FieldName = 'DTCAD'
                     end
-                    object DBGConsultaDESTA: TdxDBGridMaskColumn
-                      DisableEditor = True
-                      Font.Charset = ANSI_CHARSET
-                      Font.Color = clBlack
-                      Font.Height = -12
-                      Font.Name = 'Tahoma'
-                      Font.Style = []
+                    object DBGConsultaDESTA: TdxDBGridPickColumn
                       Width = 100
                       BandIndex = 0
                       RowIndex = 0
-                      FieldName = 'DESTA'
+                      OnValidate = DBGConsultaDESTAValidate
+                      FieldName = 'DEST'
+                      Items.Strings = (
+                        'ATIVO'
+                        'INATIVO')
                     end
                     object DBGConsultaVUPRC_PAD: TdxDBGridMaskColumn
                       Font.Charset = ANSI_CHARSET
@@ -21476,26 +21474,41 @@ inherited FrmProduto_SubCategoria: TFrmProduto_SubCategoria
       '  ID = :OLD_ID')
     InsertSQL.Strings = (
       'insert into TAB_SCT'
-      '  (API_B2B, API_B2C, API_MKP, ARTIGO, CDST, DESCRICAO,'
-      '   ELAS_C, ELAS_L, ENCO_C, ENCO_L,'
-      '   FLAG_B2B_DEL, FLAG_B2B_INS, FLAG_B2C_DEL, FLAG_B2C_INS,'
-      '   FLAG_ERP_DEL, FLAG_ERP_INS, FLAG_MKP_DEL, FLAG_MKP_INS,'
-      '   GRAMATURA, HOST, ID, IDCA, IDED, IDEP, IDST, EVENTO, IP,'
-      '   LARG_T, LARG_U, METRO, NCM, PESO, PSCN, PUCOM_PAD,'
-      '   REFERENCIA, RENDIMENTO, REST, VUPRC_COMPRA, VUPRC_COMPRA_IMP,'
+      '  (API_B2B, API_B2C, API_MKP, ARTIGO, CDST, CDSTA, DESCRICAO,'
+      '   DEST, DTCA, DTED, DTST, ELAS_C, ELAS_L, ENCO_C,'
+      
+        '   ENCO_L, ESPESSURA, ESPESSURA_TIPO, EVENTO, FLAG, FLAG_B2B_DEL' +
+        ', FLAG_B2B_INS, '
+      
+        '   FLAG_B2C_DEL, FLAG_B2C_INS, FLAG_ERP_DEL, FLAG_ERP_INS, FLAG_' +
+        'MKP_DEL, '
+      
+        '   FLAG_MKP_INS, GRAMATURA, HOST, ID, IDCA, IDED, IDEP, IDST, IP' +
+        ', LARG_T, '
+      '   LARG_U, METRO, NCM, PESO, PSCN, PUCOM_PAD, REFERENCIA,'
+      
+        '   RENDIMENTO, REST, RESTA, TT, UPRC_PAD, VUPRC_COMPRA, VUPRC_CO' +
+        'MPRA_IMP,'
       '   VUPRC_PAD, VUPRC_PRO, VUPRC_PRZ)'
       'values'
-      '  (:API_B2B, :API_B2C, :API_MKP, :ARTIGO, :CDST,:DESCRICAO,'
-      '   :ELAS_C, :ELAS_L, :ENCO_C, :ENCO_L,'
-      '   :FLAG_B2B_DEL, :FLAG_B2B_INS, :FLAG_B2C_DEL, :FLAG_B2C_INS,'
-      '   :FLAG_ERP_DEL, :FLAG_ERP_INS, :FLAG_MKP_DEL, :FLAG_MKP_INS,'
       
-        '   :GRAMATURA, :HOST, :ID, :IDCA, :IDED, :IDEP, :IDST, :EVENTO, ' +
-        ':IP,'
-      '   :LARG_T, :LARG_U, :METRO, :NCM, :PESO, :PSCN, :PUCOM_PAD,'
+        '  (:API_B2B, :API_B2C, :API_MKP, :ARTIGO, :CDST, :CDSTA, :DESCRI' +
+        'CAO,'
+      '   :DEST, :DTCA, :DTED, :DTST,'
       
-        '   :REFERENCIA, :RENDIMENTO, :REST, :VUPRC_COMPRA, :VUPRC_COMPRA' +
-        '_IMP,'
+        '   :ELAS_C, :ELAS_L, :ENCO_C, :ENCO_L, :ESPESSURA, :ESPESSURA_TI' +
+        'PO, :EVENTO, '
+      
+        '   :FLAG, :FLAG_B2B_DEL, :FLAG_B2B_INS, :FLAG_B2C_DEL, :FLAG_B2C' +
+        '_INS, :FLAG_ERP_DEL, '
+      
+        '   :FLAG_ERP_INS, :FLAG_MKP_DEL, :FLAG_MKP_INS, :GRAMATURA, :HOS' +
+        'T, :ID, '
+      '   :IDCA, :IDED, :IDEP, :IDST, :IP, :LARG_T, :LARG_U,'
+      
+        '   :METRO, :NCM, :PESO, :PSCN, :PUCOM_PAD, :REFERENCIA, :RENDIME' +
+        'NTO, :REST, '
+      '   :RESTA, :TT, :UPRC_PAD, :VUPRC_COMPRA, :VUPRC_COMPRA_IMP,'
       '   :VUPRC_PAD, :VUPRC_PRO, :VUPRC_PRZ)')
     RefreshSQL.Strings = (
       'Select '
@@ -21509,12 +21522,10 @@ inherited FrmProduto_SubCategoria: TFrmProduto_SubCategoria
       '  DTST,'
       '  CDST,'
       '  REST,'
-      '  EVENTO,'
-      '  IP,'
-      '  HOST,'
       '  REFERENCIA,'
-      '  ARTIGO,'
       '  DESCRICAO,'
+      '  ARTIGO,'
+      '  UPRC_PAD,'
       '  VUPRC_PAD,'
       '  VUPRC_PRZ,'
       '  VUPRC_PRO,'
@@ -21533,6 +21544,8 @@ inherited FrmProduto_SubCategoria: TFrmProduto_SubCategoria
       '  ELAS_C,'
       '  ENCO_L,'
       '  ENCO_C,'
+      '  ESPESSURA,'
+      '  ESPESSURA_TIPO,'
       '  FLAG_ERP_INS,'
       '  FLAG_ERP_DEL,'
       '  FLAG_B2B_INS,'
@@ -21543,7 +21556,15 @@ inherited FrmProduto_SubCategoria: TFrmProduto_SubCategoria
       '  FLAG_MKP_DEL,'
       '  API_B2B,'
       '  API_B2C,'
-      '  API_MKP'
+      '  API_MKP,'
+      '  IP,'
+      '  HOST,'
+      '  FLAG,'
+      '  RESTA,'
+      '  EVENTO,'
+      '  CDSTA,'
+      '  DEST,'
+      '  TT'
       'from TAB_SCT'
       'where'
       '  ID = :ID')
@@ -21603,11 +21624,20 @@ inherited FrmProduto_SubCategoria: TFrmProduto_SubCategoria
       '  API_MKP = :API_MKP,'
       '  ARTIGO = :ARTIGO,'
       '  CDST = :CDST,'
+      '  CDSTA = :CDSTA,'
       '  DESCRICAO = :DESCRICAO,'
+      '  DEST = :DEST,'
+      '  DTCA = :DTCA,'
+      '  DTED = :DTED,'
+      '  DTST = :DTST,'
       '  ELAS_C = :ELAS_C,'
       '  ELAS_L = :ELAS_L,'
       '  ENCO_C = :ENCO_C,'
       '  ENCO_L = :ENCO_L,'
+      '  ESPESSURA = :ESPESSURA,'
+      '  ESPESSURA_TIPO = :ESPESSURA_TIPO,'
+      '  EVENTO = :EVENTO,'
+      '  FLAG = :FLAG,'
       '  FLAG_B2B_DEL = :FLAG_B2B_DEL,'
       '  FLAG_B2B_INS = :FLAG_B2B_INS,'
       '  FLAG_B2C_DEL = :FLAG_B2C_DEL,'
@@ -21623,7 +21653,6 @@ inherited FrmProduto_SubCategoria: TFrmProduto_SubCategoria
       '  IDED = :IDED,'
       '  IDEP = :IDEP,'
       '  IDST = :IDST,'
-      '  EVENTO = :EVENTO,'
       '  IP = :IP,'
       '  LARG_T = :LARG_T,'
       '  LARG_U = :LARG_U,'
@@ -21635,6 +21664,9 @@ inherited FrmProduto_SubCategoria: TFrmProduto_SubCategoria
       '  REFERENCIA = :REFERENCIA,'
       '  RENDIMENTO = :RENDIMENTO,'
       '  REST = :REST,'
+      '  RESTA = :RESTA,'
+      '  TT = :TT,'
+      '  UPRC_PAD = :UPRC_PAD,'
       '  VUPRC_COMPRA = :VUPRC_COMPRA,'
       '  VUPRC_COMPRA_IMP = :VUPRC_COMPRA_IMP,'
       '  VUPRC_PAD = :VUPRC_PAD,'
@@ -21890,6 +21922,7 @@ inherited FrmProduto_SubCategoria: TFrmProduto_SubCategoria
       Size = 111
     end
     object CadastroDEST: TIBStringField
+      DisplayLabel = 'Situa'#231#227'o'
       FieldName = 'DEST'
       Origin = '"TAB_USER"."LOGIN"'
       Size = 30

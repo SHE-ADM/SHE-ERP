@@ -8953,6 +8953,46 @@ object FrmPrincipal: TFrmPrincipal
       Hint = 'Listagem de Compras de Produtos'
       OnExecute = ACTRelatoriosExecute
     end
+    object ACTREL_FOR_PRO_CAD: TAction
+      Tag = 3
+      Category = 'Relat'#243'rios Fornecedores'
+      Caption = 'Produtos Cadastrados'
+      HelpContext = 1
+      Hint = 'Listagem de produtos cadastrados'
+      OnExecute = ACTRelatoriosExecute
+    end
+    object ACTREL_REP_PDV_RKG: TAction
+      Tag = 5
+      Category = 'Relat'#243'rios Representantes'
+      Caption = 'Ranking de Vendas'
+      HelpContext = 1
+      Hint = 'Ranking de Representantes'
+      OnExecute = ACTRelatoriosExecute
+    end
+    object ACTREL_FOR_PDC_REC: TAction
+      Tag = 3
+      Category = 'Relat'#243'rios Fornecedores'
+      Caption = 'Listagem de compras de produtos'
+      HelpContext = 2
+      Hint = 'Listagem de compras de produtos'
+      OnExecute = ACTRelatoriosExecute
+    end
+    object ACTREL_PRO_VEN_DIA: TAction
+      Tag = 1
+      Category = 'Relat'#243'rios Produtos'
+      Caption = 'Vendas de Produtos Di'#225'rio'
+      HelpContext = 6
+      Hint = 'Listagem de vendas de produtos di'#225'rio'
+      OnExecute = ACTRelatoriosExecute
+    end
+    object ACTREL_PRO_VEN_MES: TAction
+      Tag = 1
+      Category = 'Relat'#243'rios Produtos'
+      Caption = 'Vendas de Produtos Mensal'
+      HelpContext = 7
+      Hint = 'Listagem de vendas de produtos mensal'
+      OnExecute = ACTRelatoriosExecute
+    end
   end
   object ILPrincipal: TImageList
     AllocBy = 8
@@ -9875,17 +9915,17 @@ object FrmPrincipal: TFrmPrincipal
         Action = ACTCAD_PRO_ADM
         Caption = 'Cadastro'
       end
-      object MICAD_PRO_GRD: TMenuItem
-        Caption = 'Grade'
-        object MICAD_PRO_GRD_COR: TMenuItem
-          Action = ACTCAD_PRO_GRD_COR
-        end
-        object MICAD_PRO_GRD_EST: TMenuItem
-          Action = ACTCAD_PRO_GRD_EST
-        end
-        object MICAD_PRO_GRD_TAM: TMenuItem
-          Action = ACTCAD_PRO_GRD_TAM
-        end
+      object N2: TMenuItem
+        Caption = '-'
+      end
+      object MICAD_PRO_GRD_COR: TMenuItem
+        Action = ACTCAD_PRO_GRD_COR
+      end
+      object MICAD_PRO_GRD_EST: TMenuItem
+        Action = ACTCAD_PRO_GRD_EST
+      end
+      object MICAD_PRO_GRD_TAM: TMenuItem
+        Action = ACTCAD_PRO_GRD_TAM
       end
       object N3: TMenuItem
         Caption = '-'
@@ -10094,12 +10134,31 @@ object FrmPrincipal: TFrmPrincipal
           Tag = 1
           Action = ACTREL_PRO_PDC_LST
         end
+        object N9: TMenuItem
+          Caption = '-'
+        end
+        object MIREL_PRO_VEN_DIA: TMenuItem
+          Tag = 1
+          Action = ACTREL_PRO_VEN_DIA
+        end
+        object MIREL_PRO_VEN_MES: TMenuItem
+          Tag = 1
+          Action = ACTREL_PRO_VEN_MES
+        end
       end
       object MIREL_N1: TMenuItem
         Caption = '-'
       end
       object MIREL_FORNECEDOR: TMenuItem
         Caption = 'Fornecedores'
+        object MIREL_FOR_PRO_CAD: TMenuItem
+          Tag = 3
+          Action = ACTREL_FOR_PRO_CAD
+        end
+        object MIREL_FOR_PDC_REC: TMenuItem
+          Tag = 3
+          Action = ACTREL_FOR_PDC_REC
+        end
       end
       object MIREL_N2: TMenuItem
         Caption = '-'
@@ -10112,6 +10171,10 @@ object FrmPrincipal: TFrmPrincipal
       end
       object MIREL_REPRESENTANTE: TMenuItem
         Caption = 'Representantes'
+        object MIREL_REP_PDV_RKG: TMenuItem
+          Tag = 5
+          Action = ACTREL_REP_PDV_RKG
+        end
       end
       object MIREL_N4: TMenuItem
         Caption = '-'

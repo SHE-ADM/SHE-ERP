@@ -530,7 +530,7 @@ begin
 
   { Redução }
   if (RECParametros.PED_IPI) and (RECParametros.NFE_CRT = 3) and (PedidosTPCO.AsInteger > 0) and (EdicaoROM_PIPI.AsCurrency > 0) and (EdicaoROM_CCST.AsInteger = 1) then
-      EdicaoROM_UNIT.Value := EdicaoROM_UNIT.AsCurrency / ((EdicaoROM_PIPI.AsCurrency / 100) + 1);
+  EdicaoROM_UNIT.Value := EdicaoROM_PREC.AsCurrency / ((EdicaoROM_PIPI.AsCurrency / 100) + 1);
 
   { Crédito }
   EdicaoROM_QTDE.Value := EdicaoROM_QTDE.AsCurrency;
@@ -538,12 +538,12 @@ begin
   EdicaoROM_UNIT.Value := EdicaoROM_UNIT.AsCurrency / IFThen(PedidosTPCO.AsInteger > 1,PedidosTPCO.AsInteger,1);
 
   { Totais }
-  EdicaoROM_TSDE.Value := RoundTO(EdicaoROM_QTDE.AsCurrency *  EdicaoROM_UNIT.AsCurrency, -2);
+  EdicaoROM_TSDE.Value := RoundTO(EdicaoROM_QTDE.AsCurrency *  EdicaoROM_PREC.AsCurrency, -2);
   EdicaoROM_TOTA.Value := RoundTO(EdicaoROM_QTDE.AsCurrency *  EdicaoROM_UNIT.AsCurrency, -2);
   EdicaoROM_VDSC.Value := EdicaoROM_TOTA.AsCurrency         * (EdicaoROM_PDSC.AsCurrency / 100);
 
   { IPI }
-  EdicaoROM_VIPI.Value := EdicaoROM_TSDE.AsCurrency * (EdicaoROM_PIPI.AsCurrency / 100);
+  EdicaoROM_VIPI.Value := EdicaoROM_TOTA.AsCurrency * (EdicaoROM_PIPI.AsCurrency / 100);
 
   { Peso Líquido }
   if  LeftStr(EdicaoROM_DUNI.AsString,1) = 'K' then EdicaoROM_PSLQ.Value := EdicaoROM_QTDE.AsCurrency else
