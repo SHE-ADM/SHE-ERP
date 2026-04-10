@@ -147,6 +147,7 @@ Type
     ACTRomaneio: TAction;
     ACTGFornecedoresProdutosCadastrados: TAction;
     ACTCliente_Produto_Nao_Atendido: TAction;
+    ACTREL_FOR_PDC_REC: TAction;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormActivate(Sender: TObject);
@@ -183,6 +184,9 @@ Type
     procedure MCData2Click(Sender: TObject);
     procedure ACTGFornecedoresProdutosCadastradosExecute(Sender: TObject);
     procedure ACTCadastros_RankingExecute(Sender: TObject);
+    procedure ACTREL_FOR_PDC_RECExecute(Sender: TObject);
+    procedure ACTProduto_VendaExecute(Sender: TObject);
+    procedure ACTProduto_Venda_MensalExecute(Sender: TObject);
   private
     { Private declarations }
     FMSGCaption: Variant;
@@ -230,8 +234,8 @@ uses uPrincipal, bPrincipal
        qFicha_Tecnica,
        qProduto_Estoque, qProduto_Estoque_Etiqueta,
        qEST_ENT_ROM, qEST_ETQ_PAD, qEST_ETQ_PEQ,
-       qGFornecedoresProdutosCadastrados,
-       QCadastros_Ranking 
+       qGFornecedoresProdutosCadastrados, QREL_PED_COM,
+       QCadastros_Ranking, qProduto_Venda, qProduto_Venda_Mensal 
 
   {$ELSEIF DEFINED(DEF_PDV)}
        ,qFicha_Tecnica,
@@ -426,17 +430,17 @@ begin
   {[Ctrl+V]};
 end;
 
-procedure TFrmRelatorios_OLD.ACTImprimeExecute(Sender: TObject);
-begin
-  RECRelatorios.PrintTAG := 1;
-  RECRelatorios.Handle   := Self.Handle;
-  
-  _Relatorios;
-end;
-
 procedure TFrmRelatorios_OLD.ACTVisualizaExecute(Sender: TObject);
 begin
   RECRelatorios.PrintTAG := 0;
+  RECRelatorios.Handle   := Self.Handle;
+
+  _Relatorios;
+end;
+
+procedure TFrmRelatorios_OLD.ACTImprimeExecute(Sender: TObject);
+begin
+  RECRelatorios.PrintTAG := 1;
   RECRelatorios.Handle   := Self.Handle;
 
   _Relatorios;
@@ -769,6 +773,33 @@ begin
   {$IFEND}
 end;
 
+procedure TFrmRelatorios_OLD.ACTProduto_VendaExecute(Sender: TObject);
+begin
+  {$IF DEFINED(DEF_ERP) OR DEFINED(DEF_PDV)}
+
+    if not Assigned(qrpProduto_Venda) then
+    begin
+      qrpProduto_Venda := TqrpProduto_Venda.Create(Self,RECRelatorios);
+      qrpProduto_Venda.WinControlFormCreate(qrpProduto_Venda);
+    end;
+
+  {$IFEND};
+end;
+
+procedure TFrmRelatorios_OLD.ACTProduto_Venda_MensalExecute(
+  Sender: TObject);
+begin
+  {$IF DEFINED(DEF_ERP) OR DEFINED(DEF_PDV)}
+
+    if not Assigned(qrpProduto_Venda_Mensal) then
+    begin
+      qrpProduto_Venda_Mensal := TqrpProduto_Venda_Mensal.Create(Self,RECRelatorios);
+      qrpProduto_Venda_Mensal.WinControlFormCreate(qrpProduto_Venda_Mensal);
+    end;
+
+  {$IFEND};
+end;
+
 procedure TFrmRelatorios_OLD.ACTGFornecedoresProdutosCadastradosExecute(
   Sender: TObject);
 begin
@@ -783,6 +814,19 @@ begin
   end;
 
   {$IFEND}
+end;
+
+procedure TFrmRelatorios_OLD.ACTREL_FOR_PDC_RECExecute(Sender: TObject);
+begin
+  {$IF DEFINED(DEF_ERP) OR DEFINED(DEF_PDV)}
+
+  if Assigned(QRPREL_PED_COM) then QRPREL_PED_COM.BringToFront else
+  begin
+    QRPREL_PED_COM := TQRPREL_PED_COM.Create(Self,RECRelatorios);
+    QRPREL_PED_COM.WinControlFormCreate(QRPREL_PED_COM);
+  end;
+
+  {$IFEND};
 end;
 
 procedure TFrmRelatorios_OLD.ACTCadastros_RankingExecute(Sender: TObject);
@@ -943,7 +987,8 @@ begin
        ((PEC1Consulta.Enabled) and (PEC1Consulta.Text <> 'TODOS')) or
        ((PEC2Consulta.Enabled) and (PEC2Consulta.Text <> 'TODOS')) or
        ((PEC3Consulta.Enabled) and (PEC3Consulta.Text <> 'TODOS')) or
-       ((PEC4Consulta.Enabled) and (PEC4Consulta.Text <> 'TODOS')) then
+       ((PEC4Consulta.Enabled) and (PEC4Consulta.Text <> 'TODOS')) or
+       (IEData.Enabled) then
     BRet := True;
   end else
   BRet := True;
@@ -1078,7 +1123,7 @@ begin
   IEStatus.Text  := EmptyStr;
   IEData.Text    := EmptyStr;
 
-  if ((RECRelatorios.Nome = 'Ranking de Produtos')             or (RECRelatorios.Nome = 'Vendas de Produtos') or (RECRelatorios.Nome = 'Vendas Mensais de Produtos') or
+  if ((RECRelatorios.Nome = 'Ranking de Produtos')             or (RECRelatorios.Nome = 'Listagem de vendas de produtos diário') or (RECRelatorios.Nome = 'Listagem de vendas de produtos mensal') or
       (RECRelatorios.Nome = 'Vendas de Produtos por Clientes') or (RECRelatorios.Nome = 'Vendas de Produtos por Grupos de Clientes')) then
   begin
     IEModelo.Descriptions.Clear;
@@ -1104,7 +1149,7 @@ begin
     IEModelo.Text := 'Artigo_X_Valor';
   end;
 
-  if ((RECRelatorios.Nome = 'Vendas Mensais de Produtos') or (RECRelatorios.Nome = 'Vendas por UF') or (RECRelatorios.Nome = 'Vendas por Região Nacional')) then
+  if ((RECRelatorios.Nome = 'Listagem de vendas de produtos mensal') or (RECRelatorios.Nome = 'Vendas por UF') or (RECRelatorios.Nome = 'Vendas por Região Nacional')) then
   begin
     IEModelo.Descriptions.Clear;
     IEModelo.Descriptions.Add('Produto_X_Valor');
@@ -1156,6 +1201,24 @@ begin
 
   case RECRelatorios.Perfil of
     1: begin
+         if RECRelatorios.Nome = 'Listagem de vendas de produtos diário' then
+         begin
+           IENome.Values.Add('ACTProduto_Venda');
+           IENome.Text := 'ACTProduto_Venda';
+
+           _FillParams('pedido_venda','pedido_venda','pedido_venda',['artigo_produto_descrição','categorias','cliente_vendedor_representante_fornecedor','cep_região_nacional_metropolitana_UF']);
+         end else
+
+         if RECRelatorios.Nome = 'Listagem de vendas de produtos mensal' then
+         begin
+           IEModelo.Text := 'Artigo_X_Quantidade';
+
+           IENome.Values.Add('ACTProduto_Venda_Mensal');
+           IENome.Text := 'ACTProduto_Venda_Mensal';
+
+           _FillParams('pedido_venda','pedido_venda','pedido_venda',['artigo_produto_descrição','categorias','cliente_vendedor_representante_fornecedor','cep_região_nacional_metropolitana_UF']);
+         end else
+
          if RECRelatorios.Nome = 'Ficha Técnica de Produtos' then
          begin
            IEEmpresa.Text := RECParametros.EP_NO;
@@ -1258,6 +1321,14 @@ begin
            IENome.Text :=    'ACTGFornecedoresProdutosCadastrados';
 
            _FillParams('TODOS','estoque','fornecedor',['fornecedor','','','']);
+         end else
+
+         if RECRelatorios.Nome = 'Listagem de compras de produtos' then
+         begin
+           IENome.Values.Add('ACTREL_FOR_PDC_REC');
+           IENome.Text :=    'ACTREL_FOR_PDC_REC';
+
+           _FillParams('TODOS','pedido_compra','fornecedor_tmp',['Fornecedores','','','']);
          end;
        end;
     4: begin

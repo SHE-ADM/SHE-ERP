@@ -8,7 +8,7 @@ uses
   Dialogs, ppadr3, ImgList, IBStoredProc, IBDatabase, DB,
   IBCustomDataSet, IBQuery,  ComCtrls, ExtCtrls, dxDBTLCl,
   dxGrClms, dxDBCtrl, dxDBGrid, dxTL, dxCntner, dxPageControl, dxEditor,
-  dxEdLib, StdCtrls, dxExEdtr, DAteUtils, math, rxSpeedbar;
+  dxEdLib, StdCtrls, dxExEdtr, DAteUtils, math, rxSpeedbar, IBEvents, IBSQL;
 
 type
   Tfrmctr_ped_fin = class(Tfrmpadr3)
@@ -200,6 +200,12 @@ type
     fin_rec_baiFIN_VENC: TIBBCDField;
     fin_rec_baiFIN_CTNR: TIBStringField;
     edcdrd: TdxEdit;
+    fin_recFIN_CDRD: TIntegerField;
+    fin_recFIN_VCHQ: TIBBCDField;
+    fin_recFIN_DERD: TIBStringField;
+    fin_recFIN_DTST: TDateTimeField;
+    fin_recTPCO: TSmallintField;
+    fin_recRECO: TIBStringField;
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure fin_rec_baiNewRecord(DataSet: TDataSet);
@@ -246,7 +252,7 @@ var
 
 implementation
 
-uses uPrincipal, qven_ped, pven_nfe, pven_ped;
+uses uPrincipal, pven_nfe, pven_ped;
 
 {$R *.dfm}
 
@@ -553,20 +559,20 @@ begin
     SQL.Clear;
     SQL.Add('SELECT SUM(FIN_VALO) FROM FIN_REC');
     Open;
-    edtotr.Text := formatfloat('#,0.00########',fields[0].AsFloat);
+    edtotr.Text := formatfloat('#,0.00###',fields[0].AsFloat);
 
     SQL.Clear;
     SQL.Add('SELECT SUM(FIN_VALO) FROM FIN_REC_BAI');
     SQL.Add('WHERE  FIN_COBR = ''0''');
     Open;
-    edtotb.Text := formatfloat('#,0.00########',fields[0].AsFloat);
+    edtotb.Text := formatfloat('#,0.00###',fields[0].AsFloat);
   end;
 
   if (fin_rec.RecNo = 1) and (fin_recFIN_STPD.AsString = 'DEVOLUÇÃO') then
-  edtotd.Text   := formatfloat('#,0.00########',0)
+  edtotd.Text   := formatfloat('#,0.00###',0)
   else if (fin_rec.RecNo = 1) and (fin_recFIN_STPD.AsString = 'ABATIMENTO') then
-  edtotd.Text   := formatfloat('#,0.00########',0) else
-  edtotd.Text   := formatfloat('#,0.00########',oTextToValor(edtotr.Text)-oTextToValor(edtotb.Text));
+  edtotd.Text   := formatfloat('#,0.00###',0) else
+  edtotd.Text   := formatfloat('#,0.00###',oTextToValor(edtotr.Text)-oTextToValor(edtotb.Text));
 end;
 
 procedure Tfrmctr_ped_fin.siVALClick(Sender: TObject);
@@ -708,19 +714,16 @@ begin
   end;
 
 
-  with frmprincipal.sp_sql do
+  with Consulta do
   begin
-    ibSP.StoredProcName := 'SP_SQL';
+    Close;
     SQL.Clear;
     SQL.Add('UPDATE CAI_LAF');
     SQL.Add('SET    CAI_CRED = '''+oStrTran(consulta.Fields[0].AsString,',','.')+''',');
     SQL.Add('       CAI_DEBI = '''+oStrTran(consulta.Fields[1].AsString,',','.')+''',');
     SQL.Add('       CAI_SATU = '''+oStrTran(consulta.Fields[2].AsString,',','.')+'''');
     SQL.Add('WHERE  ID       = '''+edcdcx.Text+'''');
-
-    ibSP.Prepare;
-    ibSP.ParamByName('sqltexto').Value := frmprincipal.sp_sql.SQL.Text;
-    ibSP.ExecProc;
+    ExecSQL;
   end;
 end;
 
@@ -947,31 +950,26 @@ begin
     if cdpd[i] = 0 then
        break;
 
-    with frmprincipal.sp_sql do
+    with Consulta do
     begin
-      ibSP.StoredProcName := 'SP_SQL';
+      Close;
       SQL.Clear;
       SQL.Add('UPDATE '+SLPrincipal.Values['ped_ven_cab']);
       SQL.Add('SET    ROM_STFI = '''+stfi+''',');
       SQL.Add('       ROM_DBAI = '''+formatDateTime('mm/dd/yy',edDBAI.Date)+''',');
       SQL.Add('       ROM_CDBX = '''+inttostr(cdbx)+''',');
-      SQL.Add('       ROM_CBAI = '''+frmprincipal.cad_usuUSU_CUSU.AsString+''',');
+      SQL.Add('       ROM_CBAI = '''+RECUsuarios.ID+''',');
       SQL.Add('       ROM_TBAI = '''+formatDateTime('mm/dd/yy hh:mm:ss',now)+'''');
       SQL.Add('WHERE  ID       = '''+inttostr(cdpd[i])+'''');
+      ExecSQL;
 
-      ibSP.Prepare;
-      ibSP.ParamByName('sqltexto').Value := frmprincipal.sp_sql.SQL.Text;
-      ibSP.ExecProc;
-
+      Close;
       SQL.Clear;
       SQL.Add('UPDATE '+SLPrincipal.Values['rom_cab']);
       SQL.Add('SET    ROM_CDBX = '''+inttostr(cdbx)+''',');
       SQL.Add('       ROM_STFI = ''FATURADO''');
       SQL.Add('WHERE  ID = '''+inttostr(cdro[i])+'''');
-
-      ibSP.Prepare;
-      ibSP.ParamByName('sqltexto').Value := frmprincipal.sp_sql.SQL.Text;
-      ibSP.ExecProc;
+      ExecSQL;
 
       IBTra.CommitRetaining;
     end;
@@ -1269,33 +1267,29 @@ begin
   if stfi <> 'PAGO' then
      stfi := 'FATURADO';
 
-  with frmprincipal.sp_sql do
+  with Consulta do
   begin
-    ibSP.StoredProcName := 'SP_SQL';
-
+    Close;
     SQL.Clear;
     SQL.Add('UPDATE '+SLPrincipal.Values['ped_ven_cab']);
     SQL.Add('SET    ROM_STFI = '''+stfi+''',');
     SQL.Add('       ROM_DBAI = '''+formatDateTime('mm/dd/yy',edDBAI.Date)+''',');
     SQL.Add('       ROM_CDBX = '''+inttostr(cdbx)+''',');
-    SQL.Add('       ROM_CBAI = '''+frmprincipal.cad_usuUSU_CUSU.AsString+''',');
+    SQL.Add('       ROM_CBAI = '''+RECUsuarios.ID+''',');
     SQL.Add('       ROM_TBAI = '''+formatDateTime('mm/dd/yy hh:mm:ss',now)+'''');
 
     if fin_recFIN_CDRO.AsInteger > 0 then
     SQL.Add('WHERE  ID       = '''+fin_recFIN_CDRO.AsString+'''') else
     SQL.Add('WHERE  ID       = '''+fin_recFIN_CDPD.AsString+'''');
-    ibSP.Prepare;
-    ibSP.ParamByName('sqltexto').Value := frmprincipal.sp_sql.SQL.Text;
-    ibSP.ExecProc;
+    ExecSQL;
 
+    Close;
     SQL.Clear;
     SQL.Add('UPDATE '+SLPrincipal.Values['rom_cab']);
     SQL.Add('SET    ROM_CDBX = '''+inttostr(cdbx)+''',');
     SQL.Add('       ROM_STFI = ''FATURADO''');
     SQL.Add('WHERE  ID = '''+fin_recFIN_CDRO.AsString+'''');
-    ibSP.Prepare;
-    ibSP.ParamByName('sqltexto').Value := frmprincipal.sp_sql.SQL.Text;
-    ibSP.ExecProc;
+    ExecSQL;
 
     IBTra.CommitRetaining;
   end;

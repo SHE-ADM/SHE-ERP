@@ -71,6 +71,7 @@ type
     procedure SIMEAppendClick(Sender: TObject);
     procedure SIMEEditClick(Sender: TObject);
     procedure SIMEDeleteClick(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -102,13 +103,10 @@ begin
     SQL.Add('LEFT   OUTER JOIN CAD_USU ON CAD_CLI.CLI_CVEN = CAD_USU.USU_CUSU');
     SQL.Add('LEFT   OUTER JOIN CAD_REP ON CAD_CLI.CLI_CREP = CAD_REP.ID');
 
-    SQL.Add('WHERE CAD_CLI.CLI_DCAD BETWEEN ''' + FormatDateTime('mm/dd/yy',Aweek_start_date) + ''' AND ''' +
-                                                  FormatDateTime('mm/dd/yy',Aweek_end_date  ) + '''');
+    //SQL.Add('WHERE CAD_CLI.CLI_DCAD BETWEEN ''' + FormatDateTime('mm/dd/yy',Aweek_start_date) + ''' AND ''' +
+    //                                              FormatDateTime('mm/dd/yy',Aweek_end_date  ) + '''');
 
-    //if frmprincipal.cad_usuUSU_MENU.AsString = 'VEN' then
-    //SQL.Add('AND USU_DUSU = '''+frmprincipal.cad_usuUSU_DUSU.AsString+'''');
-
-    SQL.Add('ORDER BY CLI_FANT');
+    SQL.Add('ORDER BY CLI_DULT DESC');
     Prepare;
   end;
 end;
@@ -383,6 +381,12 @@ begin
     DBGConsulta.FocusedColumn := 1;
     DBGConsulta.SetFocus;
   end;
+end;
+
+procedure Tfrmcad_cli.FormActivate(Sender: TObject);
+begin
+  inherited;
+  DBGConsultaCLI_FANT.Field.FocusControl;
 end;
 
 end.

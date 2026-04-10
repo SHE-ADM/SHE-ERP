@@ -4,8 +4,8 @@ object FBird: TFBird
   OnDestroy = DataModuleDestroy
   Left = 365
   Top = 191
-  Height = 571
-  Width = 1117
+  Height = 565
+  Width = 1079
   object DBERP: TIBDatabase
     DatabaseName = 'C:\Sheild\FBird\Otimotex.FDB'
     Params.Strings = (
@@ -2121,19 +2121,19 @@ object FBird: TFBird
       DisplayFormat = 'dd.mm.yy'
     end
     object QFBResumo_DiarioCLI_ITCD: TIntegerField
-      DisplayLabel = 'N'#186' Total'
+      DisplayLabel = 'Total'
       FieldName = 'CLI_ITCD'
       Origin = '"SP_PED_VEN_REL"."CLI_ITCD"'
       DisplayFormat = '0'
     end
     object QFBResumo_DiarioCLI_INCD: TIntegerField
-      DisplayLabel = 'N'#186' Novos'
+      DisplayLabel = 'Novos'
       FieldName = 'CLI_INCD'
       Origin = '"SP_PED_VEN_REL_FCV"."CLI_INCD"'
       DisplayFormat = '0'
     end
     object QFBResumo_DiarioPED_VLPK: TIBBCDField
-      DisplayLabel = 'Entradas R$'
+      DisplayLabel = 'Valor R$'
       FieldName = 'PED_VLPK'
       Origin = '"SP_PED_VEN_REL"."PED_VLPK"'
       DisplayFormat = ',##,0.00'
@@ -2141,13 +2141,13 @@ object FBird: TFBird
       Size = 2
     end
     object QFBResumo_DiarioPED_ILPK: TIntegerField
-      DisplayLabel = 'N'#186' Ped.'
+      DisplayLabel = 'Qtde.'
       FieldName = 'PED_ILPK'
       Origin = '"SP_PED_VEN_REL"."PED_ILPK"'
-      DisplayFormat = '0'
+      DisplayFormat = ',##,0'
     end
     object QFBResumo_DiarioPED_VLSP: TIBBCDField
-      DisplayLabel = 'Separados R$'
+      DisplayLabel = 'Valor R$'
       FieldName = 'PED_VLSP'
       Origin = '"SP_PED_VEN_REL"."PED_VLSP"'
       DisplayFormat = ',##,0.00'
@@ -2155,10 +2155,10 @@ object FBird: TFBird
       Size = 2
     end
     object QFBResumo_DiarioPED_ILSP: TIntegerField
-      DisplayLabel = 'N'#186' Ped.'
+      DisplayLabel = 'Qtde.'
       FieldName = 'PED_ILSP'
       Origin = '"SP_PED_VEN_REL"."PED_ILSP"'
-      DisplayFormat = '0'
+      DisplayFormat = ',##,0'
     end
     object QFBResumo_DiarioPED_PLSP: TIBBCDField
       DisplayLabel = '%'
@@ -2169,7 +2169,7 @@ object FBird: TFBird
       Size = 2
     end
     object QFBResumo_DiarioPED_VTLQ: TIBBCDField
-      DisplayLabel = 'Faturados R$'
+      DisplayLabel = 'Valor R$'
       FieldName = 'PED_VTLQ'
       Origin = '"SP_PED_VEN_REL_FCV"."PED_VTLQ"'
       DisplayFormat = ',##,0.00'
@@ -2177,10 +2177,10 @@ object FBird: TFBird
       Size = 2
     end
     object QFBResumo_DiarioPED_ITLQ: TIntegerField
-      DisplayLabel = 'N'#186' Ped.'
+      DisplayLabel = 'Qtde.'
       FieldName = 'PED_ITLQ'
       Origin = '"SP_PED_VEN_REL_FCV"."PED_ITLQ"'
-      DisplayFormat = '0'
+      DisplayFormat = ',##,0'
     end
   end
   object QFBResumo_Mensal: TIBQuery
@@ -2231,19 +2231,19 @@ object FBird: TFBird
       Origin = '"SP_PED_VEN_REL_FCV"."AMPK"'
     end
     object QFBResumo_MensalCLI_ITCD: TLargeintField
-      DisplayLabel = 'N'#186' Total'
+      DisplayLabel = 'Total'
       FieldName = 'CLI_ITCD'
       ProviderFlags = []
       DisplayFormat = '0'
     end
     object QFBResumo_MensalCLI_INCD: TLargeintField
-      DisplayLabel = 'N'#186' Novos'
+      DisplayLabel = 'Novos'
       FieldName = 'CLI_INCD'
       ProviderFlags = []
       DisplayFormat = '0'
     end
     object QFBResumo_MensalPED_VLPK: TIBBCDField
-      DisplayLabel = 'Entradas R$'
+      DisplayLabel = 'Valor R$'
       FieldName = 'PED_VLPK'
       ProviderFlags = []
       DisplayFormat = ',##,0.00'
@@ -2251,13 +2251,13 @@ object FBird: TFBird
       Size = 2
     end
     object QFBResumo_MensalPED_ILPK: TLargeintField
-      DisplayLabel = 'N'#186' Ped.'
+      DisplayLabel = 'Qtde.'
       FieldName = 'PED_ILPK'
       ProviderFlags = []
-      DisplayFormat = '0'
+      DisplayFormat = ',##,0'
     end
     object QFBResumo_MensalPED_VLSP: TIBBCDField
-      DisplayLabel = 'Separados R$'
+      DisplayLabel = 'Valor R$'
       FieldName = 'PED_VLSP'
       ProviderFlags = []
       DisplayFormat = ',##,0.00'
@@ -2265,10 +2265,10 @@ object FBird: TFBird
       Size = 2
     end
     object QFBResumo_MensalPED_ILSP: TLargeintField
-      DisplayLabel = 'N'#186' Ped.'
+      DisplayLabel = 'Qtde.'
       FieldName = 'PED_ILSP'
       ProviderFlags = []
-      DisplayFormat = '0'
+      DisplayFormat = ',##,0'
     end
     object QFBResumo_MensalPED_PLSP: TIBBCDField
       DisplayLabel = '%'
@@ -2279,7 +2279,7 @@ object FBird: TFBird
       Size = 2
     end
     object QFBResumo_MensalPED_VTLQ: TIBBCDField
-      DisplayLabel = 'Faturados R$'
+      DisplayLabel = 'Valor R$'
       FieldName = 'PED_VTLQ'
       ProviderFlags = []
       DisplayFormat = ',##,0.00'
@@ -2287,10 +2287,10 @@ object FBird: TFBird
       Size = 2
     end
     object QFBResumo_MensalPED_ITLQ: TLargeintField
-      DisplayLabel = 'N'#186' Ped.'
+      DisplayLabel = 'Qtde.'
       FieldName = 'PED_ITLQ'
       ProviderFlags = []
-      DisplayFormat = '0'
+      DisplayFormat = ',##,0'
     end
   end
   object DTSFBResumo_Diario: TDataSource

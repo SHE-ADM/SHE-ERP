@@ -693,7 +693,7 @@ object FrmRelatorios_OLD: TFrmRelatorios_OLD
               CalColors.TitleTextColor = clBlack
               CalColors.MonthBackColor = 16644596
               CalColors.TrailingTextColor = clBlack
-              Date = 27838.312896724540000000
+              Date = 27838.328541238430000000
               Font.Charset = ANSI_CHARSET
               Font.Color = clBlack
               Font.Height = -15
@@ -737,7 +737,7 @@ object FrmRelatorios_OLD: TFrmRelatorios_OLD
               CalColors.TitleTextColor = clBlack
               CalColors.MonthBackColor = 16644596
               CalColors.TrailingTextColor = clBlack
-              Date = 27838.312896724540000000
+              Date = 27838.328541238430000000
               Font.Charset = ANSI_CHARSET
               Font.Color = clBlack
               Font.Height = -15
@@ -1701,6 +1701,7 @@ object FrmRelatorios_OLD: TFrmRelatorios_OLD
     object ACTProduto_Venda: TAction
       Category = 'Produtos'
       Caption = 'ACTProduto_Venda'
+      OnExecute = ACTProduto_VendaExecute
     end
     object ACTProduto_Devolucao_Cancelamento: TAction
       Category = 'Produtos'
@@ -1732,6 +1733,7 @@ object FrmRelatorios_OLD: TFrmRelatorios_OLD
     object ACTProduto_Venda_Mensal: TAction
       Category = 'Produtos'
       Caption = 'ACTProduto_Venda_Mensal'
+      OnExecute = ACTProduto_Venda_MensalExecute
     end
     object ACTProduto_Venda_Regiao_Nacional: TAction
       Category = 'Produtos'
@@ -1759,6 +1761,12 @@ object FrmRelatorios_OLD: TFrmRelatorios_OLD
     object ACTCliente_Produto_Nao_Atendido: TAction
       Category = 'Clientes'
       Caption = 'ACTCliente_Produto_Nao_Atendido'
+    end
+    object ACTREL_FOR_PDC_REC: TAction
+      Category = 'Fornecedores'
+      Caption = 'Listagem de compras de produtos'
+      Hint = 'Listagem de compras de produtos'
+      OnExecute = ACTREL_FOR_PDC_RECExecute
     end
   end
   object ILMenu: TImageList
@@ -3948,7 +3956,8 @@ object FrmRelatorios_OLD: TFrmRelatorios_OLD
             Visible = True
           end
           item
-            Item = BLBConverte
+            BeginGroup = True
+            Item = BLBCancela
             Visible = True
           end
           item
@@ -4007,12 +4016,9 @@ object FrmRelatorios_OLD: TFrmRelatorios_OLD
       HotImageIndex = 1
     end
     object BLBCancela: TdxBarLargeButton
-      Caption = 'Converter'
+      Action = ACTConverte
       Category = 0
-      Hint = 'Tecle [Ctrl+Esc] ou Click no bot'#227'o para cancelar edi'#231#227'o.'
-      Visible = ivAlways
       AllowAllUp = True
-      ShortCut = 16411
       AutoGrayScale = False
       HotImageIndex = 2
     end

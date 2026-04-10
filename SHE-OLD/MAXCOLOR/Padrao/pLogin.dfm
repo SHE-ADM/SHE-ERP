@@ -1036,7 +1036,7 @@ object FrmLogin: TFrmLogin
     AfterOpen = CAD_USUAfterOpen
     BeforeOpen = CAD_USUBeforeOpen
     SQL.Strings = (
-      'SELECT PK.*,EP.PAR_FANT AS USU_DEEP'
+      'SELECT PK.*,EP.ID AS USU_IDEP,EP.PAR_FANT AS USU_DEEP'
       'FROM   CAD_USU AS PK'
       'JOIN   PAR_SIS AS EP ON (EP.ID = PK.USU_CDEP)'
       'WHERE  PK.ID = :ID'
@@ -1080,6 +1080,11 @@ object FrmLogin: TFrmLogin
     object CAD_USUUSU_CDEP: TIntegerField
       FieldName = 'USU_CDEP'
       Origin = '"CAD_USU"."USU_CDEP"'
+    end
+    object CAD_USUUSU_IDEP: TIntegerField
+      FieldName = 'USU_IDEP'
+      Origin = '"PAR_SIS"."ID"'
+      Required = True
     end
     object CAD_USUUSU_DEEP: TIBStringField
       FieldName = 'USU_DEEP'

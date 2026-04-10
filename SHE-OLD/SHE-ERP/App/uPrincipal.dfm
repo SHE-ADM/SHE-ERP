@@ -8969,6 +8969,30 @@ object FrmPrincipal: TFrmPrincipal
       Hint = 'Ranking de Representantes'
       OnExecute = ACTRelatoriosExecute
     end
+    object ACTREL_FOR_PDC_REC: TAction
+      Tag = 3
+      Category = 'Relat'#243'rios Fornecedores'
+      Caption = 'Listagem de compras de produtos'
+      HelpContext = 2
+      Hint = 'Listagem de compras de produtos'
+      OnExecute = ACTRelatoriosExecute
+    end
+    object ACTREL_PRO_VEN_DIA: TAction
+      Tag = 1
+      Category = 'Relat'#243'rios Produtos'
+      Caption = 'Vendas de Produtos Di'#225'rio'
+      HelpContext = 6
+      Hint = 'Listagem de vendas de produtos di'#225'rio'
+      OnExecute = ACTRelatoriosExecute
+    end
+    object ACTREL_PRO_VEN_MES: TAction
+      Tag = 1
+      Category = 'Relat'#243'rios Produtos'
+      Caption = 'Vendas de Produtos Mensal'
+      HelpContext = 7
+      Hint = 'Listagem de vendas de produtos mensal'
+      OnExecute = ACTRelatoriosExecute
+    end
   end
   object ILPrincipal: TImageList
     AllocBy = 8
@@ -10110,6 +10134,17 @@ object FrmPrincipal: TFrmPrincipal
           Tag = 1
           Action = ACTREL_PRO_PDC_LST
         end
+        object N9: TMenuItem
+          Caption = '-'
+        end
+        object MIREL_PRO_VEN_DIA: TMenuItem
+          Tag = 1
+          Action = ACTREL_PRO_VEN_DIA
+        end
+        object MIREL_PRO_VEN_MES: TMenuItem
+          Tag = 1
+          Action = ACTREL_PRO_VEN_MES
+        end
       end
       object MIREL_N1: TMenuItem
         Caption = '-'
@@ -10119,6 +10154,10 @@ object FrmPrincipal: TFrmPrincipal
         object MIREL_FOR_PRO_CAD: TMenuItem
           Tag = 3
           Action = ACTREL_FOR_PRO_CAD
+        end
+        object MIREL_FOR_PDC_REC: TMenuItem
+          Tag = 3
+          Action = ACTREL_FOR_PDC_REC
         end
       end
       object MIREL_N2: TMenuItem

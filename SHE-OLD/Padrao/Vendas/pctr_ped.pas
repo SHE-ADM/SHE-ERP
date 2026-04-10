@@ -1162,25 +1162,6 @@ procedure Tfrmctr_ped.DBGResumoDiarioCustomDrawCell(Sender: TObject;
 begin
   if not ASelected then
   begin
-    { Zebra }
-    if Pos(Copy(ANode.Values[DBGResumoDiarioDTPK.Index],2,1),'24680') > 0 then
-    begin
-      AColor      := $00F5E7D1;
-      AFont.Color := clGrayText;
-    end;
-
-    { Novos Clientes }
-    if AColumn = DBGResumoDiarioCLI_INCD then
-    if ANode.Values[DBGResumoDiarioCLI_INCD.Index] > 0 then
-    AFont.Style := [fsBold];
-
-    { ENTRADAS }
-    if (AColumn = DBGResumoDiarioPED_VLPK) or (AColumn = DBGResumoDiarioPED_ILPK) then
-    begin
-      AColor      := clHighlightText;
-      AFont.Color := clWindowText;
-    end;
-
     { FATURADOS }
     if (AColumn = DBGResumoDiarioPED_VTLQ) or (AColumn = DBGResumoDiarioPED_ITLQ) then
     begin
@@ -1213,25 +1194,6 @@ procedure Tfrmctr_ped.DBGResumoMensalCustomDrawCell(Sender: TObject;
 begin
   if not ASelected then
   begin
-    { Zebra }
-    if Pos(RightStr(ANode.Values[DBGResumoMensalAMPK.Index],1),'24680') > 0 then
-    begin                      
-      AColor      := $00F5E7D1;
-      AFont.Color := clGrayText;
-    end;
-
-    { Novos Clientes }
-    if AColumn = DBGResumoMensalCLI_INCD then
-    if ANode.Values[DBGResumoMensalCLI_INCD.Index] > 0 then
-    AFont.Style := [fsBold];
-
-    { ENTRADAS }
-    if (AColumn = DBGResumoMensalPED_VLPK) or (AColumn = DBGResumoMensalPED_ILPK) then
-    begin
-      AColor      := clHighlightText;
-      AFont.Color := clWindowText;
-    end;
-
     { FATURADOS }
     if (AColumn = DBGResumoMensalPED_VTLQ) or (AColumn = DBGResumoMensalPED_ITLQ) then
     begin
@@ -1253,7 +1215,6 @@ begin
       AColor      := $0080FFFF; //$00002FEC $000031F4 $00C4FFC4 $00D9FFFF;
       AFont.Color := clWindowText;
     end;
-
   end;
 end;
 

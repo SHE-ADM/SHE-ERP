@@ -2,12 +2,13 @@ unit qEST_ETQ_PAD;
 
 interface
 
-uses oPrincipal, ACBrBarCode,
-  IBDatabase, QRCtrls, jpeg, QuickRpt, Classes, Controls,ExtCtrls,
-  Windows, SysUtils, Messages, Graphics,
-  StdCtrls, ACBrBase, ACBrETQ, Math, StrUtils,
-  QRDBTextRotate, DB, IBCustomDataSet, IBQuery, QrAngLbl, QRPDFFilt,
-  QRExport, IBTable, IBSQL, AJBarcode,  ComCtrls;
+
+uses oPrincipal,
+     Windows, SysUtils, Messages, Classes, Graphics, Controls,
+     StdCtrls, ExtCtrls, Forms, QuickRpt, QRCtrls, DB, IBCustomDataSet,
+     IBDatabase, IBQuery, jpeg, StrUtils, math, QRPDFFilt, QRExport,
+     IBSQL, IDGlobal, AJBarcode, ACBrBarCode;
+
 
 type
   TqrpEST_ETQ_PAD = class(TQuickRep)
@@ -258,9 +259,42 @@ begin
         case RECRelatorios.PrintTAG of
           0: PreviewModal;
           1: Print;
-          2: ExportToFilter(TQRPDFDocumentFilter.Create(PChar(FrmExporta.DELocal.Text+'\'+FrmExporta.EDArquivo.Text+'.PDF')));
-          3: ExportToFilter(TQRXLSFilter.Create        (PChar(FrmExporta.DELocal.Text+'\'+FrmExporta.EDArquivo.Text+'.XLS')));
-          4: ExportToFilter(TQRRTFExportFilter.Create  (PChar(FrmExporta.DELocal.Text+'\'+FrmExporta.EDArquivo.Text+'.DOC')));
+
+          { PDF }
+          2: try
+               ExportToFilter(TQRPDFDocumentFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.pdf')));
+               oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+             except
+               on E: Exception do
+               begin
+                 oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                          'Erro: ' + E.Message + '.');
+               end;
+             end;
+
+          { EXCEL }
+          3: try
+               ExportToFilter(TQRXLSFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.xls')));
+               oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+             except
+               on E: Exception do
+               begin
+                 oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                          'Erro: ' + E.Message + '.');
+               end;
+             end;
+
+          { WORD }
+          4: try
+               ExportToFilter(TQRRTFExportFilter.Create(PChar(RECParametros.SHE_PATH_DESKTOP + '\' + ReportTitle + ' ' + FormatDateTime('dd_mm_yyyy hh_mm_ss',now) + '.doc')));
+               oAviso(Application.Handle,'Relatório convertido com sucesso em sua área de trabalho !');
+             except
+               on E: Exception do
+               begin
+                 oErro(Application.Handle,'Falha ao tentar converter relatório !' + #13 +
+                                          'Erro: ' + E.Message + '.');
+               end;
+             end;
         end;
       end else oException(Nil,'Registros não Encontrados !');
     finally

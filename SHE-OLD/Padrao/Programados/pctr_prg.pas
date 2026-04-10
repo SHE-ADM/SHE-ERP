@@ -474,35 +474,72 @@ var
   ClickedOK: Boolean;
 begin
   inherited;
-  if oYesNo(handle,'Finalizar Programação No '+CadastroDEPK.AsString+' ?') = mrno then
-     Abort;
 
-  ClickedOK := InputQuery('Finalização de Programação', 'Motivo', NewString);
-  if not ClickedOK then
-     Abort;
+  if LeftStr(CadastroDEST.AsString,3) = 'FIN' then
+  begin
+    if oYesNo(handle,'Re-abrir Programação ? ' + #13 +
+                     'Pedido: ' + CadastroDEPK.AsString) = mrno then
+    Abort;
 
-  try
-    oOTransact(TEdicao);
-    with SQLEdicao do
-    begin
-      Close;
-      SQL.Clear;
-      SQL.Add('UPDATE '+SLPrincipal.Values['ped_prg_cab']);
-      SQL.Add('SET   ROM_DBAI = CURRENT_DATE, ');
-      SQL.Add('      ROM_STFI = ''FINALIZADO''');
-      SQL.Add('WHERE ID       = '''+CadastroId.AsString+'''');
-      ExecQuery;
+    try
+      oOTransact(TEdicao);
+      with SQLEdicao do
+      begin
+        Close;
+        SQL.Clear;
+        SQL.Add('UPDATE ' + oREPZero('PED_PRG_CAB','_',RECParametros.EP_ID,3));
+        SQL.Add('SET   ROM_DBAI = NULL, ');
+        SQL.Add('      ROM_STFI = ''PENDENTE''');
+        SQL.Add('WHERE ID       = ''' + CadastroId.AsString + '''');
+        ExecQuery;
+      end;
+
+      oCTransact(TEdicao);
+      oAviso(handle,'Programação re-aberta com sucesso !');
+      oRefresh(Cadastro);
+    except
+      on E: Exception do
+      begin
+        TEdicao.Rollback;
+        oException(Nil,'Falha ao tentar finalizar programação !'+#13+
+                       'Favor entrar em contato com o administrador do sistema.'+#13+#13+
+                       'Erro: '+E.Message);
+      end;
     end;
+  end else
+  begin
+    if oYesNo(handle,'Finalizar Programação ? ' + #13 +
+                     'Pedido: ' + CadastroDEPK.AsString) = mrno then
+    Abort;
 
-    oCTransact(TEdicao);
-    oAviso(handle,'Programação Finalizada com Sucesso !');
-  except
-    on E: Exception do
-    begin
-      TEdicao.Rollback;
-      oException(Nil,'Falha ao tentar finalizar programação !'+#13+
-                     'Favor entrar em contato com o administrador do sistema.'+#13+#13+
-                     'Erro: '+E.Message);
+    ClickedOK := InputQuery('Finalização de Programação', 'Motivo', NewString);
+    if not ClickedOK then
+    Abort;
+
+    try
+      oOTransact(TEdicao);
+      with SQLEdicao do
+      begin
+        Close;
+        SQL.Clear;
+        SQL.Add('UPDATE ' + oREPZero('PED_PRG_CAB','_',RECParametros.EP_ID,3));
+        SQL.Add('SET   ROM_DBAI = CURRENT_DATE, ');
+        SQL.Add('      ROM_STFI = ''FINALIZADO''');
+        SQL.Add('WHERE ID       = ''' + CadastroId.AsString + '''');
+        ExecQuery;
+      end;
+
+      oCTransact(TEdicao);
+      oAviso(handle,'Programação finalizada com sucesso !');
+      oRefresh(Cadastro);
+    except
+      on E: Exception do
+      begin
+        TEdicao.Rollback;
+        oException(Nil,'Falha ao tentar finalizar programação !'+#13+
+                       'Favor entrar em contato com o administrador do sistema.'+#13+#13+
+                       'Erro: '+E.Message);
+      end;
     end;
   end;
 end;
@@ -517,6 +554,17 @@ begin
   SIPED.Enabled := (CadastroDEST.AsString = 'PENDENTE') and  ((RECUsuarios.Grupo <> 'VEN') or ((RECUsuarios.Grupo = 'VEN') and (RECUSuarios.ID = CadastroCV_ID.AsInteger)) or ((RECUsuarios.Grupo = 'VEN') and (RECUSuarios.ID <> CadastroCV_ID.AsInteger) ));
   SIFIM.Enabled := (CadastroDEST.AsString = 'PENDENTE') and  ((RECUsuarios.Grupo <> 'VEN') or ((RECUsuarios.Grupo = 'VEN') and (RECUSuarios.ID = CadastroCV_ID.AsInteger)) or ((RECUsuarios.Grupo = 'VEN') and (RECUSuarios.ID <> CadastroCV_ID.AsInteger) ));
 
+  if LeftStr(CadastroDEST.AsString,3) = 'FIN' then
+  begin
+    SIFIM.Enabled    := True;
+    SIFIM.ImageIndex := 11;
+    SIFIM.Hint := 'Re-abrir Programação';
+  end else
+  begin
+    SIFIM.ImageIndex := 7;
+    SIFIM.Hint := 'Finalizar Programação';
+  end;
+  
   if RECUsuarios.ID = 0 then
   siPED.Enabled := True;
 

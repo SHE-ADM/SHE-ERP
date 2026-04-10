@@ -4090,10 +4090,10 @@ begin
     begin
       if LeftStr(nfe_001NFE_CEAN.AsString,3) <> '789' then nfe_001NFE_CEAN.Value := '';
 
-      if (nfe_001NFE_CCAB.AsInteger <> 99999) and (nfe_001.State = dsInsert) then
-         nfe_001NFE_PICMS.Value := IFThen((nfe_001NFE_CST.AsString <> '900') and (RECParametros.RegimeTributario = '1'),0,
-                                   IFThen(PEUF.Text = 'EX',RECParametros.PICMS,
-                                   IFThen((Pos(nfe_001NFE_ORIG.AsString,'123') > 0) and (PEUF.Text <> RECParametros.UnidadeFederada),4,tab_alqALQ_ICMS.AsFloat)));
+      if nfe_001NFE_CCAB.AsInteger <> 99999 then
+      nfe_001NFE_PICMS.Value := IFThen((nfe_001NFE_CST.AsString <> '900') and (RECParametros.RegimeTributario = '1'),0,
+                                IFThen(PEUF.Text = 'EX',RECParametros.PICMS,
+                                IFThen((Pos(nfe_001NFE_ORIG.AsString,'123') > 0) and (PEUF.Text <> RECParametros.UnidadeFederada),4,tab_alqALQ_ICMS.AsFloat)));
 
 
       if nfe_001NFE_REPR.AsString <> 'M' then
@@ -4681,8 +4681,10 @@ begin
         tProd[x,049] := oTextToValor(NFE_001NFE_VBCST.AsFloat   ,2,True); //<vBCST>    //icms60, icmspart, ICMSSN500: <vBCSTRet>
         tProd[x,050] := oTextToValor(NFE_001NFE_pICMSST.AsFloat ,2,True); //<pICMSST>
         tProd[x,051] := oTextToValor(NFE_001NFE_VICMSST.AsFloat ,2,True); //<vICMSST>  //icms60,ICMSSN500: <vICMSSTRet>
-        tProd[x,052] := oTextToValor(NFE_001NFE_PREDBC.AsFloat  ,2,True); //<pRedBC>
       end;
+
+      if NFE_001NFE_PREDBC.AsFloat > 0 then
+      tProd[x,052] := oTextToValor(NFE_001NFE_PREDBC.AsFloat,2,True); //<pRedBC>
 
       tProd[x,080] := IFThen(not oEmpty(nfe_001NFE_PCREDSN.AsFloat    ),oTextToValor(nfe_001NFE_PCREDSN.AsFloat    ,2,True),''); //<pCredSN> Alíquota aplicável de cálculo do crédito (Simples Nacional).
       tProd[x,081] := IFThen(not oEmpty(nfe_001NFE_VCREDICMSSN.AsFloat),oTextToValor(nfe_001NFE_VCREDICMSSN.AsFloat,2,True),''); //<vCredICMSSN> Valor crédito do ICMS que pode ser aproveitado nos termos do art. 23 da LC 123 (Simples Nacional)
@@ -6033,29 +6035,27 @@ begin
                       nfe_001NFE_VBC.Value    := nfe_001NFE_VBC.AsFloat - ((nfe_001NFE_VBC.AsFloat * nfe_001NFE_PREDBC.AsFloat)/100);
                     end;
 
-              if nfe_001NFE_CST.AsString <> '20' then
+              { ICMS }
+              nfe_001NFE_VICMS.Value := RoundTO((nfe_001NFE_VBC.AsFloat * nfe_001NFE_PICMS.AsFloat) / 100,-2);
+
+              { REDUÇÃO DE PIS / COFINS }
+              if nfe_001NFE_CST.AsString = '20' then
+              begin
+                { PIS }
+                nfe_001NFE_VBCPIS.Value := nfe_001NFE_VPROD.AsFloat - nfe_001NFE_VDESC.AsFloat - nfe_001NFE_VICMS.AsFloat;
+                nfe_001NFE_VPIS.Value   := RoundTO((nfe_001NFE_VBCPIS.AsFloat * nfe_001NFE_PPIS.AsFloat) / 100,-2);
+
+                { COFINS }
+                nfe_001NFE_VBCOFINS.Value := nfe_001NFE_VPROD.AsFloat - nfe_001NFE_VDESC.AsFloat - nfe_001NFE_VICMS.AsFloat;
+                nfe_001NFE_VCOFINS.Value  := RoundTO((nfe_001NFE_VBCOFINS.AsFloat * nfe_001NFE_PCOFINS.AsFloat) / 100,-2);
+              end else
               nfe_001NFE_PREDBC.Value := 0;
-              nfe_001NFE_VICMS.Value  := RoundTO((nfe_001NFE_VBC.AsFloat * nfe_001NFE_PICMS.AsFloat) / 100,-2);
 
               if nfe_001NFE_CST.AsString = '90' then
               begin
                 nfe_001NFE_VBC.Value   := 0;
                 nfe_001NFE_PICMS.Value := 0;
                 nfe_001NFE_VICMS.Value := 0;
-              end;
-
-              { REDUÇÃO DE PIS / COFINS }
-              if (Pos(RECParametros.Fantasia,'MAX COLORGIROTEXTIL') > 0) then
-              if (LeftStr(nfe_001NFE_CFOP.AsString,1) <> '3') and (LeftStr(nfe_001NFE_CFOP.AsString,1) <> '7') and
-                 (nfe_001NFE_VICMS.AsFloat > 0) then { Redução }
-              begin
-                { PIS }
-                nfe_001NFE_VBCPIS.Value := nfe_001NFE_VBC.AsFloat - nfe_001NFE_VICMS.AsFloat;
-                nfe_001NFE_VPIS.Value   := RoundTO((nfe_001NFE_VBCPIS.AsFloat   * nfe_001NFE_PPIS.AsFloat)    / 100,-2);
-
-                { COFINS }
-                nfe_001NFE_VBCOFINS.Value := nfe_001NFE_VBC.AsFloat - nfe_001NFE_VICMS.AsFloat;
-                nfe_001NFE_VCOFINS.Value  := RoundTO((nfe_001NFE_VBCOFINS.AsFloat * nfe_001NFE_PCOFINS.AsFloat) / 100,-2);
               end;
 
               if (nfe_001NFE_PICMS.AsFloat = 4)  and (nfe_001NFE_VI04.AsFloat > 0) and (nfe_001NFE_CFOP.AsString <> '6108') then
@@ -6169,12 +6169,16 @@ begin
 
             if NFE_001NFE_IBSCBS_CSTIS.AsString = '000' then
             begin
-              NFE_001NFE_IBSCBS_VBCIBSCBS.Value    :=
+              NFE_001NFE_IBSCBS_VBCIBSCBS.Value :=
 
               NFE_001NFE_VPROD.AsFloat      + NFE_001NFE_VSERV.AsFloat     + NFE_001NFE_VFRETE.AsFloat       + NFE_001NFE_VSEG.AsFloat  + NFE_001NFE_VOUTRO.AsFloat      + NFE_001NFE_VII.AsFloat  -
               NFE_001NFE_VDESC.AsFloat      - NFE_001NFE_VPIS.AsFloat      - NFE_001NFE_VCOFINS.AsFloat      - NFE_001NFE_VICMS.AsFloat - NFE_001NFE_VICMSUFDEST.AsFloat - NFE_001NFE_VFCP.AsFloat -
               NFE_001NFE_VFCPUFDEST.AsFloat - NFE_001NFE_VICMSMONO.AsFloat - NFE_001NFE_ISSQN_VISSQN.AsFloat +
               NFE_001NFE_IS_VIS.AsFloat;
+
+              { REDUÇÃO DE PIS / COFINS }
+              if nfe_001NFE_CST.AsString = '20' then
+              NFE_001NFE_IBSCBS_VBCIBSCBS.Value := NFE_001NFE_VBCPIS.AsFloat - NFE_001NFE_VPIS.AsFloat - NFE_001NFE_VCOFINS.AsFloat;
 
               { CBS }
               NFE_001NFE_CBS_VBCCBS.Value := NFE_001NFE_IBSCBS_VBCIBSCBS.AsFloat;
@@ -6197,9 +6201,9 @@ begin
 
             { Ricardo - Como a planilha do renato, já está embutido o valor do frete, tive q isolar o VNF para importações }
             if LeftStr(nfe_001NFE_CFOP.AsString,1) <> '3' then
-               nfe_001NFE_VNF.Value := (nfe_001NFE_VPROD.AsFloat  - nfe_001NFE_VDESC.AsFloat  - nfe_001NFE_VICMSDeson.AsFloat) +
-                                       (nfe_001NFE_VIPI.AsFloat   + nfe_001NFE_VFRETE.AsFloat + nfe_001NFE_VSEG.AsFloat +
-                                        nfe_001NFE_VOUTRO.AsFloat + nfe_001NFE_VICMSST.AsFloat);
+            nfe_001NFE_VNF.Value := (nfe_001NFE_VPROD.AsFloat  - nfe_001NFE_VDESC.AsFloat  - nfe_001NFE_VICMSDeson.AsFloat) +
+                                    (nfe_001NFE_VIPI.AsFloat   + nfe_001NFE_VFRETE.AsFloat + nfe_001NFE_VSEG.AsFloat +
+                                     nfe_001NFE_VOUTRO.AsFloat + nfe_001NFE_VICMSST.AsFloat);
 
             if RECParametros.RegimeTributario = '1' then
             begin

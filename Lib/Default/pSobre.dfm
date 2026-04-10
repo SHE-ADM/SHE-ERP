@@ -6,7 +6,7 @@ object FrmSobre: TFrmSobre
   BorderStyle = bsSingle
   Caption = 'Sobre o Sistema'
   ClientHeight = 596
-  ClientWidth = 434
+  ClientWidth = 464
   Color = clBlack
   Font.Charset = ANSI_CHARSET
   Font.Color = clBlack
@@ -258,14 +258,14 @@ object FrmSobre: TFrmSobre
   object PNLFoto: TPanel
     Left = 0
     Top = 0
-    Width = 434
+    Width = 464
     Height = 200
     Align = alTop
     TabOrder = 0
     object IFoto: TImage
       Left = 1
       Top = 1
-      Width = 432
+      Width = 462
       Height = 198
       Align = alClient
       Picture.Data = {
@@ -2067,7 +2067,7 @@ object FrmSobre: TFrmSobre
   object PNLMemoria: TPanel
     Left = 0
     Top = 536
-    Width = 434
+    Width = 464
     Height = 60
     Align = alBottom
     Color = clBlack
@@ -2075,7 +2075,7 @@ object FrmSobre: TFrmSobre
     object BMemoria: TBevel
       Left = 1
       Top = 1
-      Width = 432
+      Width = 462
       Height = 58
       Align = alClient
     end
@@ -2147,7 +2147,7 @@ object FrmSobre: TFrmSobre
   object PNL_1: TPanel
     Left = 0
     Top = 200
-    Width = 434
+    Width = 464
     Height = 7
     Align = alTop
     Color = 16644596
@@ -2156,7 +2156,7 @@ object FrmSobre: TFrmSobre
   object PNLEmpresa: TPanel
     Left = 0
     Top = 497
-    Width = 434
+    Width = 464
     Height = 32
     Align = alBottom
     Color = clBlack
@@ -2180,7 +2180,7 @@ object FrmSobre: TFrmSobre
   object PNL_3: TPanel
     Left = 0
     Top = 529
-    Width = 434
+    Width = 464
     Height = 7
     Align = alBottom
     Color = 16644596
@@ -2189,7 +2189,7 @@ object FrmSobre: TFrmSobre
   object PNLPrincipal: TPanel
     Left = 0
     Top = 207
-    Width = 434
+    Width = 464
     Height = 283
     Align = alClient
     BevelOuter = bvNone
@@ -2256,7 +2256,7 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object laCOM: TLabel
-      Left = 310
+      Left = 342
       Top = 198
       Width = 53
       Height = 17
@@ -2271,7 +2271,7 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object laVEN: TLabel
-      Left = 310
+      Left = 342
       Top = 214
       Width = 42
       Height = 17
@@ -2286,7 +2286,7 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object lbCOM: TLabel
-      Left = 406
+      Left = 438
       Top = 198
       Width = 14
       Height = 17
@@ -2301,7 +2301,7 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object laFAT: TLabel
-      Left = 310
+      Left = 342
       Top = 230
       Width = 73
       Height = 17
@@ -2316,7 +2316,7 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object lbVEN: TLabel
-      Left = 406
+      Left = 438
       Top = 214
       Width = 14
       Height = 17
@@ -2331,7 +2331,7 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object lbFAT: TLabel
-      Left = 406
+      Left = 438
       Top = 230
       Width = 14
       Height = 17
@@ -2346,7 +2346,7 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object laFIN: TLabel
-      Left = 310
+      Left = 342
       Top = 246
       Width = 59
       Height = 17
@@ -2361,7 +2361,7 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object lbFIN: TLabel
-      Left = 406
+      Left = 438
       Top = 246
       Width = 14
       Height = 17
@@ -2376,7 +2376,7 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object laOCA: TLabel
-      Left = 310
+      Left = 342
       Top = 182
       Width = 71
       Height = 17
@@ -2391,7 +2391,7 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object lbOCA: TLabel
-      Left = 406
+      Left = 438
       Top = 182
       Width = 14
       Height = 17
@@ -2406,7 +2406,7 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object laPCP: TLabel
-      Left = 310
+      Left = 342
       Top = 150
       Width = 22
       Height = 17
@@ -2421,7 +2421,7 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object lbPCP: TLabel
-      Left = 406
+      Left = 438
       Top = 150
       Width = 14
       Height = 17
@@ -2436,7 +2436,7 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object laETI: TLabel
-      Left = 310
+      Left = 342
       Top = 166
       Width = 53
       Height = 17
@@ -2451,7 +2451,7 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object lbETI: TLabel
-      Left = 406
+      Left = 438
       Top = 166
       Width = 14
       Height = 17
@@ -2485,7 +2485,7 @@ object FrmSobre: TFrmSobre
       Top = 20
       Width = 101
       Height = 17
-      Caption = '01/04/2026 08:20'
+      Caption = '10/04/2026 06:26'
       Color = clInfoBk
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -2540,7 +2540,7 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object LABOL: TLabel
-      Left = 310
+      Left = 342
       Top = 262
       Width = 43
       Height = 17
@@ -2555,7 +2555,7 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object LBBOL: TLabel
-      Left = 406
+      Left = 438
       Top = 262
       Width = 14
       Height = 17
@@ -2572,7 +2572,7 @@ object FrmSobre: TFrmSobre
     object MInf: TMemo
       Left = 17
       Top = 45
-      Width = 413
+      Width = 445
       Height = 97
       BevelInner = bvNone
       BevelOuter = bvNone
@@ -2584,9 +2584,11 @@ object FrmSobre: TFrmSobre
       Font.Name = 'Segoe UI Semibold'
       Font.Style = [fsBold, fsItalic]
       Lines.Strings = (
-        'Relat'#243'rio de produtos cadastrados por fornecedor'
-        'Relat'#243'rio de ranking de vendas por representante'
-        'Tabela de SubCategorias: Situa'#231#245'es Cadastrais')
+        
+          'Abatimentos - Ajustado para impedir a exclus'#227'o dos itens do pedi' +
+          'do de origem'
+        'Fiscal - Inclus'#227'o do campo CBENEF'
+        'Relat'#243'rios - Convers'#245'es em documentos PDFs e planilhas do Excel')
       ParentFont = False
       TabOrder = 0
     end
@@ -2594,7 +2596,7 @@ object FrmSobre: TFrmSobre
   object Panel1: TPanel
     Left = 0
     Top = 490
-    Width = 434
+    Width = 464
     Height = 7
     Align = alBottom
     Color = 16644596

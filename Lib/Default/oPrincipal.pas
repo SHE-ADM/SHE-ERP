@@ -201,10 +201,6 @@ Type TREC_SHE_DEF = record
      FB_PSQ_LKFK:  String[5];
 
 
-
-
-
-
      { ***** RICARDO - TEMPORÁRIO ***** }
      PSQ_FB_FLD,
      PSQ_FB_VLD,
@@ -1147,20 +1143,20 @@ End;
 Type TRECParametros = record
 
     { EMPRESA FÍSICA }
-    EP_ID      : Variant;    { Código Empresa }
-    EP_ID_VW   : Variant;    { Código View    }
-    EP_NO      : String[60]; { Nome Fantasia  }
-    EP_NO_ABREV: String[60]; { Nome Abreviado }
-    EP_NO_SG   : String[30]; { Sigla          }
-    EP_NO_RZ   : String[60]; { Razão Social   }
+    EP_ID    : Variant;    { Código Empresa }
+    EP_VW_ID : Variant;    { Código View    }
+    EP_NO    : String[60]; { Nome Fantasia  }
+    EP_AB_NO : String[60]; { Nome Abreviado }
+    EP_SG_NO : String[30]; { Sigla          }
+    EP_RZ_NO : String[60]; { Razão Social   }
 
     { GRUPOS }
-    EP_NO_GP: String[60]; { Descrição  }
-    EP_NO_GC,             { Compras    }
-    EP_NO_GV,             { Vendas     }
-    EP_NO_GE,             { Estoque    }
-    EP_NO_GR,             { Financeiro }
-    EP_NO_GF: Variant;    { Fiscal     }
+    EP_GP_NO: String[60]; { Descrição  }
+    EP_GC_CD,             { Compras    }
+    EP_GV_CD,             { Vendas     }
+    EP_GE_CD,             { Estoque    }
+    EP_GR_CD,             { Financeiro }
+    EP_GF_CD: Variant;    { Fiscal     }
 
     { SITUAÇÃO }
     CDST: Variant;    { Código     }
@@ -3516,8 +3512,8 @@ begin
     EP_ID_FK := '0';
     
     EP_NO    := RECParametros.EP_NO;
-    EP_RZ_NO := RECParametros.EP_NO_RZ;
-    EP_SG_NO := RECParametros.EP_NO_SG;
+    EP_RZ_NO := RECParametros.EP_RZ_NO;
+    EP_SG_NO := RECParametros.EP_SG_NO;
 
     { CNPJ }
     EP_CNPJ      := RECParametros.CNPJ;
@@ -9507,7 +9503,7 @@ procedure oReportPageHeader(AReport: TQuickRep;var AREC_SHE_REL: TREC_SHE_REL); 
               end;
 
               if SLPesquisa.Count > 0 then
-                 if Pos(Trim(SLPesquisa.Strings[0]),RECParametros.EP_NO_RZ) = 0 then
+                 if Pos(Trim(SLPesquisa.Strings[0]),RECParametros.EP_RZ_NO) = 0 then
                     result := RECParametros.EP_NO;
 
             finally
@@ -9823,7 +9819,7 @@ procedure oReportPageHeader_(AReport: TQuickRep;var ARECRelatorios: TRECRelatori
               end;
 
               if SLPesquisa.Count > 0 then
-                 if Pos(Trim(SLPesquisa.Strings[0]),RECParametros.EP_NO_RZ) = 0 then
+                 if Pos(Trim(SLPesquisa.Strings[0]),RECParametros.EP_RZ_NO) = 0 then
                     result := RECParametros.EP_NO;
             finally
               FreeAndNil(SLPesquisa);
@@ -9869,7 +9865,7 @@ begin
        if TQRLabel(FindComponent('QRLPageHeaderSubTitulo')) <> Nil then
           TQRLabel(FindComponent('QRLPageHeaderSubTitulo')).Caption := ARECRelatorios.SubTitulo;
 
-       ReportTitle := Trim(ARECRelatorios.Titulo+' '+oPrimeiraLetraMaiuscula(RECUsuarios.Login)+' IP '+RECParametros.IP+' '+RECParametros.HOST);
+       ReportTitle := Trim(ARECRelatorios.Titulo + ' ' + oREPAcentos(oPrimeiraLetraMaiuscula(RECUsuarios.Login)) + ' - ' + oREPAcentos(RECParametros.HOST));
      end;
 end;
 

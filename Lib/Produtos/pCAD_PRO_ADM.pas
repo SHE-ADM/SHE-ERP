@@ -184,7 +184,6 @@ type
     CAD_PRO_IMGIMG_ID: TLargeintField;
     CAD_PRO_IMGIMG_NO: TIBStringField;
     CAD_PRO_IMGIMG_PAD: TBlobField;
-    CAD_PRO_IMGPDF_NO: TIBStringField;
     CAD_PRO_IMGILA_BMP1: TBlobField;
     CAD_PRO_IMGILA_INS1: TIBStringField;
     CAD_PRO_IMGD_ILA_INS1: TIBStringField;
@@ -220,7 +219,7 @@ type
     DBGEST_EPE: TdxDBGrid;
     DBGEST_EPECP_ID: TdxDBGridMaskColumn;
     DBGEST_EPESKU: TdxDBGridMaskColumn;
-    DBGEST_EPEEP_SG: TdxDBGridMaskColumn;
+    DBGEST_EPEEP_SG_NO: TdxDBGridMaskColumn;
     DBGEST_EPEEPE_QTDE: TdxDBGridMaskColumn;
     DBGEST_EPEEPE_QTRL: TdxDBGridMaskColumn;
     DBGEST_EPEEEP_QTDE: TdxDBGridMaskColumn;
@@ -263,7 +262,7 @@ type
     PNLCAD_PRO_IMG_PAD: TPanel;
     IMGCAD_PRO_IMG_PAD: TImage;
     EST_EPEEPC_CTNR: TIBStringField;
-    DBGEST_EPEGRD_SG: TdxDBGridMaskColumn;
+    DBGEST_EPEGRD_SG_NO: TdxDBGridMaskColumn;
     DBGEST_EPEGRD_NO: TdxDBGridMaskColumn;
     DPPrincipal1Rodape3: TdxDockPanel;
     ILDockingManager: TImageList;
@@ -315,10 +314,10 @@ type
     CAD_PRO_FICUPSCN: TIBBCDField;
     CAD_PRO_FICINFADCAD: TIBStringField;
     CAD_PRO_FICINFADCPL: TIBStringField;
-    DBGEST_EFIEP_SG: TdxDBGridMaskColumn;
-    DBGEST_EFIGRD_SG: TdxDBGridMaskColumn;
+    DBGEST_EFIEP_SG_NO: TdxDBGridMaskColumn;
+    DBGEST_EFIGRD_SG_NO: TdxDBGridMaskColumn;
     DBGEST_EFIGRD_NO: TdxDBGridMaskColumn;
-    DBGEST_EFIIDCP: TdxDBGridMaskColumn;
+    DBGEST_EFICP_ID: TdxDBGridMaskColumn;
     EST_EAT: TIBQuery;
     DTSEST_EAT: TDataSource;
     EST_ESU: TIBQuery;
@@ -328,15 +327,15 @@ type
     EST_EPI: TIBQuery;
     EST_ERV: TIBQuery;
     DBGEST_EFIEST_DERO: TdxDBGridColumn;
-    DBGEST_EPVEP_SG: TdxDBGridMaskColumn;
+    DBGEST_EPVEP_SG_NO: TdxDBGridMaskColumn;
     DBGEST_EPVDEPK: TdxDBGridMaskColumn;
     DBGEST_EPVDSPK: TdxDBGridDateColumn;
     DBGEST_EPVCD_NO: TdxDBGridMaskColumn;
-    DBGEST_EPVCD_GP: TdxDBGridColumn;
+    DBGEST_EPVCD_GP_NO: TdxDBGridColumn;
     DBGEST_EPVCV_NO: TdxDBGridMaskColumn;
-    DBGEST_EPVCR_NO_ABREV: TdxDBGridMaskColumn;
+    DBGEST_EPVCR_AB_NO: TdxDBGridMaskColumn;
     DBGEST_EPVSKU: TdxDBGridMaskColumn;
-    DBGEST_EPVGRD_SG: TdxDBGridMaskColumn;
+    DBGEST_EPVGRD_SG_NO: TdxDBGridMaskColumn;
     DBGEST_EPVGRD_NO: TdxDBGridColumn;
     DBGEST_EPVQTDE: TdxDBGridColumn;
     DBGEST_EPVQTRL: TdxDBGridColumn;
@@ -349,9 +348,9 @@ type
     DTSEST_CPA: TDataSource;
     DBGEST_CPA: TdxDBGrid;
     DBGEST_CPASKU: TdxDBGridMaskColumn;
-    DBGEST_CPASGEP: TdxDBGridMaskColumn;
-    DBGEST_CPADGCP: TdxDBGridColumn;
-    DBGEST_CPADSCP: TdxDBGridMaskColumn;
+    DBGEST_CPAEP_SG_NO: TdxDBGridMaskColumn;
+    DBGEST_CPAGRD_NO: TdxDBGridColumn;
+    DBGEST_CPAGRD_SG_NO: TdxDBGridMaskColumn;
     DBGEST_CPAQTDE: TdxDBGridColumn;
     DBGEST_CPAQTRL: TdxDBGridColumn;
     DBGEST_CPACF_VPRC_COM: TdxDBGridMaskColumn;
@@ -369,9 +368,9 @@ type
     DBGEST_CPARLSP: TdxDBGridColumn;
     DBGEST_CPF: TdxDBGrid;
     DBGEST_CPFSKU: TdxDBGridMaskColumn;
-    DBGEST_CPFSGEP: TdxDBGridMaskColumn;
-    DBGEST_CPFDGCP: TdxDBGridColumn;
-    DBGEST_CPFDSCP: TdxDBGridMaskColumn;
+    DBGEST_CPFEP_SG_NO: TdxDBGridMaskColumn;
+    DBGEST_CPFGRD_NO: TdxDBGridColumn;
+    DBGEST_CPFGRD_SG_NO: TdxDBGridMaskColumn;
     DBGEST_CPFQTDE: TdxDBGridColumn;
     DBGEST_CPFQTRL: TdxDBGridColumn;
     DBGEST_CPFVPRC_COM: TdxDBGridMaskColumn;
@@ -391,30 +390,30 @@ type
     DTSEST_EPP: TDataSource;
     DBGEST_EPP: TdxDBGrid;
     DBGEST_EPPSKU: TdxDBGridMaskColumn;
-    DBGEST_EPPEP_SG: TdxDBGridMaskColumn;
-    DBGEST_EPPDGCP: TdxDBGridColumn;
-    DBGEST_EPPDSCP: TdxDBGridMaskColumn;
+    DBGEST_EPPEP_SG_NO: TdxDBGridMaskColumn;
+    DBGEST_EPPGRD_NO: TdxDBGridColumn;
+    DBGEST_EPPGRD_SG_NO: TdxDBGridMaskColumn;
     DBGEST_EPPQTDE: TdxDBGridColumn;
     DBGEST_EPPQTRL: TdxDBGridColumn;
     DBGEST_EPPVPRC_COM: TdxDBGridMaskColumn;
     DBGEST_EPPDEPK: TdxDBGridMaskColumn;
     DBGEST_EPPDTPK: TdxDBGridDateColumn;
     DBGEST_EPPSTPD: TdxDBGridMaskColumn;
-    DBGEST_EPPDECO: TdxDBGridColumn;
+    DBGEST_EPPD_STCO: TdxDBGridColumn;
     DBGEST_EPPSTFI: TdxDBGridColumn;
-    DBGEST_EPPDECD: TdxDBGridMaskColumn;
-    DBGEST_EPPGPCD: TdxDBGridColumn;
-    DBGEST_EPPDECR: TdxDBGridMaskColumn;
-    DBGEST_EPPDECV: TdxDBGridMaskColumn;
+    DBGEST_EPPCD_NO: TdxDBGridMaskColumn;
+    DBGEST_EPPCD_GP_NO: TdxDBGridColumn;
+    DBGEST_EPPCR_AB_NO: TdxDBGridMaskColumn;
+    DBGEST_EPPCV_NO: TdxDBGridMaskColumn;
     DBGEST_EPPC_ID: TdxDBGridColumn;
     DBGEST_EPVBQST: TdxDBGridMaskColumn;
     EST_ESP: TIBQuery;
     DTSEST_ESP: TDataSource;
     DBGEST_ESP: TdxDBGrid;
     DBGEST_ESPSKU: TdxDBGridMaskColumn;
-    DBGEST_ESPSP_SG: TdxDBGridMaskColumn;
+    DBGEST_ESPEP_SG_NO: TdxDBGridMaskColumn;
     DBGEST_ESPGRD_NO: TdxDBGridColumn;
-    DBGEST_ESPGRD_SG: TdxDBGridMaskColumn;
+    DBGEST_ESPGRD_SG_NO: TdxDBGridMaskColumn;
     DBGEST_ESPQTDE: TdxDBGridColumn;
     DBGEST_ESPQTRL: TdxDBGridColumn;
     DBGEST_ESPVPRC_COM: TdxDBGridMaskColumn;
@@ -424,8 +423,8 @@ type
     DBGEST_ESPD_STCO: TdxDBGridColumn;
     DBGEST_ESPSTFI: TdxDBGridColumn;
     DBGEST_ESPCD_NO: TdxDBGridMaskColumn;
-    DBGEST_ESPCD_NO_GP: TdxDBGridColumn;
-    DBGEST_ESPCR_NO_ABREV: TdxDBGridMaskColumn;
+    DBGEST_ESPCD_GP_NO: TdxDBGridColumn;
+    DBGEST_ESPCR_AB_NO: TdxDBGridMaskColumn;
     DBGEST_ESPCV_NO: TdxDBGridMaskColumn;
     DBGEST_ESPBQST: TdxDBGridMaskColumn;
     DBGEST_ESPC_ID: TdxDBGridColumn;
@@ -516,57 +515,6 @@ type
     EST_ERVSKU: TIBStringField;
     EST_ERVQTDE: TIBBCDField;
     EST_ERVQTRL: TIntegerField;
-    EST_CPAID: TLargeintField;
-    EST_CPAIDEP: TSmallintField;
-    EST_CPASGEP: TIBStringField;
-    EST_CPADTEV: TDateTimeField;
-    EST_CPAIDPK: TLargeintField;
-    EST_CPADEPK: TIBStringField;
-    EST_CPADSPK: TDateField;
-    EST_CPACTNR_PPRD: TDateField;
-    EST_CPACTNR_PEMB: TDateField;
-    EST_CPACTNR_PDSB: TDateField;
-    EST_CPACTNR_PCHP: TDateField;
-    EST_CPADECD: TIBStringField;
-    EST_CPAGPCD: TIBStringField;
-    EST_CPAABCR: TIBStringField;
-    EST_CPADECV: TIBStringField;
-    EST_CPAIDCP: TIntegerField;
-    EST_CPASKU: TIBStringField;
-    EST_CPADGCP: TIBStringField;
-    EST_CPADSCP: TIBStringField;
-    EST_CPAQTDE: TIBBCDField;
-    EST_CPAQTRL: TIntegerField;
-    EST_CPAQTSP: TIBBCDField;
-    EST_CPARLSP: TIntegerField;
-    EST_CPASTPD: TIBStringField;
-    EST_CPAD_STCO: TIBStringField;
-    EST_CPASTFI: TIBStringField;
-    EST_CPABQST: TSmallintField;
-    EST_CPFID: TIntegerField;
-    EST_CPFIDEP: TSmallintField;
-    EST_CPFSGEP: TIBStringField;
-    EST_CPFDTEV: TDateTimeField;
-    EST_CPFIDPK: TSmallintField;
-    EST_CPFDEPK: TIBStringField;
-    EST_CPFDSPK: TDateTimeField;
-    EST_CPFDECD: TIBStringField;
-    EST_CPFGPCD: TIBStringField;
-    EST_CPFABCR: TIBStringField;
-    EST_CPFDECV: TIBStringField;
-    EST_CPFIDCP: TIntegerField;
-    EST_CPFSKU: TIBStringField;
-    EST_CPFDGCP: TIBStringField;
-    EST_CPFDSCP: TIBStringField;
-    EST_CPFQTDE: TIBBCDField;
-    EST_CPFQTRL: TIntegerField;
-    EST_CPFQTSP: TIBBCDField;
-    EST_CPFRLSP: TIntegerField;
-    EST_CPFVPRC_COM: TFloatField;
-    EST_CPFSTPD: TIBStringField;
-    EST_CPFD_STCO: TIBStringField;
-    EST_CPFSTFI: TIBStringField;
-    EST_CPFBQST: TSmallintField;
     EST_EPVID: TLargeintField;
     EST_EPVDTEV: TDateTimeField;
     EST_EPVIDPK: TLargeintField;
@@ -613,7 +561,6 @@ type
     EST_EATC_ID: TLargeintField;
     EST_ESUID: TLargeintField;
     EST_ESUDTEV: TDateTimeField;
-    EST_ESULGCA: TIBStringField;
     EST_ESUDTCA: TDateTimeField;
     EST_ESUEST_CDRO: TLargeintField;
     EST_ESUEST_DSRO: TDateTimeField;
@@ -635,9 +582,9 @@ type
     DBGEST_EAT: TdxDBGrid;
     DBGEST_EATCP_ID: TdxDBGridMaskColumn;
     DBGEST_EATSKU: TdxDBGridMaskColumn;
-    DBGEST_EATEP_SG: TdxDBGridMaskColumn;
+    DBGEST_EATEP_SG_NO: TdxDBGridMaskColumn;
     DBGEST_EATGRD_NO: TdxDBGridMaskColumn;
-    DBGEST_EATGRD_SG: TdxDBGridMaskColumn;
+    DBGEST_EATGRD_SG_NO: TdxDBGridMaskColumn;
     DBGEST_EATQTDE: TdxDBGridMaskColumn;
     DBGEST_EATQTRL: TdxDBGridMaskColumn;
     DBGEST_EATEST_CDET: TdxDBGridColumn;
@@ -652,9 +599,9 @@ type
     DBGEST_ESU: TdxDBGrid;
     DBGEST_ESUCP_ID: TdxDBGridMaskColumn;
     DBGEST_ESUSKU: TdxDBGridMaskColumn;
-    DBGEST_ESUEP_SG: TdxDBGridMaskColumn;
+    DBGEST_ESUEP_SG_NO: TdxDBGridMaskColumn;
     DBGEST_ESUGRD_NO: TdxDBGridMaskColumn;
-    DBGEST_ESUGRD_SG: TdxDBGridMaskColumn;
+    DBGEST_ESUGRD_SG_NO: TdxDBGridMaskColumn;
     DBGEST_ESUQTDE: TdxDBGridMaskColumn;
     DBGEST_ESUQTRL: TdxDBGridMaskColumn;
     DBGEST_ESUEST_CDET: TdxDBGridColumn;
@@ -669,9 +616,9 @@ type
     DBGEST_EPI: TdxDBGrid;
     DBGEST_EPICP_ID: TdxDBGridMaskColumn;
     DBGEST_EPISKU: TdxDBGridMaskColumn;
-    DBGEST_EPIEP_SG: TdxDBGridMaskColumn;
+    DBGEST_EPIEP_SG_NO: TdxDBGridMaskColumn;
     DBGEST_EPIGRD_NO: TdxDBGridMaskColumn;
-    DBGEST_EPIGRD_SG: TdxDBGridMaskColumn;
+    DBGEST_EPIGRD_SG_NO: TdxDBGridMaskColumn;
     DBGEST_EPIQTDE: TdxDBGridMaskColumn;
     DBGEST_EPIQTRL: TdxDBGridMaskColumn;
     DBGEST_EPIEST_CDET: TdxDBGridColumn;
@@ -686,9 +633,9 @@ type
     DBGEST_ERV: TdxDBGrid;
     DBGEST_ERVCP_ID: TdxDBGridMaskColumn;
     DBGEST_ERVSKU: TdxDBGridMaskColumn;
-    DBGEST_ERVEP_SG: TdxDBGridMaskColumn;
+    DBGEST_ERVEP_SG_NO: TdxDBGridMaskColumn;
     DBGEST_ERVGRD_NO: TdxDBGridMaskColumn;
-    DBGEST_ERVGRD_SG: TdxDBGridMaskColumn;
+    DBGEST_ERVGRD_SG_NO: TdxDBGridMaskColumn;
     DBGEST_ERVQTDE: TdxDBGridMaskColumn;
     DBGEST_ERVQTRL: TdxDBGridMaskColumn;
     DBGEST_ERVEST_CDET: TdxDBGridColumn;
@@ -700,14 +647,7 @@ type
     DBGEST_ERVEST_DERO: TdxDBGridColumn;
     DBGEST_ERVEST_DECE: TdxDBGridMaskColumn;
     DBGEST_ERVC_ID: TdxDBGridColumn;
-    EST_CPACF_VPRC_COM: TFloatField;
-    EST_CPACF_VPRC_PAD_ORI: TIBStringField;
     EST_CPAC_ID: TLargeintField;
-    EST_CPFCTNR_RPRD: TDateField;
-    EST_CPFCTNR_REMB: TDateField;
-    EST_CPFCTNR_RDSB: TDateField;
-    EST_CPFCTNR_RCHP: TDateField;
-    EST_CPFVPRC_PAD_ORI: TIBStringField;
     EST_ESPLGSP: TIBStringField;
     EST_ESPDSSP: TDateTimeField;
     EST_ESPITEM: TIntegerField;
@@ -717,8 +657,6 @@ type
     EST_ESPEST_CDI: TSmallintField;
     EST_ESPEST_CTNR: TIBStringField;
     EST_ESPC_ID: TLargeintField;
-    EST_CPAEST_CTNR: TIBStringField;
-    EST_CPFPED_CTNR: TIBStringField;
     DBGCAD_PRO_FICMPESO: TdxDBGridMaskColumn;
     DBGCAD_PRO_FICUPSCN: TdxDBGridMaskColumn;
     DBGCAD_PRO_FICPPSBR: TdxDBGridMaskColumn;
@@ -737,64 +675,40 @@ type
     CAD_PRO_FICPPSBR: TIBBCDField;
     CAD_PRO_PRCCP_ID: TLargeintField;
     EST_EPEEP_ID: TSmallintField;
-    EST_EPEEP_SG: TIBStringField;
     EST_EPECP_ID: TLargeintField;
     EST_EPEGRD_NO: TIBStringField;
-    EST_EPEGRD_SG: TIBStringField;
     EST_EFIEP_ID: TSmallintField;
-    EST_EFIEP_SG: TIBStringField;
     EST_EFICP_ID: TLargeintField;
     EST_EFIGRD_NO: TIBStringField;
-    EST_EFIGRD_SG: TIBStringField;
     EST_EATEP_ID: TSmallintField;
-    EST_EATEP_SG: TIBStringField;
     EST_EATCP_ID: TLargeintField;
     EST_EATGRD_NO: TIBStringField;
-    EST_EATGRD_SG: TIBStringField;
     EST_ESUEP_ID: TSmallintField;
-    EST_ESUEP_SG: TIBStringField;
     EST_ESUCP_ID: TLargeintField;
     EST_ESUGRD_NO: TIBStringField;
-    EST_ESUGRD_SG: TIBStringField;
     EST_EPIEP_ID: TSmallintField;
-    EST_EPIEP_SG: TIBStringField;
     EST_EPICP_ID: TLargeintField;
     EST_EPIGRD_NO: TIBStringField;
-    EST_EPIGRD_SG: TIBStringField;
     EST_ERVEP_ID: TSmallintField;
-    EST_ERVEP_SG: TIBStringField;
     EST_ERVCP_ID: TLargeintField;
     EST_ERVGRD_NO: TIBStringField;
-    EST_ERVGRD_SG: TIBStringField;
     EST_ESPEP_ID: TSmallintField;
-    EST_ESPEP_SG: TIBStringField;
     EST_ESPCD_NO: TIBStringField;
-    EST_ESPCD_GP: TIBStringField;
-    EST_ESPCR_NO_ABREV: TIBStringField;
     EST_ESPCV_NO: TIBStringField;
     EST_ESPCP_ID: TLargeintField;
     EST_ESPGRD_NO: TIBStringField;
-    EST_ESPGRD_SG: TIBStringField;
     EST_EPVEP_ID: TSmallintField;
-    EST_EPVEP_SG: TIBStringField;
     EST_EPVCD_NO: TIBStringField;
-    EST_EPVCD_GP: TIBStringField;
-    EST_EPVCR_NO_ABREV: TIBStringField;
     EST_EPVCV_NO: TIBStringField;
     EST_EPVITEM: TIntegerField;
     EST_EPVCP_ID: TLargeintField;
     EST_EPVGRD_NO: TIBStringField;
-    EST_EPVGRD_SG: TIBStringField;
     EST_EPPEP_ID: TSmallintField;
-    EST_EPPEP_SG: TIBStringField;
     EST_EPPCD_NO: TIBStringField;
-    EST_EPPCD_GP: TIBStringField;
-    EST_EPPCR_NO_ABREV: TIBStringField;
     EST_EPPCV_NO: TIBStringField;
     EST_EPPITEM: TIntegerField;
     EST_EPPCP_ID: TLargeintField;
     EST_EPPGRD_NO: TIBStringField;
-    EST_EPPGRD_SG: TIBStringField;
     PNLCAD_PRO_ILA_PAD: TPanel;
     BVCAD_PRO_IMG_ILA1: TBevel;
     BVCAD_PRO_IMG_ILA2: TBevel;
@@ -840,6 +754,92 @@ type
     ACTVisualiza: TAction;
     ACTPesquisaOK: TAction;
     ACTPesquisaFocusControl: TAction;
+    EST_EPVCD_GP_NO: TIBStringField;
+    EST_EPPCD_GP_NO: TIBStringField;
+    EST_EPEEP_SG_NO: TIBStringField;
+    EST_EFIEP_SG_NO: TIBStringField;
+    EST_EFIGRD_SG_NO: TIBStringField;
+    EST_EATEP_SG_NO: TIBStringField;
+    EST_EATGRD_SG_NO: TIBStringField;
+    EST_ESUEP_SG_NO: TIBStringField;
+    EST_ESULGCA: TIBStringField;
+    EST_ESUGRD_SG_NO: TIBStringField;
+    EST_EPIEP_SG_NO: TIBStringField;
+    EST_EPIGRD_SG_NO: TIBStringField;
+    EST_ERVEP_SG_NO: TIBStringField;
+    EST_ERVGRD_SG_NO: TIBStringField;
+    EST_CPAID: TLargeintField;
+    EST_CPAEP_ID: TSmallintField;
+    EST_CPAEP_SG_NO: TIBStringField;
+    EST_CPADTEV: TDateTimeField;
+    EST_CPAIDPK: TLargeintField;
+    EST_CPADEPK: TIBStringField;
+    EST_CPADSPK: TDateTimeField;
+    EST_CPAEST_CTNR: TIBStringField;
+    EST_CPACTNR_PPRD: TDateField;
+    EST_CPACTNR_PEMB: TDateField;
+    EST_CPACTNR_PDSB: TDateField;
+    EST_CPACTNR_PCHP: TDateField;
+    EST_CPACD_NO: TIBStringField;
+    EST_CPACD_GP_NO: TIBStringField;
+    EST_CPACR_AB_NO: TIBStringField;
+    EST_CPACV_NO: TIBStringField;
+    EST_CPACP_ID: TLargeintField;
+    EST_CPASKU: TIBStringField;
+    EST_CPAGRD_NO: TIBStringField;
+    EST_CPAGRD_SG_NO: TIBStringField;
+    EST_CPAQTDE: TIBBCDField;
+    EST_CPAQTRL: TIntegerField;
+    EST_CPAQTSP: TIBBCDField;
+    EST_CPARLSP: TIntegerField;
+    EST_CPACF_VPRC_PAD_ORI: TIBStringField;
+    EST_CPACF_VPRC_COM: TFloatField;
+    EST_CPASTPD: TIBStringField;
+    EST_CPAD_STCO: TIBStringField;
+    EST_CPASTFI: TIBStringField;
+    EST_CPABQST: TSmallintField;
+    EST_CPFID: TIntegerField;
+    EST_CPFEP_ID: TSmallintField;
+    EST_CPFEP_SG_NO: TIBStringField;
+    EST_CPFDTEV: TDateTimeField;
+    EST_CPFIDPK: TSmallintField;
+    EST_CPFDEPK: TIBStringField;
+    EST_CPFDSPK: TDateTimeField;
+    EST_CPFPED_CTNR: TIBStringField;
+    EST_CPFCTNR_RPRD: TDateField;
+    EST_CPFCTNR_REMB: TDateField;
+    EST_CPFCTNR_RDSB: TDateField;
+    EST_CPFCTNR_RCHP: TDateField;
+    EST_CPFCD_NO: TIBStringField;
+    EST_CPFCD_GP_NO: TIBStringField;
+    EST_CPFCR_AB_NO: TIBStringField;
+    EST_CPFCV_NO: TIBStringField;
+    EST_CPFCP_ID: TLargeintField;
+    EST_CPFSKU: TIBStringField;
+    EST_CPFGRD_NO: TIBStringField;
+    EST_CPFGRD_SG_NO: TIBStringField;
+    EST_CPFQTDE: TIBBCDField;
+    EST_CPFQTRL: TIntegerField;
+    EST_CPFQTSP: TIBBCDField;
+    EST_CPFRLSP: TIntegerField;
+    EST_CPFVPRC_PAD_ORI: TIBStringField;
+    EST_CPFVPRC_COM: TFloatField;
+    EST_CPFSTPD: TIBStringField;
+    EST_CPFD_STCO: TIBStringField;
+    EST_CPFSTFI: TIBStringField;
+    EST_CPFBQST: TSmallintField;
+    EST_EPVEP_SG_NO: TIBStringField;
+    EST_EPVGRD_SG_NO: TIBStringField;
+    EST_ESPEP_SG_NO: TIBStringField;
+    EST_ESPCD_GP_NO: TIBStringField;
+    EST_ESPCR_AB_NO: TIBStringField;
+    EST_ESPGRD_SG_NO: TIBStringField;
+    EST_EPPEP_SG_NO: TIBStringField;
+    EST_EPPCR_AB_NO: TIBStringField;
+    EST_EPPGRD_SG_NO: TIBStringField;
+    EST_EPPEST_CTNR: TIBStringField;
+    EST_EPEGRD_SG_NO: TIBStringField;
+    EST_EPVCR_AB_NO: TIBStringField;
 
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -861,7 +861,6 @@ type
     procedure TCDSPrincipal1RodapeUpdateDockZones(
       Sender: TdxCustomDockControl; AZones: TList);
 
-    procedure ACTPesquisaExecute(Sender: TObject);
     procedure BEPSQ_CADKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
 
@@ -995,6 +994,7 @@ type
     procedure DTSEST_ESPDataChange(Sender: TObject; Field: TField);
     procedure DTSEST_EPEDataChange(Sender: TObject; Field: TField);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure ACTPesquisaExecute(Sender: TObject);
   private
     { Private declarations }
     FCurrentEvent,
@@ -2193,7 +2193,7 @@ procedure TFrmCAD_PRO_ADM.EST_EPEBeforeOpen(DataSet: TDataSet);
 begin
   { COLUMNS }
   DBGEST_EPEREST.Visible    := False; { Situação }
-  DBGEST_EPEEF_SGEP.Visible := False; { Local }
+  DBGEST_EPEEP_SG_NO.Visible := False; { Local }
 
   { BANDS }
   DBGEST_EPE.Bands[1].Visible := False; { Grade }
@@ -2236,11 +2236,11 @@ begin
     DBGEST_EPEREST.Visible := True;
 
     { Local }
-    if (EST_EPEEF_SGEP.AsString <> EmptyStr) and (EST_EPEEF_SGEP.AsString <> RECParametros.SGEP) then
-    DBGEST_EPEEF_SGEP.Visible := True;
+    if (EST_EPEEP_SG_NO.AsString <> EmptyStr) and (EST_EPEEP_SG_NO.AsString <> RECParametros.EP_SG_NO) then
+    DBGEST_EPEEP_SG_NO.Visible := True;
 
     { Grade }
-    if EST_EPEDGCP.AsString <> EmptyStr then
+    if EST_EPEGRD_NO.AsString <> EmptyStr then
     DBGEST_EPE.Bands[1].Visible := True;
 
     { Saldo Programado }
@@ -2265,8 +2265,8 @@ procedure TFrmCAD_PRO_ADM.DBGEST_EPECustomDrawCell(Sender: TObject;
   var AAlignment: TAlignment; var ADone: Boolean);
 begin
   { TAM GRADE }
-  if AColumn = DBGEST_EPEDGCP then
-  if lENGTH(ANode.Values[DBGEST_EPEDGCP.Index]) > 20 then
+  if AColumn = DBGEST_EPEGRD_NO then
+  if lENGTH(ANode.Values[DBGEST_EPEGRD_NO.Index]) > 20 then
      AFont.Size := 8;
 
   if not ASelected then
@@ -2393,7 +2393,7 @@ end;
 
 procedure TFrmCAD_PRO_ADM.EST_EFIBeforeOpen(DataSet: TDataSet);
 begin
-  DBGEST_EFISGEP.Visible   := False; { Local     }
+  DBGEST_EFIEP_SG_NO.Visible   := False; { Local     }
 //  DBGEST_EFICTNR.Visible      := False; { Container }
 //  DBGEST_EFILOTE.Visible      := False; { Lote      }
   DBGEST_EFIEST_DERO.Visible      := False; { Número    }
@@ -2406,8 +2406,8 @@ begin
   if Consulta.State <> dsInactive then
   begin
     { Local }
-    if (EST_EFISGEP.AsString <> EmptyStr) and (EST_EFISGEP.AsString <> RECParametros.SGEP) then
-    DBGEST_EFISGEP.Visible := True;
+    if (EST_EFIEP_SG_NO.AsString <> EmptyStr) and (EST_EFIEP_SG_NO.AsString <> RECParametros.EP_SG_NO) then
+    DBGEST_EFIEP_SG_NO.Visible := True;
 
     { Container
     if EST_EFICTNR.AsString <> EmptyStr then
@@ -2428,7 +2428,7 @@ begin
     DBGEST_EFIEST_DECE.Visible := True;
 
     { Grade }
-    if EST_EFIDGCP.AsString <> EmptyStr then
+    if EST_EFIGRD_NO.AsString <> EmptyStr then
     DBGEST_EFI.Bands[1].Visible := True;
   end;
 end;
@@ -2449,13 +2449,13 @@ begin
     DBGEST_EFI.ApplyBestFit(DBGEST_EFIEST_DECE); { Emitente  }
 
     { Grade }
-    DBGEST_EFI.ApplyBestFit(DBGEST_EFIDSCP );
-    DBGEST_EFI.ApplyBestFit(DBGEST_EFIDGCP );
+    DBGEST_EFI.ApplyBestFit(DBGEST_EFIGRD_SG_NO );
+    DBGEST_EFI.ApplyBestFit(DBGEST_EFIGRD_NO );
 
     { VER TAM TELA  }
     { Largura }
-    DBGEST_EFIDGCP.Width := IFThen(Screen.Width           > 1536    ,DBGEST_EFIDGCP.Width,
-                              IFThen(DBGEST_EFIDGCP.Width > 150 ,150,DBGEST_EFIDGCP.Width)); { Grade }
+    DBGEST_EFIGRD_NO.Width := IFThen(Screen.Width           > 1536    ,DBGEST_EFIGRD_NO.Width,
+                              IFThen(DBGEST_EFIGRD_NO.Width > 150 ,150,DBGEST_EFIGRD_NO.Width)); { Grade }
   end;
 end;
 
@@ -2466,8 +2466,8 @@ procedure TFrmCAD_PRO_ADM.DBGEST_EFICustomDrawCell(Sender: TObject;
   var AAlignment: TAlignment; var ADone: Boolean);
 begin
   { TAM GRADE }
-  if AColumn = DBGEST_EFIDGCP then
-  if lENGTH(ANode.Values[DBGEST_EFIDGCP.Index]) > 20 then
+  if AColumn = DBGEST_EFIGRD_NO then
+  if lENGTH(ANode.Values[DBGEST_EFIGRD_NO.Index]) > 20 then
      AFont.Size := 8;
 
   if not ASelected then
@@ -2506,7 +2506,7 @@ end;
 
 procedure TFrmCAD_PRO_ADM.EST_EATBeforeOpen(DataSet: TDataSet);
 begin
-  DBGEST_EATSGEP.Visible   := False; { Local     }
+  DBGEST_EATEP_SG_NO.Visible   := False; { Local     }
   DBGEST_EATEST_CTNR.Visible      := False; { Container }
   DBGEST_EATEST_LOTE.Visible      := False; { Lote      }
   DBGEST_EATEST_DERO.Visible      := False; { Número    }
@@ -2519,8 +2519,8 @@ begin
   if Consulta.State <> dsInactive then
   begin
     { Local }
-    if (EST_EATSGEP.AsString <> EmptyStr) and (EST_EATSGEP.AsString <> RECParametros.SGEP) then
-    DBGEST_EATSGEP.Visible := True;
+    if (EST_EATEP_SG_NO.AsString <> EmptyStr) and (EST_EATEP_SG_NO.AsString <> RECParametros.EP_SG_NO) then
+    DBGEST_EATEP_SG_NO.Visible := True;
 
     { Container }
     if EST_EATEST_CTNR.AsString <> EmptyStr then
@@ -2539,7 +2539,7 @@ begin
     DBGEST_EATEST_DECE.Visible := True;
 
     { Grade }
-    if EST_EATDGCP.AsString <> EmptyStr then
+    if EST_EATGRD_NO.AsString <> EmptyStr then
     DBGEST_EAT.Bands[1].Visible := True;
   end;
 end;
@@ -2560,13 +2560,13 @@ begin
     DBGEST_EAT.ApplyBestFit(DBGEST_EATEST_DECE); { Emitente  }
 
     { Grade }
-    DBGEST_EAT.ApplyBestFit(DBGEST_EATDSCP );
-    DBGEST_EAT.ApplyBestFit(DBGEST_EATDGCP );
+    DBGEST_EAT.ApplyBestFit(DBGEST_EATGRD_SG_NO );
+    DBGEST_EAT.ApplyBestFit(DBGEST_EATGRD_NO );
 
     { VER TAM TELA  }
     { Largura }
-    DBGEST_EATDGCP.Width := IFThen(Screen.Width           > 1536    ,DBGEST_EATDGCP.Width,
-                              IFThen(DBGEST_EATDGCP.Width > 150 ,150,DBGEST_EATDGCP.Width)); { Grade }
+    DBGEST_EATGRD_NO.Width := IFThen(Screen.Width           > 1536    ,DBGEST_EATGRD_NO.Width,
+                              IFThen(DBGEST_EATGRD_NO.Width > 150 ,150,DBGEST_EATGRD_NO.Width)); { Grade }
   end;
 end;
 
@@ -2577,8 +2577,8 @@ procedure TFrmCAD_PRO_ADM.DBGEST_EATCustomDrawCell(Sender: TObject;
   var AAlignment: TAlignment; var ADone: Boolean);
 begin
   { TAM GRADE }
-  if AColumn = DBGEST_EATDGCP then
-  if lENGTH(ANode.Values[DBGEST_EATDGCP.Index]) > 20 then
+  if AColumn = DBGEST_EATGRD_NO then
+  if lENGTH(ANode.Values[DBGEST_EATGRD_NO.Index]) > 20 then
      AFont.Size := 8;
 
   if not ASelected then
@@ -2617,7 +2617,7 @@ end;
 
 procedure TFrmCAD_PRO_ADM.EST_ESUBeforeOpen(DataSet: TDataSet);
 begin
-  DBGEST_ESUSGEP.Visible   := False; { Local     }
+  DBGEST_ESUEP_SG_NO.Visible   := False; { Local     }
   DBGEST_ESUEST_CTNR.Visible      := False; { Container }
   DBGEST_ESUEST_LOTE.Visible      := False; { Lote      }
   DBGEST_ESUEST_DERO.Visible      := False; { Número    }
@@ -2632,8 +2632,8 @@ begin
   if EST_ESU.RecNo   > 0 then
   begin
     { Local }
-    if (EST_ESUSGEP.AsString <> EmptyStr) and (EST_ESUSGEP.AsString <> RECParametros.SGEP) then
-    DBGEST_ESUSGEP.Visible := True;
+    if (EST_ESUEP_SG_NO.AsString <> EmptyStr) and (EST_ESUEP_SG_NO.AsString <> RECParametros.EP_SG_NO) then
+    DBGEST_ESUEP_SG_NO.Visible := True;
 
     { Container }
     if EST_ESUEST_CTNR.AsString <> EmptyStr then
@@ -2652,7 +2652,7 @@ begin
     DBGEST_ESUEST_DECE.Visible := True;
 
     { Grade }
-    if EST_ESUDGCP.AsString <> EmptyStr then
+    if EST_ESUGRD_NO.AsString <> EmptyStr then
     DBGEST_ESU.Bands[1].Visible := True;
   end;
 end;
@@ -2673,13 +2673,13 @@ begin
     DBGEST_ESU.ApplyBestFit(DBGEST_ESUEST_DECE); { Emitente  }
 
     { Grade }
-    DBGEST_ESU.ApplyBestFit(DBGEST_ESUDSCP );
-    DBGEST_ESU.ApplyBestFit(DBGEST_ESUDGCP );
+    DBGEST_ESU.ApplyBestFit(DBGEST_ESUGRD_SG_NO );
+    DBGEST_ESU.ApplyBestFit(DBGEST_ESUGRD_NO );
 
     { VER TAM TELA  }
     { Largura }
-    DBGEST_ESUDGCP.Width := IFThen(Screen.Width           > 1536    ,DBGEST_ESUDGCP.Width,
-                              IFThen(DBGEST_ESUDGCP.Width > 150 ,150,DBGEST_ESUDGCP.Width)); { Grade }
+    DBGEST_ESUGRD_NO.Width := IFThen(Screen.Width           > 1536    ,DBGEST_ESUGRD_NO.Width,
+                              IFThen(DBGEST_ESUGRD_NO.Width > 150 ,150,DBGEST_ESUGRD_NO.Width)); { Grade }
   end;
 end;
 
@@ -2690,8 +2690,8 @@ procedure TFrmCAD_PRO_ADM.DBGEST_ESUCustomDrawCell(Sender: TObject;
   var AAlignment: TAlignment; var ADone: Boolean);
 begin
   { TAM GRADE }
-  if AColumn = DBGEST_ESUDGCP then
-  if lENGTH(ANode.Values[DBGEST_ESUDGCP.Index]) > 20 then
+  if AColumn = DBGEST_ESUGRD_NO then
+  if lENGTH(ANode.Values[DBGEST_ESUGRD_NO.Index]) > 20 then
      AFont.Size := 8;
 
   if not ASelected then
@@ -2730,7 +2730,7 @@ end;
 
 procedure TFrmCAD_PRO_ADM.EST_EPIBeforeOpen(DataSet: TDataSet);
 begin
-  DBGEST_EPISGEP.Visible   := False; { Local     }
+  DBGEST_EPIEP_SG_NO.Visible   := False; { Local     }
   DBGEST_EPIEST_CTNR.Visible      := False; { Container }
   DBGEST_EPIEST_LOTE.Visible      := False; { Lote      }
   DBGEST_EPIEST_DERO.Visible      := False; { Número    }
@@ -2743,8 +2743,8 @@ begin
   if Consulta.State <> dsInactive then
   begin
     { Local }
-    if (EST_EPISGEP.AsString <> EmptyStr) and (EST_EPISGEP.AsString <> RECParametros.SGEP) then
-    DBGEST_EPISGEP.Visible := True;
+    if (EST_EPIEP_SG_NO.AsString <> EmptyStr) and (EST_EPIEP_SG_NO.AsString <> RECParametros.EP_SG_NO) then
+    DBGEST_EPIEP_SG_NO.Visible := True;
 
     { Container }
     if EST_EPIEST_CTNR.AsString <> EmptyStr then
@@ -2763,7 +2763,7 @@ begin
     DBGEST_EPIEST_DECE.Visible := True;
 
     { Grade }
-    if EST_EPIDGCP.AsString <> EmptyStr then
+    if EST_EPIGRD_NO.AsString <> EmptyStr then
     DBGEST_EPI.Bands[1].Visible := True;
   end;
 end;
@@ -2783,13 +2783,13 @@ begin
     DBGEST_EPI.ApplyBestFit(DBGEST_EPIEST_DERO); { Documento }
 
     { Grade }
-    DBGEST_EPI.ApplyBestFit(DBGEST_EPIDSCP );
-    DBGEST_EPI.ApplyBestFit(DBGEST_EPIDGCP );
+    DBGEST_EPI.ApplyBestFit(DBGEST_EPIGRD_SG_NO );
+    DBGEST_EPI.ApplyBestFit(DBGEST_EPIGRD_NO );
 
     { VER TAM TELA  }
     { Largura }
-    DBGEST_EPIDGCP.Width := IFThen(Screen.Width           > 1536    ,DBGEST_EPIDGCP.Width,
-                              IFThen(DBGEST_EPIDGCP.Width > 150 ,150,DBGEST_EPIDGCP.Width)); { Grade }
+    DBGEST_EPIGRD_NO.Width := IFThen(Screen.Width           > 1536    ,DBGEST_EPIGRD_NO.Width,
+                              IFThen(DBGEST_EPIGRD_NO.Width > 150 ,150,DBGEST_EPIGRD_NO.Width)); { Grade }
   end;
 end;
 
@@ -2800,8 +2800,8 @@ procedure TFrmCAD_PRO_ADM.DBGEST_EPICustomDrawCell(Sender: TObject;
   var AAlignment: TAlignment; var ADone: Boolean);
 begin
   { TAM GRADE }
-  if AColumn = DBGEST_EPIDGCP then
-  if lENGTH(ANode.Values[DBGEST_EPIDGCP.Index]) > 20 then
+  if AColumn = DBGEST_EPIGRD_NO then
+  if lENGTH(ANode.Values[DBGEST_EPIGRD_NO.Index]) > 20 then
      AFont.Size := 8;
 
   if not ASelected then
@@ -2840,7 +2840,7 @@ end;
 
 procedure TFrmCAD_PRO_ADM.EST_ERVBeforeOpen(DataSet: TDataSet);
 begin
-  DBGEST_ERVSGEP.Visible   := False; { Local     }
+  DBGEST_ERVEP_SG_NO.Visible   := False; { Local     }
   DBGEST_ERVEST_CTNR.Visible      := False; { Container }
   DBGEST_ERVEST_LOTE.Visible      := False; { Lote      }
   DBGEST_ERVEST_DERO.Visible      := False; { Número    }
@@ -2855,8 +2855,8 @@ begin
   if EST_ERV.RecNo   > 0 then
   begin
     { Local }
-    if (EST_ERVSGEP.AsString <> EmptyStr) and (EST_ERVSGEP.AsString <> RECParametros.SGEP) then
-    DBGEST_ERVSGEP.Visible := True;
+    if (EST_ERVEP_SG_NO.AsString <> EmptyStr) and (EST_ERVEP_SG_NO.AsString <> RECParametros.EP_SG_NO) then
+    DBGEST_ERVEP_SG_NO.Visible := True;
 
     { Container }
     if EST_ERVEST_CTNR.AsString <> EmptyStr then
@@ -2875,7 +2875,7 @@ begin
     DBGEST_ERVEST_DECE.Visible := True;
 
     { Grade }
-    if EST_ERVDGCP.AsString <> EmptyStr then
+    if EST_ERVGRD_NO.AsString <> EmptyStr then
     DBGEST_ERV.Bands[1].Visible := True;
   end;
 end;
@@ -2896,13 +2896,13 @@ begin
     DBGEST_ERV.ApplyBestFit(DBGEST_ERVEST_DECE); { Emitente  }
 
     { Grade }
-    DBGEST_ERV.ApplyBestFit(DBGEST_ERVDSCP);
-    DBGEST_ERV.ApplyBestFit(DBGEST_ERVDGCP);
+    DBGEST_ERV.ApplyBestFit(DBGEST_ERVGRD_SG_NO);
+    DBGEST_ERV.ApplyBestFit(DBGEST_ERVGRD_NO);
 
     { VER TAM TELA  }
     { Largura }
-    DBGEST_ERVDGCP.Width := IFThen(Screen.Width           > 1536    ,DBGEST_ERVDGCP.Width,
-                              IFThen(DBGEST_ERVDGCP.Width > 150 ,150,DBGEST_ERVDGCP.Width)); { Grade }
+    DBGEST_ERVGRD_NO.Width := IFThen(Screen.Width           > 1536    ,DBGEST_ERVGRD_NO.Width,
+                              IFThen(DBGEST_ERVGRD_NO.Width > 150 ,150,DBGEST_ERVGRD_NO.Width)); { Grade }
   end;
 end;
 
@@ -2913,8 +2913,8 @@ procedure TFrmCAD_PRO_ADM.DBGEST_ERVCustomDrawCell(Sender: TObject;
   var AAlignment: TAlignment; var ADone: Boolean);
 begin
   { TAM GRADE }
-  if AColumn = DBGEST_ERVDGCP then
-  if lENGTH(ANode.Values[DBGEST_ERVDGCP.Index]) > 20 then
+  if AColumn = DBGEST_ERVGRD_NO then
+  if lENGTH(ANode.Values[DBGEST_ERVGRD_NO.Index]) > 20 then
      AFont.Size := 8;
 
   if not ASelected then
@@ -2953,7 +2953,7 @@ end;
 
 procedure TFrmCAD_PRO_ADM.EST_CPABeforeOpen(DataSet: TDataSet);
 begin
-  DBGEST_CPASGEP.Visible   := False; { Local       }
+  DBGEST_CPAEP_SG_NO.Visible   := False; { Local       }
   DBGEST_CPAEST_CTNR.Visible      := False; { Container   }
   DBGEST_CPACTNR_PPRD.Visible := False; { Produção    }
   DBGEST_CPACTNR_PEMB.Visible := False; { Embarque    }
@@ -2968,8 +2968,8 @@ begin
   if EST_CPA.RecNo   > 0 then
   begin
     { Local }
-    if (EST_CPASGEP.AsString <> EmptyStr) and (EST_CPASGEP.AsString <> RECParametros.SGEP) then
-    DBGEST_CPASGEP.Visible := True;
+    if (EST_CPAEP_SG_NO.AsString <> EmptyStr) and (EST_CPAEP_SG_NO.AsString <> RECParametros.EP_SG_NO) then
+    DBGEST_CPAEP_SG_NO.Visible := True;
 
     { Container }
     if EST_CPAEST_CTNR.AsString <> EmptyStr then
@@ -2988,7 +2988,7 @@ begin
     DBGEST_CPACTNR_PDSB.Visible := True;
 
     { Grade }
-    if EST_CPADGCP.AsString <> EmptyStr then
+    if EST_CPAGRD_NO.AsString <> EmptyStr then
     DBGEST_CPA.Bands[1].Visible := True;
 
     { Moeda }
@@ -3012,13 +3012,13 @@ begin
     DBGEST_CPA.ApplyBestFit(DBGEST_CPASKU); { SKU }
 
     { Grade }
-    DBGEST_CPA.ApplyBestFit(DBGEST_CPADSCP);
-    DBGEST_CPA.ApplyBestFit(DBGEST_CPADGCP  );
+    DBGEST_CPA.ApplyBestFit(DBGEST_CPAGRD_SG_NO);
+    DBGEST_CPA.ApplyBestFit(DBGEST_CPAGRD_NO  );
 
     { VER TAM TELA  }
     { Largura }
-    DBGEST_CPADGCP.Width := IFThen(Screen.Width         > 1536    ,DBGEST_CPADGCP.Width,
-                            IFThen(DBGEST_CPADGCP.Width > 150 ,150,DBGEST_CPADGCP.Width)); { Grade }
+    DBGEST_CPAGRD_NO.Width := IFThen(Screen.Width         > 1536    ,DBGEST_CPAGRD_NO.Width,
+                            IFThen(DBGEST_CPAGRD_NO.Width > 150 ,150,DBGEST_CPAGRD_NO.Width)); { Grade }
   end;
 end;
 
@@ -3029,8 +3029,8 @@ procedure TFrmCAD_PRO_ADM.DBGEST_CPACustomDrawCell(Sender: TObject;
   var AAlignment: TAlignment; var ADone: Boolean);
 begin
   { TAM GRADE }
-  if AColumn = DBGEST_CPADGCP then
-  if lENGTH(ANode.Values[DBGEST_CPADGCP.Index]) > 20 then
+  if AColumn = DBGEST_CPAGRD_NO then
+  if lENGTH(ANode.Values[DBGEST_CPAGRD_NO.Index]) > 20 then
      AFont.Size := 8;
 
   if not ASelected then
@@ -3094,7 +3094,7 @@ end;
 
 procedure TFrmCAD_PRO_ADM.EST_CPFBeforeOpen(DataSet: TDataSet);
 begin
-  DBGEST_CPFSGEP.Visible   := False; { Local       }
+  DBGEST_CPFEP_SG_NO.Visible   := False; { Local       }
   DBGEST_CPFPED_CTNR.Visible      := False; { Container   }
   DBGEST_CPFCTNR_RPRD.Visible := False; { Produção    }
   DBGEST_CPFCTNR_REMB.Visible := False; { Embarque    }
@@ -3109,8 +3109,8 @@ begin
   if EST_CPF.RecNo   > 0 then
   begin
     { Local }
-    if (EST_CPFSGEP.AsString <> EmptyStr) and (EST_CPFSGEP.AsString <> RECParametros.SGEP) then
-    DBGEST_CPFSGEP.Visible := True;
+    if (EST_CPFEP_SG_NO.AsString <> EmptyStr) and (EST_CPFEP_SG_NO.AsString <> RECParametros.EP_SG_NO) then
+    DBGEST_CPFEP_SG_NO.Visible := True;
 
     { Container }
     if EST_CPFPED_CTNR.AsString <> EmptyStr then
@@ -3129,7 +3129,7 @@ begin
     DBGEST_CPFCTNR_RDSB.Visible := True;
 
     { Grade }
-    if EST_CPFDGCP.AsString <> EmptyStr then
+    if EST_CPFGRD_NO.AsString <> EmptyStr then
     DBGEST_CPF.Bands[1].Visible := True;
 
     { Moeda }
@@ -3153,13 +3153,13 @@ begin
     DBGEST_CPF.ApplyBestFit(DBGEST_CPFSKU); { SKU }
 
     { Grade }
-    DBGEST_CPF.ApplyBestFit(DBGEST_CPFDSCP);
-    DBGEST_CPF.ApplyBestFit(DBGEST_CPFDGCP  );
+    DBGEST_CPF.ApplyBestFit(DBGEST_CPFGRD_SG_NO);
+    DBGEST_CPF.ApplyBestFit(DBGEST_CPFGRD_NO  );
 
     { VER TAM TELA  }
     { Largura }
-    DBGEST_CPFDGCP.Width := IFThen(Screen.Width         > 1536    ,DBGEST_CPFDGCP.Width,
-                            IFThen(DBGEST_CPFDGCP.Width > 150 ,150,DBGEST_CPFDGCP.Width)); { Grade }
+    DBGEST_CPFGRD_NO.Width := IFThen(Screen.Width         > 1536    ,DBGEST_CPFGRD_NO.Width,
+                            IFThen(DBGEST_CPFGRD_NO.Width > 150 ,150,DBGEST_CPFGRD_NO.Width)); { Grade }
   end;
 end;
 
@@ -3170,8 +3170,8 @@ procedure TFrmCAD_PRO_ADM.DBGEST_CPFCustomDrawCell(Sender: TObject;
   var AAlignment: TAlignment; var ADone: Boolean);
 begin
   { TAM GRADE }
-  if AColumn = DBGEST_CPFDGCP then
-  if lENGTH(ANode.Values[DBGEST_CPFDGCP.Index]) > 20 then
+  if AColumn = DBGEST_CPFGRD_NO then
+  if lENGTH(ANode.Values[DBGEST_CPFGRD_NO.Index]) > 20 then
      AFont.Size := 8;
 
   if not ASelected then
@@ -3230,9 +3230,9 @@ end;
 procedure TFrmCAD_PRO_ADM.EST_EPVBeforeOpen(DataSet: TDataSet);
 begin
   { COLUMNS }
-  DBGEST_EPVSGEP.Visible := False; { Local }
+  DBGEST_EPVEP_SG_NO.Visible := False; { Local }
   DBGEST_EPVSTPD.Visible    := False; { Tipo }
-  DBGEST_EPVDECV.Visible    := False; { Vendedor }
+  DBGEST_EPVCV_NO.Visible    := False; { Vendedor }
 
   { BANDS }
   DBGEST_EPV.Bands[1].Visible := False; { Grade }
@@ -3246,20 +3246,20 @@ begin
   begin
     { COLUMNS }
     { Local }
-    if (EST_EPVSGEP.AsString <> EmptyStr) and (EST_EPVSGEP.AsString <> RECParametros.SGEP) then
-    DBGEST_EPVSGEP.Visible := True;
+    if (EST_EPVEP_SG_NO.AsString <> EmptyStr) and (EST_EPVEP_SG_NO.AsString <> RECParametros.EP_SG_NO) then
+    DBGEST_EPVEP_SG_NO.Visible := True;
 
     { Tipo }
-    if EST_EPVSTPD.AsString <> RECParametros.PED_STPD then
+    if EST_EPVSTPD.AsString <> RECParametros.PED_TPD_NO then
     DBGEST_EPVSTPD.Visible  := True;
 
     { Vendedor }
-    if EST_EPVDECV.AsString <> RECParametros.DECV_PAD then
-    DBGEST_EPVDECV.Visible  := True;
+    if EST_EPVCV_NO.AsString <> RECParametros.CV_NO then
+    DBGEST_EPVCV_NO.Visible  := True;
 
     { BANDS }
     { Grade }
-    if EST_EPVDGCP.AsString <> EmptyStr then
+    if EST_EPVGRD_NO.AsString <> EmptyStr then
     DBGEST_EPV.Bands[1].Visible := True;
   end;
 end;
@@ -3280,37 +3280,37 @@ begin
     DBGEST_EPV.ApplyBestFit(DBGEST_EPVSTFI); { Situação }
 
     { Clientes }
-    DBGEST_EPV.ApplyBestFit(DBGEST_EPVDECD);
-    if DBGEST_EPVDECD.Width  > 150 then
-       DBGEST_EPVDECD.Width := 150;
+    DBGEST_EPV.ApplyBestFit(DBGEST_EPVCD_NO);
+    if DBGEST_EPVCD_NO.Width  > 150 then
+       DBGEST_EPVCD_NO.Width := 150;
 
     if not DBGEST_EPVSTPD.Visible then
-    DBGEST_EPVDECD.Width := DBGEST_EPVDECD.Width + DBGEST_EPVSTPD.Width;
+    DBGEST_EPVCD_NO.Width := DBGEST_EPVCD_NO.Width + DBGEST_EPVSTPD.Width;
 
     { Representantes }
-    DBGEST_EPV.ApplyBestFit(DBGEST_EPVDECR);
-    if DBGEST_EPVDECR.Width  > 110 then
-       DBGEST_EPVDECR.Width := 110;
+    DBGEST_EPV.ApplyBestFit(DBGEST_EPVCR_AB_NO);
+    if DBGEST_EPVCR_AB_NO.Width  > 110 then
+       DBGEST_EPVCR_AB_NO.Width := 110;
 
-    if not DBGEST_EPVDECV.Visible then
-    DBGEST_EPVDECD.Width := DBGEST_EPVDECD.Width + DBGEST_EPVDECV.Width;
+    if not DBGEST_EPVCV_NO.Visible then
+    DBGEST_EPVCD_NO.Width := DBGEST_EPVCD_NO.Width + DBGEST_EPVCV_NO.Width;
 
     { Cobrança }
-    DBGEST_EPV.ApplyBestFit(DBGEST_EPVDECO);
-    if DBGEST_EPVDECO.Width  > 120 then
-       DBGEST_EPVDECO.Width := 120;
+    DBGEST_EPV.ApplyBestFit(DBGEST_EPVD_STCO);
+    if DBGEST_EPVD_STCO.Width  > 120 then
+       DBGEST_EPVD_STCO.Width := 120;
 
     { Grade }
-    DBGEST_EPV.ApplyBestFit(DBGEST_EPVDSCP);
-    DBGEST_EPV.ApplyBestFit(DBGEST_EPVDGCP  );
+    DBGEST_EPV.ApplyBestFit(DBGEST_EPVGRD_SG_NO);
+    DBGEST_EPV.ApplyBestFit(DBGEST_EPVGRD_NO  );
 
     { VER TAM TELA  }
     { Largura }
-    DBGEST_EPVDGCP.Width := IFThen(Screen.Width         > 1536    ,DBGEST_EPVDGCP.Width,
-                            IFThen(DBGEST_EPVDGCP.Width > 150 ,150,DBGEST_EPVDGCP.Width)); { Grade }
+    DBGEST_EPVGRD_NO.Width := IFThen(Screen.Width         > 1536    ,DBGEST_EPVGRD_NO.Width,
+                            IFThen(DBGEST_EPVGRD_NO.Width > 150 ,150,DBGEST_EPVGRD_NO.Width)); { Grade }
 
     { Grupos Comerciais }
-    DBGEST_EPVGPCD.Visible := (EST_EPVGPCD.AsString <> EmptyStr);
+    DBGEST_EPVCD_GP_NO.Visible := (EST_EPVCD_GP_NO.AsString <> EmptyStr);
   end;
 end;
 
@@ -3321,8 +3321,8 @@ procedure TFrmCAD_PRO_ADM.DBGEST_EPVCustomDrawCell(Sender: TObject;
   var AAlignment: TAlignment; var ADone: Boolean);
 begin
   { TAM GRADE }
-  if AColumn = DBGEST_EPVDGCP then
-  if lENGTH(ANode.Values[DBGEST_EPVDGCP.Index]) > 20 then
+  if AColumn = DBGEST_EPVGRD_NO then
+  if lENGTH(ANode.Values[DBGEST_EPVGRD_NO.Index]) > 20 then
      AFont.Size := 8;
 
   if not ASelected then
@@ -3377,11 +3377,11 @@ end;
 procedure TFrmCAD_PRO_ADM.EST_ESPBeforeOpen(DataSet: TDataSet);
 begin
   { COLUMNS }
-  DBGEST_ESPSGEP.Visible := False; { Local }
+  DBGEST_ESPEP_SG_NO.Visible := False; { Local }
   DBGEST_ESPEST_CTNR.Visible    := False; { Container }
   DBGEST_ESPEST_LOTE.Visible    := False; { Lote }
   DBGEST_ESPSTPD.Visible    := False; { Tipo }
-  DBGEST_ESPDECV.Visible    := False; { Vendedor }
+  DBGEST_ESPCV_NO.Visible    := False; { Vendedor }
 
   { BANDS }
   DBGEST_ESP.Bands[1].Visible := False; { Grade }
@@ -3395,8 +3395,8 @@ begin
   begin
     { COLUMNS }
     { Local }
-    if (EST_ESPSGEP.AsString <> EmptyStr) and (EST_ESPSGEP.AsString <> RECParametros.SGEP) then
-    DBGEST_ESPSGEP.Visible := True;
+    if (EST_ESPEP_SG_NO.AsString <> EmptyStr) and (EST_ESPEP_SG_NO.AsString <> RECParametros.EP_SG_NO) then
+    DBGEST_ESPEP_SG_NO.Visible := True;
 
     { Container }
     if EST_ESPEST_CTNR.AsString <> EmptyStr then
@@ -3407,16 +3407,16 @@ begin
     DBGEST_ESPEST_LOTE.Visible  := True;
 
     { Tipo }
-    if EST_ESPSTPD.AsString <> RECParametros.PED_STPD then
+    if EST_ESPSTPD.AsString <> RECParametros.PED_TPD_NO then
     DBGEST_ESPSTPD.Visible  := True;
 
     { Vendedor }
-    if EST_ESPDECV.AsString <> RECParametros.DECV_PAD then
-    DBGEST_ESPDECV.Visible  := True;
+    if EST_ESPCV_NO.AsString <> RECParametros.CV_NO then
+    DBGEST_ESPCV_NO.Visible  := True;
 
     { BANDS }
     { Grade }
-    if EST_ESPDGCP.AsString <> EmptyStr then
+    if EST_ESPGRD_NO.AsString <> EmptyStr then
     DBGEST_ESP.Bands[1].Visible := True;
   end;
 end;
@@ -3433,8 +3433,8 @@ procedure TFrmCAD_PRO_ADM.DBGEST_ESPCustomDrawCell(Sender: TObject;
   var AAlignment: TAlignment; var ADone: Boolean);
 begin
   { TAM GRADE }
-  if AColumn = DBGEST_ESPDGCP then
-  if lENGTH(ANode.Values[DBGEST_ESPDGCP.Index]) > 20 then
+  if AColumn = DBGEST_ESPGRD_NO then
+  if lENGTH(ANode.Values[DBGEST_ESPGRD_NO.Index]) > 20 then
      AFont.Size := 8;
 
   if not ASelected then
@@ -3497,47 +3497,47 @@ begin
     DBGEST_ESP.ApplyBestFit(DBGEST_ESPSTFI); { Situação }
 
     { Clientes }
-    DBGEST_ESP.ApplyBestFit(DBGEST_ESPDECD);
-    if DBGEST_ESPDECD.Width  > 150 then
-       DBGEST_ESPDECD.Width := 150;
+    DBGEST_ESP.ApplyBestFit(DBGEST_ESPCD_NO);
+    if DBGEST_ESPCD_NO.Width  > 150 then
+       DBGEST_ESPCD_NO.Width := 150;
 
     if not DBGEST_ESPSTPD.Visible then
-    DBGEST_ESPDECD.Width := DBGEST_ESPDECD.Width + DBGEST_ESPSTPD.Width;
+    DBGEST_ESPCD_NO.Width := DBGEST_ESPCD_NO.Width + DBGEST_ESPSTPD.Width;
 
     { Representantes }
-    DBGEST_ESP.ApplyBestFit(DBGEST_ESPDECR);
-    if DBGEST_ESPDECR.Width  > 110 then
-       DBGEST_ESPDECR.Width := 110;
+    DBGEST_ESP.ApplyBestFit(DBGEST_ESPCR_AB_NO);
+    if DBGEST_ESPCR_AB_NO.Width  > 110 then
+       DBGEST_ESPCR_AB_NO.Width := 110;
 
-    if not DBGEST_ESPDECV.Visible then
-    DBGEST_ESPDECD.Width := DBGEST_ESPDECD.Width + DBGEST_ESPDECV.Width;
+    if not DBGEST_ESPCV_NO.Visible then
+    DBGEST_ESPCD_NO.Width := DBGEST_ESPCD_NO.Width + DBGEST_ESPCV_NO.Width;
 
     { Cobrança }
-    DBGEST_ESP.ApplyBestFit(DBGEST_ESPDECO);
-    if DBGEST_ESPDECO.Width  > 120 then
-       DBGEST_ESPDECO.Width := 120;
+    DBGEST_ESP.ApplyBestFit(DBGEST_ESPD_STCO);
+    if DBGEST_ESPD_STCO.Width  > 120 then
+       DBGEST_ESPD_STCO.Width := 120;
 
     { Grade }
-    DBGEST_ESP.ApplyBestFit(DBGEST_ESPDSCP);
-    DBGEST_ESP.ApplyBestFit(DBGEST_ESPDGCP  );
+    DBGEST_ESP.ApplyBestFit(DBGEST_ESPGRD_SG_NO);
+    DBGEST_ESP.ApplyBestFit(DBGEST_ESPGRD_NO  );
 
     { VER TAM TELA  }
     { Largura }
-    DBGEST_ESPDGCP.Width := IFThen(Screen.Width         > 1536    ,DBGEST_ESPDGCP.Width,
-                            IFThen(DBGEST_ESPDGCP.Width > 150 ,150,DBGEST_ESPDGCP.Width)); { Grade }
+    DBGEST_ESPGRD_NO.Width := IFThen(Screen.Width         > 1536    ,DBGEST_ESPGRD_NO.Width,
+                            IFThen(DBGEST_ESPGRD_NO.Width > 150 ,150,DBGEST_ESPGRD_NO.Width)); { Grade }
 
     { Grupos Comerciais }
-    DBGEST_ESPGPCD.Visible := (EST_ESPGPCD.AsString <> EmptyStr);
+    DBGEST_ESPCD_GP_NO.Visible := (EST_ESPCD_GP_NO.AsString <> EmptyStr);
   end;
 end;
 
 procedure TFrmCAD_PRO_ADM.EST_EPPBeforeOpen(DataSet: TDataSet);
 begin
   { COLUMNS }
-  DBGEST_EPPSGEP.Visible := False; { Local }
+  DBGEST_EPPEP_SG_NO.Visible := False; { Local }
   DBGEST_EPPEST_CTNR.Visible    := False; { Container }
   DBGEST_EPPSTPD.Visible    := False; { Tipo }
-  DBGEST_EPPDECV.Visible    := False; { Vendedor }
+  DBGEST_EPPCV_NO.Visible    := False; { Vendedor }
 
   { BANDS }
   DBGEST_EPP.Bands[1].Visible := False; { Grade }
@@ -3551,24 +3551,24 @@ begin
   begin
     { COLUMNS }
     { Local }
-    if (EST_EPPSGEP.AsString <> EmptyStr) and (EST_EPPSGEP.AsString <> RECParametros.SGEP) then
-    DBGEST_EPPSGEP.Visible := True;
+    if (EST_EPPEP_SG_NO.AsString <> EmptyStr) and (EST_EPPEP_SG_NO.AsString <> RECParametros.EP_SG_NO) then
+    DBGEST_EPPEP_SG_NO.Visible := True;
 
     { Container }
     if EST_EPPEST_CTNR.AsString <> EmptyStr then
     DBGEST_EPPEST_CTNR.Visible  := True;
 
     { Tipo }
-    if EST_EPPSTPD.AsString <> RECParametros.PED_STPD then
+    if EST_EPPSTPD.AsString <> RECParametros.PED_TPD_NO then
     DBGEST_EPPSTPD.Visible  := True;
 
     { Vendedor }
-    if EST_EPPDECV.AsString <> RECParametros.DECV_PAD then
-    DBGEST_EPPDECV.Visible  := True;
+    if EST_EPPCV_NO.AsString <> RECParametros.CV_NO then
+    DBGEST_EPPCV_NO.Visible  := True;
 
     { BANDS }
     { Grade }
-    if EST_EPPDGCP.AsString <> EmptyStr then
+    if EST_EPPGRD_NO.AsString <> EmptyStr then
     DBGEST_EPP.Bands[1].Visible := True;
   end;
 end;
@@ -3591,37 +3591,37 @@ begin
     DBGEST_EPP.ApplyBestFit(DBGEST_EPPSTFI); { Situação }
 
     { Clientes }
-    DBGEST_EPP.ApplyBestFit(DBGEST_EPPDECD);
-    if DBGEST_EPPDECD.Width  > 150 then
-       DBGEST_EPPDECD.Width := 150;
+    DBGEST_EPP.ApplyBestFit(DBGEST_EPPCD_NO);
+    if DBGEST_EPPCD_NO.Width  > 150 then
+       DBGEST_EPPCD_NO.Width := 150;
 
     if not DBGEST_EPPSTPD.Visible then
-    DBGEST_EPPDECD.Width := DBGEST_EPPDECD.Width + DBGEST_EPPSTPD.Width;
+    DBGEST_EPPCD_NO.Width := DBGEST_EPPCD_NO.Width + DBGEST_EPPSTPD.Width;
 
     { Representantes }
-    DBGEST_EPP.ApplyBestFit(DBGEST_EPPDECR);
-    if DBGEST_EPPDECR.Width  > 110 then
-       DBGEST_EPPDECR.Width := 110;
+    DBGEST_EPP.ApplyBestFit(DBGEST_EPPCR_AB_NO);
+    if DBGEST_EPPCR_AB_NO.Width  > 110 then
+       DBGEST_EPPCR_AB_NO.Width := 110;
 
-    if not DBGEST_EPPDECV.Visible then
-    DBGEST_EPPDECD.Width := DBGEST_EPPDECD.Width + DBGEST_EPPDECV.Width;
+    if not DBGEST_EPPCV_NO.Visible then
+    DBGEST_EPPCD_NO.Width := DBGEST_EPPCD_NO.Width + DBGEST_EPPCV_NO.Width;
 
     { Cobrança }
-    DBGEST_EPP.ApplyBestFit(DBGEST_EPPDECO);
-    if DBGEST_EPPDECO.Width  > 120 then
-       DBGEST_EPPDECO.Width := 120;
+    DBGEST_EPP.ApplyBestFit(DBGEST_EPPD_STCO);
+    if DBGEST_EPPD_STCO.Width  > 120 then
+       DBGEST_EPPD_STCO.Width := 120;
 
     { Grade }
-    DBGEST_EPP.ApplyBestFit(DBGEST_EPPDSCP);
-    DBGEST_EPP.ApplyBestFit(DBGEST_EPPDGCP  );
+    DBGEST_EPP.ApplyBestFit(DBGEST_EPPGRD_SG_NO);
+    DBGEST_EPP.ApplyBestFit(DBGEST_EPPGRD_NO  );
 
     { VER TAM TELA  }
     { Largura }
-    DBGEST_EPPDGCP.Width := IFThen(Screen.Width         > 1536    ,DBGEST_EPPDGCP.Width,
-                            IFThen(DBGEST_EPPDGCP.Width > 150 ,150,DBGEST_EPPDGCP.Width)); { Grade }
+    DBGEST_EPPGRD_NO.Width := IFThen(Screen.Width         > 1536    ,DBGEST_EPPGRD_NO.Width,
+                            IFThen(DBGEST_EPPGRD_NO.Width > 150 ,150,DBGEST_EPPGRD_NO.Width)); { Grade }
 
     { Grupos Comerciais }
-    DBGEST_EPPGPCD.Visible := (EST_EPPGPCD.AsString <> EmptyStr);
+    DBGEST_EPPCD_GP_NO.Visible := (EST_EPPCD_GP_NO.AsString <> EmptyStr);
   end;
 end;
 
@@ -3632,8 +3632,8 @@ procedure TFrmCAD_PRO_ADM.DBGEST_EPPCustomDrawCell(Sender: TObject;
   var AAlignment: TAlignment; var ADone: Boolean);
 begin
   { TAM GRADE }
-  if AColumn = DBGEST_EPPDGCP then
-  if lENGTH(ANode.Values[DBGEST_EPPDGCP.Index]) > 20 then
+  if AColumn = DBGEST_EPPGRD_NO then
+  if lENGTH(ANode.Values[DBGEST_EPPGRD_NO.Index]) > 20 then
      AFont.Size := 8;
 
   if not ASelected then
@@ -3689,15 +3689,15 @@ begin
     DBGEST_EPEREST.Width := IFThen(Length(EST_EPEREST.AsString) > 3,75,45);
 
     { Grade }
-    DBGEST_EPE.ApplyBestFit(DBGEST_EPEDSCP);
-    DBGEST_EPE.ApplyBestFit(DBGEST_EPEDGCP);
+    DBGEST_EPE.ApplyBestFit(DBGEST_EPEGRD_SG_NO);
+    DBGEST_EPE.ApplyBestFit(DBGEST_EPEGRD_NO);
 
     { VER TAM TELA  }
     { Largura }
-    //DBGEST_EPEDGCP.Width := IFThen(Screen.Width           > 1536,DBGEST_EPEDGCP.Width,
-    //                          IFThen(DBGEST_EPEDGCP.Width > 150 ,150,DBGEST_EPEDGCP.Width)); { Grade }
+    //DBGEST_EPEGRD_NO.Width := IFThen(Screen.Width           > 1536,DBGEST_EPEGRD_NO.Width,
+    //                          IFThen(DBGEST_EPEGRD_NO.Width > 150 ,150,DBGEST_EPEGRD_NO.Width)); { Grade }
 
-    DBGEST_EPEDGCP.Width := IFThen(DBGEST_EPEDGCP.Width > 140,140,DBGEST_EPEDGCP.Width); { Grade }
+    DBGEST_EPEGRD_NO.Width := IFThen(DBGEST_EPEGRD_NO.Width > 140,140,DBGEST_EPEGRD_NO.Width); { Grade }
 
     { EST_EPE_INFADCPL }
     { SKU }
@@ -3723,6 +3723,877 @@ begin
       _SetDockControl(DPPrincipal1RodapeLEB,DPPrincipal1RodapeLEB.Tag,lVertical,True);
     end;
   end;
+end;
+
+procedure TFrmCAD_PRO_ADM.ACTPesquisaExecute(Sender: TObject);
+var
+  i: Integer;
+begin
+  { RESET TRANSACTION }
+  oCTransact(TConsulta);
+  oOTransact(TConsulta);
+
+
+//  { Pesquisa }
+//  try
+//    oLockWindowUpdate; { Trava }
+//
+//    { Pronta Entrega }
+//    with EST_EPE do
+//    begin
+//      Close;
+//      SQL.Clear;
+//      SQL.Add('SELECT COALESCE(PK.ID,0) + COALESCE(E.ID,0) AS ID, -- impede id null');
+//      SQL.Add('       E.IDEP,E.CDEV,E.SGEP,E.DEEV,');
+//
+//      SQL.Add('       PK.CDST  ,PK.REST  ,PK.DEST,');
+//      SQL.Add('       PK.IDCP  ,PK.SKU   ,PK.CEAN,PK.DSCP,PK.DGCP,');
+//      SQL.Add('       PK.CF_SKU,PK.CF_NCM,PK.CF_CEAN,');
+//
+//      SQL.Add('       NULLIF(E.EPE_QTDE,0) AS EPE_QTDE,NULLIF(E.EPE_QTRL,0) AS EPE_QTRL,');
+//      SQL.Add('       NULLIF(E.EEP_QTDE,0) AS EEP_QTDE,NULLIF(E.EEP_QTRL,0) AS EEP_QTRL,');
+//      SQL.Add('       E.EPC_CTNR');
+//
+//      SQL.Add('FROM   CAD_PRO AS PK -- Cadastro');
+//      SQL.Add('LEFT   JOIN VW_PSQ_CAD_PRO_EST_SLD AS E ON (E.IDCP = PK.IDCP AND E.LG_IDEP = :LG_IDEP) -- Estoque');
+//      SQL.Add('WHERE PK.IDAK = :IDAK'); { Artigo }
+//
+//      { Grade }
+//      if REC_SHE_DEF.PSQ_FB_CP_GRD_NO <> EmptyStr then
+//      SQL.Add('AND PK.DGCP LIKE ''' + REC_SHE_DEF.PSQ_FB_CP_DGCP + '%''');
+//
+//      { Situação }
+//      if REC_SHE_DEF.PSQ_FB_DEST <> EmptyStr then
+//      begin
+//        SQL.Add(IFThen(Pos('WHERE',EST_EPE.SQL.Text) = 0,'WHERE','AND'));
+//        SQL.Add('PK.DEST LIKE ''' + REC_SHE_DEF.PSQ_FB_DEST + '%''');
+//      end else
+//      begin
+//        SQL.Add(IFThen(Pos('WHERE',EST_EPE.SQL.Text) = 0,'WHERE','AND'));
+//        SQL.Add('PK.CDST <> 43 AND PK.CDST <> 85');
+//      end;
+//      SQL.Add('ORDER BY E.DTEV DESC');
+//
+//      { Empresa Logada }
+//      ParamByName('LG_IDEP').Value := RECParametros.ID;
+//    end;
+//
+//    { Físico }
+//    with EST_EFI do
+//    begin
+//      Close;
+//      SQL.Clear;
+//      SQL.Add('SELECT   PK.ID  ,PK.IDEP,PK.SGEP,PK.DTEV,');
+//      SQL.Add('         PK.LGCA,PK.DTCA,');
+//
+//      SQL.Add('         PK.CDRO,CAST(PK.DTRO || '' '' || PK.HTRO AS TIMESTAMP) AS DTRO,');
+//      SQL.Add('         PK.DERO,PK.DECE,');
+//
+//      SQL.Add('         PK.CDET,PK.CTNR,PK.LOTE,');
+//
+//      SQL.Add('         PK.IDCP,PK.SKU ,PK.DSCP,PK.DGCP,');
+//      SQL.Add('         PK.QTDE,PK.QTRL,');
+//
+//      SQL.Add('         PK.INFADCAD');
+//
+//      SQL.Add('FROM     VW_PSQ_CAD_PRO_EST_EFI AS PK');
+//      SQL.Add('WHERE    PK.LG_IDEP = :LG_IDEP       '); { Empresa Logada }
+//      SQL.Add('AND      PK.IDAK    = :IDAK          '); { Artigo }
+//      SQL.Add('AND      PK.EST_EFI = 1              '); { FLAG }
+//
+//      { Grade }
+//      if REC_SHE_DEF.PSQ_FB_CP_GRD_NO <> EmptyStr then
+//      SQL.Add('AND      PK.DGCP  LIKE ''' + REC_SHE_DEF.PSQ_FB_CP_DGCP + '%''');
+//      SQL.Add('ORDER BY PK.DTEV DESC');
+//
+//      { Empresa Logada }
+//      ParamByName('LG_IDEP').Value := RECParametros.ID;
+//    end;
+//
+//    { Antecipado }
+//    with EST_EAT do
+//    begin
+//      Close;
+//      SQL.Clear;
+//      SQL.Add('SELECT   PK.ID  ,PK.IDEP,PK.SGEP,PK.DTEV,');
+//      SQL.Add('         PK.LGCA,PK.DTCA,');
+//
+//      SQL.Add('         PK.CDRO,CAST(PK.DTRO || '' '' || PK.HTRO AS TIMESTAMP) AS DTRO,');
+//      SQL.Add('         PK.DERO,PK.DECE,');
+//
+//      SQL.Add('         PK.CDET,PK.CTNR,PK.LOTE,');
+//
+//      SQL.Add('         PK.IDCP,PK.SKU ,PK.DSCP,PK.DGCP,');
+//      SQL.Add('         PK.QTDE,PK.QTRL,');
+//
+//      SQL.Add('         PK.INFADCAD');
+//
+//      SQL.Add('FROM     VW_PSQ_CAD_PRO_EST_EFI AS PK');
+//      SQL.Add('WHERE    PK.LG_IDEP = :LG_IDEP       '); { Empresa Logada }
+//      SQL.Add('AND      PK.IDAK    = :IDAK          '); { Artigo }
+//      SQL.Add('AND      PK.EST_EAT = 1              '); { FLAG }
+//
+//      { Grade }
+//      if REC_SHE_DEF.PSQ_FB_CP_DGCP <> EmptyStr then
+//      SQL.Add('AND      PK.DGCP  LIKE ''' + REC_SHE_DEF.PSQ_FB_CP_DGCP + '%''');
+//      SQL.Add('ORDER BY PK.DTEV DESC');
+//
+//      { Empresa Logada }
+//      ParamByName('LG_IDEP').Value := RECParametros.ID;
+//    end;
+//
+//    { Substituto }
+//    with EST_ESU do
+//    begin
+//      Close;
+//      SQL.Clear;
+//      SQL.Add('SELECT   PK.ID  ,PK.IDEP,PK.SGEP,PK.DTEV,');
+//      SQL.Add('         PK.LGCA,PK.DTCA,');
+//
+//      SQL.Add('         PK.CDRO,CAST(PK.DTRO || '' '' || PK.HTRO AS TIMESTAMP) AS DTRO,');
+//      SQL.Add('         PK.DERO,PK.DECE,');
+//
+//      SQL.Add('         PK.CDET,PK.CTNR,PK.LOTE,');
+//
+//      SQL.Add('         PK.IDCP,PK.SKU ,PK.DSCP,PK.DGCP,');
+//      SQL.Add('         PK.QTDE,PK.QTRL,');
+//
+//      SQL.Add('         PK.INFADCAD');
+//
+//      SQL.Add('FROM     VW_PSQ_CAD_PRO_EST_EFI AS PK');
+//      SQL.Add('WHERE    PK.LG_IDEP = :LG_IDEP       '); { Empresa Logada }
+//      SQL.Add('AND      PK.IDAK    = :IDAK          '); { Artigo }
+//      SQL.Add('AND      PK.EST_ESU = 1              '); { FLAG }
+//      SQL.Add('AND      PK.EST_EFI = 0              '); { FLAG }
+//
+//      { Grade }
+//      if REC_SHE_DEF.PSQ_FB_CP_DGCP <> EmptyStr then
+//      SQL.Add('AND      PK.DGCP  LIKE ''' + REC_SHE_DEF.PSQ_FB_CP_DGCP + '%''');
+//      SQL.Add('ORDER BY PK.DTEV DESC');
+//
+//      { Empresa Logada }
+//      ParamByName('LG_IDEP').Value := RECParametros.ID;
+//    end;
+//
+//    { Piloto }
+//    with EST_EPI do
+//    begin
+//      Close;
+//      SQL.Clear;
+//      SQL.Add('SELECT   PK.ID  ,PK.IDEP,PK.SGEP,PK.DTEV,');
+//      SQL.Add('         PK.LGCA,PK.DTCA,');
+//
+//      SQL.Add('         PK.CDRO,CAST(PK.DTRO || '' '' || PK.HTRO AS TIMESTAMP) AS DTRO,');
+//      SQL.Add('         PK.DERO,PK.DECE,');
+//
+//      SQL.Add('         PK.CDET,PK.CTNR,PK.LOTE,');
+//
+//      SQL.Add('         PK.IDCP,PK.SKU ,PK.DSCP,PK.DGCP,');
+//      SQL.Add('         PK.QTDE,PK.QTRL,');
+//
+//      SQL.Add('         PK.INFADCAD');
+//
+//      SQL.Add('FROM     VW_PSQ_CAD_PRO_EST_EFI AS PK');
+//      SQL.Add('WHERE    PK.LG_IDEP = :LG_IDEP       '); { Empresa Logada }
+//      SQL.Add('AND      PK.IDAK    = :IDAK          '); { Artigo }
+//      SQL.Add('AND      PK.EST_EPI = 1              '); { FLAG }
+//
+//      { Grade }
+//      if REC_SHE_DEF.PSQ_FB_CP_DGCP <> EmptyStr then
+//      SQL.Add('AND      PK.DGCP  LIKE ''' + REC_SHE_DEF.PSQ_FB_CP_DGCP + '%''');
+//      SQL.Add('ORDER BY PK.DTEV DESC');
+//
+//      { Empresa Logada }
+//      ParamByName('LG_IDEP').Value := RECParametros.ID;
+//    end;
+//
+//    { Revisado }
+//    with EST_ERV do
+//    begin
+//      Close;
+//      SQL.Clear;
+//      SQL.Add('SELECT   PK.ID  ,PK.IDEP,PK.SGEP,PK.DTEV,');
+//      SQL.Add('         PK.LGCA,PK.DTCA,');
+//
+//      SQL.Add('         PK.CDRO,CAST(PK.DTRO || '' '' || PK.HTRO AS TIMESTAMP) AS DTRO,');
+//      SQL.Add('         PK.DERO,PK.DECE,');
+//
+//      SQL.Add('         PK.CDET,PK.CTNR,PK.LOTE,');
+//
+//      SQL.Add('         PK.IDCP,PK.SKU ,PK.DSCP,PK.DGCP,');
+//      SQL.Add('         PK.QTDE,PK.QTRL,');
+//
+//      SQL.Add('         PK.INFADCAD');
+//
+//      SQL.Add('FROM     VW_PSQ_CAD_PRO_EST_EFI AS PK');
+//      SQL.Add('WHERE    PK.LG_IDEP = :LG_IDEP       '); { Empresa Logada }
+//      SQL.Add('AND      PK.IDAK    = :IDAK          '); { Artigo }
+//      SQL.Add('AND      PK.EST_ERV = 1              '); { FLAG }
+//
+//      { Grade }
+//      if REC_SHE_DEF.PSQ_FB_CP_DGCP <> EmptyStr then
+//      SQL.Add('AND      PK.DGCP  LIKE ''' + REC_SHE_DEF.PSQ_FB_CP_DGCP + '%''');
+//      SQL.Add('ORDER BY PK.DTEV DESC');
+//
+//      { Empresa Logada }
+//      ParamByName('LG_IDEP').Value := RECParametros.ID;
+//    end;
+//
+//    { Compras Abertas }
+//    with EST_CPA do
+//    begin
+//      Close;
+//      SQL.Clear;
+//      SQL.Add('SELECT   PK.ID  ,PK.IDEP,PK.SGEP,PK.DTEV,');
+//      SQL.Add('         PK.LGCA,PK.DTCA,');
+//
+//      SQL.Add('         PK.IDPK,PK.DEPK,CAST(PK.DTPK || '' '' || PK.HTPK AS TIMESTAMP) AS DTPK,');
+//      SQL.Add('         PK.CTNR,PK.CTNR_PPRD,PK.CTNR_PEMB,PK.CTNR_PDSB,PK.CTNR_PCHP,');
+//
+//      SQL.Add('         PK.DECD,PK.GPCD,        ');
+//      SQL.Add('         PK.DECV,PK.DECR,        ');
+//
+//      SQL.Add('         PK.IDCP  ,PK.SKU ,      ');
+//      SQL.Add('         PK.DSCP,PK.DGCP,      ');
+//
+//      SQL.Add('         PK.QTDE,PK.QTRL,        ');
+//      SQL.Add('         PK.QTSP,PK.RLSP,        ');
+//
+//      SQL.Add('         PK.CF_VPRC_PAD_ORI,     ');
+//      SQL.Add('         PK.CF_VPRC_COM,         ');
+//
+//      SQL.Add('         PK.STPD,PK.DECO,        ');
+//      SQL.Add('         PK.CDST,PK.REST,PK.DEST,');
+//      SQL.Add('         PK.STFI,PK.BQST,        ');
+//
+//      SQL.Add('         PK.INFADCAD             ');
+//
+//      SQL.Add('FROM     VW_PSQ_CAD_PRO_EST_EPC AS PK');
+//
+//      SQL.Add('WHERE    PK.IDAK    = :IDAK   ');
+//      SQL.Add('AND      PK.LG_IDEP = :LG_IDEP');
+//
+//      { Grade }
+//      if REC_SHE_DEF.PSQ_FB_CP_DGCP <> EmptyStr then
+//      SQL.Add('AND PK.DGCP LIKE ''' + REC_SHE_DEF.PSQ_FB_CP_DGCP + '%''');
+//
+//      { Situação }
+//      if REC_SHE_DEF.PSQ_FB_DEST <> EmptyStr then
+//      SQL.Add('AND      PK.DEST    LIKE ''' + REC_SHE_DEF.PSQ_FB_DEST + '%''');
+//      SQL.Add('ORDER BY PK.DTEV DESC');
+//
+//      { Empresa Logada }
+//      ParamByName('LG_IDEP').Value := RECParametros.ID;
+//    end;
+//
+//    { Compras Fechadas }
+//    with EST_CPF do
+//    begin
+//      Close;
+//      SQL.Clear;
+//      SQL.Add('SELECT FK.IDFK AS ID,');
+//
+//      SQL.Add('       -- Local');
+//      SQL.Add('       PK.IDEP AS IDEP,EP_EF.FANTASIA AS DEEP,EP_EF.FANTASIA_ABREV AS ABEP,EP_EF.FANTASIA_SIGLA AS SGEP,EP_EF.GRUPO AS GPEP,');
+//
+//      SQL.Add('       EP_EF.GRP_CPA AS CPEP, -- Grupo de Compras               ');
+//      SQL.Add('       EP_EF.GRP_PDV AS PDEP, -- Grupo de Vendas                ');
+//      SQL.Add('       EP_EF.GRP_FIN AS FIEP, -- Grupo Financeiro + Recebimentos');
+//      SQL.Add('       EP_EF.GRP_FIS AS FSEP, -- Grupo Fiscal                   ');
+//
+//      SQL.Add('       FK.CP_IDEP, -- Revendedor');
+//      SQL.Add('       CP.IDCF   , -- Fabricante');
+//
+//      SQL.Add('       -- EVENTOS');
+//      SQL.Add('       FK.IDEV AS IDEV, -- ID     ');
+//      SQL.Add('       FK.CDEV AS CDEV, -- Código ');
+//      SQL.Add('       FK.DTEV AS DTEV, -- Emissão');
+//
+//      SQL.Add('       -- CADASTROS');
+//      SQL.Add('       PK.IDCA,PK.DTCA,LG_CA.LOGIN AS LGCA, -- Cadastro');
+//      SQL.Add('       PK.IDED,PK.DTED, -- Edição                      ');
+//      SQL.Add('       FK.IDST,FK.DTST, -- Situação                    ');
+//
+//      SQL.Add('       -- PEDIDOS');
+//      SQL.Add('       PK.IDPK,PK.DEPK,CAST(PK.DTCA AS DATE) AS DTPK,');
+//      SQL.Add('       FK.CTNR,                                      ');
+//      SQL.Add('       FK.CTNR_RPRD, -- Produção                     ');
+//      SQL.Add('       FK.CTNR_REMB, -- Embarque                     ');
+//      SQL.Add('       FK.CTNR_RDSB, -- Desembarque                  ');
+//      SQL.Add('       FK.CTNR_RCHP, -- Chegada                      ');
+//
+//      SQL.Add('       PK.IDCD,CD.FANTASIA AS DECD, -- Destinatário  ');
+//      SQL.Add('       PK.IDCV,CV.LOGIN    AS DECV, -- Vendedor      ');
+//      SQL.Add('       PK.IDCR,CR.FANTASIA AS DECR, -- Representante ');
+//
+//      SQL.Add('       FK.IDCP,CP.SKU,    ');
+//      SQL.Add('       CP.DSCP, -- Sigla');
+//      SQL.Add('       TRIM(COALESCE(FK.DGCP,'''')) AS DGCP, -- Descrição');
+//
+//      SQL.Add('       -- QUANTIDADES');
+//      SQL.Add('       -- Pedido     ');
+//      SQL.Add('       NULLIF(CAST(FK.QTDE AS NUMERIC(12,2)),0) AS QTDE, -- Quantidade');
+//      SQL.Add('       NULLIF(CAST(FK.QTRL AS INTEGER)      ,0) AS QTRL, -- Peças     ');
+//
+//      SQL.Add('       -- Separado');
+//      SQL.Add('       NULLIF(CAST(FK.QTSP AS NUMERIC(12,2)),0) AS QTSP, -- Quantidade');
+//      SQL.Add('       NULLIF(CAST(FK.RLSP AS INTEGER)      ,0) AS RLSP, -- Peças     ');
+//
+//      SQL.Add('       -- PREÇOS');
+//      SQL.Add('       CAST(IIF(CP.ORIG = 1,''USD'',''R$'') AS VARCHAR(3)) AS VPRC_PAD_ORI, -- Moeda');
+//      SQL.Add('       FK.VPRC_COM, -- Comercial                                                ');
+//
+//
+//      SQL.Add('       -- SITUAÇÕES');
+//      SQL.Add('       -- Cadastro ');
+//      SQL.Add('       CP.CDST, -- Código    ');
+//      SQL.Add('       CP.REST, -- Referência');
+//      SQL.Add('       CP.DEST, -- Descrição ');
+//      SQL.Add('       FK.DEST AS STFI,      ');
+//      SQL.Add('       PK.BQST,');
+//
+//      SQL.Add('       TRIM(CAST(SUBSTRING(PK.INFADCAD FROM 1 FOR 1024) AS VARCHAR(1024))) AS INFADCAD');
+//
+//      SQL.Add('FROM ' + oREPZero('PED_COM_CAB','_',RECParametros.VW_IDEP,3) + ' AS PK');
+//      SQL.Add('JOIN   TAB_PAR_SIS AS EP_EF ON (EP_EF.ID   = PK.IDEP)');
+//      SQL.Add('JOIN   CAD_FOR     AS CD    ON (CD.IDCF    = PK.IDCD)');
+//      SQL.Add('JOIN   CAD_REP     AS CR    ON (CR.IDCR    = PK.IDCR)');
+//      SQL.Add('JOIN   TAB_USER    AS CV    ON (CV.IDLG    = PK.IDCV)');
+//      SQL.Add('JOIN   TAB_USER    AS LG_CA ON (LG_CA.IDLG = PK.IDCA)');
+//
+//      SQL.Add('JOIN ' + oREPZero('PED_COM_ITE','_',RECParametros.VW_IDEP,3) + ' AS FK ON (FK.IDPK = PK.IDPK)');
+//      SQL.Add('JOIN   CAD_PRO AS CP ON (CP.IDCP = FK.IDCP)');
+//
+//      SQL.Add('WHERE  FK.IDAK    = :IDAK   ');
+//      SQL.Add('AND    FK.REST LIKE ''FIM%''');
+//
+//      { Grade }
+//      if REC_SHE_DEF.PSQ_FB_CP_DGCP <> EmptyStr then
+//      SQL.Add('AND      FK.DGCP LIKE ''' + REC_SHE_DEF.PSQ_FB_CP_DGCP + '%''');
+//      SQL.Add('ORDER BY FK.DTEV DESC');
+//    end;
+//
+//    { Vends Pronta Entrega }
+//    with EST_EPV do
+//    begin
+//      Close;
+//      SQL.Clear;
+//      SQL.Add('SELECT   PK.ID  ,PK.IDEP,PK.SGEP,PK.DTEV,');
+//      SQL.Add('         PK.LGCA,PK.DTCA,');
+//
+//      SQL.Add('         PK.IDPK,PK.DEPK,CAST(PK.DTPK || '' '' || PK.HTPK AS TIMESTAMP) AS DTPK,');
+//      SQL.Add('         PK.DECD,PK.GPCD,');
+//      SQL.Add('         PK.DECV,PK.DECR,');
+//
+//      SQL.Add('         PK.IDCP,PK.SKU ,PK.DSCP,PK.DGCP,');
+//      SQL.Add('         PK.QTDE,PK.QTRL,');
+//      SQL.Add('         PK.VPRC_COM    ,');
+//
+//      SQL.Add('         PK.STPD,PK.DECO,        ');
+//      SQL.Add('         PK.CDST,PK.REST,PK.DEST,');
+//      SQL.Add('         PK.STFI,PK.BQST,        ');
+//
+//      SQL.Add('         PK.INFADCAD');
+//
+//      SQL.Add('FROM     VW_PSQ_CAD_PRO_EST_EPV AS PK');
+//      SQL.Add('WHERE    PK.LG_IDEP = :LG_IDEP       ');
+//      SQL.Add('AND      PK.IDAK    = :IDAK          ');
+//
+//      { Grade }
+//      if REC_SHE_DEF.PSQ_FB_CP_DGCP <> EmptyStr then
+//      SQL.Add('AND PK.DGCP LIKE ''' + REC_SHE_DEF.PSQ_FB_CP_DGCP + '%''');
+//
+//      { Situação }
+//      if REC_SHE_DEF.PSQ_FB_DEST <> EmptyStr then
+//      SQL.Add('AND      PK.DEST    LIKE ''' + REC_SHE_DEF.PSQ_FB_DEST + '%''');
+//      SQL.Add('ORDER BY PK.DTEV DESC');
+//
+//      { Empresa Logada }
+//      ParamByName('LG_IDEP').Value := RECParametros.ID;
+//    end;
+//
+//    { Vendas Separadas }
+//    with EST_ESP do
+//    begin
+//      Close;
+//      SQL.Clear;
+//      SQL.Add('SELECT PK.ID  ,PK.IDEP,PK.SGEP,');
+//      SQL.Add('       PK.LGCA,PK.DTCA,');
+//      SQL.Add('       PK.STFI,PK.BQST,');
+//
+//      SQL.Add('       PK.CDET,PK.CTNR,PK.LOTE,');
+//      SQL.Add('       PK.LGSP,PK.DSSP,');
+//      SQL.Add('       PK.CDRO,PK.DSRO,');
+//
+//      SQL.Add('       PK.IDCP,PK.SKU ,PK.DSCP,PK.DGCP,');
+//      SQL.Add('       PK.QTDE,PK.QTRL,');
+//      SQL.Add('       PK.VPRC_COM    ,');
+//
+//      SQL.Add('       PK.IDPK,PK.DEPK,PK.DSPK,');
+//      SQL.Add('       PK.DECD,PK.GPCD,');
+//      SQL.Add('       PK.DECV,PK.ABCR,');
+//
+//      SQL.Add('       PK.STPD,PK.D_STCO');
+//
+//      SQL.Add('FROM   VW_PSQ_CAD_PRO_EST_ESP AS PK');
+//
+//      SQL.Add('WHERE  PK.IDEP = :VW_IDEP');
+//      SQL.Add('AND    PK.IDAK = :IDAK   ');
+//
+//      { Grade }
+//      if REC_SHE_DEF.PSQ_FB_CP_DGCP <> EmptyStr then
+//      SQL.Add('AND PK.DGCP LIKE ''' + REC_SHE_DEF.PSQ_FB_CP_DGCP + '%''');
+//
+//      { Situação }
+//      if REC_SHE_DEF.PSQ_FB_DEST <> EmptyStr then
+//      SQL.Add('AND      PK.DEST LIKE ''' + REC_SHE_DEF.PSQ_FB_DEST + '%''');
+//      SQL.Add('ORDER BY PK.DTEV DESC');
+//
+//      { Empresa Logada }
+//      ParamByName('VW_IDEP').Value := RECParametros.VW_IDEP;
+//    end;
+//
+//    { Vendas Programadas }
+//    with EST_EPP do
+//    begin
+//      Close;
+//      SQL.Clear;
+//      SQL.Add('SELECT PK.ID  ,PK.IDEP,PK.SGEP,PK.DTEV,');
+//      SQL.Add('       PK.LGCA,PK.DTCA,');
+//
+//      SQL.Add('       PK.IDPK,PK.DEPK,CAST(PK.DTPK || '' '' || PK.HTPK AS TIMESTAMP) AS DTPK,');
+//      SQL.Add('       PK.DECD,PK.GPCD,');
+//      SQL.Add('       PK.DECV,PK.DECR,');
+//
+//      SQL.Add('       PK.CTNR,PK.LOTE,');
+//      SQL.Add('       PK.IDCP,PK.SKU ,PK.DSCP,PK.DGCP,');
+//      SQL.Add('       PK.QTDE,PK.QTRL,');
+//      SQL.Add('       PK.VPRC_COM    ,');
+//
+//      SQL.Add('       PK.STPD,PK.DECO,        ');
+//      SQL.Add('       PK.CDST,PK.REST,PK.DEST,');
+//      SQL.Add('       PK.STFI,PK.BQST,        ');
+//
+//      SQL.Add('       PK.INFADCAD');
+//
+//      SQL.Add('FROM   VW_PSQ_CAD_PRO_EST_EPP AS PK');
+//      SQL.Add('WHERE  PK.LG_IDEP = :LG_IDEP       ');
+//      SQL.Add('AND    PK.IDAK    = :IDAK          ');
+//
+//      { Grade }
+//      if REC_SHE_DEF.PSQ_FB_CP_DGCP <> EmptyStr then
+//      SQL.Add('AND PK.DGCP LIKE ''' + REC_SHE_DEF.PSQ_FB_CP_DGCP + '%''');
+//
+//      { Situação }
+//      if REC_SHE_DEF.PSQ_FB_DEST <> EmptyStr then
+//      SQL.Add('AND      PK.DEST    LIKE ''' + REC_SHE_DEF.PSQ_FB_DEST + '%''');
+//      SQL.Add('ORDER BY PK.DTEV DESC');
+//
+//      { Empresa Logada }
+//      ParamByName('LG_IDEP').Value := RECParametros.ID;
+//    end;
+//
+//    { Ficha Técnica }
+//    with CAD_PRO_FIC do
+//    begin
+//      Close;
+//      SQL.Clear;
+//      SQL.Add('SELECT FIRST 1');
+//      SQL.Add('       CP.IDCP,CP.UCOM,');
+//
+//      SQL.Add('       NULLIF(CP.MPESO ,0) AS MPESO ,NULLIF(CP.UPSCN ,0) AS UPSCN ,');
+//      SQL.Add('       NULLIF(CP.MMETRO,0) AS MMETRO,NULLIF(CP.MGRAMA,0) AS MGRAMA,');
+//      SQL.Add('       NULLIF(CP.MREND ,0) AS MREND ,');
+//      
+//      SQL.Add('       NULLIF(CP.MLGRT ,0) AS MLGRT ,NULLIF(CP.MLGRU ,0) AS MLGRU ,');
+//      SQL.Add('       NULLIF(CP.MELAL ,0) AS MELAL ,NULLIF(CP.MELAC ,0) AS MELAC ,');
+//      SQL.Add('       NULLIF(CP.MENCL ,0) AS MENCL ,NULLIF(CP.MENCC ,0) AS MENCC ,');
+//
+//      SQL.Add('       CP.UCDBE,CP.UCOM || ''-'' || CP.UCDBE_NO AS UCDBE_NO,');
+//      SQL.Add('       NULLIF(CP.UQTDE,0) AS UQTDE,NULLIF(CP.UQTDE_VEN_MUL ,0) AS UQTDE_VEN_MUL,');
+//      SQL.Add('       CP.MABNT_NO,');
+//
+//      SQL.Add('       NULLIF(TRIM(CAST(ASCII_CHAR(13) || ASCII_CHAR(10) ||');
+//
+//      SQL.Add('       ''Conteúdo ...: ''          || CP.UCON || ASCII_CHAR(13) || ASCII_CHAR(10) ||');
+//      SQL.Add('       ''Composição Têxtil ...: '' || COALESCE(CP.DCCP,'''')    || ASCII_CHAR(13) || ASCII_CHAR(10) || ASCII_CHAR(13)  || ASCII_CHAR(10) ||');
+//
+//      SQL.Add('       IIF(CP.MGRAMA_NO IS NULL,'''',''Gramatura ...: ''        || CP.MGRAMA_NO   || ASCII_CHAR(13) || ASCII_CHAR(10)) ||');
+//      SQL.Add('       IIF(CP.MENC_NO   IS NULL,'''',''Encolhimento ...: ''     || CP.MENC_NO     || ASCII_CHAR(13) || ASCII_CHAR(10)) ||');
+//      SQL.Add('       IIF(CP.MABNT_NO  IS NULL,'''',''Norma Técnica ...: ''    || CP.MABNT_NO    || ASCII_CHAR(13) || ASCII_CHAR(10)) ||');
+//
+//      if Screen.Height > 864 then
+//      begin
+//        SQL.Add('''''');
+//      end else
+//      begin
+//        SQL.Add('     IIF(CP.INFADCAD  IS NULL,'''',ASCII_CHAR(13) || ASCII_CHAR(10) || TRIM(CAST(CP.INFADCAD AS VARCHAR(812))))');
+//      end;
+//
+//      SQL.Add('       AS VARCHAR(1024))),'''') AS INFADCAD,');
+//      SQL.Add('       NULLIF(TRIM(CAST(CP.INFADCAD AS VARCHAR(812))),'''') AS INFADCPL');
+//
+//      SQL.Add('FROM   VW_PSQ_CAD_PRO AS CP');
+//      SQL.Add('WHERE  CP.IDAK = :IDAK');
+//    end;
+//
+//    { Consulta Principal }
+//    with Consulta do
+//    begin
+//      Close;
+//      SQL.Clear;
+//
+//      { RECURSIVE INI }
+//      SQL.Add('WITH RECURSIVE PK');
+//      SQL.Add('AS (');
+//
+//      SQL.Add('SELECT PK.IDAK,PK.CP_IDEP,PK.CP_DEEP,PK.IDCF,PK.DECF,');
+//      SQL.Add('       PK.DTEV,PK.REST,');
+//
+//      SQL.Add('       PK.ARTIGO,PK.CEAN,PK.CF_SKU,PK.CF_CEAN,');
+//      SQL.Add('       PK.NCM   ,PK.PIPI,');
+//      SQL.Add('       PK.DECP  ,PK.DCCP,');
+//      SQL.Add('       PK.DGCP,        ');
+//
+//      SQL.Add('       PK.COL_NO,PK.SEG_NO,');
+//      SQL.Add('       PK.GRP_NO,PK.SGP_NO,');
+//      SQL.Add('       PK.CAT_NO,PK.SCT_NO,');
+//
+//      SQL.Add('       PK.ORIG  ,PK.XORIG,');
+//      SQL.Add('       PK.XPAIS ,PK.FPAIS,');
+//      SQL.Add('       PK.INFADCAD        ');
+//
+//      SQL.Add('FROM   VW_PSQ_CAD_PRO AS PK');
+//
+//      { Inicialização }
+//      if ((REC_SHE_DEF.PSQ_FB_SL_PK.Count = 0) and ((BDPSQ_PER_INI.Date <= 0) or (BDPSQ_PER_FIM.Date <= 0))) then
+//      begin
+//        SQL.Add('WHERE PK.ID = 0');
+//      end;
+//
+//      { Âncora Principal }
+//      { Artigos }
+//      if REC_SHE_DEF.PSQ_FB_CP_ARTIGO <> EmptyStr then
+//      begin
+//        SQL.Add(IFThen(Pos('WHERE',Consulta.SQL.Text) = 0,'WHERE','AND'));
+//        SQL.Add('PK.ARTIGO LIKE ''' + REC_SHE_DEF.PSQ_FB_CP_ARTIGO + '%''');
+//      end;
+//
+//      { Situação }
+//      if REC_SHE_DEF.PSQ_FB_DEST <> EmptyStr then
+//      begin
+//        SQL.Add(IFThen(Pos('WHERE',Consulta.SQL.Text) = 0,'WHERE','AND'));
+//        SQL.Add('PK.DEST LIKE ''' + REC_SHE_DEF.PSQ_FB_DEST + '%''');
+//      end else
+//      begin
+//        SQL.Add(IFThen(Pos('WHERE',Consulta.SQL.Text) = 0,'WHERE','AND'));
+//        SQL.Add('PK.CDST <> 43 AND PK.CDST <> 85');
+//      end;
+//
+//      { Empresa }
+//      if REC_SHE_DEF.PSQ_FB_EP <> EmptyStr then
+//      begin
+//        SQL.Add(IFThen(Pos('WHERE',Consulta.SQL.Text) = 0,'WHERE','AND'));
+//        SQL.Add('PK.CP_DEEP LIKE ''' + REC_SHE_DEF.PSQ_FB_EP + '%''');
+//      end else
+//
+//      { Fabricante }
+//      if REC_SHE_DEF.PSQ_FB_CF <> EmptyStr then
+//      begin
+//        SQL.Add(IFThen(Pos('WHERE',Consulta.SQL.Text) = 0,'WHERE','AND'));
+//        SQL.Add('PK.DECF LIKE ''' + REC_SHE_DEF.PSQ_FB_CF + '%''');
+//      end;
+//
+//      { Período }
+//      if (BDPSQ_PER_INI.Date > 0) and (BDPSQ_PER_FIM.Date > 0) then
+//      begin
+//        SQL.Add(IFThen(Pos('WHERE',Consulta.SQL.Text) = 0,'WHERE','AND'));
+//        SQL.Add(BBPSQ_PER_MENU.Description + ' BETWEEN ''' + FormatDateTime('mm/dd/yy',BDPSQ_PER_INI.Date) +  ''' AND ''' + FormatDateTime('mm/dd/yy',BDPSQ_PER_FIM.Date) + '''');
+//      end;
+//
+//      SQL.Add('),'); { RECURSIVE FIM }
+//
+//      { CTE INI }
+//      SQL.Add('CTE_PSQ');
+//      SQL.Add('AS    (');
+//
+//      if REC_SHE_DEF.PSQ_FB_PK = EmptyStr then
+//      SQL.Add('SELECT PK.* FROM PK') else { Apenas Âncoras }
+//
+//      { Diversos }
+//      if REC_SHE_DEF.PSQ_FB_SL_PK.Count > 0 then
+//      begin
+//        { Âncora Principal }
+//        { Artigos }
+//        if Pos('WHERE',Consulta.SQL.Text) = 0 then
+//        begin
+//          SQL.Add('SELECT PK.* FROM PK');
+//          SQL.Add('WHERE  PK.ARTIGO LIKE ''' + REC_SHE_DEF.PSQ_FB_SL_PK.Strings[0] + '%''');
+//          SQL.Add('UNION ALL');
+//        end;
+//
+//        for i := 0 to REC_SHE_DEF.PSQ_FB_SL_PK.Count - 1 do
+//        begin
+//          { Campos Numéricos }
+//          if oBSoNumero(REC_SHE_DEF.PSQ_FB_PK) then { campo todo númerico }
+//          begin
+//            { NCM }
+//            if i > 0 then
+//            SQL.Add('UNION ALL');
+//            SQL.Add('SELECT PK.* FROM PK AS PK');
+//            SQL.Add('WHERE  PK.NCM = ''' + REC_SHE_DEF.PSQ_FB_SL_PK.Strings[i] + '''');
+//
+//            { Barcode }
+//            SQL.Add('UNION ALL');
+//            SQL.Add('SELECT PK.* FROM PK AS PK');
+//            SQL.Add('WHERE  PK.CEAN = ''' + REC_SHE_DEF.PSQ_FB_SL_PK.Strings[i] + '''');
+//          end else
+//
+//          { Outros }
+//          begin
+//            { Grade }
+//            if i > 0 then
+//            SQL.Add('UNION ALL');
+//            SQL.Add('SELECT PK.* FROM PK AS PK');
+//            SQL.Add('WHERE  PK.DGCP LIKE ''' + REC_SHE_DEF.PSQ_FB_SL_PK.Strings[i] + '%''');
+//
+//            { Descrição }
+//            SQL.Add('UNION ALL');
+//            SQL.Add('SELECT PK.* FROM PK AS PK');
+//            SQL.Add('WHERE  PK.DECP LIKE ''' + REC_SHE_DEF.PSQ_FB_SL_PK.Strings[i] + '%''');
+//
+//            { Composição }
+//            SQL.Add('UNION ALL');
+//            SQL.Add('SELECT PK.* FROM PK AS PK');
+//            SQL.Add('WHERE  PK.DCCP LIKE ''' + REC_SHE_DEF.PSQ_FB_SL_PK.Strings[i] + '%''');
+//          end;
+//        end;
+//      end;
+//      SQL.Add(')'); { CTE FIM }
+//
+//      { SELECT CTE }
+//      SQL.Add('SELECT DISTINCT ');
+//      SQL.Add('       PK.IDAK  ,PK.CP_IDEP,PK.CP_DEEP,PK.IDCF,PK.DECF,');
+//      SQL.Add('       PK.ARTIGO,PK.DECP,');
+//      SQL.Add('       PK.NCM   ,PK.PIPI,');
+//
+//      SQL.Add('       NULLIF(TRIM(CAST(ASCII_CHAR(13) || ASCII_CHAR(10) || ''Origem da Mercadoria ...: ''          || PK.XPAIS             ||');
+//      SQL.Add('       IIF(PK.ORIG < 2,'''','' - ''    || PK.XORIG)      || '' - '' || PK.FPAIS   || ASCII_CHAR(13) || ASCII_CHAR(10)       ||');
+//
+//      SQL.Add('       IIF(PK.COL_NO IS NOT NULL,''Coleção ...: ''         || PK.COL_NO           || ASCII_CHAR(13) || ASCII_CHAR(10),'''') ||');
+//      SQL.Add('       IIF(PK.SEG_NO IS NOT NULL,''Segmentos ...: ''       || PK.SEG_NO           || ASCII_CHAR(13) || ASCII_CHAR(10),'''') ||');
+//
+//      SQL.Add('       IIF(PK.GRP_NO IS NOT NULL,''Grupos ...: ''          || PK.GRP_NO,'''')     ||');
+//      SQL.Add('       IIF(PK.SGP_NO IS NOT NULL,'', ''                    || PK.SGP_NO,'''')     || ASCII_CHAR(13) || ASCII_CHAR(10)     ||');
+//
+//      SQL.Add('       IIF(PK.CAT_NO     IS NOT NULL,''Categorias ...: ''  || PK.CAT_NO    ,'''') ||');
+//      SQL.Add('       IIF(TB_SCT.SCT_NO IS NOT NULL,'', ''                || TB_SCT.SCT_NO,'''') || ASCII_CHAR(13) || ASCII_CHAR(10)');
+//
+//      SQL.Add('       AS VARCHAR(812))),'''') AS INFADCAD,');
+//
+//      SQL.Add('MIN(PK.REST) OVER(PARTITION BY PK.IDAK) AS REST');
+//
+//      SQL.Add('FROM      CTE_PSQ AS PK');
+//      SQL.Add('LEFT JOIN VW_PSQ_CAD_PRO_SCT AS TB_SCT ON (TB_SCT.IDAK = PK.IDAK)');
+//      SQL.Add('ORDER BY  PK.DTEV DESC');
+//
+//      Prepare;
+//      Open;
+//    end;
+//  finally
+//    HCDSPrincipal1Consulta.Tag    := IFThen(Screen.Height > 864,340,250) + DPPrincipal1Titulo.Height;
+//    HCDSPrincipal1Consulta.Height := HCDSPrincipal1Consulta.Tag + IFThen(CAD_PRO_FICMABNT_NO.AsString <> EmptyStr,45,0);
+//
+//
+//    { DOCK MANAGER }
+//    { Rodapé }
+//    FDockControlPrincipal1RodapeLE := VCDSPrincipal1RodapeLE.Tag; { EST_EPE }
+//    VCDSPrincipal1RodapeLE.Tag     := DBGEST_EPESKU.Width       + DBGEST_EPEEF_SGEP.Width  + 5 + { Produtos }
+//                                      DBGEST_EPEEPE_QTDE.Width  + DBGEST_EPEEPE_QTRL.Width + 5 + { Saldo Disponível }
+//
+//    IFThen(DBGEST_EPEREST.Visible,DBGEST_EPEREST.Width,0)       + 5 + { Situação }
+//    IFThen(DBGEST_EPE.Bands[1].Visible,DBGEST_EPEDSCP.Width   + DBGEST_EPEDGCP.Width  ,00) + 5 + { Grade }
+//    IFThen(DBGEST_EPE.Bands[3].Visible,DBGEST_EPEEEP_QTDE.Width + DBGEST_EPEEEP_QTRL.Width,45) + 5 ; { Saldo Programado }
+////    IFThen(DBGEST_EPE.Bands[4].Visible,120,0); { Eventos }
+//
+//    VCDSPrincipal1RodapeLE.Tag := IFThen(VCDSPrincipal1RodapeLE.Tag < 400,400,VCDSPrincipal1RodapeLE.Tag);
+//
+//    if FDockControlPrincipal1RodapeLE <> VCDSPrincipal1RodapeLE.Tag then
+//    begin
+//      VCDSPrincipal1RodapeLE.HelpContext := 0;
+//      _SetDockControl(VCDSPrincipal1RodapeLE,VCDSPrincipal1RodapeLE.Tag,lHorizontal,True ,True);
+//
+//      TCDSPrincipal1RodapeLE.HelpContext := 0;
+//      _SetDockControl(TCDSPrincipal1RodapeLE,VCDSPrincipal1RodapeLE.Tag,lHorizontal,False,True);
+//
+//
+//      DPPrincipal1RodapeLEB.HelpContext := 0;
+//      _SetDockControl(DPPrincipal1RodapeLEB,DPPrincipal1RodapeLEB.Tag ,lVertical  ,True ,True);
+//    end;
+//
+//    { CONSULTA }
+//    DBGConsulta.Filter.Clear; { Filters }
+//    DBGConsultaDECP.Field.FocusControl; { Focused }
+//
+//    { Estoque Pronta Entrega }
+//    DBGEST_EPE.Filter.Clear; { Filters }
+//    if EST_EPEDGCP.AsString <> EmptyStr then { Focused }
+//    DBGEST_EPEDGCP.Field.FocusControl else { Grade }
+//    DBGEST_EPESKU.Field.FocusControl; { SKU }
+//
+//    { Estoque Físico }
+//    DBGEST_EFI.Filter.Clear; { Filters }
+//    if EST_EFIDGCP.AsString <> EmptyStr then { Focused }
+//    DBGEST_EFIDGCP.Field.FocusControl else { Grade }
+//    DBGEST_EFISKU.Field.FocusControl; { SKU }
+//
+//    { Estoque Antecipado }
+//    DBGEST_EAT.Filter.Clear; { Filters }
+//    if EST_EATDGCP.AsString <> EmptyStr then { Focused }
+//    DBGEST_EATDGCP.Field.FocusControl else { Grade }
+//    DBGEST_EATSKU.Field.FocusControl; { SKU }
+//
+//    { Estoque Substituto }
+//    DBGEST_ESU.Filter.Clear; { Filters }
+//    if EST_ESUDGCP.AsString <> EmptyStr then { Focused }
+//    DBGEST_ESUDGCP.Field.FocusControl else { Grade }
+//    DBGEST_ESUSKU.Field.FocusControl; { SKU }
+//
+//    { Estoque Piloto }
+//    DBGEST_EPI.Filter.Clear; { Filters }
+//    if EST_EPIDGCP.AsString <> EmptyStr then { Focused }
+//    DBGEST_EPIDGCP.Field.FocusControl else { Grade }
+//    DBGEST_EPISKU.Field.FocusControl; { SKU }
+//
+//    { Estoque Revisado }
+//    DBGEST_ERV.Filter.Clear; { Filters }
+//    if EST_ERVDGCP.AsString <> EmptyStr then { Focused }
+//    DBGEST_ERVDGCP.Field.FocusControl else { Grade }
+//    DBGEST_ERVSKU.Field.FocusControl; { SKU }
+//
+//    { Compras Abertas }
+//    DBGEST_CPA.Filter.Clear; { Filters }
+//    if EST_CPADGCP.AsString <> EmptyStr then { Focused }
+//    DBGEST_CPADGCP.Field.FocusControl else { Grade }
+//    DBGEST_CPASKU.Field.FocusControl; { SKU }
+//
+//    { Compras Fechadas }
+//    DBGEST_CPF.Filter.Clear; { Filters }
+//    if EST_CPFDGCP.AsString <> EmptyStr then { Focused }
+//    DBGEST_CPFDGCP.Field.FocusControl else { Grade }
+//    DBGEST_CPFSKU.Field.FocusControl; { SKU }
+//
+//    { Vendas Pronta Entrega }
+//    DBGEST_EPV.Filter.Clear; { Filters }
+//    if EST_EPVDGCP.AsString <> EmptyStr then { Focused }
+//    DBGEST_EPVDGCP.Field.FocusControl else { Grade }
+//    DBGEST_EPVSKU.Field.FocusControl; { SKU }
+//
+//    { Vendas Separadas }
+//    DBGEST_ESP.Filter.Clear; { Filters }
+//    if EST_ESPDGCP.AsString <> EmptyStr then { Focused }
+//    DBGEST_ESPDGCP.Field.FocusControl else { Grade }
+//    DBGEST_ESPSKU.Field.FocusControl; { SKU }
+//
+//    { Vendas Programadas }
+//    DBGEST_EPP.Filter.Clear; { Filters }
+//    if EST_EPPDGCP.AsString <> EmptyStr then { Focused }
+//    DBGEST_EPPDGCP.Field.FocusControl else { Grade }
+//    DBGEST_EPPSKU.Field.FocusControl; { SKU }
+//
+//    if Consulta.RecNo > 0 then
+//    begin
+//      { PAGES MANAGER }
+//      { Estoque }
+//      if EST_EPECDEV.AsInteger = 8 then
+//      begin
+//        TCDSPrincipal1Rodape.ActiveChildIndex := 0; 
+//        TCDSEST_EFI.ActiveChildIndex := 1; { Antecipado }
+//      end else
+//
+//      if EST_EPECDEV.AsInteger = 10 then
+//      begin
+//        TCDSPrincipal1Rodape.ActiveChildIndex := 0; 
+//        TCDSEST_EFI.ActiveChildIndex := 2; { Substituto }
+//      end else
+//
+//      if EST_EPECDEV.AsInteger = 12 then
+//      begin
+//        TCDSPrincipal1Rodape.ActiveChildIndex := 0; 
+//        TCDSEST_EFI.ActiveChildIndex := 3; { Piloto }
+//      end else
+//
+//      if EST_EPECDEV.AsInteger = 16 then
+//      begin
+//        TCDSPrincipal1Rodape.ActiveChildIndex := 0;
+//        TCDSEST_EFI.ActiveChildIndex := 4; { Revisado }
+//      end else
+//
+//      if EST_EPECDEV.AsInteger = 17 then
+//      begin
+//        TCDSPrincipal1Rodape.ActiveChildIndex := 0;
+//        TCDSEST_EFI.ActiveChildIndex := 4; { Defeito }
+//      end else
+//
+//      { Vendas }
+//      if EST_EPECDEV.AsInteger = 26 then
+//      begin
+//        TCDSPrincipal1Rodape.ActiveChildIndex := 1; 
+//        TCDSEST_PDV.ActiveChildIndex := 0; { Pronta Entrega }
+//      end else
+//
+//      if EST_EPECDEV.AsInteger = 27 then
+//      begin
+//        TCDSPrincipal1Rodape.ActiveChildIndex := 1;
+//        TCDSEST_PDV.ActiveChildIndex := 1; { Separadas }
+//      end else
+//
+//      if EST_EPECDEV.AsInteger = 24 then
+//      begin
+//        TCDSPrincipal1Rodape.ActiveChildIndex := 1;
+//        TCDSEST_PDV.ActiveChildIndex := 2; { Programadas }
+//      end else
+//
+//      if EST_EPECDEV.AsInteger = 25 then
+//      begin
+//        TCDSPrincipal1Rodape.ActiveChildIndex := 1;
+//        TCDSEST_PDV.ActiveChildIndex := 2; { Reserva de Containers }
+//      end else
+//
+//      { Compras }
+//      if EST_EPECDEV.AsInteger = 23 then
+//      begin
+//        TCDSPrincipal1Rodape.ActiveChildIndex := 2;
+//        if EST_CPFDTEV.AsDateTime > EST_CPADTEV.AsDateTime then
+//        TCDSEST_PDC.ActiveChildIndex := 1 else
+//        TCDSEST_PDC.ActiveChildIndex := 0;
+//      end else
+//
+//      { Físico }
+//      begin
+//        TCDSPrincipal1Rodape.ActiveChildIndex := 0;
+//        TCDSEST_EFI.ActiveChildIndex := 0;
+//      end;
+//
+//      { Estoque Pronta Entrega }
+//      TCDSPrincipal1RodapeLE.ActiveChildIndex := 0;
+//      PostMessage(TWinControl(DBGEST_EPE).Handle, WM_SETFOCUS, 0, 0);
+//      TWinControl(DBGEST_EPE).SetFocus;
+//    end else
+//    begin
+//      { Pesquisa }
+//      DPPrincipal1Consulta1.Caption := 'Registro(s) não Encontrado(s)';
+//      BEPSQ_CAD.SetFocus(False);
+//    end;
+//
+//    if TCDSPrincipal.Tag = 0 then
+//    begin
+//      TCDSPrincipal1Rodape.HelpContext := 0;
+//      _SetDockControl(TCDSPrincipal1Rodape,DSPrincipal1.Width - VCDSPrincipal1RodapeLE.Tag,lHorizontal,False,True);
+//    end;
+//
+//    oUnLockWindowUpdate; { Destrava }
+//  end;
 end;
 
 end.

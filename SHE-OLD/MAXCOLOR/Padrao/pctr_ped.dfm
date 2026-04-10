@@ -14,21 +14,104 @@ inherited frmctr_ped: Tfrmctr_ped
     Height = 14
     Caption = 'ROM_CCLI'
   end
-  inherited sbMSG: TStatusBar
-    Top = 675
+  inherited SBMenuPrincipal: TSpeedBar
     Width = 1356
-    Panels = <
-      item
-        Text = 'Consulta'
-        Width = 80
-      end
-      item
-        Text = '0'
-        Width = 20
-      end
-      item
-        Width = 50
-      end>
+    inherited siPRN: TSpeedItem [1]
+      Left = 725
+    end
+    inherited siREF: TSpeedItem [2]
+      Spacing = 0
+    end
+    inherited siPSQ: TSpeedItem [3]
+      Spacing = 0
+    end
+    inherited siSAIR: TSpeedItem
+      Spacing = 0
+      Left = 805
+    end
+    object SINovo: TSpeedItem
+      BtnCaption = 'Incluir'
+      Cursor = crHandPoint
+      Hint = 'Inclus'#227'o de Pedidos'
+      ImageIndex = 4
+      Spacing = 0
+      Left = 165
+      Top = 5
+      Visible = True
+      OnClick = SINovoClick
+      SectionName = 'Menu Principal'
+    end
+    object siARO: TSpeedItem
+      BtnCaption = 'Alterar'
+      Cursor = crHandPoint
+      Hint = 'Altera'#231#227'o de Pedidos'
+      ImageIndex = 5
+      Spacing = 0
+      Left = 245
+      Top = 5
+      Visible = True
+      OnClick = siAROClick
+      SectionName = 'Menu Principal'
+    end
+    object siCRO: TSpeedItem
+      BtnCaption = 'Cancelar'
+      Cursor = crHandPoint
+      Hint = 'Cancelamento de Pedidos'
+      ImageIndex = 6
+      Spacing = 0
+      Left = 325
+      Top = 5
+      Visible = True
+      OnClick = siCROClick
+      SectionName = 'Menu Principal'
+    end
+    object SICLI: TSpeedItem
+      BtnCaption = 'Clentes'
+      Cursor = crHandPoint
+      Hint = 'Informa'#231#245'es Cadastrais'
+      ImageIndex = 7
+      Spacing = 0
+      Left = 405
+      Top = 5
+      Visible = True
+      SectionName = 'Menu Principal'
+    end
+    object siINF: TSpeedItem
+      BtnCaption = 'Comercial'
+      Cursor = crHandPoint
+      Hint = 'Informa'#231#245'es Comerciais'
+      ImageIndex = 8
+      Spacing = 0
+      Left = 485
+      Top = 5
+      Visible = True
+      OnClick = siINFClick
+      SectionName = 'Menu Principal'
+    end
+    object siGRO: TSpeedItem
+      BtnCaption = 'Romaneios'
+      Cursor = crHandPoint
+      Hint = 'Emiss'#227'o de Romaneios'
+      ImageIndex = 9
+      Spacing = 0
+      Left = 565
+      Top = 5
+      Visible = True
+      OnClick = siGROClick
+      SectionName = 'Menu Principal'
+    end
+    object siBRO: TSpeedItem
+      BtnCaption = 'Finalizar'
+      Cursor = crHandPoint
+      Hint = 'Baixa de Pedidos'
+      ImageIndex = 10
+      Spacing = 0
+      Left = 645
+      Top = 5
+      Visible = True
+      OnClick = siBROClick
+      SectionName = 'Menu Principal'
+    end
   end
   inherited pnldir: TPanel
     Left = 1355
@@ -36,9 +119,164 @@ inherited frmctr_ped: Tfrmctr_ped
     Height = 610
     Caption = 'd'
   end
-  inherited pnldbg: TPanel
+  inherited pnlpri: TPanel
     Width = 1355
     Height = 610
+    inherited pnldbg: TPanel
+      Width = 1355
+      Height = 342
+      inherited gbDET: TGroupBox
+        Width = 1301
+        Height = 342
+        inherited DBGConsulta: TdxDBGrid
+          Width = 1297
+          Height = 321
+          KeyField = 'ID'
+          ShowSummaryFooter = True
+          Filter.Active = True
+          Filter.Criteria = {00000000}
+          OptionsView = [edgoAutoCalcPreviewLines, edgoBandHeaderWidth, edgoHideFocusRect, edgoHotTrack, edgoInvertSelect, edgoPreview, edgoUseBitmap]
+          PreviewFieldName = 'ROM_DEVO'
+          ShowRowFooter = True
+          OnCustomDrawCell = dbgConsultaCustomDrawCell
+          object dbgConsultaROM_DERO: TdxDBGridMaskColumn
+            Width = 60
+            BandIndex = 0
+            RowIndex = 0
+            FieldName = 'ROM_DERO'
+            SummaryFooterType = cstCount
+            SummaryFooterField = 'ID'
+            SummaryFooterFormat = ',##,0'
+          end
+          object dbgConsultaROM_DROM: TdxDBGridDateColumn
+            Width = 65
+            BandIndex = 0
+            RowIndex = 0
+            FieldName = 'ROM_DROM'
+          end
+          object dbgConsultaROM_CDNF: TdxDBGridMaskColumn
+            Width = 50
+            BandIndex = 0
+            RowIndex = 0
+            FieldName = 'ROM_CDNF'
+          end
+          object dbgConsultaROM_DNFS: TdxDBGridDateColumn
+            Width = 65
+            BandIndex = 0
+            RowIndex = 0
+            FieldName = 'ROM_DNFS'
+          end
+          object dbgConsultaCLI_FANT: TdxDBGridMaskColumn
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            Width = 200
+            BandIndex = 0
+            RowIndex = 0
+            FieldName = 'CLI_FANT'
+          end
+          object dbgConsultaUSU_DUSU: TdxDBGridMaskColumn
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            Width = 77
+            BandIndex = 0
+            RowIndex = 0
+            FieldName = 'USU_DUSU'
+          end
+          object dbgConsultaREP_FANT: TdxDBGridMaskColumn
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            Width = 106
+            BandIndex = 0
+            RowIndex = 0
+            FieldName = 'REP_FANT'
+          end
+          object dbgConsultaROM_TSDE: TdxDBGridMaskColumn
+            HeaderAlignment = taRightJustify
+            Width = 90
+            BandIndex = 0
+            RowIndex = 0
+            FieldName = 'ROM_TSDE'
+            SummaryFooterType = cstSum
+            SummaryFooterField = 'ROM_TSDE'
+            SummaryFooterFormat = ',##,0.00'
+            DisableFilter = True
+          end
+          object dbgConsultaROM_PDSC: TdxDBGridColumn
+            HeaderAlignment = taRightJustify
+            Width = 55
+            BandIndex = 0
+            RowIndex = 0
+            FieldName = 'ROM_PDSC'
+            SummaryFooterType = cstAvg
+            SummaryFooterField = 'ROM_PDSC'
+            SummaryFooterFormat = ',##,0.00'
+            DisableFilter = True
+          end
+          object dbgConsultaROM_TCDE: TdxDBGridMaskColumn
+            HeaderAlignment = taRightJustify
+            Width = 90
+            BandIndex = 0
+            RowIndex = 0
+            FieldName = 'ROM_TCDE'
+            SummaryFooterType = cstSum
+            SummaryFooterField = 'ROM_TCDE'
+            SummaryFooterFormat = ',##,0.00'
+            DisableFilter = True
+          end
+          object dbgConsultaROM_STFI: TdxDBGridMaskColumn
+            Width = 76
+            BandIndex = 0
+            RowIndex = 0
+            FieldName = 'ROM_STFI'
+          end
+          object dbgConsultaROM_STCO: TdxDBGridMaskColumn
+            Width = 133
+            BandIndex = 0
+            RowIndex = 0
+            FieldName = 'ROM_STCO'
+          end
+          object dbgConsultaPAG_DPAG: TdxDBGridMaskColumn
+            Width = 141
+            BandIndex = 0
+            RowIndex = 0
+            FieldName = 'PAG_DPAG'
+          end
+          object dbgConsultaROM_STPD: TdxDBGridMaskColumn
+            Width = 93
+            BandIndex = 0
+            RowIndex = 0
+            FieldName = 'ROM_STPD'
+          end
+          object dbgConsultaROM_DTRA: TdxDBGridMaskColumn
+            Width = 200
+            BandIndex = 0
+            RowIndex = 0
+            FieldName = 'ROM_DTRA'
+          end
+          object dbgConsultaROM_PPRN: TdxDBGridMaskColumn
+            Visible = False
+            BandIndex = 0
+            RowIndex = 0
+            FieldName = 'ROM_PPRN'
+          end
+        end
+      end
+      inherited GBMenuEdicao: TGroupBox
+        Height = 342
+        inherited SBMenuEdicao: TSpeedBar
+          Height = 321
+        end
+      end
+    end
     inherited pnlbot: TPanel
       Top = 342
       Width = 1355
@@ -289,781 +527,308 @@ inherited frmctr_ped: Tfrmctr_ped
         end
       end
     end
-    inherited gbDET: TGroupBox
-      Width = 1301
-      Height = 342
-      inherited DBGConsulta: TdxDBGrid
-        Width = 1297
-        Height = 321
-        HeaderMinRowCount = 2
-        KeyField = 'ID'
-        ShowSummaryFooter = True
-        Filter.Active = True
-        Filter.Criteria = {00000000}
-        OptionsView = [edgoAutoCalcPreviewLines, edgoBandHeaderWidth, edgoHideFocusRect, edgoHotTrack, edgoInvertSelect, edgoPreview, edgoUseBitmap]
-        PreviewFieldName = 'ROM_DEVO'
-        ShowRowFooter = True
-        OnCustomDrawCell = dbgConsultaCustomDrawCell
-        object dbgConsultaROM_DERO: TdxDBGridMaskColumn
-          Width = 61
-          BandIndex = 0
-          RowIndex = 0
-          FieldName = 'ROM_DERO'
-          SummaryFooterType = cstCount
-          SummaryFooterField = 'ID'
-          SummaryFooterFormat = '0'
-          DisableFilter = True
-        end
-        object dbgConsultaROM_DROM: TdxDBGridDateColumn
-          Width = 74
-          BandIndex = 0
-          RowIndex = 0
-          FieldName = 'ROM_DROM'
-        end
-        object dbgConsultaROM_DBAI: TdxDBGridDateColumn
-          Width = 74
-          BandIndex = 0
-          RowIndex = 0
-          FieldName = 'ROM_DBAI'
-        end
-        object dbgConsultaROM_CDNF: TdxDBGridMaskColumn
-          Width = 57
-          BandIndex = 0
-          RowIndex = 0
-          FieldName = 'ROM_CDNF'
-        end
-        object dbgConsultaROM_DNFS: TdxDBGridDateColumn
-          Width = 74
-          BandIndex = 0
-          RowIndex = 0
-          FieldName = 'ROM_DNFS'
-        end
-        object dbgConsultaCLI_FANT: TdxDBGridMaskColumn
-          Width = 200
-          BandIndex = 0
-          RowIndex = 0
-          FieldName = 'CLI_FANT'
-        end
-        object dbgConsultaUSU_DUSU: TdxDBGridMaskColumn
-          Width = 110
-          BandIndex = 0
-          RowIndex = 0
-          FieldName = 'USU_DUSU'
-        end
-        object dbgConsultaREP_FANT: TdxDBGridMaskColumn
-          Width = 160
-          BandIndex = 0
-          RowIndex = 0
-          FieldName = 'REP_FANT'
-        end
-        object dbgConsultaROM_TSDE: TdxDBGridMaskColumn
-          HeaderAlignment = taRightJustify
-          Width = 90
-          BandIndex = 0
-          RowIndex = 0
-          FieldName = 'ROM_TSDE'
-          SummaryFooterType = cstSum
-          SummaryFooterField = 'ROM_TSDE'
-          SummaryFooterFormat = '#,0.00'
-          DisableFilter = True
-        end
-        object dbgConsultaROM_DESC: TdxDBGridColumn
-          HeaderAlignment = taRightJustify
-          Width = 80
-          BandIndex = 0
-          RowIndex = 0
-          FieldName = 'ROM_DESC'
-          DisableFilter = True
-        end
-        object dbgConsultaROM_TCDE: TdxDBGridMaskColumn
-          HeaderAlignment = taRightJustify
-          Width = 90
-          BandIndex = 0
-          RowIndex = 0
-          FieldName = 'ROM_TCDE'
-          SummaryFooterType = cstSum
-          SummaryFooterField = 'ROM_TCDE'
-          SummaryFooterFormat = '#,0.00'
-          DisableFilter = True
-        end
-        object dbgConsultaPAG_DPAG: TdxDBGridMaskColumn
-          Width = 141
-          BandIndex = 0
-          RowIndex = 0
-          FieldName = 'PAG_DPAG'
-        end
-        object dbgConsultaROM_STCO: TdxDBGridMaskColumn
-          Width = 133
-          BandIndex = 0
-          RowIndex = 0
-          FieldName = 'ROM_STCO'
-        end
-        object dbgConsultaROM_STFI: TdxDBGridMaskColumn
-          Width = 120
-          BandIndex = 0
-          RowIndex = 0
-          FieldName = 'ROM_STFI'
-        end
-        object dbgConsultaROM_STPD: TdxDBGridMaskColumn
-          Width = 120
-          BandIndex = 0
-          RowIndex = 0
-          FieldName = 'ROM_STPD'
-        end
-        object dbgConsultaROM_CDBX: TdxDBGridMaskColumn
-          Visible = False
-          Width = 63
-          BandIndex = 0
-          RowIndex = 0
-          FieldName = 'ROM_CDBX'
-        end
-        object dbgConsultaROM_CDCX: TdxDBGridMaskColumn
-          Visible = False
-          Width = 73
-          BandIndex = 0
-          RowIndex = 0
-          FieldName = 'ROM_CDCX'
-        end
-        object dbgConsultaROM_CTNR: TdxDBGridMaskColumn
-          Visible = False
-          Width = 120
-          BandIndex = 0
-          RowIndex = 0
-          FieldName = 'ROM_CTNR'
-        end
-        object dbgConsultaROM_DTRA: TdxDBGridMaskColumn
-          Width = 200
-          BandIndex = 0
-          RowIndex = 0
-          FieldName = 'ROM_DTRA'
-        end
-        object dbgConsultaROM_DSEP: TdxDBGridMaskColumn
-          Visible = False
-          Width = 110
-          BandIndex = 0
-          RowIndex = 0
-          FieldName = 'ROM_DSEP'
-        end
-        object dbgConsultaID: TdxDBGridMaskColumn
-          Visible = False
-          Width = 65
-          BandIndex = 0
-          RowIndex = 0
-          FieldName = 'ID'
-          DisableFilter = True
-        end
-        object dbgConsultaROM_PPRN: TdxDBGridMaskColumn
-          Visible = False
-          BandIndex = 0
-          RowIndex = 0
-          FieldName = 'ROM_PPRN'
-        end
-      end
-    end
-    inherited GBMenuEdicao: TGroupBox
-      Height = 342
-      inherited SBMenuEdicao: TSpeedBar
-        Height = 321
-      end
-    end
   end
-  inherited SBMenuPrincipal: TSpeedBar
+  inherited sbMSG: TStatusBar
+    Top = 675
     Width = 1356
-    inherited siREF: TSpeedItem
-      Spacing = 0
-    end
-    inherited siPSQ: TSpeedItem
-      Spacing = 0
-    end
-    inherited siREL: TSpeedItem
-      Spacing = 0
-      Left = 725
-    end
-    inherited siSAIR: TSpeedItem
-      Spacing = 0
-      Left = 805
-    end
-    object SINovo: TSpeedItem
-      BtnCaption = 'Incluir'
-      Cursor = crHandPoint
-      Hint = 'Inclus'#227'o de Pedidos'
-      ImageIndex = 4
-      Spacing = 0
-      Left = 165
-      Top = 5
-      Visible = True
-      OnClick = SINovoClick
-      SectionName = 'Menu Principal'
-    end
-    object siARO: TSpeedItem
-      BtnCaption = 'Alterar'
-      Cursor = crHandPoint
-      Hint = 'Altera'#231#227'o de Pedidos'
-      ImageIndex = 5
-      Spacing = 0
-      Left = 245
-      Top = 5
-      Visible = True
-      OnClick = siAROClick
-      SectionName = 'Menu Principal'
-    end
-    object siCRO: TSpeedItem
-      BtnCaption = 'Cancelar'
-      Cursor = crHandPoint
-      Hint = 'Cancelamento de Pedidos'
-      ImageIndex = 6
-      Spacing = 0
-      Left = 325
-      Top = 5
-      Visible = True
-      OnClick = siCROClick
-      SectionName = 'Menu Principal'
-    end
-    object SICLI: TSpeedItem
-      BtnCaption = 'Clentes'
-      Cursor = crHandPoint
-      Hint = 'Informa'#231#245'es Cadastrais'
-      ImageIndex = 7
-      Spacing = 0
-      Left = 405
-      Top = 5
-      Visible = True
-      OnClick = SICLIClick
-      SectionName = 'Menu Principal'
-    end
-    object siINF: TSpeedItem
-      BtnCaption = 'Comercial'
-      Cursor = crHandPoint
-      Hint = 'Informa'#231#245'es Comerciais'
-      ImageIndex = 8
-      Spacing = 0
-      Left = 485
-      Top = 5
-      Visible = True
-      OnClick = siINFClick
-      SectionName = 'Menu Principal'
-    end
-    object siGRO: TSpeedItem
-      BtnCaption = 'Romaneios'
-      Cursor = crHandPoint
-      Hint = 'Emiss'#227'o de Romaneios'
-      ImageIndex = 9
-      Spacing = 0
-      Left = 565
-      Top = 5
-      Visible = True
-      OnClick = siGROClick
-      SectionName = 'Menu Principal'
-    end
-    object siBRO: TSpeedItem
-      BtnCaption = 'Finalizar'
-      Cursor = crHandPoint
-      Hint = 'Baixa de Pedidos'
-      ImageIndex = 10
-      Spacing = 0
-      Left = 645
-      Top = 5
-      Visible = True
-      OnClick = siBROClick
-      SectionName = 'Menu Principal'
-    end
+    Panels = <
+      item
+        Text = 'Consulta'
+        Width = 80
+      end
+      item
+        Text = '0'
+        Width = 20
+      end
+      item
+        Width = 50
+      end>
   end
   inherited Consulta: TIBQuery
     Left = 672
     Top = 216
   end
-  inherited Cadastro: TIBDataSet
-    AfterOpen = CadastroAfterOpen
+  inherited DTSCadastro: TDataSource
+    OnDataChange = dtscadastroDataChange
+    Left = 672
+    Top = 248
+  end
+  inherited Cadastro: TIBQuery
+    AfterScroll = CadastroAfterScroll
+    BeforeOpen = CadastroBeforeOpen
     OnCalcFields = cadastroCalcFields
-    DeleteSQL.Strings = (
-      'delete from PED_VEN_CAB'
-      'where'
-      '  ID = :OLD_ID')
-    InsertSQL.Strings = (
-      'insert into PED_VEN_CAB'
+    SQL.Strings = (
       
-        '  (ID, ROM_ADSC, ROM_CBAI, ROM_CCLI, ROM_CDBX, ROM_CDCX, ROM_CDN' +
-        'F, ROM_CDOC, '
+        'SELECT PK.ID,PK.ROM_CDEP,PK.ROM_DERO,PK.ROM_DROM,PK.ROM_HROM,PK.' +
+        'ROM_CDRO,PK.ROM_CDNF,PK.ROM_DNFS,PK.ROM_CDBX,PK.ROM_DBAI,PK.ROM_' +
+        'CDCX,PK.ROM_CTNR,'
       
-        '   ROM_CDPD, ROM_CDPR, ROM_CDRD, ROM_CDRO, ROM_CDSC, ROM_CEXP, R' +
-        'OM_COMI, '
+        '       PK.ROM_CCLI,CD.CLI_FANT,PK.ROM_CVEN,CV.USU_DUSU,PK.ROM_CR' +
+        'EP,CR.REP_FANT,'
+      '       PK.ROM_QTVE,PK.ROM_RLVE,PK.ROM_QTPD,PK.ROM_RLPD,'
+      '       PK.ROM_TSDE,PK.ROM_TCDE,PK.ROM_PDSC,PK.ROM_TDSC,'
+      '       PK.ROM_CTRA,PK.ROM_DTRA,PK.ROM_VFRT,PK.ROM_DSEP,'
+      '       PK.ROM_VTSP,PK.ROM_VNF ,'
       
-        '   ROM_CONC, ROM_CPAG, ROM_CREP, ROM_CTNR, ROM_CVEN, ROM_DBAI, R' +
-        'OM_DCAN, '
-      
-        '   ROM_DDES, ROM_DEMB, ROM_DERD, ROM_DERO, ROM_DEXP, ROM_DNFS, R' +
-        'OM_DPRD, '
-      
-        '   ROM_DROM, ROM_DSEP, ROM_DTRA, ROM_HEXP, ROM_HROM, ROM_OBSE, R' +
-        'OM_PDSC, '
-      
-        '   ROM_PPRN, ROM_QTPD, ROM_QTSP, ROM_QTVE, ROM_RLVE, ROM_STA, RO' +
-        'M_STCO, '
-      
-        '   ROM_STFI, ROM_STPD, ROM_TBAI, ROM_TCDE, ROM_TDSC, ROM_TPRN, R' +
-        'OM_TSDE, '
-      '   ROM_UPRN, ROM_VFRT)'
-      'values'
-      
-        '  (:ID, :ROM_ADSC, :ROM_CBAI, :ROM_CCLI, :ROM_CDBX, :ROM_CDCX, :' +
-        'ROM_CDNF, '
-      
-        '   :ROM_CDOC, :ROM_CDPD, :ROM_CDPR, :ROM_CDRD, :ROM_CDRO, :ROM_C' +
-        'DSC, :ROM_CEXP, '
-      
-        '   :ROM_COMI, :ROM_CONC, :ROM_CPAG, :ROM_CREP, :ROM_CTNR, :ROM_C' +
-        'VEN, :ROM_DBAI, '
-      
-        '   :ROM_DCAN, :ROM_DDES, :ROM_DEMB, :ROM_DERD, :ROM_DERO, :ROM_D' +
-        'EXP, :ROM_DNFS, '
-      
-        '   :ROM_DPRD, :ROM_DROM, :ROM_DSEP, :ROM_DTRA, :ROM_HEXP, :ROM_H' +
-        'ROM, :ROM_OBSE, '
-      
-        '   :ROM_PDSC, :ROM_PPRN, :ROM_QTPD, :ROM_QTSP, :ROM_QTVE, :ROM_R' +
-        'LVE, :ROM_STA, '
-      
-        '   :ROM_STCO, :ROM_STFI, :ROM_STPD, :ROM_TBAI, :ROM_TCDE, :ROM_T' +
-        'DSC, :ROM_TPRN, '
-      '   :ROM_TSDE, :ROM_UPRN, :ROM_VFRT)')
-    RefreshSQL.Strings = (
-      'Select '
-      '  ID,'
-      '  ROM_CDOC,'
-      '  ROM_CDPR,'
-      '  ROM_CDPD,'
-      '  ROM_CDRO,'
-      '  ROM_CDRD,'
-      '  ROM_CDNF,'
-      '  ROM_CDBX,'
-      '  ROM_CDCX,'
-      '  ROM_DERO,'
-      '  ROM_STPD,'
-      '  ROM_STCO,'
-      '  ROM_STFI,'
-      '  ROM_DROM,'
-      '  ROM_HROM,'
-      '  ROM_DBAI,'
-      '  ROM_DCAN,'
-      '  ROM_DNFS,'
-      '  ROM_DEXP,'
-      '  ROM_HEXP,'
-      '  ROM_CEXP,'
-      '  ROM_CCLI,'
-      '  ROM_CVEN,'
-      '  ROM_CREP,'
-      '  ROM_CPAG,'
-      '  ROM_QTVE,'
-      '  ROM_QTSP,'
-      '  ROM_QTPD,'
-      '  ROM_RLVE,'
-      '  ROM_TSDE,'
-      '  ROM_TDSC,'
-      '  ROM_PDSC,'
-      '  ROM_CDSC,'
-      '  ROM_ADSC,'
-      '  ROM_TCDE,'
-      '  ROM_CONC,'
-      '  ROM_OBSE,'
-      '  ROM_STA,'
-      '  ROM_COMI,'
-      '  ROM_DPRD,'
-      '  ROM_CTNR,'
-      '  ROM_DEMB,'
-      '  ROM_DDES,'
-      '  ROM_CBAI,'
-      '  ROM_TBAI,'
-      '  ROM_UPRN,'
-      '  ROM_PPRN,'
-      '  ROM_TPRN,'
-      '  ROM_VFRT,'
-      '  ROM_DTRA,'
-      '  ROM_DSEP,'
-      '  ROM_DERD'
-      'from PED_VEN_CAB '
-      'where'
-      '  ID = :ID')
-    SelectSQL.Strings = (
-      
-        'SELECT PED_VEN_CAB.*,CAD_CLI.CLI_FANT,CLI_CRED,CAD_USU.USU_DUSU,' +
-        'CAD_REP.REP_FANT,PAG_DPAG'
-      'FROM   PED_VEN_CAB,CAD_CLI,CAD_USU,CAD_REP,TAB_PAG'
-      'WHERE  PED_VEN_CAB.ROM_CCLI = CAD_CLI.ID'
-      'AND    PED_VEN_CAB.ROM_CVEN = CAD_USU.USU_CUSU'
-      'AND    PED_VEN_CAB.ROM_CREP = CAD_REP.ID'
-      'AND    PED_VEN_CAB.ROM_CPAG = TAB_PAG.ID'
-      'ORDER BY ID DESC')
-    ModifySQL.Strings = (
-      'update PED_VEN_CAB'
-      'set'
-      '  ID = :ID,'
-      '  ROM_ADSC = :ROM_ADSC,'
-      '  ROM_CBAI = :ROM_CBAI,'
-      '  ROM_CCLI = :ROM_CCLI,'
-      '  ROM_CDBX = :ROM_CDBX,'
-      '  ROM_CDCX = :ROM_CDCX,'
-      '  ROM_CDNF = :ROM_CDNF,'
-      '  ROM_CDOC = :ROM_CDOC,'
-      '  ROM_CDPD = :ROM_CDPD,'
-      '  ROM_CDPR = :ROM_CDPR,'
-      '  ROM_CDRD = :ROM_CDRD,'
-      '  ROM_CDRO = :ROM_CDRO,'
-      '  ROM_CDSC = :ROM_CDSC,'
-      '  ROM_CEXP = :ROM_CEXP,'
-      '  ROM_COMI = :ROM_COMI,'
-      '  ROM_CONC = :ROM_CONC,'
-      '  ROM_CPAG = :ROM_CPAG,'
-      '  ROM_CREP = :ROM_CREP,'
-      '  ROM_CTNR = :ROM_CTNR,'
-      '  ROM_CVEN = :ROM_CVEN,'
-      '  ROM_DBAI = :ROM_DBAI,'
-      '  ROM_DCAN = :ROM_DCAN,'
-      '  ROM_DDES = :ROM_DDES,'
-      '  ROM_DEMB = :ROM_DEMB,'
-      '  ROM_DERD = :ROM_DERD,'
-      '  ROM_DERO = :ROM_DERO,'
-      '  ROM_DEXP = :ROM_DEXP,'
-      '  ROM_DNFS = :ROM_DNFS,'
-      '  ROM_DPRD = :ROM_DPRD,'
-      '  ROM_DROM = :ROM_DROM,'
-      '  ROM_DSEP = :ROM_DSEP,'
-      '  ROM_DTRA = :ROM_DTRA,'
-      '  ROM_HEXP = :ROM_HEXP,'
-      '  ROM_HROM = :ROM_HROM,'
-      '  ROM_OBSE = :ROM_OBSE,'
-      '  ROM_PDSC = :ROM_PDSC,'
-      '  ROM_PPRN = :ROM_PPRN,'
-      '  ROM_QTPD = :ROM_QTPD,'
-      '  ROM_QTSP = :ROM_QTSP,'
-      '  ROM_QTVE = :ROM_QTVE,'
-      '  ROM_RLVE = :ROM_RLVE,'
-      '  ROM_STA = :ROM_STA,'
-      '  ROM_STCO = :ROM_STCO,'
-      '  ROM_STFI = :ROM_STFI,'
-      '  ROM_STPD = :ROM_STPD,'
-      '  ROM_TBAI = :ROM_TBAI,'
-      '  ROM_TCDE = :ROM_TCDE,'
-      '  ROM_TDSC = :ROM_TDSC,'
-      '  ROM_TPRN = :ROM_TPRN,'
-      '  ROM_TSDE = :ROM_TSDE,'
-      '  ROM_UPRN = :ROM_UPRN,'
-      '  ROM_VFRT = :ROM_VFRT'
-      'where'
-      '  ID = :OLD_ID')
+        '       PK.ROM_STPD,PK.ROM_STCO,PK.ROM_CONC,PK.TPCO,PK.RECO,PK.RO' +
+        'M_CPAG,PG.PAG_DPAG,PK.ROM_STFI,'
+      '       PK.ROM_CDRD,PK.ROM_DERD,'
+      '       PK.ROM_OBSE,PK.ROM_PPRN,ROM_STA'
+      ''
+      'FROM   PED_VEN_CAB AS PK'
+      'JOIN   CAD_CLI     AS CD ON (CD.ID = PK.ROM_CCLI)'
+      'JOIN   CAD_USU     AS CV ON (CV.USU_CUSU = PK.ROM_CVEN)'
+      'JOIN   CAD_REP     AS CR ON (CR.ID = PK.ROM_CREP)'
+      'JOIN   TAB_PAG     AS PG ON (PG.ID = PK.ROM_CPAG)'
+      ''
+      'WHERE    PK.ROM_DROM > '#39'01/01/26'#39
+      'ORDER BY PK.ID DESC')
     Left = 640
     Top = 248
-    object cadastroID: TIntegerField
-      DisplayLabel = 'Sequencia'
+    object CadastroID: TIntegerField
       FieldName = 'ID'
-      Origin = '"PED_OCA_CAB"."ID"'
+      Origin = '"PED_VEN_CAB"."ID"'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
-    object cadastroROM_CDOC: TIntegerField
-      FieldName = 'ROM_CDOC'
-      Origin = '"PED_OCA_CAB"."ROM_CDOC"'
+    object CadastroROM_CDEP: TSmallintField
+      FieldName = 'ROM_CDEP'
+      Origin = '"PED_VEN_CAB"."ROM_CDEP"'
     end
-    object cadastroROM_CDPR: TIntegerField
-      FieldName = 'ROM_CDPR'
-      Origin = '"PED_OCA_CAB"."ROM_CDPR"'
+    object CadastroROM_DERO: TIBStringField
+      DisplayLabel = 'Pedido'
+      FieldName = 'ROM_DERO'
+      Origin = '"PED_VEN_CAB"."ROM_DERO"'
+      Size = 30
     end
-    object cadastroROM_CDPD: TIntegerField
-      FieldName = 'ROM_CDPD'
-      Origin = '"PED_OCA_CAB"."ROM_CDPD"'
+    object CadastroROM_DROM: TDateField
+      DisplayLabel = 'Emiss'#227'o'
+      FieldName = 'ROM_DROM'
+      Origin = '"PED_VEN_CAB"."ROM_DROM"'
+      DisplayFormat = 'dd.mm.yy'
     end
-    object cadastroROM_CDRO: TIntegerField
+    object CadastroROM_HROM: TTimeField
+      FieldName = 'ROM_HROM'
+      Origin = '"PED_VEN_CAB"."ROM_HROM"'
+    end
+    object CadastroROM_CDRO: TIntegerField
       FieldName = 'ROM_CDRO'
-      Origin = '"PED_OCA_CAB"."ROM_CDRO"'
+      Origin = '"PED_VEN_CAB"."ROM_CDRO"'
     end
-    object cadastroROM_CDNF: TIntegerField
+    object CadastroROM_CDNF: TIntegerField
       DisplayLabel = 'NF'
       FieldName = 'ROM_CDNF'
-      Origin = '"PED_OCA_CAB"."ROM_CDNF"'
+      Origin = '"PED_VEN_CAB"."ROM_CDNF"'
     end
-    object cadastroROM_CDBX: TIntegerField
-      DisplayLabel = 'C'#243'digo Baixa'
+    object CadastroROM_DNFS: TDateField
+      DisplayLabel = 'Emiss'#227'o'
+      FieldName = 'ROM_DNFS'
+      Origin = '"PED_VEN_CAB"."ROM_DNFS"'
+      DisplayFormat = 'dd.mm.yy'
+    end
+    object CadastroROM_CDBX: TIntegerField
       FieldName = 'ROM_CDBX'
-      Origin = '"PED_OCA_CAB"."ROM_CDBX"'
+      Origin = '"PED_VEN_CAB"."ROM_CDBX"'
     end
-    object cadastroROM_CDCX: TIntegerField
-      DisplayLabel = 'N'#250'mero Caixa'
+    object CadastroROM_DBAI: TDateField
+      FieldName = 'ROM_DBAI'
+      Origin = '"PED_VEN_CAB"."ROM_DBAI"'
+    end
+    object CadastroROM_CDCX: TIntegerField
       FieldName = 'ROM_CDCX'
       Origin = '"PED_VEN_CAB"."ROM_CDCX"'
     end
-    object cadastroROM_DERO: TIBStringField
-      DisplayLabel = 'N'#250'mero'
-      FieldName = 'ROM_DERO'
-      Origin = '"PED_OCA_CAB"."ROM_DERO"'
+    object CadastroROM_CTNR: TIBStringField
+      FieldName = 'ROM_CTNR'
+      Origin = '"PED_VEN_CAB"."ROM_CTNR"'
     end
-    object cadastroROM_STPD: TIBStringField
-      DisplayLabel = 'Tipo de Pedido'
-      FieldName = 'ROM_STPD'
-      Origin = '"PED_OCA_CAB"."ROM_STPD"'
-    end
-    object cadastroROM_STCO: TIBStringField
-      DisplayLabel = 'Tipo de Cobran'#231'a'
-      FieldName = 'ROM_STCO'
-      Origin = '"PED_OCA_CAB"."ROM_STCO"'
-    end
-    object cadastroROM_STFI: TIBStringField
-      DisplayLabel = 'Status'
-      FieldName = 'ROM_STFI'
-      Origin = '"PED_OCA_CAB"."ROM_STFI"'
-    end
-    object cadastroROM_DROM: TDateField
-      DisplayLabel = 'Dt Lancto'
-      FieldName = 'ROM_DROM'
-      Origin = '"PED_OCA_CAB"."ROM_DROM"'
-    end
-    object cadastroROM_HROM: TTimeField
-      FieldName = 'ROM_HROM'
-      Origin = '"PED_OCA_CAB"."ROM_HROM"'
-    end
-    object cadastroROM_DEXP: TDateField
-      FieldName = 'ROM_DEXP'
-      Origin = '"PED_OCA_CAB"."ROM_DEXP"'
-    end
-    object cadastroROM_HEXP: TTimeField
-      FieldName = 'ROM_HEXP'
-      Origin = '"PED_OCA_CAB"."ROM_HEXP"'
-    end
-    object cadastroROM_CEXP: TIntegerField
-      FieldName = 'ROM_CEXP'
-      Origin = '"PED_OCA_CAB"."ROM_CEXP"'
-    end
-    object cadastroROM_DBAI: TDateField
-      DisplayLabel = 'Dt Baixa'
-      FieldName = 'ROM_DBAI'
-      Origin = '"PED_OCA_CAB"."ROM_DBAI"'
-    end
-    object cadastroROM_DCAN: TDateField
-      FieldName = 'ROM_DCAN'
-      Origin = '"PED_OCA_CAB"."ROM_DCAN"'
-    end
-    object cadastroROM_DNFS: TDateField
-      DisplayLabel = 'Dt Emiss'#227'o'
-      FieldName = 'ROM_DNFS'
-      Origin = '"PED_OCA_CAB"."ROM_DNFS"'
-    end
-    object cadastroROM_CCLI: TIntegerField
+    object CadastroROM_CCLI: TIntegerField
       FieldName = 'ROM_CCLI'
-      Origin = '"PED_OCA_CAB"."ROM_CCLI"'
+      Origin = '"PED_VEN_CAB"."ROM_CCLI"'
     end
-    object cadastroROM_PDSC: TIBBCDField
-      FieldName = 'ROM_PDSC'
-      Origin = '"PED_OCA_CAB"."ROM_PDSC"'
-      Precision = 18
-      Size = 2
-    end
-    object cadastroROM_CDSC: TIBBCDField
-      FieldName = 'ROM_CDSC'
-      Origin = '"PED_OCA_CAB"."ROM_CDSC"'
-      Precision = 9
-      Size = 2
-    end
-    object cadastroROM_OBSE: TMemoField
-      FieldName = 'ROM_OBSE'
-      Origin = '"PED_OCA_CAB"."ROM_OBSE"'
-      ProviderFlags = [pfInUpdate]
-      BlobType = ftMemo
-      Size = 8
-    end
-    object cadastroROM_STA: TIBStringField
-      FieldName = 'ROM_STA'
-      Origin = '"PED_OCA_CAB"."ROM_STA"'
-      FixedChar = True
-      Size = 1
-    end
-    object cadastroROM_CVEN: TIntegerField
-      FieldName = 'ROM_CVEN'
-      Origin = '"PED_OCA_CAB"."ROM_CVEN"'
-    end
-    object cadastroROM_CREP: TIntegerField
-      FieldName = 'ROM_CREP'
-      Origin = '"PED_OCA_CAB"."ROM_CREP"'
-    end
-    object cadastroROM_CPAG: TIntegerField
-      FieldName = 'ROM_CPAG'
-      Origin = '"PED_OCA_CAB"."ROM_CPAG"'
-    end
-    object cadastroROM_RLVE: TIntegerField
-      DisplayLabel = 'Itens'
-      FieldName = 'ROM_RLVE'
-      Origin = '"PED_OCA_CAB"."ROM_RLVE"'
-      DisplayFormat = '0'
-    end
-    object cadastroROM_QTVE: TIBBCDField
-      DisplayLabel = 'Quantidade'
-      FieldName = 'ROM_QTVE'
-      Origin = '"PED_OCA_CAB"."ROM_QTVE"'
-      DisplayFormat = '#,0.00'
-      Precision = 18
-      Size = 4
-    end
-    object cadastroROM_TSDE: TIBBCDField
-      DisplayLabel = 'Sub Total'
-      FieldName = 'ROM_TSDE'
-      Origin = '"PED_OCA_CAB"."ROM_TSDE"'
-      DisplayFormat = '#,0.00'
-      Precision = 18
-      Size = 2
-    end
-    object cadastroROM_TDSC: TIBStringField
-      FieldName = 'ROM_TDSC'
-      Origin = '"PED_OCA_CAB"."ROM_TDSC"'
-      FixedChar = True
-      Size = 1
-    end
-    object cadastroROM_TCDE: TIBBCDField
-      DisplayLabel = 'Total'
-      FieldName = 'ROM_TCDE'
-      Origin = '"PED_OCA_CAB"."ROM_TCDE"'
-      DisplayFormat = '#,0.00'
-      Precision = 18
-      Size = 2
-    end
-    object cadastroROM_CONC: TSmallintField
-      FieldName = 'ROM_CONC'
-      Origin = '"PED_OCA_CAB"."ROM_CONC"'
-    end
-    object cadastroROM_DESC: TStringField
-      DisplayLabel = 'Desc (%)'
-      FieldKind = fkCalculated
-      FieldName = 'ROM_DESC'
-      Calculated = True
-    end
-    object cadastroCLI_FANT: TIBStringField
+    object CadastroCLI_FANT: TIBStringField
       DisplayLabel = 'Cliente'
       FieldName = 'CLI_FANT'
       Origin = '"CAD_CLI"."CLI_FANT"'
-      Size = 40
+      Size = 60
     end
-    object cadastroUSU_DUSU: TIBStringField
+    object CadastroROM_CVEN: TIntegerField
+      FieldName = 'ROM_CVEN'
+      Origin = '"PED_VEN_CAB"."ROM_CVEN"'
+    end
+    object CadastroUSU_DUSU: TIBStringField
       DisplayLabel = 'Vendedor'
       FieldName = 'USU_DUSU'
       Origin = '"CAD_USU"."USU_DUSU"'
       Size = 40
     end
-    object cadastroREP_FANT: TIBStringField
+    object CadastroROM_CREP: TIntegerField
+      FieldName = 'ROM_CREP'
+      Origin = '"PED_VEN_CAB"."ROM_CREP"'
+    end
+    object CadastroREP_FANT: TIBStringField
       DisplayLabel = 'Representante'
       FieldName = 'REP_FANT'
       Origin = '"CAD_REP"."REP_FANT"'
-      Size = 40
+      Size = 60
     end
-    object cadastroPAG_DPAG: TIBStringField
-      DisplayLabel = 'Forma de Pagamento'
-      FieldName = 'PAG_DPAG'
-      Origin = '"TAB_PAG"."PAG_DPAG"'
-      Size = 50
-    end
-    object cadastroROM_ADSC: TIBBCDField
-      FieldName = 'ROM_ADSC'
-      Origin = '"PED_VEN_CAB"."ROM_ADSC"'
-      Precision = 9
-      Size = 2
-    end
-    object cadastroROM_CDRD: TIntegerField
-      FieldName = 'ROM_CDRD'
-      Origin = '"PED_VEN_CAB"."ROM_CDRD"'
-    end
-    object cadastroROM_QTSP: TIBBCDField
-      FieldName = 'ROM_QTSP'
-      Origin = '"PED_VEN_CAB"."ROM_QTSP"'
+    object CadastroROM_QTVE: TIBBCDField
+      FieldName = 'ROM_QTVE'
+      Origin = '"PED_VEN_CAB"."ROM_QTVE"'
       Precision = 18
       Size = 4
     end
-    object cadastroROM_QTPD: TIBBCDField
+    object CadastroROM_RLVE: TIntegerField
+      FieldName = 'ROM_RLVE'
+      Origin = '"PED_VEN_CAB"."ROM_RLVE"'
+    end
+    object CadastroROM_QTPD: TIBBCDField
       FieldName = 'ROM_QTPD'
       Origin = '"PED_VEN_CAB"."ROM_QTPD"'
       Precision = 18
       Size = 4
     end
-    object cadastroROM_COMI: TIBBCDField
-      FieldName = 'ROM_COMI'
-      Origin = '"PED_VEN_CAB"."ROM_COMI"'
-      Precision = 9
-      Size = 2
+    object CadastroROM_RLPD: TIntegerField
+      FieldName = 'ROM_RLPD'
+      Origin = '"PED_VEN_CAB"."ROM_RLPD"'
     end
-    object cadastroROM_DEMB: TDateField
-      FieldName = 'ROM_DEMB'
-      Origin = '"PED_VEN_CAB"."ROM_DEMB"'
-    end
-    object cadastroROM_DDES: TDateField
-      FieldName = 'ROM_DDES'
-      Origin = '"PED_VEN_CAB"."ROM_DDES"'
-    end
-    object cadastroROM_DPRD: TDateField
-      FieldName = 'ROM_DPRD'
-      Origin = '"PED_VEN_CAB"."ROM_DPRD"'
-    end
-    object cadastroROM_CTNR: TIBStringField
-      DisplayLabel = 'Container'
-      FieldName = 'ROM_CTNR'
-      Origin = '"PED_VEN_CAB"."ROM_CTNR"'
-    end
-    object cadastroCLI_CRED: TIBBCDField
-      FieldName = 'CLI_CRED'
-      Origin = '"CAD_CLI"."CLI_CRED"'
-      Precision = 9
-      Size = 2
-    end
-    object cadastroROM_CBAI: TIntegerField
-      FieldName = 'ROM_CBAI'
-      Origin = '"PED_VEN_CAB"."ROM_CBAI"'
-    end
-    object cadastroROM_TBAI: TDateTimeField
-      FieldName = 'ROM_TBAI'
-      Origin = '"PED_VEN_CAB"."ROM_TBAI"'
-    end
-    object cadastroROM_UPRN: TIntegerField
-      FieldName = 'ROM_UPRN'
-      Origin = '"PED_VEN_CAB"."ROM_UPRN"'
-    end
-    object cadastroROM_PPRN: TSmallintField
-      FieldName = 'ROM_PPRN'
-      Origin = '"PED_VEN_CAB"."ROM_PPRN"'
-    end
-    object cadastroROM_TPRN: TDateTimeField
-      FieldName = 'ROM_TPRN'
-      Origin = '"PED_VEN_CAB"."ROM_TPRN"'
-    end
-    object cadastroROM_VFRT: TIBBCDField
-      FieldName = 'ROM_VFRT'
-      Origin = '"PED_VEN_CAB"."ROM_VFRT"'
+    object CadastroROM_TSDE: TIBBCDField
+      DisplayLabel = 'Sub Total'
+      FieldName = 'ROM_TSDE'
+      Origin = '"PED_VEN_CAB"."ROM_TSDE"'
+      DisplayFormat = ',##,0.00'
       Precision = 18
       Size = 2
     end
-    object cadastroROM_DTRA: TIBStringField
-      DisplayLabel = 'Transportadora'
-      FieldName = 'ROM_DTRA'
-      Origin = '"PED_VEN_CAB"."ROM_DTRA"'
-      Size = 40
+    object CadastroROM_TCDE: TIBBCDField
+      DisplayLabel = 'Total'
+      FieldName = 'ROM_TCDE'
+      Origin = '"PED_VEN_CAB"."ROM_TCDE"'
+      DisplayFormat = ',##,0.00'
+      Precision = 18
+      Size = 2
     end
-    object cadastroROM_DSEP: TIBStringField
-      DisplayLabel = 'Separador'
-      FieldName = 'ROM_DSEP'
-      Origin = '"PED_VEN_CAB"."ROM_DSEP"'
-      Size = 15
+    object CadastroROM_PDSC: TIBBCDField
+      DisplayLabel = 'Desc %'
+      FieldName = 'ROM_PDSC'
+      Origin = '"PED_VEN_CAB"."ROM_PDSC"'
+      DisplayFormat = ',##,0.00'
+      Precision = 9
+      Size = 2
     end
-    object cadastroROM_DEVO: TStringField
-      FieldKind = fkCalculated
-      FieldName = 'ROM_DEVO'
-      Size = 30
-      Calculated = True
-    end
-    object cadastroROM_DERD: TIBStringField
-      FieldName = 'ROM_DERD'
-      Origin = '"PED_VEN_CAB"."ROM_DERD"'
+    object CadastroROM_TDSC: TIBStringField
+      FieldName = 'ROM_TDSC'
+      Origin = '"PED_VEN_CAB"."ROM_TDSC"'
+      FixedChar = True
+      Size = 1
     end
     object CadastroROM_CTRA: TIntegerField
       FieldName = 'ROM_CTRA'
       Origin = '"PED_VEN_CAB"."ROM_CTRA"'
     end
-  end
-  inherited DTSCadastro: TDataSource
-    OnDataChange = dtscadastroDataChange
-    Left = 672
-    Top = 248
+    object CadastroROM_DTRA: TIBStringField
+      DisplayLabel = 'Transportadora'
+      FieldName = 'ROM_DTRA'
+      Origin = '"PED_VEN_CAB"."ROM_DTRA"'
+      Size = 60
+    end
+    object CadastroROM_VFRT: TIBBCDField
+      DisplayLabel = 'Frete'
+      FieldName = 'ROM_VFRT'
+      Origin = '"PED_VEN_CAB"."ROM_VFRT"'
+      Precision = 18
+      Size = 2
+    end
+    object CadastroROM_DSEP: TIBStringField
+      FieldName = 'ROM_DSEP'
+      Origin = '"PED_VEN_CAB"."ROM_DSEP"'
+      Size = 40
+    end
+    object CadastroROM_VTSP: TIBBCDField
+      FieldName = 'ROM_VTSP'
+      Origin = '"PED_VEN_CAB"."ROM_VTSP"'
+      Precision = 18
+      Size = 2
+    end
+    object CadastroROM_VNF: TIBBCDField
+      FieldName = 'ROM_VNF'
+      Origin = '"PED_VEN_CAB"."ROM_VNF"'
+      Precision = 18
+      Size = 2
+    end
+    object CadastroROM_STPD: TIBStringField
+      DisplayLabel = 'Tipo'
+      FieldName = 'ROM_STPD'
+      Origin = '"PED_VEN_CAB"."ROM_STPD"'
+      Size = 30
+    end
+    object CadastroROM_STCO: TIBStringField
+      DisplayLabel = 'Cobran'#231'a'
+      FieldName = 'ROM_STCO'
+      Origin = '"PED_VEN_CAB"."ROM_STCO"'
+      Size = 30
+    end
+    object CadastroROM_CONC: TSmallintField
+      FieldName = 'ROM_CONC'
+      Origin = '"PED_VEN_CAB"."ROM_CONC"'
+    end
+    object CadastroTPCO: TSmallintField
+      FieldName = 'TPCO'
+      Origin = '"PED_VEN_CAB"."TPCO"'
+    end
+    object CadastroRECO: TIBStringField
+      FieldName = 'RECO'
+      Origin = '"PED_VEN_CAB"."RECO"'
+      FixedChar = True
+      Size = 3
+    end
+    object CadastroROM_CPAG: TIntegerField
+      FieldName = 'ROM_CPAG'
+      Origin = '"PED_VEN_CAB"."ROM_CPAG"'
+    end
+    object CadastroPAG_DPAG: TIBStringField
+      DisplayLabel = 'Prazo'
+      FieldName = 'PAG_DPAG'
+      Origin = '"TAB_PAG"."PAG_DPAG"'
+      Size = 50
+    end
+    object CadastroROM_STFI: TIBStringField
+      DisplayLabel = 'Situa'#231#227'o'
+      FieldName = 'ROM_STFI'
+      Origin = '"PED_VEN_CAB"."ROM_STFI"'
+      Size = 30
+    end
+    object CadastroROM_CDRD: TIntegerField
+      FieldName = 'ROM_CDRD'
+      Origin = '"PED_VEN_CAB"."ROM_CDRD"'
+    end
+    object CadastroROM_DERD: TIBStringField
+      FieldName = 'ROM_DERD'
+      Origin = '"PED_VEN_CAB"."ROM_DERD"'
+    end
+    object CadastroROM_OBSE: TMemoField
+      FieldName = 'ROM_OBSE'
+      Origin = '"PED_VEN_CAB"."ROM_OBSE"'
+      ProviderFlags = [pfInUpdate]
+      BlobType = ftMemo
+      Size = 8
+    end
+    object CadastroROM_PPRN: TSmallintField
+      FieldName = 'ROM_PPRN'
+      Origin = '"PED_VEN_CAB"."ROM_PPRN"'
+    end
+    object CadastroROM_STA: TIBStringField
+      FieldName = 'ROM_STA'
+      Origin = '"PED_VEN_CAB"."ROM_STA"'
+      FixedChar = True
+      Size = 1
+    end
+    object CadastroROM_DEVO: TStringField
+      FieldKind = fkCalculated
+      FieldName = 'ROM_DEVO'
+      Size = 60
+      Calculated = True
+    end
   end
   inherited IBTra: TIBTransaction
     Left = 728
@@ -1073,11 +838,17 @@ inherited frmctr_ped: Tfrmctr_ped
     Left = 728
     Top = 256
   end
+  inherited pTRA: TIBTransaction
+    Params.Strings = (
+      'read'
+      'read_committed'
+      'rec_version')
+  end
   inherited ILMenuPrincipal: TImageList
     Left = 104
     Top = 312
     Bitmap = {
-      494C01010B000E0004003E002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010C000E0004003E002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000F800000080000000010020000000000000F0
       0100000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2096,11 +1867,11 @@ inherited frmctr_ped: Tfrmctr_ped
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000F351F400979C
+      9E00488257003A724C003F7F5D003F8060003E7957003C6F47003D734E003D73
+      4E003E7A5800428263003F7A58003B6E47003D724E003D734E003E7854003F80
+      60005B8A6A00B8C8B700F9F8F900F2F1F200F0F0F000F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F00000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2127,11 +1898,11 @@ inherited frmctr_ped: Tfrmctr_ped
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000EF4DF200459A55000031
+      0200000A0000000D000002514F0019B4DE0018AFD50000403D0000060000000B
+      0000002C200023A7C20033C0DD00084D4A0000070000000B0000002311002397
+      A5001EA3AC00035A340082A58800F8F7F800F2F1F100F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F00000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2158,11 +1929,11 @@ inherited frmctr_ped: Tfrmctr_ped
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000091999400006B43000F8D
+      A90001241C0000080000001306000E6D7C0029D5FF0022BAE500053B3E000006
+      0000000A00000842430037C9EC003FD0F2000E4B4B0000040000000A00000939
+      320044CCED0030BDCC000D602900C4D6C800F9F6F800F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F00000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2189,11 +1960,11 @@ inherited frmctr_ped: Tfrmctr_ped
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000488C4E0003887F0025DA
+      FF001696B6000016070000070000000D00000F6B750032DCFF0028BDE600063D
+      3D0000060000000500000945440041D4F70048D9F400104C4900000600000007
+      00000B4240003CC8DF00017B440089B09300FEF9FC00F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F00000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2220,11 +1991,11 @@ inherited frmctr_ped: Tfrmctr_ped
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000036874C00014E1E001792
+      B7002ADDFF00178DA80000180C0000080000000B00001378880039E0FF002EC0
+      E700073E3E0000080000000900000E4F500048DAF6004CDAF6000B4544000006
+      00000005000004413300007231008AB79900FEF8FC00F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F00000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2251,11 +2022,11 @@ inherited frmctr_ped: Tfrmctr_ped
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000003A93580000390000011B
+      15001B9CBA0031DFFF001A8FA700001F0E00000C0000001906001984960042E1
+      FF0033C0E400043B3200000E0000000D00000F5452004DDCF90047CEEB000C45
+      41000006000000150000005F15008CBDA000FEF8FC00F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F00000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2282,11 +2053,11 @@ inherited frmctr_ped: Tfrmctr_ped
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000003B9A5D00004815000004
+      00000225170022A9CB003AE1FF00229BB300042C180000120000001E09001C87
+      97004AE3FF0038C0E10009453C0000160000000F00001155520055DCFA0052D4
+      F100144A490000170000006A20008CC0A100FEF7FC00F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F00000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2313,11 +2084,11 @@ inherited frmctr_ped: Tfrmctr_ped
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000003C9E6100005F2200002C
+      0700002A000004512E001FADB30024C2D5000C7D6A000036070000350500003D
+      0F001B98900031CAD600179E9A000044160000360700002D000016785F003FCF
+      D00027AEAC00014E2500007527008CC1A200FEF7FB00F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F00000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2344,11 +2115,11 @@ inherited frmctr_ped: Tfrmctr_ped
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000003E9F640002873300006C
+      1800006F1B00006A1300006E1A00007323000077270000711C0000721C00006E
+      1600006D160000742200007A270000761F0000731C0000731B00006E15000075
+      2100007A270002822D00008C3A008CC1A200FEF6FB00F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F00000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2375,11 +2146,11 @@ inherited frmctr_ped: Tfrmctr_ped
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000041A4680009923D000076
+      1B0000791E00007A1F0000781C0000771B0000781C00007A1F00007B1F00007B
+      1F00007A1D0000781B0000791C00007B1F00007B1F00007C2000007B1F00007B
+      1B000079190003862A00039746008BC3A400FEF6FB00F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F00000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2406,11 +2177,11 @@ inherited frmctr_ped: Tfrmctr_ped
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000045A86C00159A4500007B
+      1C00007E20000080210000802100008021000081210000812100008121000081
+      2100008121000082210000812100008122000082220000822300008323000084
+      230000822000058E30000BA051008CC6A500FEF6FA00F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F00000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2437,11 +2208,11 @@ inherited frmctr_ped: Tfrmctr_ped
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000049AC6F001FA450000085
+      23000088280000882A0000892A0000892A00008A2B00008A2B00008A2C00008A
+      2C00008B2C00008B2E00008C2E00008D2F00008E3000008E3000008E3000008E
+      3100008C30000A99400017A85B008BC8A600FEF5FA00F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F00000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2468,11 +2239,11 @@ inherited frmctr_ped: Tfrmctr_ped
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000004CAF720029AD61000091
+      370001943B0002943C0002943D0002943D0002953E0002963E0002963F000296
+      4000029640000396410003984200039842000398430003994300049944000499
+      44000197410011A3530021B067008ACAA700FEF5FA00F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F00000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2499,11 +2270,11 @@ inherited frmctr_ped: Tfrmctr_ped
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000004FB3740033B67000019C
+      4800069F4B00069E4C00069E4C00069F4C0007A14D0007A14E0007A14E0007A1
+      4F0007A1500008A2500008A2510008A2510007A2510008A4520009A3530009A3
+      530005A14F0019AE620029B670008ACBA700FEF5FA00F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F00000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2530,11 +2301,11 @@ inherited frmctr_ped: Tfrmctr_ped
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000052B679003FBF7D0006A7
+      57000CA95A000CA95A000CA95B000CAB5C000CAB5C000DAB5C000DAB5D000DAB
+      5D000EAC5D000DAD5E000DAD5F000DAD5F000FAD5F000FAE61000FAE610010AE
+      61000BAC5F0022B8710032BD79008ACDA900FDF4F900F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F00000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2561,11 +2332,11 @@ inherited frmctr_ped: Tfrmctr_ped
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000057BB82004AC68A000EB1
+      650013B3680014B3690014B3690015B4690015B6690016B66A0016B66A0016B6
+      6A0017B76B0017B76C0017B76C0017B76C0017B76E0018B76E0018B86E0019B8
+      6F0015B66D002DC17F003CC483008BD0AC00FDF4F900F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F00000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2592,11 +2363,11 @@ inherited frmctr_ped: Tfrmctr_ped
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000058BF880057CF960017BB
+      71001DBD75001EBD76001FBD76001FBD76001FBE77001FBF780020C0780020C0
+      780021C0780021C1790022C1790022C1790022C17B0023C17B0024C27B0024C2
+      7B0021C0790038CA8A0046CB8E008CD3AF00FDF4F800F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F0F0F000F0F0F000F1F1F10000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2623,11 +2394,11 @@ inherited frmctr_ped: Tfrmctr_ped
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000006AC9980072DDAC0032C9
+      860027C47D002BC680002BC681002CC681002CC681002DC682002DC783002FC8
+      830030C8830031C9840032C9850032C9850034C9860034C9860034C9860035CA
+      86002EC7820061DAA4005ED29B0093D5B500FCF3F800F0F0F000F0F0F000F0F0
+      F000F1F1F100F3F3F300F3F3F300F3F3F300F2F2F20000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2654,11 +2425,11 @@ inherited frmctr_ped: Tfrmctr_ped
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000009FDABC0060D59E0093EB
+      C4005AD69E0052D4990053D59A0054D59A0054D59B0056D59C0056D69C0057D6
+      9C0058D69D0058D79E0058D79E0059D79E005AD79E005BD79F005BD7A0005AD7
+      9F0075E1B1009DEFC90054C99000C9E7D800F7F2F500F0F0F000F0F0F000F1F1
+      F100EFEFEF00C7C7C700EBEBEB00E5E5E500BFBFBF0000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2685,11 +2456,11 @@ inherited frmctr_ped: Tfrmctr_ped
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000ECF0EE006ED1A2006AD9
+      A6009CEDC800B0F2D200AFF2D100AEF2D100AEF2D100AFF2D100AFF2D100AFF2
+      D100AFF2D100AFF2D100AFF2D100B3F6D500B0F4D300AFF2D200B4F7D700ADF3
+      D20092E9C20052CD9400A0DEC000FAF4F600F1F0F000F0F0F000F0F0F000F2F2
+      F200EBEBEB00AAAAAA00E0E0E000D5D5D500A9A9A90000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2716,11 +2487,11 @@ inherited frmctr_ped: Tfrmctr_ped
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000F7F2F400F3F6F400A8E1
+      C7008CD9B40098DDBB0098DDBB0098DDBB0098DDBB0097DDBA0097DDBA0097DD
+      BA0097DDBA0098DDBA0097DDBA007AC09D008ACFAD0094D9B70077BD9A008ED6
+      B2008CDAB500C5EBDA00FFFAFD00F1F0F000F0F0F000F0F0F000F0F0F000F1F1
+      F100ECECEC00B5B5B500E4E4E400D4D4D400B1B1B10000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2747,11 +2518,11 @@ inherited frmctr_ped: Tfrmctr_ped
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000EFF0EF00F2F0F100FBF3
+      F700FBF3F700F9F3F600F9F3F600F9F3F600F9F3F600F9F3F600F9F3F600F9F3
+      F600F9F3F600F9F3F600FDF7FA00C9C3C600E2DCDF00FDF6FA00C1BBBE00F0E9
+      EC00FEF6F900F9F3F600F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F1F1
+      F100ECECEC00BCBCBC00E9E9E900D5D5D500B7B7B70000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2778,11 +2549,11 @@ inherited frmctr_ped: Tfrmctr_ped
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000F0F0F000F0F0F000F0F0
+      F000F1F0F000F1F0F000F1F0F000F1F0F000F1F0F000F1F0F000F1F0F000F1F0
+      F000F1F0F000F0F0F000F4F4F400CBCBCB00D9D8D900F8F7F800C4C3C300E9E8
+      E900F2F2F200F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F2F2
+      F200EAEAEA00BEBEBE00EEEEEE00D1D1D100C7C7C70000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2809,11 +2580,11 @@ inherited frmctr_ped: Tfrmctr_ped
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F3F3F300D5D5D500D4D4D400FAFAFA00C9C9C900E1E1
+      E100F2F2F200F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F3F3
+      F300E8E8E800C2C2C200F3F3F300CCCCCC00D2D2D20000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2840,11 +2611,11 @@ inherited frmctr_ped: Tfrmctr_ped
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F3F3F300E1E1E100CDCDCD00FBFBFB00D3D3D300D8D8
+      D800F4F4F400F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F5F5
+      F500E0E0E000CDCDCD00F6F6F600C9C9C900D9D9D90000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2871,11 +2642,11 @@ inherited frmctr_ped: Tfrmctr_ped
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F1F1F100ECECEC00CDCDCD00F5F5F500E5E5E500CFCF
+      CF00F3F3F300F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F8F8
+      F800D3D3D300E0E0E000F2F2F200C8C8C800E6E6E60000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2902,11 +2673,11 @@ inherited frmctr_ped: Tfrmctr_ped
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F0F0F000F5F5F500D6D6D600E5E5E500F9F9F900D0D0
+      D000DFDFDF00F8F8F800F4F4F400F2F2F200F2F2F200F3F3F300F8F8F800E6E6
+      E600D0D0D000F7F7F700E6E6E600CCCCCC00F0F0F00000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2933,11 +2704,11 @@ inherited frmctr_ped: Tfrmctr_ped
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F0F0F000F4F4F400EAEAEA00D1D1D100F8F8F800F0F0
+      F000D1D1D100D8D8D800E8E8E800EFEFEF00EFEFEF00E7E7E700D9D9D900D3D3
+      D300F0F0F000FAFAFA00D2D2D200DEDEDE00F3F3F30000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2964,11 +2735,11 @@ inherited frmctr_ped: Tfrmctr_ped
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F0F0F000F0F0F000F6F6F600DDDDDD00D8D8D800F7F7
+      F700F6F6F600E4E4E400DCDCDC00DCDCDC00DCDCDC00DDDDDD00E5E5E500F6F6
+      F600FAFAFA00DDDDDD00D6D6D600F3F3F300F0F0F00000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2995,11 +2766,11 @@ inherited frmctr_ped: Tfrmctr_ped
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F2F2F200E1E1E100DADA
+      DA00E7E7E700F2F2F200F4F4F400F5F5F500F5F5F500F5F5F500F3F3F300EAEA
+      EA00DCDCDC00DCDCDC00F5F5F500F2F2F200F0F0F00000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -3026,11 +2797,11 @@ inherited frmctr_ped: Tfrmctr_ped
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F5F5F500EDED
+      ED00E1E1E100E0E0E000DEDEDE00DDDDDD00DDDDDD00DEDEDE00DEDEDE00E0E0
+      E000E8E8E800F3F3F300F2F2F200EFEFEF00F0F0F00000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -3057,11 +2828,11 @@ inherited frmctr_ped: Tfrmctr_ped
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0
+      F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F0F0F000F1F1
+      F100F3F3F300F0F0F000EDEDED00ECECEC00ECECEC00EDEDED00EFEFEF00F2F2
+      F200F2F2F200F0F0F000F0F0F000F0F0F000F0F0F00000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -5082,38 +4853,38 @@ inherited frmctr_ped: Tfrmctr_ped
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000000FFFE00000001FFFFFFF800000007FFFF
-      FFE00000001FFFC00000000000000000FFFE00000001FFFFFFF800000007FFFF
-      FFE00000001FFFC00000000000000000FFFE00000001FFFFFFF800000007FFFF
-      FFE00000001FFFC00000000000000000FFFE00000001FFFFFFF800000007FFFF
-      FFE00000001FFFC00000000000000000FFFE00000001FFFFFFF800000007FFFF
-      FFE00000001FFFC00000000000000000FFFE00000001FFFFFFF800000007FFFF
-      FFE00000001FFFC00000000000000000FFFE00000001FFFFFFF800000007FFFF
-      FFE00000001FFFC00000000000000000FFFE00000001FFFFFFF800000007FFFF
-      FFE00000001FFFC00000000000000000FFFE00000001FFFFFFF800000007FFFF
-      FFE00000001FFFC00000000000000000FFFE00000001FFFFFFF800000007FFFF
-      FFE00000001FFFC00000000000000000FFFE00000001FFFFFFF800000007FFFF
-      FFE00000001FFFC00000000000000000FFFE00000001FFFFFFF800000007FFFF
-      FFE00000001FFFC00000000000000000FFFE00000001FFFFFFF800000007FFFF
-      FFE00000001FFFC00000000000000000FFFE00000001FFFFFFF800000007FFFF
-      FFE00000001FFFC00000000000000000FFFE00000001FFFFFFF800000007FFFF
-      FFE00000001FFFC00000000000000000FFFE00000001FFFFFFF800000007FFFF
-      FFE00000001FFFC00000000000000000FFFE00000001FFFFFFF800000007FFFF
-      FFE00000001FFFC00000000000000000FFFE00000001FFFFFFF800000007FFFF
-      FFE00000001FFFC00000000000000000FFFE00000001FFFFFFF800000007FFFF
-      FFE00000001FFFC00000000000000000FFFE00000001FFFFFFF800000007FFFF
-      FFE00000001FFFC00000000000000000FFFE00000001FFFFFFF800000007FFFF
-      FFE00000001FFFC00000000000000000FFFE00000001FFFFFFF800000007FFFF
-      FFE00000001FFFC00000000000000000FFFE00000001FFFFFFF800000007FFFF
-      FFE00000001FFFC00000000000000000FFFE00000001FFFFFFF800000007FFFF
-      FFE00000001FFFC00000000000000000FFFE00000001FFFFFFF800000007FFFF
-      FFE00000001FFFC00000000000000000FFFE00000001FFFFFFF800000007FFFF
-      FFE00000001FFFC00000000000000000FFFE00000001FFFFFFF800000007FFFF
-      FFE00000001FFFC00000000000000000FFFE00000001FFFFFFF800000007FFFF
-      FFE00000001FFFC00000000000000000FFFE00000001FFFFFFF800000007FFFF
-      FFE00000001FFFC00000000000000000FFFE00000001FFFFFFF800000007FFFF
-      FFE00000001FFFC00000000000000000FFFE00000001FFFFFFF800000007FFFF
-      FFE00000001FFFC00000000000000000FFFE00000001FFFFFFF800000007FFFF
-      FFE00000001FFFC00000000000000000FFFFC000000FFFFFFFFE0000001FFFFF
+      FFE00000001FFFFFFFC00000007FFF00FFFE00000001FFFFFFF800000007FFFF
+      FFE00000001FFFFFFF800000007FFF00FFFE00000001FFFFFFF800000007FFFF
+      FFE00000001FFFFFFF800000007FFF00FFFE00000001FFFFFFF800000007FFFF
+      FFE00000001FFFFFFF800000007FFF00FFFE00000001FFFFFFF800000007FFFF
+      FFE00000001FFFFFFF800000007FFF00FFFE00000001FFFFFFF800000007FFFF
+      FFE00000001FFFFFFF800000007FFF00FFFE00000001FFFFFFF800000007FFFF
+      FFE00000001FFFFFFF800000007FFF00FFFE00000001FFFFFFF800000007FFFF
+      FFE00000001FFFFFFF800000007FFF00FFFE00000001FFFFFFF800000007FFFF
+      FFE00000001FFFFFFF800000007FFF00FFFE00000001FFFFFFF800000007FFFF
+      FFE00000001FFFFFFF800000007FFF00FFFE00000001FFFFFFF800000007FFFF
+      FFE00000001FFFFFFF800000007FFF00FFFE00000001FFFFFFF800000007FFFF
+      FFE00000001FFFFFFF800000007FFF00FFFE00000001FFFFFFF800000007FFFF
+      FFE00000001FFFFFFF800000007FFF00FFFE00000001FFFFFFF800000007FFFF
+      FFE00000001FFFFFFF800000007FFF00FFFE00000001FFFFFFF800000007FFFF
+      FFE00000001FFFFFFF800000007FFF00FFFE00000001FFFFFFF800000007FFFF
+      FFE00000001FFFFFFF800000007FFF00FFFE00000001FFFFFFF800000007FFFF
+      FFE00000001FFFFFFF800000007FFF00FFFE00000001FFFFFFF800000007FFFF
+      FFE00000001FFFFFFF800000007FFF00FFFE00000001FFFFFFF800000007FFFF
+      FFE00000001FFFFFFF800000007FFF00FFFE00000001FFFFFFF800000007FFFF
+      FFE00000001FFFFFFF800000007FFF00FFFE00000001FFFFFFF800000007FFFF
+      FFE00000001FFFFFFF800000007FFF00FFFE00000001FFFFFFF800000007FFFF
+      FFE00000001FFFFFFF800000007FFF00FFFE00000001FFFFFFF800000007FFFF
+      FFE00000001FFFFFFF800000007FFF00FFFE00000001FFFFFFF800000007FFFF
+      FFE00000001FFFFFFF800000007FFF00FFFE00000001FFFFFFF800000007FFFF
+      FFE00000001FFFFFFF800000007FFF00FFFE00000001FFFFFFF800000007FFFF
+      FFE00000001FFFFFFF800000007FFF00FFFE00000001FFFFFFF800000007FFFF
+      FFE00000001FFFFFFF800000007FFF00FFFE00000001FFFFFFF800000007FFFF
+      FFE00000001FFFFFFF800000007FFF00FFFE00000001FFFFFFF800000007FFFF
+      FFE00000001FFFFFFF800000007FFF00FFFE00000001FFFFFFF800000007FFFF
+      FFE00000001FFFFFFF800000007FFF00FFFE00000001FFFFFFF800000007FFFF
+      FFE00000001FFFFFFF800000007FFF00FFFE00000001FFFFFFF800000007FFFF
+      FFE00000001FFFFFFF800000007FFF00FFFFC000000FFFFFFFFE0000001FFFFF
       FFE00000001FFFFFFF800000007FFF00FFFFC000000FFFFFFFFE0000001FFFFF
       FFE00000001FFFFFFF800000007FFF00FFFFC000000FFFFFFFFE0000001FFFFF
       FFE00000001FFFFFFF800000007FFF00FFFFC000000FFFFFFFFE0000001FFFFF
@@ -5486,481 +5257,7 @@ inherited frmctr_ped: Tfrmctr_ped
     Left = 736
     Top = 168
   end
-  object fin_rec_bai: TIBDataSet [17]
-    Database = dmDADOS.bSHEILD
-    Transaction = tSHEILD
-    DeleteSQL.Strings = (
-      'delete from FIN_REC_BAI'
-      'where'
-      '  ID = :OLD_ID')
-    InsertSQL.Strings = (
-      'insert into FIN_REC_BAI'
-      
-        '  (FIN_AGEN, FIN_ATRA, FIN_BANC, FIN_CCAB, FIN_CCLI, FIN_CCUS, F' +
-        'IN_CDBA, '
-      
-        '   FIN_CDBX, FIN_CDCO, FIN_CDCX, FIN_CDRD, FIN_COBR, FIN_CONC, F' +
-        'IN_CONT, '
-      
-        '   FIN_CPF, FIN_CPPL, FIN_CREP, FIN_CTNR, FIN_CVEN, FIN_DATR, FI' +
-        'N_DBAI, '
-      
-        '   FIN_DBAN, FIN_DCAD, FIN_DCLI, FIN_DEBA, FIN_DERD, FIN_DFIN, F' +
-        'IN_DMED, '
-      
-        '   FIN_DOCT, FIN_DPAG, FIN_DREP, FIN_DTST, FIN_DVEN, FIN_MCHQ, F' +
-        'IN_NCHQ, '
-      
-        '   FIN_OBSE, FIN_PDES, FIN_PJUR, FIN_PMUL, FIN_PRAZ, FIN_RCLI, F' +
-        'IN_RREP, '
-      
-        '   FIN_STA, FIN_STCO, FIN_STDO, FIN_STFI, FIN_TIPO, FIN_VALO, FI' +
-        'N_VCHQ, '
-      
-        '   FIN_VDES, FIN_VENC, FIN_VEND, FIN_VJUR, FIN_VMUL, FIN_VPAG, F' +
-        'IN_VPEN, '
-      '   ID)'
-      'values'
-      
-        '  (:FIN_AGEN, :FIN_ATRA, :FIN_BANC, :FIN_CCAB, :FIN_CCLI, :FIN_C' +
-        'CUS, :FIN_CDBA, '
-      
-        '   :FIN_CDBX, :FIN_CDCO, :FIN_CDCX, :FIN_CDRD, :FIN_COBR, :FIN_C' +
-        'ONC, :FIN_CONT, '
-      
-        '   :FIN_CPF, :FIN_CPPL, :FIN_CREP, :FIN_CTNR, :FIN_CVEN, :FIN_DA' +
-        'TR, :FIN_DBAI, '
-      
-        '   :FIN_DBAN, :FIN_DCAD, :FIN_DCLI, :FIN_DEBA, :FIN_DERD, :FIN_D' +
-        'FIN, :FIN_DMED, '
-      
-        '   :FIN_DOCT, :FIN_DPAG, :FIN_DREP, :FIN_DTST, :FIN_DVEN, :FIN_M' +
-        'CHQ, :FIN_NCHQ, '
-      
-        '   :FIN_OBSE, :FIN_PDES, :FIN_PJUR, :FIN_PMUL, :FIN_PRAZ, :FIN_R' +
-        'CLI, :FIN_RREP, '
-      
-        '   :FIN_STA, :FIN_STCO, :FIN_STDO, :FIN_STFI, :FIN_TIPO, :FIN_VA' +
-        'LO, :FIN_VCHQ, '
-      
-        '   :FIN_VDES, :FIN_VENC, :FIN_VEND, :FIN_VJUR, :FIN_VMUL, :FIN_V' +
-        'PAG, :FIN_VPEN, '
-      '   :ID)')
-    RefreshSQL.Strings = (
-      'Select '
-      '  ID,'
-      '  FIN_CCAB,'
-      '  FIN_CDBX,'
-      '  FIN_CDCX,'
-      '  FIN_CDRD,'
-      '  FIN_CCLI,'
-      '  FIN_DFIN,'
-      '  FIN_DCLI,'
-      '  FIN_RCLI,'
-      '  FIN_CVEN,'
-      '  FIN_VEND,'
-      '  FIN_CREP,'
-      '  FIN_DREP,'
-      '  FIN_RREP,'
-      '  FIN_PRAZ,'
-      '  FIN_ATRA,'
-      '  FIN_CONC,'
-      '  FIN_DCAD,'
-      '  FIN_DVEN,'
-      '  FIN_DPAG,'
-      '  FIN_DMED,'
-      '  FIN_DATR,'
-      '  FIN_DBAI,'
-      '  FIN_CPPL,'
-      '  FIN_CCUS,'
-      '  FIN_CDCO,'
-      '  FIN_CDBA,'
-      '  FIN_DEBA,'
-      '  FIN_STDO,'
-      '  FIN_DOCT,'
-      '  FIN_BANC,'
-      '  FIN_DBAN,'
-      '  FIN_AGEN,'
-      '  FIN_CONT,'
-      '  FIN_NCHQ,'
-      '  FIN_MCHQ,'
-      '  FIN_TIPO,'
-      '  FIN_STFI,'
-      '  FIN_STCO,'
-      '  FIN_VALO,'
-      '  FIN_VPAG,'
-      '  FIN_VPEN,'
-      '  FIN_VENC,'
-      '  FIN_CTNR,'
-      '  FIN_VMUL,'
-      '  FIN_PMUL,'
-      '  FIN_VJUR,'
-      '  FIN_PJUR,'
-      '  FIN_VDES,'
-      '  FIN_PDES,'
-      '  FIN_VCHQ,'
-      '  FIN_CPF,'
-      '  FIN_STA,'
-      '  FIN_COBR,'
-      '  FIN_DERD,'
-      '  FIN_OBSE,'
-      '  FIN_DTST'
-      'from FIN_REC_BAI '
-      'where'
-      '  ID = :ID')
-    SelectSQL.Strings = (
-      'SELECT * FROM FIN_REC_BAI')
-    ModifySQL.Strings = (
-      'update FIN_REC_BAI'
-      'set'
-      '  FIN_AGEN = :FIN_AGEN,'
-      '  FIN_ATRA = :FIN_ATRA,'
-      '  FIN_BANC = :FIN_BANC,'
-      '  FIN_CCAB = :FIN_CCAB,'
-      '  FIN_CCLI = :FIN_CCLI,'
-      '  FIN_CCUS = :FIN_CCUS,'
-      '  FIN_CDBA = :FIN_CDBA,'
-      '  FIN_CDBX = :FIN_CDBX,'
-      '  FIN_CDCO = :FIN_CDCO,'
-      '  FIN_CDCX = :FIN_CDCX,'
-      '  FIN_CDRD = :FIN_CDRD,'
-      '  FIN_COBR = :FIN_COBR,'
-      '  FIN_CONC = :FIN_CONC,'
-      '  FIN_CONT = :FIN_CONT,'
-      '  FIN_CPF = :FIN_CPF,'
-      '  FIN_CPPL = :FIN_CPPL,'
-      '  FIN_CREP = :FIN_CREP,'
-      '  FIN_CTNR = :FIN_CTNR,'
-      '  FIN_CVEN = :FIN_CVEN,'
-      '  FIN_DATR = :FIN_DATR,'
-      '  FIN_DBAI = :FIN_DBAI,'
-      '  FIN_DBAN = :FIN_DBAN,'
-      '  FIN_DCAD = :FIN_DCAD,'
-      '  FIN_DCLI = :FIN_DCLI,'
-      '  FIN_DEBA = :FIN_DEBA,'
-      '  FIN_DERD = :FIN_DERD,'
-      '  FIN_DFIN = :FIN_DFIN,'
-      '  FIN_DMED = :FIN_DMED,'
-      '  FIN_DOCT = :FIN_DOCT,'
-      '  FIN_DPAG = :FIN_DPAG,'
-      '  FIN_DREP = :FIN_DREP,'
-      '  FIN_DTST = :FIN_DTST,'
-      '  FIN_DVEN = :FIN_DVEN,'
-      '  FIN_MCHQ = :FIN_MCHQ,'
-      '  FIN_NCHQ = :FIN_NCHQ,'
-      '  FIN_OBSE = :FIN_OBSE,'
-      '  FIN_PDES = :FIN_PDES,'
-      '  FIN_PJUR = :FIN_PJUR,'
-      '  FIN_PMUL = :FIN_PMUL,'
-      '  FIN_PRAZ = :FIN_PRAZ,'
-      '  FIN_RCLI = :FIN_RCLI,'
-      '  FIN_RREP = :FIN_RREP,'
-      '  FIN_STA = :FIN_STA,'
-      '  FIN_STCO = :FIN_STCO,'
-      '  FIN_STDO = :FIN_STDO,'
-      '  FIN_STFI = :FIN_STFI,'
-      '  FIN_TIPO = :FIN_TIPO,'
-      '  FIN_VALO = :FIN_VALO,'
-      '  FIN_VCHQ = :FIN_VCHQ,'
-      '  FIN_VDES = :FIN_VDES,'
-      '  FIN_VENC = :FIN_VENC,'
-      '  FIN_VEND = :FIN_VEND,'
-      '  FIN_VJUR = :FIN_VJUR,'
-      '  FIN_VMUL = :FIN_VMUL,'
-      '  FIN_VPAG = :FIN_VPAG,'
-      '  FIN_VPEN = :FIN_VPEN,'
-      '  ID = :ID'
-      'where'
-      '  ID = :OLD_ID')
-    Left = 496
-    Top = 240
-    object fin_rec_baiID: TIntegerField
-      FieldName = 'ID'
-      Origin = '"FIN_REC_BAI_001"."ID"'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
-      Required = True
-    end
-    object fin_rec_baiFIN_DOCT: TIBStringField
-      FieldName = 'FIN_DOCT'
-      Origin = '"FIN_REC_BAI"."FIN_DOCT"'
-    end
-    object fin_rec_baiFIN_DVEN: TDateField
-      DisplayLabel = 'Dt Vencto'
-      FieldName = 'FIN_DVEN'
-      Origin = '"FIN_REC_BAI_001"."FIN_DVEN"'
-    end
-    object fin_rec_baiFIN_TIPO: TIBStringField
-      DisplayLabel = 'Tipo'
-      FieldName = 'FIN_TIPO'
-      Origin = '"FIN_REC_BAI_001"."FIN_TIPO"'
-    end
-    object fin_rec_baiFIN_BANC: TIBStringField
-      DisplayLabel = 'Banco'
-      FieldName = 'FIN_BANC'
-      Origin = '"FIN_REC_BAI_001"."FIN_BANC"'
-      Size = 4
-    end
-    object fin_rec_baiFIN_AGEN: TIBStringField
-      DisplayLabel = 'Agencia'
-      FieldName = 'FIN_AGEN'
-      Origin = '"FIN_REC_BAI_001"."FIN_AGEN"'
-      Size = 10
-    end
-    object fin_rec_baiFIN_CONT: TIBStringField
-      DisplayLabel = 'Conta'
-      FieldName = 'FIN_CONT'
-      Origin = '"FIN_REC_BAI_001"."FIN_CONT"'
-      Size = 15
-    end
-    object fin_rec_baiFIN_NCHQ: TIBStringField
-      DisplayLabel = 'Cheque'
-      FieldName = 'FIN_NCHQ'
-      Origin = '"FIN_REC_BAI_001"."FIN_NCHQ"'
-      Size = 10
-    end
-    object fin_rec_baiFIN_OBSE: TMemoField
-      DisplayLabel = 'Obs'
-      FieldName = 'FIN_OBSE'
-      Origin = '"FIN_REC_BAI_001"."FIN_OBSE"'
-      ProviderFlags = [pfInUpdate]
-      BlobType = ftMemo
-      Size = 8
-    end
-    object fin_rec_baiFIN_STA: TIBStringField
-      FieldName = 'FIN_STA'
-      Origin = '"FIN_REC_BAI_001"."FIN_STA"'
-      FixedChar = True
-      Size = 1
-    end
-    object fin_rec_baiFIN_PRAZ: TSmallintField
-      DisplayLabel = 'Prazo (Dias)'
-      FieldName = 'FIN_PRAZ'
-      Origin = '"FIN_REC_BAI_001"."FIN_PRAZ"'
-    end
-    object fin_rec_baiFIN_DPAG: TDateField
-      FieldName = 'FIN_DPAG'
-      Origin = '"FIN_REC_BAI"."FIN_DPAG"'
-    end
-    object fin_rec_baiFIN_DBAN: TIBStringField
-      FieldName = 'FIN_DBAN'
-      Origin = '"FIN_REC_BAI"."FIN_DBAN"'
-      Size = 50
-    end
-    object fin_rec_baiFIN_STFI: TIBStringField
-      FieldName = 'FIN_STFI'
-      Origin = '"FIN_REC_BAI"."FIN_STFI"'
-    end
-    object fin_rec_baiFIN_VALO: TIBBCDField
-      DisplayLabel = 'Valor'
-      FieldName = 'FIN_VALO'
-      Origin = '"FIN_REC_BAI"."FIN_VALO"'
-      DisplayFormat = '#,0.00'
-      Precision = 18
-      Size = 2
-    end
-    object fin_rec_baiFIN_VPAG: TIBBCDField
-      FieldName = 'FIN_VPAG'
-      Origin = '"FIN_REC_BAI"."FIN_VPAG"'
-      Precision = 18
-      Size = 2
-    end
-    object fin_rec_baiFIN_VPEN: TIBBCDField
-      FieldName = 'FIN_VPEN'
-      Origin = '"FIN_REC_BAI"."FIN_VPEN"'
-      Precision = 18
-      Size = 2
-    end
-    object fin_rec_baiFIN_COBR: TIBStringField
-      FieldName = 'FIN_COBR'
-      Origin = '"FIN_REC_BAI"."FIN_COBR"'
-      FixedChar = True
-      Size = 1
-    end
-    object fin_rec_baiFIN_STDO: TIBStringField
-      FieldName = 'FIN_STDO'
-      Origin = '"FIN_REC_BAI"."FIN_STDO"'
-      Size = 3
-    end
-    object fin_rec_baiFIN_CCAB: TIntegerField
-      FieldName = 'FIN_CCAB'
-      Origin = '"FIN_REC_BAI"."FIN_CCAB"'
-    end
-    object fin_rec_baiFIN_CDBX: TIntegerField
-      FieldName = 'FIN_CDBX'
-      Origin = '"FIN_REC_BAI"."FIN_CDBX"'
-    end
-    object fin_rec_baiFIN_CDCX: TIntegerField
-      FieldName = 'FIN_CDCX'
-      Origin = '"FIN_REC_BAI"."FIN_CDCX"'
-    end
-    object fin_rec_baiFIN_CCLI: TIntegerField
-      FieldName = 'FIN_CCLI'
-      Origin = '"FIN_REC_BAI"."FIN_CCLI"'
-    end
-    object fin_rec_baiFIN_DCLI: TIBStringField
-      FieldName = 'FIN_DCLI'
-      Origin = '"FIN_REC_BAI"."FIN_DCLI"'
-      Size = 40
-    end
-    object fin_rec_baiFIN_CVEN: TIntegerField
-      FieldName = 'FIN_CVEN'
-      Origin = '"FIN_REC_BAI"."FIN_CVEN"'
-    end
-    object fin_rec_baiFIN_VEND: TIBStringField
-      FieldName = 'FIN_VEND'
-      Origin = '"FIN_REC_BAI"."FIN_VEND"'
-      Size = 40
-    end
-    object fin_rec_baiFIN_CREP: TIntegerField
-      FieldName = 'FIN_CREP'
-      Origin = '"FIN_REC_BAI"."FIN_CREP"'
-    end
-    object fin_rec_baiFIN_DREP: TIBStringField
-      FieldName = 'FIN_DREP'
-      Origin = '"FIN_REC_BAI"."FIN_DREP"'
-      Size = 40
-    end
-    object fin_rec_baiFIN_ATRA: TSmallintField
-      FieldName = 'FIN_ATRA'
-      Origin = '"FIN_REC_BAI"."FIN_ATRA"'
-    end
-    object fin_rec_baiFIN_CONC: TSmallintField
-      FieldName = 'FIN_CONC'
-      Origin = '"FIN_REC_BAI"."FIN_CONC"'
-    end
-    object fin_rec_baiFIN_DCAD: TDateField
-      FieldName = 'FIN_DCAD'
-      Origin = '"FIN_REC_BAI"."FIN_DCAD"'
-    end
-    object fin_rec_baiFIN_DMED: TDateField
-      FieldName = 'FIN_DMED'
-      Origin = '"FIN_REC_BAI"."FIN_DMED"'
-    end
-    object fin_rec_baiFIN_DATR: TDateField
-      FieldName = 'FIN_DATR'
-      Origin = '"FIN_REC_BAI"."FIN_DATR"'
-    end
-    object fin_rec_baiFIN_MCHQ: TSmallintField
-      FieldName = 'FIN_MCHQ'
-      Origin = '"FIN_REC_BAI"."FIN_MCHQ"'
-    end
-    object fin_rec_baiFIN_STCO: TIBStringField
-      FieldName = 'FIN_STCO'
-      Origin = '"FIN_REC_BAI"."FIN_STCO"'
-    end
-    object fin_rec_baiFIN_CDRD: TIntegerField
-      FieldName = 'FIN_CDRD'
-      Origin = '"FIN_REC_BAI"."FIN_CDRD"'
-    end
-    object fin_rec_baiFIN_DFIN: TIBStringField
-      FieldName = 'FIN_DFIN'
-      Origin = '"FIN_REC_BAI"."FIN_DFIN"'
-      Size = 60
-    end
-    object fin_rec_baiFIN_RCLI: TIBStringField
-      FieldName = 'FIN_RCLI'
-      Origin = '"FIN_REC_BAI"."FIN_RCLI"'
-      Size = 60
-    end
-    object fin_rec_baiFIN_RREP: TIBStringField
-      FieldName = 'FIN_RREP'
-      Origin = '"FIN_REC_BAI"."FIN_RREP"'
-      Size = 60
-    end
-    object fin_rec_baiFIN_DBAI: TDateField
-      FieldName = 'FIN_DBAI'
-      Origin = '"FIN_REC_BAI"."FIN_DBAI"'
-    end
-    object fin_rec_baiFIN_CPPL: TIntegerField
-      FieldName = 'FIN_CPPL'
-      Origin = '"FIN_REC_BAI"."FIN_CPPL"'
-    end
-    object fin_rec_baiFIN_CCUS: TIntegerField
-      FieldName = 'FIN_CCUS'
-      Origin = '"FIN_REC_BAI"."FIN_CCUS"'
-    end
-    object fin_rec_baiFIN_CDCO: TIntegerField
-      FieldName = 'FIN_CDCO'
-      Origin = '"FIN_REC_BAI"."FIN_CDCO"'
-    end
-    object fin_rec_baiFIN_CDBA: TIBStringField
-      FieldName = 'FIN_CDBA'
-      Origin = '"FIN_REC_BAI"."FIN_CDBA"'
-      Size = 4
-    end
-    object fin_rec_baiFIN_DEBA: TIBStringField
-      FieldName = 'FIN_DEBA'
-      Origin = '"FIN_REC_BAI"."FIN_DEBA"'
-      Size = 50
-    end
-    object fin_rec_baiFIN_VENC: TIBBCDField
-      FieldName = 'FIN_VENC'
-      Origin = '"FIN_REC_BAI"."FIN_VENC"'
-      Precision = 18
-      Size = 2
-    end
-    object fin_rec_baiFIN_CTNR: TIBStringField
-      FieldName = 'FIN_CTNR'
-      Origin = '"FIN_REC_BAI"."FIN_CTNR"'
-    end
-    object fin_rec_baiFIN_VMUL: TIBBCDField
-      FieldName = 'FIN_VMUL'
-      Origin = '"FIN_REC_BAI"."FIN_VMUL"'
-      Precision = 18
-      Size = 2
-    end
-    object fin_rec_baiFIN_PMUL: TIBBCDField
-      FieldName = 'FIN_PMUL'
-      Origin = '"FIN_REC_BAI"."FIN_PMUL"'
-      Precision = 9
-      Size = 2
-    end
-    object fin_rec_baiFIN_VJUR: TIBBCDField
-      FieldName = 'FIN_VJUR'
-      Origin = '"FIN_REC_BAI"."FIN_VJUR"'
-      Precision = 18
-      Size = 2
-    end
-    object fin_rec_baiFIN_PJUR: TIBBCDField
-      FieldName = 'FIN_PJUR'
-      Origin = '"FIN_REC_BAI"."FIN_PJUR"'
-      Precision = 9
-      Size = 2
-    end
-    object fin_rec_baiFIN_VDES: TIBBCDField
-      FieldName = 'FIN_VDES'
-      Origin = '"FIN_REC_BAI"."FIN_VDES"'
-      Precision = 18
-      Size = 2
-    end
-    object fin_rec_baiFIN_PDES: TIBBCDField
-      FieldName = 'FIN_PDES'
-      Origin = '"FIN_REC_BAI"."FIN_PDES"'
-      Precision = 9
-      Size = 2
-    end
-    object fin_rec_baiFIN_VCHQ: TIBBCDField
-      FieldName = 'FIN_VCHQ'
-      Origin = '"FIN_REC_BAI"."FIN_VCHQ"'
-      Precision = 18
-      Size = 2
-    end
-    object fin_rec_baiFIN_CPF: TIBStringField
-      FieldName = 'FIN_CPF'
-      Origin = '"FIN_REC_BAI"."FIN_CPF"'
-      Size = 14
-    end
-    object fin_rec_baiFIN_DERD: TIBStringField
-      FieldName = 'FIN_DERD'
-      Origin = '"FIN_REC_BAI"."FIN_DERD"'
-      Size = 30
-    end
-    object fin_rec_baiFIN_DTST: TDateTimeField
-      FieldName = 'FIN_DTST'
-      Origin = '"FIN_REC_BAI"."FIN_DTST"'
-    end
-  end
-  object tSHEILD: TIBTransaction [18]
+  object tSHEILD: TIBTransaction [17]
     DefaultDatabase = dmDADOS.bSHEILD
     DefaultAction = TACommitRetaining
     Params.Strings = (
@@ -5974,5 +5271,41 @@ inherited frmctr_ped: Tfrmctr_ped
   inherited ILMenuEdicao: TImageList
     Left = 136
     Top = 312
+  end
+  object TEdicao: TIBTransaction
+    AllowAutoStart = False
+    DefaultDatabase = dmDADOS.ibDB
+    DefaultAction = TARollbackRetaining
+    Params.Strings = (
+      'read_committed'
+      'rec_version'
+      'nowait')
+    AutoStopAction = saRollback
+    Left = 328
+    Top = 176
+  end
+  object SQLEdicao: TIBSQL
+    Database = dmDADOS.ibDB
+    Transaction = TEdicao
+    Left = 360
+    Top = 176
+  end
+  object SQLFKEdicao: TIBSQL
+    Database = dmDADOS.ibDB
+    Transaction = TEdicao
+    Left = 360
+    Top = 208
+  end
+  object SQLConsulta: TIBSQL
+    Database = dmDADOS.ibDB
+    Transaction = IBTra
+    Left = 128
+    Top = 136
+  end
+  object SPEdicao: TIBStoredProc
+    Database = dmDADOS.ibDB
+    Transaction = TEdicao
+    Left = 392
+    Top = 176
   end
 end

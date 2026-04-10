@@ -306,31 +306,38 @@ begin
     end;
 
     ibSP.ParamByName('cnat').Value := edcnat.Text;
-    ibSP.ParamByName('cfop').Value := edcfop.Text;
     ibSP.ParamByName('dnat').Value := eddnat.Text;
     ibSP.ParamByName('tipo').Value := cbtipo.Text;
     ibSP.ParamByName('oper').Value := cboper.Text;
     ibSP.ParamByName('ccst').Value := cbccst.Text;
     ibSP.ParamByName('csts').Value := cbcsts.Text;
     ibSP.ParamByName('csta').Value := cbcsta.Text;
-    ibSP.ParamByName('indt').Value := rgindt.ItemIndex;
+
     ibSP.ParamByName('bipi').Value := '0';
     if rbbipi.Checked then
     ibSP.ParamByName('bipi').Value := '1';
+
     ibSP.ParamByName('fret').Value := '0';
     if rbfret.Checked then
     ibSP.ParamByName('fret').Value := '1';
+
     ibSP.ParamByName('mate').Value := '0';
     if rbmate.Checked then
     ibSP.ParamByName('mate').Value := '1';
+
     ibSP.ParamByName('penf').Value := edpenf.Text;
     ibSP.ParamByName('csti').Value := cbcsti.Text;
     ibSP.ParamByName('cstp').Value := cbcstp.Text;
     ibSP.ParamByName('pipp').Value := edpipp.Text;
     ibSP.ParamByName('cstc').Value := cbcstc.Text;
     ibSP.ParamByName('pipc').Value := edpipc.Text;
+
     ibSP.ParamByName('obse').Value := edobse.Lines.Text;
     ibSP.ParamByName('sta').Value  := '0';
+
+    ibSP.ParamByName('indt').Value := rgindt.ItemIndex;
+    ibSP.ParamByName('cenq').Value := '';
+    ibSP.ParamByName('cfop').Value := edcfop.Text;
     ibSP.ExecProc;
 
     case frmtab_nat_edi.Tag of

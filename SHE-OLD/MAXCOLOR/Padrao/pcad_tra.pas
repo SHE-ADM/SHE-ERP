@@ -49,6 +49,7 @@ type
     procedure SIMEAppendClick(Sender: TObject);
     procedure SIMEEditClick(Sender: TObject);
     procedure SIMEDeleteClick(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -199,6 +200,12 @@ begin
       AFont.Color := clBlack;
     end;
   end;
+end;
+
+procedure Tfrmcad_tra.FormActivate(Sender: TObject);
+begin
+  inherited;
+  DBGConsultaTRA_FANT.Field.FocusControl;
 end;
 
 end.

@@ -363,7 +363,7 @@ inherited frmtab_nat_edi: Tfrmtab_nat_edi
         object Bevel2: TBevel
           Left = 0
           Top = 0
-          Width = 566
+          Width = 564
           Height = 186
           Align = alClient
         end
@@ -523,7 +523,7 @@ inherited frmtab_nat_edi: Tfrmtab_nat_edi
         object Bevel3: TBevel
           Left = 0
           Top = 0
-          Width = 566
+          Width = 564
           Height = 186
           Align = alClient
         end
@@ -636,7 +636,7 @@ inherited frmtab_nat_edi: Tfrmtab_nat_edi
         object Bevel4: TBevel
           Left = 0
           Top = 0
-          Width = 566
+          Width = 564
           Height = 186
           Align = alClient
         end
@@ -709,7 +709,7 @@ inherited frmtab_nat_edi: Tfrmtab_nat_edi
         object edobse: TdxMemo
           Left = 0
           Top = 0
-          Width = 566
+          Width = 564
           Align = alClient
           Color = 14789952
           Font.Charset = DEFAULT_CHARSET
@@ -730,7 +730,7 @@ inherited frmtab_nat_edi: Tfrmtab_nat_edi
         object Bevel5: TBevel
           Left = 0
           Top = 0
-          Width = 566
+          Width = 564
           Height = 186
           Align = alClient
         end

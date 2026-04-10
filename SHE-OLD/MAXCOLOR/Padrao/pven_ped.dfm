@@ -6,7 +6,7 @@ object frmven_ped: Tfrmven_ped
   BorderStyle = bsSingle
   Caption = 'Pedidos'
   ClientHeight = 643
-  ClientWidth = 1086
+  ClientWidth = 1184
   Color = clBtnFace
   Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
@@ -265,7 +265,7 @@ object frmven_ped: Tfrmven_ped
   object SBMenuPrincipal: TSpeedBar
     Left = 0
     Top = 0
-    Width = 1086
+    Width = 1184
     Height = 65
     Cursor = crHandPoint
     Font.Charset = DEFAULT_CHARSET
@@ -351,14 +351,14 @@ object frmven_ped: Tfrmven_ped
   object pnlpri: TPanel
     Left = 0
     Top = 65
-    Width = 1086
+    Width = 1184
     Height = 305
     Align = alTop
     TabOrder = 1
     object Panel1: TPanel
       Left = 1
       Top = 1
-      Width = 830
+      Width = 912
       Height = 303
       Align = alLeft
       BevelOuter = bvNone
@@ -366,7 +366,7 @@ object frmven_ped: Tfrmven_ped
       object pnlped: TPanel
         Left = 0
         Top = 0
-        Width = 830
+        Width = 912
         Height = 303
         Align = alClient
         BevelOuter = bvNone
@@ -1351,7 +1351,7 @@ object frmven_ped: Tfrmven_ped
         object pcobs: TdxPageControl
           Left = 324
           Top = 0
-          Width = 500
+          Width = 585
           Height = 241
           ActivePage = TSHST
           Font.Charset = DEFAULT_CHARSET
@@ -1375,7 +1375,7 @@ object frmven_ped: Tfrmven_ped
             object DBGPED_HST: TdxDBGrid
               Left = 0
               Top = 0
-              Width = 500
+              Width = 585
               Height = 217
               Hint = 'Hist'#243'rico de Pedidos'
               Bands = <
@@ -1445,6 +1445,12 @@ object frmven_ped: Tfrmven_ped
                 RowIndex = 0
                 FieldName = 'DTPK'
               end
+              object DBGPED_HSTSKU: TdxDBGridMaskColumn
+                Width = 68
+                BandIndex = 0
+                RowIndex = 0
+                FieldName = 'SKU'
+              end
               object DBGPED_HSTVPRC_COM: TdxDBGridMaskColumn
                 Width = 50
                 BandIndex = 0
@@ -1466,20 +1472,8 @@ object frmven_ped: Tfrmven_ped
                 RowIndex = 0
                 FieldName = 'UCOM'
               end
-              object DBGPED_HSTSKU: TdxDBGridMaskColumn
-                Width = 68
-                BandIndex = 0
-                RowIndex = 0
-                FieldName = 'SKU'
-              end
-              object DBGPED_HSTDGCP: TdxDBGridMaskColumn
-                Width = 80
-                BandIndex = 0
-                RowIndex = 0
-                FieldName = 'DGCP'
-              end
               object DBGPED_HSTDECP: TdxDBGridMaskColumn
-                Width = 300
+                Width = 200
                 BandIndex = 0
                 RowIndex = 0
                 FieldName = 'DECP'
@@ -1814,9 +1808,9 @@ object frmven_ped: Tfrmven_ped
       end
     end
     object pnlfoto: TPanel
-      Left = 831
+      Left = 913
       Top = 1
-      Width = 254
+      Width = 270
       Height = 303
       Align = alClient
       BevelOuter = bvNone
@@ -1831,7 +1825,7 @@ object frmven_ped: Tfrmven_ped
       object pro_foto: TImage
         Left = 0
         Top = 0
-        Width = 254
+        Width = 270
         Height = 303
         Align = alClient
         Center = True
@@ -1955,7 +1949,7 @@ object frmven_ped: Tfrmven_ped
   object GBConsulta: TGroupBox
     Left = 54
     Top = 370
-    Width = 1032
+    Width = 1130
     Height = 273
     Align = alClient
     Caption = '  Consulta  '
@@ -1969,7 +1963,7 @@ object frmven_ped: Tfrmven_ped
     object DBGEdicao: TdxDBGrid
       Left = 2
       Top = 19
-      Width = 1028
+      Width = 1126
       Height = 252
       Bands = <
         item
@@ -5003,8 +4997,6 @@ object frmven_ped: Tfrmven_ped
   object PED_HST: TIBQuery
     Database = dmDADOS.ibDB
     Transaction = IBTra
-    AfterScroll = PED_HSTAfterScroll
-    BeforeOpen = PED_HSTBeforeOpen
     SQL.Strings = (
       'SELECT FIRST 500'
       
@@ -5014,8 +5006,8 @@ object frmven_ped: Tfrmven_ped
         '       FK.ROM_UNIT AS VPRC_COM,FK.ROM_QTDE AS QTDE,FK.ROM_DUNI A' +
         'S UCOM,'
       
-        '       CP.PRO_CPRO AS SKU,FK.ROM_DPRO AS DECP,FK.ROM_DCOR AS DGC' +
-        'P'
+        '       CP.PRO_CPRO AS SKU,FK.ROM_DPRO || COALESCE(FK.ROM_DCOR,'#39#39 +
+        ') AS DECP'
       ''
       'FROM   PED_VEN_CAB AS PK'
       'JOIN   PED_VEN_ITE AS FK ON (FK.ROM_CCAB = PK.ID)'
@@ -5076,12 +5068,6 @@ object frmven_ped: Tfrmven_ped
       FieldName = 'DECP'
       Origin = '"PED_VEN_ITE"."ROM_DPRO"'
       Size = 120
-    end
-    object PED_HSTDGCP: TIBStringField
-      DisplayLabel = 'Grade'
-      FieldName = 'DGCP'
-      Origin = '"PED_VEN_ITE"."ROM_DCOR"'
-      Size = 30
     end
   end
   object DTSPED_HST: TDataSource

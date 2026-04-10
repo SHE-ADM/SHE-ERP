@@ -152,7 +152,11 @@ uses
   QGER_FIS_PESO in '..\..\..\Lib\Relatórios\Gerenciais\Fiscal\QGER_FIS_PESO.pas' {QRPGER_FIS_PESO: TQuickRep},
   QFOR_CAD_PRO in '..\..\..\Lib\Relatórios\Fornecedores\QFOR_CAD_PRO.pas' {QRPFOR_CAD_PRO: TQuickRep},
   qGFornecedoresProdutosCadastrados in '..\..\Padrao\Relatorios\qGFornecedoresProdutosCadastrados.pas' {qrpGFornecedoresProdutosCadastrados: TQuickRep},
-  qCadastros_Ranking in '..\..\Padrao\Relatorios\qCadastros_Ranking.pas' {qrpCadastros_Ranking: TQuickRep};
+  qCadastros_Ranking in '..\..\Padrao\Relatorios\qCadastros_Ranking.pas' {qrpCadastros_Ranking: TQuickRep},
+  qREL_PED_COM in '..\..\Padrao\Relatorios\qREL_PED_COM.pas' {QRPREL_PED_COM: TQuickRep},
+  qProduto_Venda in '..\..\Padrao\Relatorios\qProduto_Venda.pas' {qrpProduto_Venda: TQuickRep},
+  qProduto_Venda_Mensal in '..\..\Padrao\Relatorios\qProduto_Venda_Mensal.pas' {qrpProduto_Venda_Mensal: TQuickRep},
+  pCAD_PRO_ADM in '..\..\..\Lib\Produtos\pCAD_PRO_ADM.pas' {FrmCAD_PRO_ADM};
 
 {$R *.res}
 

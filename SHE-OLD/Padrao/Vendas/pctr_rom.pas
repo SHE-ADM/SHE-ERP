@@ -343,7 +343,7 @@ begin
     SQL.Add('         CP.PRO_QVOL ,CP.PRO_ESP, ');
     SQL.Add('         CP.PRO_PTABI,CP.PRO_PTABF');
 
-    SQL.Add('FROM ' + oREPZero('ROM_ITE','_',RECParametros.EP_ID_VW,3) + ' AS PK');
+    SQL.Add('FROM ' + oREPZero('ROM_ITE','_',RECParametros.EP_VW_ID,3) + ' AS PK');
 
     SQL.Add('JOIN     CAD_PRO     AS CP ON (CP.ID = PK.IDCP)');
     SQL.Add('JOIN     TAB_PAR_SIS AS PS ON (PS.ID = CP.IDEP)');
@@ -1066,7 +1066,7 @@ begin
     SQL.Add('         CP.PRO_QVOL ,CP.PRO_ESP, ');
     SQL.Add('         CP.PRO_PTABI,CP.PRO_PTABF');
 
-    SQL.Add('FROM ' + oREPZero('ROM_ITE','_',RECParametros.EP_ID_VW,3) + ' AS PK');
+    SQL.Add('FROM ' + oREPZero('ROM_ITE','_',RECParametros.EP_VW_ID,3) + ' AS PK');
 
     SQL.Add('JOIN     CAD_PRO     AS CP ON (CP.ID = PK.IDCP)');
     SQL.Add('JOIN     TAB_PAR_SIS AS PS ON (PS.ID = CP.IDEP)');

@@ -1178,6 +1178,11 @@ Type
     SBSyncRecords: TdxStatusBar;
     PNLMainEvent: TPanel;
     SBRodape: TdxStatusBar;
+    EdicaoNFE_CBENEF: TIBStringField;
+    EdicaoNFE_CBENEF_RBC: TIBStringField;
+    DBGEdicaoNFE_CBENEF: TdxDBGridColumn;
+    TAB_CFOPCBENEF: TIBStringField;
+    TAB_CFOPCBENEF_RBC: TIBStringField;
 
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -2579,7 +2584,7 @@ begin
 
     SQL.Add('       CP.UQTDE,CP.UQVOL,FK.NFE_QCOM AS QTDE,FK.NFE_RCOM AS QTRL,FK.NFE_VPROD  AS TCDE,');
     SQL.Add('       FK.NFE_VDESC AS PK_VDSC,0 AS PK_PDSC,PK.NFE_VPROD AS PK_TSDE,PK.NFE_VNF AS PK_TCDE,PK.NFE_VNF AS PV_TCDE,');
-    SQL.Add('       PK.VFRT AS FRT_VFRT,TK.PSBR,TK.PSLQ,');
+    SQL.Add('       PK.VFRT AS FRT_VFRT,FK.PSBR,FK.PSLQ,');
     SQL.Add('       TK.QVOL AS PK_QVOL,TK.ESP AS PK_ESP,');
     SQL.Add('       PK.DEST,COALESCE(NULLIF(FK.NFE_ORIG,''''),0) AS ORIG,FK.NFE_NFCI AS NFCI,NULL AS INFADCAD');
 
@@ -2653,7 +2658,7 @@ begin
           SQL.Add('SELECT RCDNF,TCDNF FROM SP_NFE_EMI (   ');
           SQL.Add(''''  + RECParametros.EP_ID        + ''',');
           SQL.Add(''''  + RECUsuarios.ID             + ''',');
-          SQL.Add(''''  + RECParametros.EP_NO_GP     + ''',');
+          SQL.Add(''''  + RECParametros.EP_GP_NO     + ''',');
           SQL.Add(''''  + ACTPSQ_NFE_NUM.HelpKeyword + ''',');
           SQL.Add(''''  + RECParametros.IP           + ''',');
           SQL.Add(''''  + RECParametros.HOST         + ''')');
@@ -2679,7 +2684,7 @@ begin
         SQL.Add('SELECT RCDNF,TCDNF FROM SP_NFE_EMI (   ');
         SQL.Add(''''  + RECParametros.EP_ID        + ''',');
         SQL.Add(''''  + RECUsuarios.ID             + ''',');
-        SQL.Add(''''  + RECParametros.EP_NO_GP     + ''',');
+        SQL.Add(''''  + RECParametros.EP_GP_NO     + ''',');
         SQL.Add(''''  + ACTPSQ_NFE_NUM.HelpKeyword + ''',');
         SQL.Add(''''  + RECParametros.IP           + ''',');
         SQL.Add(''''  + RECParametros.HOST         + ''')');
@@ -2704,11 +2709,11 @@ end;
 
 procedure TFrmVEN_NFE.ACTPSQ_NFE_SEQExecute(Sender: TObject);
 begin
-  if uPSQ_NFE_MAX(RECParametros.EP_NO_GP) - CECDNF.Value < -10 then
+  if uPSQ_NFE_MAX(RECParametros.EP_GP_NO) - CECDNF.Value < -10 then
   begin
     ACTNFeEdicao.Execute;
     oException(CECDNF,'Número informado é muito maior que o número da' + #13 +
-                      'Última numeração emitida: ' + uPSQ_NFE_MAX(RECParametros.EP_NO_GP) + '.' + #13 + #13 +
+                      'Última numeração emitida: ' + uPSQ_NFE_MAX(RECParametros.EP_GP_NO) + '.' + #13 + #13 +
                       'Favor entrar em contato com o administrador do sistema.');
   end;
 end;
@@ -3095,7 +3100,7 @@ begin
   ACTPSQ_NFE_NUM.Execute;
 
   { VER NOTA FISCAL EXISTE }
-  if uPSQ_NFE_REG(RECParametros.EP_NO_GP,CECDNF.Text) then 
+  if uPSQ_NFE_REG(RECParametros.EP_GP_NO,CECDNF.Text) then 
   begin
     oOTransact(TEdicao);
     with SQLEdicao do
@@ -3781,7 +3786,7 @@ begin
   oException(Nil,'Número da nota fiscal não informada !');
 
   { VER NOTA FISCAL EXISTE }
-  if uPSQ_NFE_REG(RECParametros.EP_NO_GP,CECDNF.Text) then
+  if uPSQ_NFE_REG(RECParametros.EP_GP_NO,CECDNF.Text) then
   oException(Nil,'Número da nota fiscal já emitida !');
 
   ACTPSQ_NFE_SEQ.Execute; { VER FUROS }
@@ -5140,11 +5145,11 @@ begin
     end;
 
     { VER NOTA FISCAL EXISTE }
-    if uPSQ_NFE_REG(RECParametros.EP_NO_GP,CECDNF.Text) then
+    if uPSQ_NFE_REG(RECParametros.EP_GP_NO,CECDNF.Text) then
     begin
       ACTNFeEdicao.Execute;
       oException(Nil,'Novo Número Selecionado !'+#13+
-                     'Nota Fiscal: ' + uPSQ_NFE_MAX(RECParametros.EP_NO_GP));
+                     'Nota Fiscal: ' + uPSQ_NFE_MAX(RECParametros.EP_GP_NO));
     end;
     ACTPSQ_NFE_SEQ.Execute; { VER FUROS }
 
@@ -5854,7 +5859,7 @@ begin
                     EdicaoNFE_VPIS.Value   := 0;
 
                     EdicaoNFE_CSTCOFINS.Value := '06';
-                    EdicaoNFE_VBCCOFINS.Value  := 0;
+                    EdicaoNFE_VBCCOFINS.Value := 0;
                     EdicaoNFE_PCOFINS.Value   := 0;
                     EdicaoNFE_VCOFINS.Value   := 0;
 
@@ -5959,9 +5964,61 @@ begin
                   EdicaoNFE_MODBCST.Value := 0;
                 end;
 
-                { IMPOSTO ICMS }
+                { REDUÇÃO PIS / COFINS }
+                if (EdicaoNFE_CFOP.AsString = '5101')            and (edcnpj.Text <> '') and
+                   (LeftStr(EdicaoNFE_NCM.AsString,4) <> '5402') and
+                   (LeftStr(EdicaoNFE_NCM.AsString,4) <> '5404') and (LeftStr(EdicaoNFE_NCM.AsString,4) <> '5405') and
+                   (LeftStr(EdicaoNFE_NCM.AsString,4) <> '5406') and
+                   (LeftStr(EdicaoNFE_NCM.AsString,4) <> '5501') and (LeftStr(EdicaoNFE_NCM.AsString,4) <> '5502') and
+                   (LeftStr(EdicaoNFE_NCM.AsString,4) <> '5503') and (LeftStr(EdicaoNFE_NCM.AsString,4) <> '5504') and
+                   (LeftStr(EdicaoNFE_NCM.AsString,4) <> '5505') and (LeftStr(EdicaoNFE_NCM.AsString,4) <> '5506') and
+                   (LeftStr(EdicaoNFE_NCM.AsString,4) <> '5507') and
+                   (LeftStr(EdicaoNFE_NCM.AsString,4) <> '5601') and (LeftStr(EdicaoNFE_NCM.AsString,4) <> '6309') and
+                   (EdicaoNFE_NCM.AsString <> '59011000') then
+
+                if (LeftStr(EdicaoNFE_NCM.AsString,2) = '50')     or (LeftStr(EdicaoNFE_NCM.AsString,2) = '51') or
+                   (LeftStr(EdicaoNFE_NCM.AsString,2) = '52')     or (LeftStr(EdicaoNFE_NCM.AsString,2) = '53') or
+                   (LeftStr(EdicaoNFE_NCM.AsString,2) = '54')     or (LeftStr(EdicaoNFE_NCM.AsString,2) = '55') or
+                   (LeftStr(EdicaoNFE_NCM.AsString,2) = '56')     or (LeftStr(EdicaoNFE_NCM.AsString,2) = '57') or
+                   (LeftStr(EdicaoNFE_NCM.AsString,2) = '58')     or
+                   (LeftStr(EdicaoNFE_NCM.AsString,2) = '60')     or (LeftStr(EdicaoNFE_NCM.AsString,2) = '61') or
+                   (LeftStr(EdicaoNFE_NCM.AsString,2) = '62')     or (LeftStr(EdicaoNFE_NCM.AsString,2) = '63') or
+                   (LeftStr(EdicaoNFE_NCM.AsString,4) = '5901')   or
+                   (LeftStr(EdicaoNFE_NCM.AsString,5) = '96071')  or
+                   (LeftStr(EdicaoNFE_NCM.AsString,6) = '560130') or
+                   (copy(EdicaoNFE_NCM.AsString,1,7) = '6505001') or
+                   (copy(EdicaoNFE_NCM.AsString,1,7) = '6505002') or
+                   (copy(EdicaoNFE_NCM.AsString,1,7) = '6505003') or
+                   (EdicaoNFE_NCM.AsString = '94049000') then
+                begin
+                   EdicaoNFE_CST.Value    := '20';
+                   EdicaoNFE_PREDBC.Value := 33.33;
+                   EdicaoNFE_VBC.Value    := EdicaoNFE_VBC.AsFloat - ((EdicaoNFE_VBC.AsFloat * EdicaoNFE_PREDBC.AsFloat)/100);
+                end;
+
+                  { IMPOSTO ICMS }
                 EdicaoNFE_VBC.Value   := EdicaoNFE_VBC.AsFloat - ((EdicaoNFE_VBC.AsFloat * EdicaoNFE_PREDBC.AsFloat)/100); { Calculo Final VBC }
                 EdicaoNFE_VICMS.Value := RoundTO((EdicaoNFE_VBC.AsFloat * EdicaoNFE_PICMS.AsFloat) / 100,-2); { Calulo VICMS }
+
+                { REDUÇÃO DE PIS / COFINS }
+                if EdicaoNFE_CST.AsString = '20' then
+                begin
+                  { PIS }
+                  EdicaoNFE_VBCPIS.Value := EdicaoNFE_VPROD.AsFloat - EdicaoNFE_VDESC.AsFloat - EdicaoNFE_VICMS.AsFloat;
+                  EdicaoNFE_VPIS.Value   := RoundTO((EdicaoNFE_VBCPIS.AsFloat * EdicaoNFE_PPIS.AsFloat) / 100,-2);
+
+                  { COFINS }
+                  EdicaoNFE_VBCCOFINS.Value := EdicaoNFE_VPROD.AsFloat - EdicaoNFE_VDESC.AsFloat - EdicaoNFE_VICMS.AsFloat;
+                  EdicaoNFE_VCOFINS.Value   := RoundTO((EdicaoNFE_VBCCOFINS.AsFloat * EdicaoNFE_PCOFINS.AsFloat) / 100,-2);
+                end else
+                EdicaoNFE_PREDBC.Value := 0;
+
+                if EdicaoNFE_CST.AsString = '90' then
+                begin
+                  EdicaoNFE_VBC.Value   := 0;
+                  EdicaoNFE_PICMS.Value := 0;
+                  EdicaoNFE_VICMS.Value := 0;
+                end;
 
                 if EdicaoNFE_CST.AsString = '60' then
                 begin
@@ -6017,24 +6074,15 @@ begin
                   EdicaoNFE_vICMSUFDest.Value    := RoundTo((EdicaoNFE_vBCUFDest.AsFloat * (EdicaoNFE_pICMSUFDest.AsFloat - EdicaoNFE_pICMSInter.AsFloat)) / 100,-2);
                   EdicaoNFE_vICMSUFRemet.Value   := 0;
                 end;
-
-                if RECParametros.NFE_REDUCAO_PISCOFINS then
-                   if ((IECFOP_TPNF.Text = '1') or (Pos(PECFOP.Text,'1201120222012202') > 0)) and (EdicaoNFE_VBCPIS.AsFloat > 0) and (EdicaoNFE_VBCCOFINS.AsFloat > 0) and (EdicaoNFE_VICMS.AsFloat > 0) then
-                   begin
-                     { REDUÇÃO PIS}
-                     EdicaoNFE_VBCPIS.Value  := EdicaoNFE_VBCPIS.AsFloat - EdicaoNFE_VICMS.AsFloat;
-                     EdicaoNFE_VPIS.Value    := RoundTO((EdicaoNFE_VBCPIS.AsFloat * EdicaoNFE_PPIS.AsFloat) / 100,-2);
-
-                     { REDUÇÃO COFINS }
-                     EdicaoNFE_VBCCOFINS.Value:= EdicaoNFE_VBCCOFINS.AsFloat - EdicaoNFE_VICMS.AsFloat;
-                     EdicaoNFE_VCOFINS.Value := RoundTO((EdicaoNFE_VBCCOFINS.AsFloat * EdicaoNFE_PCOFINS.AsFloat) / 100,-2);
-                   end;
               end;
 
               { NRT - NOVA REFORMA TRIBUTÁRIA }
-              { IS
-              EdicaoNFE_CSTIS_UB02.Value        := TAB_CFOPCSTIS.AsString;
-              EdicaoNFE_CCLASSTRIBIS_UB03.Value := TAB_CFOPCCLASSTRIBIS.AsString; }
+              { CBENEF }
+              EdicaoNFE_CBENEF.Value := TAB_CFOPCBENEF.AsString;
+
+              { IS }
+              //EdicaoNFE_CSTIS_UB02.Value        := TAB_CFOPCSTIS.AsString;
+              //EdicaoNFE_CCLASSTRIBIS_UB03.Value := TAB_CFOPCCLASSTRIBIS.AsString;
 
               { IBS CBS }
               EdicaoNFE_IBSCBS_CSTIS.Value        := TAB_CFOPCSTCBS.AsString;
@@ -6042,12 +6090,16 @@ begin
 
               if EdicaoNFE_IBSCBS_CSTIS.AsString = '000' then
               begin
-                EdicaoNFE_IBSCBS_VBCIBSCBS.Value    :=
+                EdicaoNFE_IBSCBS_VBCIBSCBS.Value :=
 
                 EdicaoNFE_VPROD.AsFloat      + EdicaoNFE_VSERV.AsFloat     + EdicaoNFE_VFRETE.AsFloat       + EdicaoNFE_VSEG.AsFloat  + EdicaoNFE_VOUTRO.AsFloat      + EdicaoNFE_VII.AsFloat  -
                 EdicaoNFE_VDESC.AsFloat      - EdicaoNFE_VPIS.AsFloat      - EdicaoNFE_VCOFINS.AsFloat      - EdicaoNFE_VICMS.AsFloat - EdicaoNFE_VICMSUFDEST.AsFloat - EdicaoNFE_VFCP.AsFloat -
                 EdicaoNFE_VFCPUFDEST.AsFloat - EdicaoNFE_VICMSMONO.AsFloat - EdicaoNFE_ISSQN_VISSQN.AsFloat +
                 EdicaoNFE_IS_VIS.AsFloat;
+
+                { REDUÇÃO DE PIS / COFINS }
+                if EdicaoNFE_CST.AsString = '20' then
+                EdicaoNFE_IBSCBS_VBCIBSCBS.Value := EdicaoNFE_VBCPIS.AsFloat - EdicaoNFE_VPIS.AsFloat - EdicaoNFE_VCOFINS.AsFloat;
 
                 { CBS }
                 EdicaoNFE_CBS_VBCCBS.Value := EdicaoNFE_IBSCBS_VBCIBSCBS.AsFloat;
@@ -6067,12 +6119,12 @@ begin
                 EdicaoNFE_IBSUF_VIBSUF.Value     := 0;
                 EdicaoNFE_VNFTOT.Value           := 0;
               end;
-              
+
               { Ricardo - Como a planilha do renato, já está embutido o valor do frete, tive q isolar o VNF para importações }
               if LeftStr(EdicaoNFE_CFOP.AsString,1) <> '3' then
-                 EdicaoNFE_VNF.Value := (EdicaoNFE_VPROD.AsFloat  - EdicaoNFE_VDESC.AsFloat   - EdicaoNFE_VICMSDeson.AsFloat) +
-                                        (EdicaoNFE_VIPI.AsFloat   + EdicaoNFE_VFRETE.AsFloat  + EdicaoNFE_VSEG.AsFloat        +
-                                        (EdicaoNFE_VOUTRO.AsFloat + EdicaoNFE_VICMSST.AsFloat));
+              EdicaoNFE_VNF.Value := (EdicaoNFE_VPROD.AsFloat  - EdicaoNFE_VDESC.AsFloat   - EdicaoNFE_VICMSDeson.AsFloat) +
+                                     (EdicaoNFE_VIPI.AsFloat   + EdicaoNFE_VFRETE.AsFloat  + EdicaoNFE_VSEG.AsFloat        +
+                                     (EdicaoNFE_VOUTRO.AsFloat + EdicaoNFE_VICMSST.AsFloat));
 
               if RECParametros.NFE_CRT = 1 then
               begin
@@ -6083,7 +6135,7 @@ begin
                 EdicaoNFE_VBCPIS.Value    := 0;
                 EdicaoNFE_PPIS.Value      := 0;
                 EdicaoNFE_VPIS.Value      := 0;
-                EdicaoNFE_VBCCOFINS.Value  := 0;
+                EdicaoNFE_VBCCOFINS.Value := 0;
                 EdicaoNFE_PCOFINS.Value   := 0;
                 EdicaoNFE_VCOFINS.Value   := 0;
 
@@ -6921,7 +6973,7 @@ begin
     tIde[41] := '0'; //indIntermed; 0 - Operação sem intermediador (em site ou plataforma própria); 1 - Operação em site ou plataforma de terceiros (intermediadores/marketplace)
 
     { Tag de Grupo de identificação do emitente da NF-e }
-    tEmit[00] := RECParametros.EP_NO_RZ; // <xNome>
+    tEmit[00] := RECParametros.EP_RZ_NO; // <xNome>
     tEmit[01] := RECParametros.EP_NO;    // <xFant>
 
     tEmit[10] := RECParametros.IE; // <IE> Inscrição Estadual
@@ -7032,9 +7084,9 @@ begin
 
       tProd[x,109] := oREPAcentos(EdicaoNFE_NVE.AsString);   //<NVE> Codificação NVE - Nomenclatura de Valor Aduaneiro e Estatística
       tProd[x,146] := oREPAcentos(EdicaoNFE_CEST.AsString);  //<CEST>
-      tProd[x,156] := '';                                     //<indEscala> Indicador de Escala Relevante - S - Produzido em Escala Relevante; N – Produzido em Escala NÃO Relevante. -> Campo Novo Obrigatorio NFE 4.0
-      tProd[x,157] := '';                                     //<CNPJFab> CNPJ do Fabricante da Mercadoria, obrigatório para produto em escala NÃO relevante -> Campo Novo NFE 4.0
-      tProd[x,158] := '';                                     //<cBenef> Código de Benefício Fiscal utilizado pela UF, aplicado ao item. -> Campo Novo NFE 4.0
+      tProd[x,156] := '';                                    //<indEscala> Indicador de Escala Relevante - S - Produzido em Escala Relevante; N – Produzido em Escala NÃO Relevante. -> Campo Novo Obrigatorio NFE 4.0
+      tProd[x,157] := '';                                    //<CNPJFab> CNPJ do Fabricante da Mercadoria, obrigatório para produto em escala NÃO relevante -> Campo Novo NFE 4.0
+      tProd[x,158] := EdicaoNFE_CBENEF.AsString;             //<cBenef> Código de Benefício Fiscal utilizado pela UF, aplicado ao item. -> Campo Novo NFE 4.0
 
       tProd[x,004] := EdicaoNFE_EXTIPI.AsString;                                                                      //<EXTIPI>
       tProd[x,005] := EdicaoNFE_CFOP.AsString;                                                                        //<CFOP> Código Fiscal de Operações e Prestações
@@ -7110,8 +7162,10 @@ begin
         tProd[x,049] := oTextToValor(EdicaoNFE_VBCST.AsFloat   ,2,True); //<vBCST>    //icms60, icmspart, ICMSSN500: <vBCSTRet>
         tProd[x,050] := oTextToValor(EdicaoNFE_pICMSST.AsFloat ,2,True); //<pICMSST>
         tProd[x,051] := oTextToValor(EdicaoNFE_VICMSST.AsFloat ,2,True); //<vICMSST>  //icms60,ICMSSN500: <vICMSSTRet>
-        tProd[x,052] := oTextToValor(EdicaoNFE_PREDBC.AsFloat  ,2,True); //<pRedBC>
       end;
+
+      if EdicaoNFE_PREDBC.AsFloat > 0 then
+      tProd[x,052] := oTextToValor(EdicaoNFE_PREDBC.AsFloat,2,True); //<pRedBC>
 
       tProd[x,080] := IFThen(EdicaoNFE_PCREDSN.AsFloat     > 0,oTextToValor(EdicaoNFE_PCREDSN.AsFloat    ,2,True),''); //<pCredSN> Alíquota aplicável de cálculo do crédito (Simples Nacional).
       tProd[x,081] := IFThen(EdicaoNFE_VCREDICMSSN.AsFloat > 0,oTextToValor(EdicaoNFE_VCREDICMSSN.AsFloat,2,True),''); //<vCredICMSSN> Valor crédito do ICMS que pode ser aproveitado nos termos do art. 23 da LC 123 (Simples Nacional)
@@ -7516,7 +7570,7 @@ begin
       if (EDISUF.Text <> EmptyStr) and (RECRomaneio.ZFM_CMUN) and (EdicaoNFE_MOTDESICMS.AsInteger = 7) then
       tProd[x,235] := '1'; //indDeduzDeson
 
-      tProd[x,236] := ''; //cBenefRBC
+      tProd[x,236] := EdicaoNFE_CBENEF_RBC.AsString; //cBenefRBC
       tProd[x,238] := oTextToValor(EdicaoNFE_VUNCOM.AsFloat,9,True); //<vItem> Valor total do Item, correspondente à sua participação no total da nota. A soma dos itens deverá corresponder ao total da nota.
 
       //Referenciamento de item de outro Documento Fiscal Eletrônico
@@ -8121,7 +8175,7 @@ begin
     ACTXMLLoteRetorno.Execute; { Pesquisa Lote Retornado }
 
     { VER NOTA FISCAL EXISTE }
-    if uPSQ_NFE_REG(RECParametros.EP_NO_GP,CECDNF.Text) then
+    if uPSQ_NFE_REG(RECParametros.EP_GP_NO,CECDNF.Text) then
     oException(Nil,'Número da nota fiscal já emitida !');
 
     { Consulta Protocolo }
@@ -9692,8 +9746,8 @@ begin
       SPEdicao.ParamByName('RCOM').Value           := EdicaoNFE_RCOM.AsInteger;
 
       SPEdicao.ParamByName('PSCN').Value           := 0;
-      SPEdicao.ParamByName('PSBR').Value           := CEPSBR.Value;
-      SPEdicao.ParamByName('PSLQ').Value           := CEPSLQ.Value;
+      SPEdicao.ParamByName('PSBR').Value           := EdicaoNFE_PSBR.AsFloat;
+      SPEdicao.ParamByName('PSLQ').Value           := EdicaoNFE_PSLQ.AsFloat;
 
       SPEdicao.ParamByName('VUNCOM').Value         := EdicaoNFE_VUNCOM.AsFloat;
       SPEdicao.ParamByName('VPROD').Value          := EdicaoNFE_VPROD.AsFloat;

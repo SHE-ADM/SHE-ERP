@@ -336,6 +336,13 @@ type
     MIREL_FOR_PRO_CAD: TMenuItem;
     ACTREL_REP_PDV_RKG: TAction;
     MIREL_REP_PDV_RKG: TMenuItem;
+    ACTREL_FOR_PDC_REC: TAction;
+    MIREL_FOR_PDC_REC: TMenuItem;
+    ACTREL_PRO_VEN_DIA: TAction;
+    ACTREL_PRO_VEN_MES: TAction;
+    N9: TMenuItem;
+    MIREL_PRO_VEN_DIA: TMenuItem;
+    MIREL_PRO_VEN_MES: TMenuItem;
 
     procedure _DoneEvent(Sender: TObject);
 
@@ -914,7 +921,7 @@ begin
 
                                               
       SQL.Add('FROM     CTE_PSQ AS PK');
-      SQL.Add('LEFT     JOIN VW_PSQ_CAD_PRO_EST_SLD_NEW AS EF ON (EF.CP_ID = PK.CP_ID AND EF.EP_LG = ''' + RECParametros.EP_ID + ''')');
+      SQL.Add('LEFT     JOIN VW_PSQ_CAD_PRO_EST_SLD AS EF ON (EF.CP_ID = PK.CP_ID AND EF.EP_LG = ''' + RECParametros.EP_ID + ''')');
       SQL.Add('ORDER BY PK.ARTIGO,PK.GRD_NO');
 
       Prepare;
@@ -2603,7 +2610,7 @@ procedure TFrmPrincipal.ACTADM_COMISSAOExecute(Sender: TObject);
                 SQL.Add('JOIN     CAD_REP     AS CR ON (CR.ID = PK.IDCR)');
                 SQL.Add('JOIN     TAB_PAG     AS PG ON (PG.ID = PK.CDPG)');
                // SQL.Add('WHERE    CAST(PK.DTBX AS DATE) >= DATEADD(MONTH,-1,DATEADD(1 - EXTRACT(DAY FROM CURRENT_DATE) DAY TO CURRENT_DATE))');
-                SQL.Add('WHERE    CAST(PK.DTBX AS DATE) >= ''02/01/26''');
+                SQL.Add('WHERE    CAST(PK.DTBX AS DATE) >= ''03/01/26''');
               //SQL.Add('AND      PK.DEPD = ''109506''');
                 SQL.Add('ORDER BY PK.DTBX');
                 ExecQuery;
@@ -2748,7 +2755,7 @@ procedure TFrmPrincipal.ACTADM_COMISSAOExecute(Sender: TObject);
                 SQL.Add('JOIN     CAD_REP         AS CR ON (CR.ID = PK.IDCR)');
                 SQL.Add('JOIN     TAB_PAG         AS PG ON (PG.ID = PK.CDPG)');
                 //SQL.Add('WHERE    CAST(PK.DTBX AS DATE) >= DATEADD(MONTH,-1,DATEADD(1 - EXTRACT(DAY FROM CURRENT_DATE) DAY TO CURRENT_DATE))');
-                SQL.Add('WHERE    CAST(PK.DTBX AS DATE) >= ''02/01/26''');
+                SQL.Add('WHERE    CAST(PK.DTBX AS DATE) >= ''03/01/26''');
               //SQL.Add('AND      PK.DEPD = ''99669''');
                 SQL.Add('ORDER BY PK.DTBX');
                 ExecQuery;

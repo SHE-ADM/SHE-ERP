@@ -1,18 +1,16 @@
 inherited frmctr_ped_fin: Tfrmctr_ped_fin
   Left = 264
-  Top = 97
-  AutoSize = True
   Caption = 'Sum'#225'rio de Pedido'
-  ClientHeight = 436
+  ClientHeight = 492
   OldCreateOrder = True
   Position = poDesktopCenter
   PixelsPerInch = 96
   TextHeight = 14
   inherited pnlcadastro: TPanel
-    Height = 168
+    Height = 224
     inherited PaintBox: TPaintBox
       Width = 504
-      Height = 103
+      Height = 159
     end
     inherited SBMenuPrincipal: TSpeedBar
       TabOrder = 2
@@ -21,7 +19,7 @@ inherited frmctr_ped_fin: Tfrmctr_ped_fin
       Left = 0
       Top = 65
       Width = 504
-      Height = 103
+      Height = 159
       Align = alClient
       Caption = 'Sobre o Pedido'
       Font.Charset = DEFAULT_CHARSET
@@ -261,7 +259,7 @@ inherited frmctr_ped_fin: Tfrmctr_ped_fin
       Left = 504
       Top = 65
       Width = 248
-      Height = 103
+      Height = 159
       Align = alRight
       Caption = 'Sum'#225'rio'
       Font.Charset = DEFAULT_CHARSET
@@ -370,11 +368,11 @@ inherited frmctr_ped_fin: Tfrmctr_ped_fin
     end
   end
   inherited sbMSG: TStatusBar
-    Top = 417
+    Top = 473
   end
   object pclan: TdxPageControl [2]
     Left = 0
-    Top = 168
+    Top = 224
     Width = 752
     Height = 249
     ActivePage = tslan
@@ -544,7 +542,6 @@ inherited frmctr_ped_fin: Tfrmctr_ped_fin
         BtnOffsetVert = 2
         BtnWidth = 45
         BtnHeight = 45
-        Images = ILMenuEdicao
         BevelOuter = bvNone
         TabOrder = 1
         InternalVer = 1
@@ -845,6 +842,9 @@ inherited frmctr_ped_fin: Tfrmctr_ped_fin
       end
     end
   end
+  inherited Consulta: TIBQuery
+    BufferChunks = 2500
+  end
   object fin_rec_bai: TIBDataSet
     Database = dmDADOS.bSHEILD
     Transaction = tSHEILD
@@ -866,47 +866,60 @@ inherited frmctr_ped_fin: Tfrmctr_ped_fin
         '  (FIN_AGEN, FIN_ATRA, FIN_BANC, FIN_CCAB, FIN_CCLI, FIN_CCUS, F' +
         'IN_CDBA, '
       
-        '   FIN_CDBX, FIN_CDCO, FIN_CDCX, FIN_COBR, FIN_CONC, FIN_CONT, F' +
-        'IN_CPPL, '
+        '   FIN_CDBX, FIN_CDCO, FIN_CDCX, FIN_CDRD, FIN_COBR, FIN_CONC, F' +
+        'IN_CONT, '
       
-        '   FIN_CREP, FIN_CTNR, FIN_CVEN, FIN_DATR, FIN_DBAI, FIN_DBAN, F' +
-        'IN_DCAD, '
+        '   FIN_CPF, FIN_CPPL, FIN_CREP, FIN_CTNR, FIN_CVEN, FIN_DATR, FI' +
+        'N_DBAI, '
       
-        '   FIN_DCLI, FIN_DEBA, FIN_DFIN, FIN_DMED, FIN_DOCT, FIN_DPAG, F' +
-        'IN_DREP, '
+        '   FIN_DBAN, FIN_DCAD, FIN_DCLI, FIN_DEBA, FIN_DERD, FIN_DFIN, F' +
+        'IN_DMED, '
       
-        '   FIN_DVEN, FIN_MCHQ, FIN_NCHQ, FIN_OBSE, FIN_PRAZ, FIN_RCLI, F' +
+        '   FIN_DOCT, FIN_DPAG, FIN_DREP, FIN_DTST, FIN_DVEN, FIN_MCHQ, F' +
+        'IN_NCHQ, '
+      
+        '   FIN_OBSE, FIN_PDES, FIN_PJUR, FIN_PMUL, FIN_PRAZ, FIN_RCLI, F' +
         'IN_RREP, '
       
         '   FIN_STA, FIN_STCO, FIN_STDO, FIN_STFI, FIN_TIPO, FIN_VALO, FI' +
-        'N_VENC, '
-      '   FIN_VEND, FIN_VPAG, FIN_VPEN, ID)'
+        'N_VCHQ, '
+      
+        '   FIN_VDES, FIN_VENC, FIN_VEND, FIN_VJUR, FIN_VMUL, FIN_VPAG, F' +
+        'IN_VPEN, '
+      '   ID, RECO, TPCO)'
       'values'
       
         '  (:FIN_AGEN, :FIN_ATRA, :FIN_BANC, :FIN_CCAB, :FIN_CCLI, :FIN_C' +
         'CUS, :FIN_CDBA, '
       
-        '   :FIN_CDBX, :FIN_CDCO, :FIN_CDCX, :FIN_COBR, :FIN_CONC, :FIN_C' +
-        'ONT, :FIN_CPPL, '
+        '   :FIN_CDBX, :FIN_CDCO, :FIN_CDCX, :FIN_CDRD, :FIN_COBR, :FIN_C' +
+        'ONC, :FIN_CONT, '
       
-        '   :FIN_CREP, :FIN_CTNR, :FIN_CVEN, :FIN_DATR, :FIN_DBAI, :FIN_D' +
-        'BAN, :FIN_DCAD, '
+        '   :FIN_CPF, :FIN_CPPL, :FIN_CREP, :FIN_CTNR, :FIN_CVEN, :FIN_DA' +
+        'TR, :FIN_DBAI, '
       
-        '   :FIN_DCLI, :FIN_DEBA, :FIN_DFIN, :FIN_DMED, :FIN_DOCT, :FIN_D' +
-        'PAG, :FIN_DREP, '
+        '   :FIN_DBAN, :FIN_DCAD, :FIN_DCLI, :FIN_DEBA, :FIN_DERD, :FIN_D' +
+        'FIN, :FIN_DMED, '
       
-        '   :FIN_DVEN, :FIN_MCHQ, :FIN_NCHQ, :FIN_OBSE, :FIN_PRAZ, :FIN_R' +
+        '   :FIN_DOCT, :FIN_DPAG, :FIN_DREP, :FIN_DTST, :FIN_DVEN, :FIN_M' +
+        'CHQ, :FIN_NCHQ, '
+      
+        '   :FIN_OBSE, :FIN_PDES, :FIN_PJUR, :FIN_PMUL, :FIN_PRAZ, :FIN_R' +
         'CLI, :FIN_RREP, '
       
         '   :FIN_STA, :FIN_STCO, :FIN_STDO, :FIN_STFI, :FIN_TIPO, :FIN_VA' +
-        'LO, :FIN_VENC, '
-      '   :FIN_VEND, :FIN_VPAG, :FIN_VPEN, :ID)')
+        'LO, :FIN_VCHQ, '
+      
+        '   :FIN_VDES, :FIN_VENC, :FIN_VEND, :FIN_VJUR, :FIN_VMUL, :FIN_V' +
+        'PAG, :FIN_VPEN, '
+      '   :ID, :RECO, :TPCO)')
     RefreshSQL.Strings = (
       'Select '
       '  ID,'
       '  FIN_CCAB,'
       '  FIN_CDBX,'
       '  FIN_CDCX,'
+      '  FIN_CDRD,'
       '  FIN_CCLI,'
       '  FIN_DFIN,'
       '  FIN_DCLI,'
@@ -945,10 +958,22 @@ inherited frmctr_ped_fin: Tfrmctr_ped_fin
       '  FIN_VPAG,'
       '  FIN_VPEN,'
       '  FIN_VENC,'
-      '  FIN_OBSE,'
+      '  FIN_CTNR,'
+      '  FIN_VMUL,'
+      '  FIN_PMUL,'
+      '  FIN_VJUR,'
+      '  FIN_PJUR,'
+      '  FIN_VDES,'
+      '  FIN_PDES,'
+      '  FIN_VCHQ,'
+      '  FIN_CPF,'
       '  FIN_STA,'
       '  FIN_COBR,'
-      '  FIN_CTNR'
+      '  FIN_DERD,'
+      '  FIN_OBSE,'
+      '  FIN_DTST,'
+      '  TPCO,'
+      '  RECO'
       'from FIN_REC_BAI '
       'where'
       '  ID = :ID')
@@ -967,9 +992,11 @@ inherited frmctr_ped_fin: Tfrmctr_ped_fin
       '  FIN_CDBX = :FIN_CDBX,'
       '  FIN_CDCO = :FIN_CDCO,'
       '  FIN_CDCX = :FIN_CDCX,'
+      '  FIN_CDRD = :FIN_CDRD,'
       '  FIN_COBR = :FIN_COBR,'
       '  FIN_CONC = :FIN_CONC,'
       '  FIN_CONT = :FIN_CONT,'
+      '  FIN_CPF = :FIN_CPF,'
       '  FIN_CPPL = :FIN_CPPL,'
       '  FIN_CREP = :FIN_CREP,'
       '  FIN_CTNR = :FIN_CTNR,'
@@ -980,15 +1007,20 @@ inherited frmctr_ped_fin: Tfrmctr_ped_fin
       '  FIN_DCAD = :FIN_DCAD,'
       '  FIN_DCLI = :FIN_DCLI,'
       '  FIN_DEBA = :FIN_DEBA,'
+      '  FIN_DERD = :FIN_DERD,'
       '  FIN_DFIN = :FIN_DFIN,'
       '  FIN_DMED = :FIN_DMED,'
       '  FIN_DOCT = :FIN_DOCT,'
       '  FIN_DPAG = :FIN_DPAG,'
       '  FIN_DREP = :FIN_DREP,'
+      '  FIN_DTST = :FIN_DTST,'
       '  FIN_DVEN = :FIN_DVEN,'
       '  FIN_MCHQ = :FIN_MCHQ,'
       '  FIN_NCHQ = :FIN_NCHQ,'
       '  FIN_OBSE = :FIN_OBSE,'
+      '  FIN_PDES = :FIN_PDES,'
+      '  FIN_PJUR = :FIN_PJUR,'
+      '  FIN_PMUL = :FIN_PMUL,'
       '  FIN_PRAZ = :FIN_PRAZ,'
       '  FIN_RCLI = :FIN_RCLI,'
       '  FIN_RREP = :FIN_RREP,'
@@ -998,11 +1030,17 @@ inherited frmctr_ped_fin: Tfrmctr_ped_fin
       '  FIN_STFI = :FIN_STFI,'
       '  FIN_TIPO = :FIN_TIPO,'
       '  FIN_VALO = :FIN_VALO,'
+      '  FIN_VCHQ = :FIN_VCHQ,'
+      '  FIN_VDES = :FIN_VDES,'
       '  FIN_VENC = :FIN_VENC,'
       '  FIN_VEND = :FIN_VEND,'
+      '  FIN_VJUR = :FIN_VJUR,'
+      '  FIN_VMUL = :FIN_VMUL,'
       '  FIN_VPAG = :FIN_VPAG,'
       '  FIN_VPEN = :FIN_VPEN,'
-      '  ID = :ID'
+      '  ID = :ID,'
+      '  RECO = :RECO,'
+      '  TPCO = :TPCO'
       'where'
       '  ID = :OLD_ID')
     Left = 488
@@ -1253,52 +1291,59 @@ inherited frmctr_ped_fin: Tfrmctr_ped_fin
         '  (FIN_ATRA, FIN_CBCO, FIN_CCLI, FIN_CCUS, FIN_CDBX, FIN_CDCX, F' +
         'IN_CDNF, '
       
-        '   FIN_CDPD, FIN_CDRO, FIN_COBR, FIN_CONC, FIN_CPF, FIN_CPPL, FI' +
-        'N_CREP, '
+        '   FIN_CDPD, FIN_CDRD, FIN_CDRO, FIN_COBR, FIN_CONC, FIN_CPF, FI' +
+        'N_CPPL, '
       
-        '   FIN_CTNR, FIN_CVEN, FIN_DATR, FIN_DBAI, FIN_DCAD, FIN_DCLI, F' +
-        'IN_DCUS, '
+        '   FIN_CREP, FIN_CTNR, FIN_CVEN, FIN_DATR, FIN_DBAI, FIN_DCAD, F' +
+        'IN_DCLI, '
       
-        '   FIN_DMED, FIN_DNFE, FIN_DOCT, FIN_DPAG, FIN_DPPL, FIN_DPRA, F' +
-        'IN_DREP, '
+        '   FIN_DCUS, FIN_DERD, FIN_DMED, FIN_DNFE, FIN_DOCT, FIN_DPAG, F' +
+        'IN_DPPL, '
       
-        '   FIN_DROM, FIN_DTCO, FIN_DVEN, FIN_IPPL, FIN_OBSE, FIN_PCOM, F' +
-        'IN_PDES, '
+        '   FIN_DPRA, FIN_DREP, FIN_DROM, FIN_DTCO, FIN_DTST, FIN_DVEN, F' +
+        'IN_IPPL, '
       
-        '   FIN_PJUR, FIN_PMUL, FIN_PORT, FIN_PRAZ, FIN_RCLI, FIN_RREP, F' +
-        'IN_STA, '
+        '   FIN_OBSE, FIN_PCOM, FIN_PDES, FIN_PJUR, FIN_PMUL, FIN_PORT, F' +
+        'IN_PRAZ, '
       
-        '   FIN_STCO, FIN_STDO, FIN_STFI, FIN_STPD, FIN_VALO, FIN_VDES, F' +
-        'IN_VENC, '
-      '   FIN_VEND, FIN_VJUR, FIN_VMUL, FIN_VPAG, FIN_VPEN, ID)'
+        '   FIN_RCLI, FIN_RREP, FIN_STA, FIN_STCO, FIN_STDO, FIN_STFI, FI' +
+        'N_STPD, '
+      
+        '   FIN_VALO, FIN_VCHQ, FIN_VDES, FIN_VENC, FIN_VEND, FIN_VJUR, F' +
+        'IN_VMUL, '
+      '   FIN_VPAG, FIN_VPEN, ID, RECO, TPCO)'
       'values'
       
         '  (:FIN_ATRA, :FIN_CBCO, :FIN_CCLI, :FIN_CCUS, :FIN_CDBX, :FIN_C' +
         'DCX, :FIN_CDNF, '
       
-        '   :FIN_CDPD, :FIN_CDRO, :FIN_COBR, :FIN_CONC, :FIN_CPF, :FIN_CP' +
-        'PL, :FIN_CREP, '
+        '   :FIN_CDPD, :FIN_CDRD, :FIN_CDRO, :FIN_COBR, :FIN_CONC, :FIN_C' +
+        'PF, :FIN_CPPL, '
       
-        '   :FIN_CTNR, :FIN_CVEN, :FIN_DATR, :FIN_DBAI, :FIN_DCAD, :FIN_D' +
-        'CLI, :FIN_DCUS, '
+        '   :FIN_CREP, :FIN_CTNR, :FIN_CVEN, :FIN_DATR, :FIN_DBAI, :FIN_D' +
+        'CAD, :FIN_DCLI, '
       
-        '   :FIN_DMED, :FIN_DNFE, :FIN_DOCT, :FIN_DPAG, :FIN_DPPL, :FIN_D' +
-        'PRA, :FIN_DREP, '
+        '   :FIN_DCUS, :FIN_DERD, :FIN_DMED, :FIN_DNFE, :FIN_DOCT, :FIN_D' +
+        'PAG, :FIN_DPPL, '
       
-        '   :FIN_DROM, :FIN_DTCO, :FIN_DVEN, :FIN_IPPL, :FIN_OBSE, :FIN_P' +
-        'COM, :FIN_PDES, '
+        '   :FIN_DPRA, :FIN_DREP, :FIN_DROM, :FIN_DTCO, :FIN_DTST, :FIN_D' +
+        'VEN, :FIN_IPPL, '
       
-        '   :FIN_PJUR, :FIN_PMUL, :FIN_PORT, :FIN_PRAZ, :FIN_RCLI, :FIN_R' +
-        'REP, :FIN_STA, '
+        '   :FIN_OBSE, :FIN_PCOM, :FIN_PDES, :FIN_PJUR, :FIN_PMUL, :FIN_P' +
+        'ORT, :FIN_PRAZ, '
       
-        '   :FIN_STCO, :FIN_STDO, :FIN_STFI, :FIN_STPD, :FIN_VALO, :FIN_V' +
-        'DES, :FIN_VENC, '
-      '   :FIN_VEND, :FIN_VJUR, :FIN_VMUL, :FIN_VPAG, :FIN_VPEN, :ID)')
+        '   :FIN_RCLI, :FIN_RREP, :FIN_STA, :FIN_STCO, :FIN_STDO, :FIN_ST' +
+        'FI, :FIN_STPD, '
+      
+        '   :FIN_VALO, :FIN_VCHQ, :FIN_VDES, :FIN_VENC, :FIN_VEND, :FIN_V' +
+        'JUR, :FIN_VMUL, '
+      '   :FIN_VPAG, :FIN_VPEN, :ID, :RECO, :TPCO)')
     RefreshSQL.Strings = (
       'Select '
       '  ID,'
       '  FIN_CDBX,'
       '  FIN_CDCX,'
+      '  FIN_CDRD,'
       '  FIN_CDPD,'
       '  FIN_CDRO,'
       '  FIN_CDNF,'
@@ -1320,6 +1365,7 @@ inherited frmctr_ped_fin: Tfrmctr_ped_fin
       '  FIN_PRAZ,'
       '  FIN_ATRA,'
       '  FIN_CONC,'
+      '  FIN_DBAI,'
       '  FIN_DCAD,'
       '  FIN_DROM,'
       '  FIN_DNFE,'
@@ -1344,13 +1390,17 @@ inherited frmctr_ped_fin: Tfrmctr_ped_fin
       '  FIN_VDES,'
       '  FIN_PDES,'
       '  FIN_PCOM,'
-      '  FIN_OBSE,'
-      '  FIN_STA,'
-      '  FIN_COBR,'
-      '  FIN_DBAI,'
       '  FIN_VENC,'
       '  FIN_CPF,'
-      '  FIN_CTNR'
+      '  FIN_CTNR,'
+      '  FIN_VCHQ,'
+      '  FIN_STA,'
+      '  FIN_COBR,'
+      '  FIN_DERD,'
+      '  FIN_OBSE,'
+      '  FIN_DTST,'
+      '  TPCO,'
+      '  RECO'
       'from FIN_REC '
       'where'
       '  ID = :ID')
@@ -1367,6 +1417,7 @@ inherited frmctr_ped_fin: Tfrmctr_ped_fin
       '  FIN_CDCX = :FIN_CDCX,'
       '  FIN_CDNF = :FIN_CDNF,'
       '  FIN_CDPD = :FIN_CDPD,'
+      '  FIN_CDRD = :FIN_CDRD,'
       '  FIN_CDRO = :FIN_CDRO,'
       '  FIN_COBR = :FIN_COBR,'
       '  FIN_CONC = :FIN_CONC,'
@@ -1380,6 +1431,7 @@ inherited frmctr_ped_fin: Tfrmctr_ped_fin
       '  FIN_DCAD = :FIN_DCAD,'
       '  FIN_DCLI = :FIN_DCLI,'
       '  FIN_DCUS = :FIN_DCUS,'
+      '  FIN_DERD = :FIN_DERD,'
       '  FIN_DMED = :FIN_DMED,'
       '  FIN_DNFE = :FIN_DNFE,'
       '  FIN_DOCT = :FIN_DOCT,'
@@ -1389,6 +1441,7 @@ inherited frmctr_ped_fin: Tfrmctr_ped_fin
       '  FIN_DREP = :FIN_DREP,'
       '  FIN_DROM = :FIN_DROM,'
       '  FIN_DTCO = :FIN_DTCO,'
+      '  FIN_DTST = :FIN_DTST,'
       '  FIN_DVEN = :FIN_DVEN,'
       '  FIN_IPPL = :FIN_IPPL,'
       '  FIN_OBSE = :FIN_OBSE,'
@@ -1406,6 +1459,7 @@ inherited frmctr_ped_fin: Tfrmctr_ped_fin
       '  FIN_STFI = :FIN_STFI,'
       '  FIN_STPD = :FIN_STPD,'
       '  FIN_VALO = :FIN_VALO,'
+      '  FIN_VCHQ = :FIN_VCHQ,'
       '  FIN_VDES = :FIN_VDES,'
       '  FIN_VENC = :FIN_VENC,'
       '  FIN_VEND = :FIN_VEND,'
@@ -1413,7 +1467,9 @@ inherited frmctr_ped_fin: Tfrmctr_ped_fin
       '  FIN_VMUL = :FIN_VMUL,'
       '  FIN_VPAG = :FIN_VPAG,'
       '  FIN_VPEN = :FIN_VPEN,'
-      '  ID = :ID'
+      '  ID = :ID,'
+      '  RECO = :RECO,'
+      '  TPCO = :TPCO'
       'where'
       '  ID = :OLD_ID')
     Left = 488
@@ -1691,6 +1747,35 @@ inherited frmctr_ped_fin: Tfrmctr_ped_fin
       FieldName = 'FIN_CTNR'
       Origin = '"FIN_REC"."FIN_CTNR"'
     end
+    object fin_recFIN_CDRD: TIntegerField
+      FieldName = 'FIN_CDRD'
+      Origin = '"FIN_REC"."FIN_CDRD"'
+    end
+    object fin_recFIN_VCHQ: TIBBCDField
+      FieldName = 'FIN_VCHQ'
+      Origin = '"FIN_REC"."FIN_VCHQ"'
+      Precision = 18
+      Size = 2
+    end
+    object fin_recFIN_DERD: TIBStringField
+      FieldName = 'FIN_DERD'
+      Origin = '"FIN_REC"."FIN_DERD"'
+      Size = 30
+    end
+    object fin_recFIN_DTST: TDateTimeField
+      FieldName = 'FIN_DTST'
+      Origin = '"FIN_REC"."FIN_DTST"'
+    end
+    object fin_recTPCO: TSmallintField
+      FieldName = 'TPCO'
+      Origin = '"FIN_REC"."TPCO"'
+    end
+    object fin_recRECO: TIBStringField
+      FieldName = 'RECO'
+      Origin = '"FIN_REC"."RECO"'
+      FixedChar = True
+      Size = 3
+    end
   end
   object dtsfin_rec: TDataSource
     DataSet = fin_rec
@@ -1704,14 +1789,14 @@ inherited frmctr_ped_fin: Tfrmctr_ped_fin
       'read_committed'
       'rec_version'
       'nowait')
-    Left = 880
-    Top = 40
+    Left = 336
+    Top = 136
   end
   object ibSHEILD: TIBStoredProc
     Database = dmDADOS.bSHEILD
     Transaction = tSHEILD
-    Left = 920
-    Top = 72
+    Left = 408
+    Top = 128
   end
   object consulta_s: TIBQuery
     Database = dmDADOS.bSHEILD
@@ -1730,13 +1815,13 @@ inherited frmctr_ped_fin: Tfrmctr_ped_fin
     Transaction = IBTra
     SQL.Strings = (
       'SELECT * FROM TAB_PAG'
-      'WHERE ID = :ID')
+      'WHERE DESCRICAO = :DESCRICAO')
     Left = 488
     Top = 72
     ParamData = <
       item
         DataType = ftUnknown
-        Name = 'ID'
+        Name = 'DESCRICAO'
         ParamType = ptUnknown
       end>
     object tab_pagID: TIntegerField
@@ -1804,6 +1889,6 @@ inherited frmctr_ped_fin: Tfrmctr_ped_fin
   object aux: TIBQuery
     Database = dmDADOS.ibDB
     Transaction = IBTra
-    Left = 696
+    Left = 640
   end
 end

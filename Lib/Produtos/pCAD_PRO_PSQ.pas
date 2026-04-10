@@ -461,7 +461,7 @@ begin
 
 
       SQL.Add('FROM     CTE_PSQ AS PK');
-      SQL.Add('LEFT     JOIN VW_PSQ_CAD_PRO_EST_SLD_NEW AS EF ON (EF.CP_ID = PK.CP_ID AND EF.EP_LG = :EP_LG)');
+      SQL.Add('LEFT     JOIN VW_PSQ_CAD_PRO_EST_SLD AS EF ON (EF.CP_ID = PK.CP_ID AND EF.EP_LG = :EP_LG)');
       SQL.Add('ORDER BY PK.ARTIGO,PK.GRD_NO');
 
       ParamByName('EP_LG').Value := RECParametros.EP_ID;

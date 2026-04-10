@@ -2361,10 +2361,10 @@ begin
         begin
           Edicao.Append;
 
-          EdicaoROM_IDFK.Value  := Current.ByName('IDFK').AsInteger;
-          EdicaoROM_CDEP.Value  := Current.ByName('IDEP').AsInteger;
           EdicaoROM_IDPK.Value  := Current.ByName('IDPK').AsInteger;
+          EdicaoROM_CDEP.Value  := Current.ByName('IDEP').AsInteger;
 
+          EdicaoROM_IDFK.Value  := IFThen(EDCDRO.TAG > 0,Current.ByName('IDFK').AsInteger,0);
           EdicaoROM_ITEM.Value  := oStrZero(Current.ByName('ITEM').AsInteger,5);
           EdicaoROM_IPRO.Value  := Current.ByName('IDCP').AsInteger;
 
@@ -3288,8 +3288,8 @@ begin
 
         RECSP_PED_VEN_ITE.IDPK := RECPedidos.IDPK;   // Id PED_VEN_CAB
         RECSP_PED_VEN_ITE.IDFK := EdicaoROM_IDFK.AsInteger; // Id PED_VEN_ITE
-        RECSP_PED_VEN_ITE.ITEM := EdicaoROM_ITEM.AsInteger;
 
+        RECSP_PED_VEN_ITE.ITEM := EdicaoROM_ITEM.AsInteger;
         RECSP_PED_VEN_ITE.IDCP := EdicaoROM_IPRO.AsInteger;
         RECSP_PED_VEN_ITE.CEAN := EdicaoROM_CBAR.AsString;
 

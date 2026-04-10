@@ -5,7 +5,7 @@ inherited frmeti_pro: Tfrmeti_pro
   AlphaBlendValue = 0
   Caption = 'Controle de Etiquetas'
   ClientHeight = 574
-  ClientWidth = 743
+  ClientWidth = 744
   FormStyle = fsMDIChild
   OldCreateOrder = True
   Position = poMainFormCenter
@@ -13,16 +13,16 @@ inherited frmeti_pro: Tfrmeti_pro
   PixelsPerInch = 96
   TextHeight = 14
   inherited PNLCadastro: TPanel
-    Width = 743
+    Width = 744
     Height = 490
     inherited PaintBox: TPaintBox
-      Width = 743
+      Width = 744
       Height = 490
     end
     object Panel1: TPanel
       Left = 0
       Top = 0
-      Width = 743
+      Width = 744
       Height = 490
       Align = alClient
       BevelOuter = bvNone
@@ -30,7 +30,7 @@ inherited frmeti_pro: Tfrmeti_pro
       object GBRomaneio: TGroupBox
         Left = 0
         Top = 233
-        Width = 743
+        Width = 744
         Height = 160
         Align = alBottom
         Caption = '  Romaneio de Estoque   '
@@ -301,7 +301,7 @@ inherited frmeti_pro: Tfrmeti_pro
       object GBPedido: TGroupBox
         Left = 0
         Top = 393
-        Width = 743
+        Width = 744
         Height = 97
         Align = alBottom
         Caption = '  Pedido de Venda  '
@@ -460,7 +460,7 @@ inherited frmeti_pro: Tfrmeti_pro
       object Panel2: TPanel
         Left = 0
         Top = 0
-        Width = 743
+        Width = 744
         Height = 235
         Align = alTop
         BevelOuter = bvNone
@@ -468,7 +468,7 @@ inherited frmeti_pro: Tfrmeti_pro
         object GroupBox3: TGroupBox
           Left = 0
           Top = 192
-          Width = 743
+          Width = 744
           Height = 43
           Align = alBottom
           Caption = '  Defeito(s)  '
@@ -512,13 +512,13 @@ inherited frmeti_pro: Tfrmeti_pro
         object Panel3: TPanel
           Left = 0
           Top = 0
-          Width = 743
+          Width = 744
           Height = 193
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 0
           object Panel4: TPanel
-            Left = 240
+            Left = 241
             Top = 0
             Width = 503
             Height = 193
@@ -888,12 +888,12 @@ inherited frmeti_pro: Tfrmeti_pro
   end
   inherited sbMSG: TStatusBar
     Top = 555
-    Width = 743
+    Width = 744
   end
   inherited PNLMenu: TPanel
-    Width = 743
+    Width = 744
     inherited SpeedBar2: TSpeedBar
-      Width = 743
+      Width = 744
       inherited siVAL: TSpeedItem [4]
       end
       inherited siSAIR: TSpeedItem [5]
