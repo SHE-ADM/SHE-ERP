@@ -1193,7 +1193,7 @@ begin
   with AReport do
   begin
     { Define Impressora }
-    oPRN_EXE(Application.Handle,'Relatórios');
+    oPrinterSelect(Application.Handle,'Relatórios');
 
     { Título }
     ReportTitle     := ATitulo;
@@ -1214,7 +1214,7 @@ procedure Tfrmrelatorio_geral.NFE_DUP_EMI;
 begin
   {$IF DEFINED(DEF_ERP) OR DEFINED(DEF_FIN)}
 
-  oPRN_EXE(Handle,'Boletos');
+  oPrinterSelect(Handle,'Boletos');
 
   if qrpfin_dup  = nil then
      qrpfin_dup := Tqrpfin_dup.Create(Self);
@@ -1404,7 +1404,7 @@ begin
     QRLRodapeSelectSQL.Caption := 'Empresa ' +RECParametros.EP_NO;
 
     { Define Impressora }
-    oPRN_EXE(Application.Handle,'Pedidos');
+    oPrinterSelect(Application.Handle,'Pedidos');
     Prepare;
 
     case FrmRelatorio_Geral.TAG of
@@ -1493,7 +1493,7 @@ begin
     QRLRodapeSelectSQL.Caption := 'Empresa ' +RECParametros.EP_NO;
 
     { Define Impressora }
-    oPRN_EXE(Application.Handle,'Pedidos');
+    oPrinterSelect(Application.Handle,'Pedidos');
 
     Prepare;
     case FrmRelatorio_Geral.TAG of
@@ -1548,7 +1548,7 @@ procedure Tfrmrelatorio_geral.VEN_PRC_PROGRAMACAO_COMPRA;
 begin
   {$IF DEFINED(DEF_ERP) OR DEFINED(DEF_PDC)}
 
-  oPRN_EXE(Application.Handle,'Pedidos');
+  oPrinterSelect(Application.Handle,'Pedidos');
 
   if qrpven_prc = nil then
   qrpven_prc := Tqrpven_prc.Create(Self);
@@ -1650,11 +1650,11 @@ var
 begin
   {$IF DEFINED(DEF_ERP) OR DEFINED(DEF_FIN)}
 
-  RECRelatorios.PrintName := 'Relatórios';
+  RECRelatorios.PrinterName := 'Relatórios';
   RECRelatorios.PrintTAG  := Tag;
   RECRelatorios.Handle    := Self.Handle;
 
-  oPRN_EXE(Application.Handle,'Relatórios');
+  oPrinterSelect(Application.Handle,'Relatórios');
   if qrppag_com = Nil then
   begin
     qrppag_com := Tqrppag_com.Create(Self,RECRelatorios);
@@ -1675,7 +1675,7 @@ begin
   Abort;
 
 
-  oPRN_EXE(Application.Handle,'Romaneios');
+  oPrinterSelect(Application.Handle,'Romaneios');
 
   if qrpcob_ped = nil then
      qrpcob_ped := Tqrpcob_ped.Create(Self);
@@ -1981,7 +1981,7 @@ begin
   Initialize(RECRelatorios);
   FillChar(RECRelatorios,SizeOf(RECRelatorios),0);
 
-  RECRelatorios.PrintName := 'Relatórios';
+  RECRelatorios.PrinterName := 'Relatórios';
   RECRelatorios.PrintTAG  := Tag;
   RECRelatorios.Handle    := Self.Handle;
   
@@ -2001,7 +2001,7 @@ procedure Tfrmrelatorio_geral.VEN_PED_PEDIDO_CONFERENCIA;
 begin
   {$IF DEFINED(DEF_ERP) OR DEFINED(DEF_PDV)}
 
-  oPRN_EXE(Application.Handle,'Pedidos');
+  oPrinterSelect(Application.Handle,'Pedidos');
 
   with QConsulta do
   begin
@@ -2104,7 +2104,7 @@ procedure Tfrmrelatorio_geral.VEN_PED_PEDIDO_VENDA;
 begin
   {$IF DEFINED(DEF_ERP) OR DEFINED(DEF_PDV)}
 
-  oPRN_EXE(Application.Handle,'Pedidos');
+  oPrinterSelect(Application.Handle,'Pedidos');
 
   if qrpven_ped = nil then
   qrpven_ped:= Tqrpven_ped.Create(Self);
@@ -2260,7 +2260,7 @@ procedure Tfrmrelatorio_geral.ROM_CAB_ROMANEIO_COBRANCA_SINTETICO;
 begin
   {$IF DEFINED(DEF_ERP) OR DEFINED(DEF_PDV)}
 
-  oPRN_EXE(Application.Handle,'Romaneios');
+  oPrinterSelect(Application.Handle,'Romaneios');
 
   if qrpcob_rom = nil then
      qrpcob_rom := Tqrpcob_rom.Create(Self);
@@ -2922,7 +2922,7 @@ begin
     { Define Impressora }
     if not qrpsep_ped.ven_efe.Eof then
     begin
-      oPRN_EXE(Application.Handle,'Pedidos');
+      oPrinterSelect(Application.Handle,'Pedidos');
       Prepare;
 
     case FrmRelatorio_Geral.TAG of
@@ -2980,7 +2980,7 @@ var
 begin
   {$IF DEFINED(DEF_ERP) OR DEFINED(DEF_PDV)}
 
-  oPRN_EXE(Application.Handle,'Romaneios');
+  oPrinterSelect(Application.Handle,'Romaneios');
 
   if qrpcob_ped_oca = nil then
      qrpcob_ped_oca := Tqrpcob_ped_oca.Create(self);
@@ -3231,7 +3231,7 @@ procedure Tfrmrelatorio_geral.ROM_CAB_ROMANEIO_COBRANCA_ANALITICO;
 begin
   {$IF DEFINED(DEF_ERP) OR DEFINED(DEF_PDV)}
 
-  oPRN_EXE(Application.Handle,'Romaneios');
+  oPrinterSelect(Application.Handle,'Romaneios');
 
   if qrpcob_rom_ref = nil then
      qrpcob_rom_ref := Tqrpcob_rom_ref.Create(Self);
@@ -3722,7 +3722,7 @@ procedure Tfrmrelatorio_geral.FIN_REC_CONTAS;
 begin
   {$IF DEFINED(DEF_ERP) OR DEFINED(DEF_FIN)}
 
-  oPRN_EXE(Application.Handle,'Relatórios');
+  oPrinterSelect(Application.Handle,'Relatórios');
 
   Data1 := dxDT1.Date;
   Data2 := dxDT2.Date;
@@ -3909,7 +3909,7 @@ procedure Tfrmrelatorio_geral.FIN_REC_TITULOS;
 begin
   {$IF DEFINED(DEF_ERP) OR DEFINED(DEF_FIN)}
 
-  oPRN_EXE(Application.Handle,'Relatórios');
+  oPrinterSelect(Application.Handle,'Relatórios');
 
   Data1 := dxDT1.Date;
   Data2 := dxDT2.Date;
@@ -4146,7 +4146,7 @@ procedure Tfrmrelatorio_geral.VEN_PRG_PROGRAMACAO_VENDA;
 begin
   {$IF DEFINED(DEF_ERP) OR DEFINED(DEF_PDV)}
 
-  oPRN_EXE(Application.Handle,'Pedidos');
+  oPrinterSelect(Application.Handle,'Pedidos');
 
   if qrpven_prg = nil then
      qrpven_prg := Tqrpven_prg.Create(Self);
@@ -4377,7 +4377,7 @@ begin
   if cbGER_STFI.Text = '' then
   raise exception.Create('Situação não informada !');
 
-  oPRN_EXE(Application.Handle,'Pedidos');
+  oPrinterSelect(Application.Handle,'Pedidos');
 
   Data1 := dxDT1.Date;
   Data2 := dxDT2.Date;

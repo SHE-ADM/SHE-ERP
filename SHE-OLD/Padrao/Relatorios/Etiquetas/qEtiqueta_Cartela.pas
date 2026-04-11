@@ -283,10 +283,10 @@ begin
   with qrpEtiqueta_Cartela do
   begin
     { Define Impressora }
-    oPRN_EXE(RECRelatorios.Handle,'Etiquetas');
+    oPrinterSelect(RECRelatorios.Handle,'Etiquetas');
     if oEmpty(RECUsuarios.CurrentPrinter) then
     begin
-      oPRN_EXE(RECRelatorios.Handle,'Etiquetas');
+      oPrinterSelect(RECRelatorios.Handle,'Etiquetas');
       if oEmpty(RECUsuarios.CurrentPrinter) then
       RECRelatorios.PrintTAG := 0;
     end;
@@ -353,7 +353,7 @@ begin
     Finalize(RECRelatorios);
     FillChar(RECRelatorios,SizeOf(RECRelatorios),0);
   finally
-    oPRN_EXE(RECRelatorios.Handle,'Relatórios');
+    oPrinterSelect(RECRelatorios.Handle,'Relatórios');
     FreeAndNil(qrpEtiqueta_Cartela);
   end;
 end;

@@ -2,12 +2,11 @@ unit qEST_ETQ_PEQ;
 
 interface
 
-uses oPrincipal, ACBrBarCode,
-  IBDatabase, QRCtrls, jpeg, QuickRpt, Classes, Controls,ExtCtrls,
-  Windows, SysUtils, Messages, Graphics,
-  StdCtrls, ACBrBase, ACBrETQ, Math, StrUtils,
-  QRDBTextRotate, DB, IBCustomDataSet, IBQuery, QrAngLbl, QRPDFFilt,
-  QRExport, IBTable, IBSQL, AJBarcode, qrpctrls, QRMBCtrls;
+uses oPrincipal,
+     Windows, SysUtils, Messages, Classes, Graphics, Controls,
+     StdCtrls, ExtCtrls, Forms, QuickRpt, QRCtrls, DB, IBCustomDataSet,
+     IBDatabase, IBQuery, jpeg, StrUtils, math, QRPDFFilt, QRExport,
+     IBSQL, IDGlobal, AJBarcode, ACBrBarCode;
 
 type
   TqrpEST_ETQ_PEQ = class(TQuickRep)
@@ -119,7 +118,7 @@ procedure TqrpEST_ETQ_PEQ.WinControlFormCreate(Sender: TObject);
           procedure _Report;
           begin
             { Tipo de Impressão }
-            RECRelatorios.PrintName := 'Etiquetas Reduzidas';
+            RECRelatorios.PrinterName := 'Etiquetas Reduzidas';
 
             { Define Impressora }
             oReportPageHeader_(Self,RECRelatorios);
@@ -200,6 +199,8 @@ procedure TqrpEST_ETQ_PEQ.WinControlFormCreate(Sender: TObject);
 begin
   with qrpEST_ETQ_PEQ do
     try
+      oPrinterSelect(Application.Handle,'Etiquetas Reduzidas');
+
       _Report;
       _Select;
 
@@ -260,7 +261,7 @@ begin
     Finalize(RECRelatorios);
     FillChar(RECRelatorios,SizeOf(RECRelatorios),0);
   finally
-    oPRN_EXE(RECRelatorios.Handle,'Relatórios');
+    oPrinterSelect(RECRelatorios.Handle,'Relatórios');
     FreeAndNil(qrpEST_ETQ_PEQ);
   end;
 end;

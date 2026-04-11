@@ -261,7 +261,7 @@ begin
     Finalize(RECRelatorios);
     FillChar(RECRelatorios,SizeOf(RECRelatorios),0);
   finally
-    oPRN_EXE(Application.Handle,'Relatórios');
+    oPrinterSelect(Application.Handle,'Relatórios');
     FreeAndNil(qrprom_con_001);
   end;
 end;

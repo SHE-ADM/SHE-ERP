@@ -1575,7 +1575,7 @@ end;
 procedure TFrmVEN_NFE._WM_AFTER_SHOW(var Msg: TMessage);
 begin
   { INICIALIZAÇÃO DOS COMPONENTES }
-  oPRN_EXE(Application.Handle,'Relatórios');
+  oPrinterSelect(Application.Handle,'Relatórios');
   
   try
     Screen.Cursor := crAppStart;

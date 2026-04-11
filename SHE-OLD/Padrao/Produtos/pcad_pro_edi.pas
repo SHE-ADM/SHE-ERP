@@ -977,7 +977,7 @@ begin
         CAD_PRO_CMPCMP_IDPK.Value := Current.Vars[1].AsInteger;
         CAD_PRO_CMPCMP_REPK.Value := Current.Vars[2].AsString;
         CAD_PRO_CMPCMP_DEPK.Value := Current.Vars[3].AsString;
-        CAD_PRO_CMPCMP_QTDE.Value := Current.Vars[4].AsInteger;
+        CAD_PRO_CMPCMP_QTDE.Value := Current.Vars[4].AsCurrency;
         CAD_PRO_CMP.Post;
         next;
       end;
@@ -2494,7 +2494,7 @@ begin
   CAD_PRO_GRD.Cancel else CAD_PRO_GRD.Post;
 
   if (CAD_PRO_CMP.State in [dsInsert,dsEdit]) then
-  if (CAD_PRO_CMPCMP_DEPK.AsString = EmptyStr) and (CAD_PRO_CMPCMP_QTDE.AsFloat = 0) then
+  if (CAD_PRO_CMPCMP_DEPK.AsString = EmptyStr) and (CAD_PRO_CMPCMP_QTDE.AsCurrency = 0) then
   CAD_PRO_CMP.Cancel else CAD_PRO_CMP.Post;
 
   if IEIDEP.Text      = '0'      then oException(IEIDEP     ,'Empresa não Informada !'       );

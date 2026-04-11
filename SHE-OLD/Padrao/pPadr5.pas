@@ -279,7 +279,6 @@ begin
 
   { INICIALIZAÇÃO DOS OBJETOS DECLARADOS }
   { INICIALIZAÇÃO DOS COMPONENTES }
-  oPRN_EXE(Application.Handle,'Relatórios');
 end;
 
 procedure TFrmPadr5._WM_AFTER_CREATE(var Msg: TMessage);

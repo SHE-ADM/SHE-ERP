@@ -454,7 +454,7 @@ begin
 
   _ConectaSefaz;
   
-  oPRN_EXE(Handle,'Notas Fiscais');
+  oPrinterSelect(Handle,'Notas Fiscais');
   ImprimeDanfe(PChar(NOME_FIL),PChar(NOME_ARQ),3,false);
 end;
 

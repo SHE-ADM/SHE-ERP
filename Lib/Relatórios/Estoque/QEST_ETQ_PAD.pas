@@ -2,13 +2,11 @@ unit qEST_ETQ_PAD;
 
 interface
 
-
 uses oPrincipal,
      Windows, SysUtils, Messages, Classes, Graphics, Controls,
      StdCtrls, ExtCtrls, Forms, QuickRpt, QRCtrls, DB, IBCustomDataSet,
      IBDatabase, IBQuery, jpeg, StrUtils, math, QRPDFFilt, QRExport,
      IBSQL, IDGlobal, AJBarcode, ACBrBarCode;
-
 
 type
   TqrpEST_ETQ_PAD = class(TQuickRep)
@@ -166,7 +164,7 @@ procedure TqrpEST_ETQ_PAD.WinControlFormCreate(Sender: TObject);
           procedure _Report;
           begin
             { Tipo de Impressão }
-            RECRelatorios.PrintName := 'Etiquetas';
+            RECRelatorios.PrinterName := 'Etiquetas';
 
             { Define Impressora }
             oReportPageHeader_(Self,RECRelatorios);
@@ -250,6 +248,8 @@ procedure TqrpEST_ETQ_PAD.WinControlFormCreate(Sender: TObject);
 begin
  with qrpEST_ETQ_PAD do
     try
+      oPrinterSelect(Application.Handle,'Etiquetas');
+
       _Report;
       _Select;
 
@@ -311,7 +311,7 @@ begin
     Finalize(RECRelatorios);
     FillChar(RECRelatorios,SizeOf(RECRelatorios),0);
   finally
-    oPRN_EXE(RECRelatorios.Handle,'Relatórios');
+    oPrinterSelect(RECRelatorios.Handle,'Relatórios');
     FreeAndNil(qrpEST_ETQ_PAD);
   end;
 end;
