@@ -871,7 +871,7 @@ Type TREC_SHE_REL = record
      TAGNome  ,       { Relatório  }
      TagPrint : Word; { Impressora }
 
-     PrintName,
+     PrinterName,
      Nome,
      Titulo,
      SubTitulo: String;
@@ -2699,7 +2699,7 @@ Type TRECRelatorios = record
      SubTitulo,
      RodapeRelatorio,
      RodapeFiltros,
-     PrintName,
+     PrinterName,
      ConsultaCaption,
      ConsultaText,
      ConsultaField: String[120];
@@ -3274,8 +3274,9 @@ function ConsultaGtin(chave : shortstring) : shortstring; stdcall; External dllN
 
   procedure oCAdobe; STDCall;
 
-  procedure oPRN_EXE(AHandle: Integer; AJOBSelect: String; ASendMessage: Boolean = False); STDCall;
-  procedure oForcePrinterSimplex(const APrinterName: string); STDCALL;
+  procedure oPrinterSelect(AHandle: Integer; AImpressora: String; ASendMessage: Boolean = False); STDCall;
+  function  oPrinterDirect(AImpressora: String): Word; STDCALL;
+  procedure oPrinterForceSimplex(const APrinterName: string); STDCALL;
   procedure oPrintPDF(const PdfFile: string);
 
   procedure oCMDIChild; STDCall;
@@ -3526,8 +3527,8 @@ begin
     FK_DT := RECParametros.SHE_DATA_MES_FK;
 
     { PARÂMETROS DE IMPRESSÃO }
-    TagPrint  := 0;
-    PrintName := 'Relatórios';
+    TagPrint    := 0;
+    PrinterName := 'Relatórios';
 
     { FLAGS }
     Flag      := 0;
@@ -3790,7 +3791,7 @@ begin
   LOCAL_PDF := AF_PDF;
 
   if (FileExists(LOCAL_XML)) and (not FileExists(LOCAL_PDF)) then
-      try oPRN_EXE(Application.Handle,'Notas Fiscais');
+      try oPrinterSelect(Application.Handle,'Notas Fiscais');
       finally
 //        ImprimeDanfe(LOCAL_XML,LOCAL_PDF,2,False);
 //        SleepEx(3000,False);
@@ -4407,8 +4408,8 @@ begin
     IEC3ConsultaField := 'Selecionar tipo de consulta';
     IEC4ConsultaField := 'Selecionar tipo de consulta';
 
-    PrintTAG  := 0;
-    PrintName := 'Relatórios';
+    PrintTAG    := 0;
+    PrinterName := 'Relatórios';
   end;
 end;
 
@@ -8317,9 +8318,9 @@ var
 end;
 
 { Executa Impressora Selecionada }
-(***************************************************************************************************)
-procedure oPRN_EXE(AHandle: Integer; AJOBSelect: String; ASendMessage: Boolean = False); STDCall;
-(***************************************************************************************************)
+(****************************************************************************************************)
+procedure oPrinterSelect(AHandle: Integer; AImpressora: String; ASendMessage: Boolean = False); STDCall;
+(****************************************************************************************************)
 var
   Res        : DWord;
   Device     : array[0..255] of char;
@@ -8328,58 +8329,87 @@ var
   WindowsStr : array[0..255] of char;
   hDeviceMode: THandle;
 begin
-  if (RECUsuarios.CurrentPrinter <> AJOBSelect) and (Length(AJOBSelect) < 50) then
-      try
-        oOTransact(FBird.TFBConsulta);
+  if (RECUsuarios.CurrentPrinter <> AImpressora) and (Length(AImpressora) < 50) then
+  try
+    oOTransact(FBird.TFBConsulta);
+    with FBird.SQLFBConsulta do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add('SELECT   PK.* FROM PAR_PRI AS PK');
+      SQL.Add('WHERE    PK.PRI_HOST = ''' + RECParametros.HOST + '''');
+      SQL.Add('AND      PK.PRI_SECA = ''' + AImpressora         + '''');
+      ExecQuery;
+    end;
 
-        with FBird.SQLFBConsulta do
-        begin
-          Close;
-          SQL.Clear;
-          SQL.Add('SELECT   PK.* FROM PAR_PRI AS PK');
-          SQL.Add('WHERE    PK.PRI_HOST = ''' + RECParametros.HOST + '''');
-          SQL.Add('AND      PK.PRI_SECA = ''' + AJOBSELECT         + '''');
-          ExecQuery;
-        end;
+    if FBird.SQLFBConsulta.Eof then
+    begin
+      RECUsuarios.CurrentPrinter := EmptyStr;
+      if ASendMessage then
+         oAviso(AHandle,'Impressora de '+AImpressora+ ' não Cadastrada !');
+    end else
+    begin
+      { Atualiza Impressora Padrão }
+      RECUsuarios.CurrentPrinter := AImpressora;
 
-        if FBird.SQLFBConsulta.Eof then
-        begin
-          RECUsuarios.CurrentPrinter := EmptyStr;
-          if ASendMessage then
-             oAviso(AHandle,'Impressora de '+AJOBSelect+ ' não Cadastrada !');
-        end else
-        begin
-          { Atualiza Impressora Padrão }
-          RECUsuarios.CurrentPrinter := AJOBSelect;
+      { Pega dados da impressora atual }
+      Printer.PrinterIndex := FBird.SQLFBConsulta.Current.ByName('PRI_CPRI').AsInteger;
+      Printer.GetPrinter(Device,Driver,Port,hDeviceMode);
+      //SelPrinterName := StrPas(Device);
 
-          { Pega dados da impressora atual }
-          Printer.PrinterIndex := FBird.SQLFBConsulta.Current.ByName('PRI_CPRI').AsInteger;
-          Printer.GetPrinter(Device,Driver,Port,hDeviceMode);
-          //SelPrinterName := StrPas(Device);
+      { Monta String exigida pela API do Windows }
+      StrCat(Device,',');
+      StrCat(Device,Driver);
+      StrCat(Device,',');
+      StrCat(Device,Port);
+      StrPCopy(WindowsStr,'Windows');
 
-          { Monta String exigida pela API do Windows }
-          StrCat(Device,',');
-          StrCat(Device,Driver);
-          StrCat(Device,',');
-          StrCat(Device,Port);
-          StrPCopy(WindowsStr,'Windows');
-
-          { Torna a impressora a atual }
-          WriteProfileString(WindowsStr,'device',Device);
-          SendMessageTimeout(HWND_BROADCAST,WM_WININICHANGE,0,DWORD(@WindowsStr),SMTO_NORMAL,1,Res);
-        end;
-      except
-        on E: Exception do
-        begin
-          RECUsuarios.CurrentPrinter := EmptyStr;
-          oException(Nil,'Erro ao tentar conexão com a impressora '+AJOBSelect+' !'      +#13+
-                         'Verifique as impressoras instaladas no Painel de Controle.'+#13+#13+
-                         'Error Code: '+E.Message);
-        end;
-      end;
+      { Torna a impressora a atual }
+      WriteProfileString(WindowsStr,'device',Device);
+      SendMessageTimeout(HWND_BROADCAST,WM_WININICHANGE,0,DWORD(@WindowsStr),SMTO_NORMAL,1,Res);
+    end;
+    oCTransact(FBird.TFBConsulta);
+  except
+    on E: Exception do
+    begin
+      RECUsuarios.CurrentPrinter := EmptyStr;
+      oCTransact(FBird.TFBConsulta);
+      oException(Nil,'Erro ao tentar conexão com a impressora ' + AImpressora + ' !' + #13 +
+                     'Verifique as impressoras instaladas no Painel de Controle.'    + #13 + #13 +
+                     'Error Code: '+E.Message);
+    end;
+  end;
 end;
 
-procedure oForcePrinterSimplex(const APrinterName: string); STDCALL;
+{ Envia direto para a impressora sem passar pelo preview }
+(***********************************************************)
+function  oPrinterDirect(AImpressora: String): Word; STDCALL;
+(***********************************************************)
+var
+  APrintTag: word;
+begin
+  APrintTAG := 0;
+  try
+    oOTransact(FBird.TFBConsulta);
+    with FBird.SQLFBConsulta do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add('SELECT PK.* FROM PAR_PRI AS PK');
+      SQL.Add('WHERE  PK.PRI_HOST = ''' + RECParametros.HOST + '''');
+      SQL.Add('AND    PK.PRI_SECA = ''' + AImpressora        + '''');
+      ExecQuery;
+
+      if not eof then
+      APrintTAG := 1;
+    end;
+  finally
+    oCTransact(FBird.TFBConsulta);
+    result := APrintTag;
+  end;
+end;
+
+procedure oPrinterForceSimplex(const APrinterName: string); STDCALL;
          function oOpenPrinterAdmin(const APrinterName: string; out hPrinter: THandle): Boolean;
          var
            PD: PRINTER_DEFAULTS;
@@ -9515,10 +9545,10 @@ begin
   if   Application.MainForm <> Nil then
   with Application.MainForm do
   begin
-    oPRN_EXE(Handle,AREC_SHE_REL.PrintName);
+    oPrinterSelect(Handle,AREC_SHE_REL.PrinterName);
   end;
 
-  if (RECUsuarios.CurrentPrinter = EmptyStr) or ((RECUsuarios.CurrentPrinter <> AREC_SHE_REL.PrintName) and (AREC_SHE_REL.TAGPrint < 2)) then
+  if (RECUsuarios.CurrentPrinter = EmptyStr) or ((RECUsuarios.CurrentPrinter <> AREC_SHE_REL.PrinterName) and (AREC_SHE_REL.TAGPrint < 2)) then
   AREC_SHE_REL.TAGPrint := 0;
 
   if AReport <> Nil then
@@ -9832,12 +9862,12 @@ begin
      begin
        if TAction(FindComponent('ACTExecPrinter')) <> Nil then
        begin
-         TAction(FindComponent('ACTExecPrinter')).Hint := ARECRelatorios.PrintName;
+         TAction(FindComponent('ACTExecPrinter')).Hint := ARECRelatorios.PrinterName;
          TAction(FindComponent('ACTExecPrinter')).Execute;
        end;
      end;
 
-  if (RECUsuarios.CurrentPrinter = EmptyStr) or ((RECUsuarios.CurrentPrinter <> ARECRelatorios.PrintName) and (ARECRelatorios.PrintTAG < 2)) then
+  if (RECUsuarios.CurrentPrinter = EmptyStr) or ((RECUsuarios.CurrentPrinter <> ARECRelatorios.PrinterName) and (ARECRelatorios.PrintTAG < 2)) then
       ARECRelatorios.PrintTAG := 0;
 
   if AReport <> Nil then

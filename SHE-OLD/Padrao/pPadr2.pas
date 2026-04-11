@@ -235,7 +235,7 @@ begin
 
   { INICIALIZAÇÃO DOS OBJETOS DECLARADOS }
   { INICIALIZAÇÃO DOS COMPONENTES }
-  oPRN_EXE(Application.Handle,'Relatórios');
+  oPrinterSelect(Application.Handle,'Relatórios');
 end;
 
 procedure TFrmPadr2._WM_AFTER_CREATE(var Msg: TMessage);

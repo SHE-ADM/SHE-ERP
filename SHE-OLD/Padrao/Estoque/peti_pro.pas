@@ -12,7 +12,7 @@ uses
 
 type
   Tfrmeti_pro = class(TFrmPadr3)
-    siPRI: TSpeedItem;
+    SIETQ_PAD: TSpeedItem;
     siVIS: TSpeedItem;
     siCSE: TSpeedItem;
     Panel1: TPanel;
@@ -174,6 +174,7 @@ type
     CEQTDE: TdxCurrencyEdit;
     CEQTCO: TdxCurrencyEdit;
     Label14: TLabel;
+    SIETQ_PEQ: TSpeedItem;
     procedure siCSEClick(Sender: TObject);
     procedure siALTClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -186,7 +187,8 @@ type
     procedure CEQTCOValidate(Sender: TObject; var ErrorText: String;
       var Accept: Boolean);
     procedure siCANClick(Sender: TObject);
-    procedure siPRIClick(Sender: TObject);
+    procedure SIETQ_PADClick(Sender: TObject);
+    procedure SIETQ_PEQClick(Sender: TObject);
   private
     { Private declarations }
     RECEstoque: TRECPedidos;
@@ -210,7 +212,7 @@ var
 implementation
 
 uses uPrincipal, bPrincipal,
-  qEST_ETQ_PAD;
+  qEST_ETQ_PAD, qEST_ETQ_PEQ;
 
 {$R *.dfm}
 
@@ -284,36 +286,46 @@ end;
 
 procedure Tfrmeti_pro.STATUS_ETIQUETA;
 begin
-  siVIS.Enabled := false;
-{ RICARDO   siALT.Enabled := //RICARDObPSQUSER('USU_AUTO','Produtos','Estoque','Alterar Estoque');
-  siCSE.Enabled := //RICARDObPSQUSER('USU_AUTO','Produtos','Estoque','Cancelar Separação');
-  siCAN.Enabled := bPSQUSER('USU_AUTO','Produtos','Estoque','Cancelar Estoque');
-          }
-  if laolan.Caption = 'ENTRADA' then
-  begin
-    siVIS.Enabled := true;
-    siALT.Enabled := true;
-    siCAN.Enabled := true;
-  end;
+  SIETQ_PAD.Enabled := True;
+  SIETQ_PEQ.Enabled := True;
+
+  siALT.Enabled := True;
+  siCAN.Enabled := True;
+  siCSE.Enabled := True;
 
   if laeped.Caption = 'SEPARADO' then
   begin
-//    siPRI.Enabled := false;
-//    siVIS.Enabled := false;
-    siALT.Enabled := false;
-    siCAN.Enabled := false;
-    siCSE.Enabled := true;
+    siALT.Enabled := False;
+    siCAN.Enabled := False;
   end;
 
   if laolan.Caption = 'FATURADO' then
   begin
-    siPRI.Enabled := false;
-    siVIS.Enabled := false;
-    siALT.Enabled := false;
-    siCAN.Enabled := false;
-    siCSE.Enabled := false;
-  end else
-  siCSE.Enabled := (lanped.Tag > 0);
+    SIETQ_PAD.Enabled := False;
+    SIETQ_PEQ.Enabled := False;
+
+    siALT.Enabled := False;
+    siCAN.Enabled := False;
+    siCSE.Enabled := False;
+  end;
+
+  { ALTERAÇÃO }
+  if not REC_SHE_DEF.GEdit then
+  siALT.Enabled := False;
+
+  { EXCLUSÃO }
+  if not REC_SHE_DEF.GDelete then
+  begin
+    siCAN.Enabled := False;
+    siCSE.Enabled := False;
+  end;
+
+  { EMISSÃO }
+  if not REC_SHE_DEF.GPrint then
+  begin
+    SIETQ_PAD.Enabled := False;
+    SIETQ_PEQ.Enabled := False;
+  end;
 end;
 
 procedure Tfrmeti_pro.ALTERA_ETIQUETA;
@@ -911,20 +923,20 @@ begin
       begin
         laolan.Caption := 'ENTRADA';
         laeped.Caption := 'NADA CONSTA';
-        if (lanped.Tag > 0) or (EDCDET.Tag > 0) then
-        laeped.Caption := 'SEPARADO';
       end else
 
       if Current.ByName('REOP').AsString = 'S' then
       laolan.Caption := 'SAÍDA' else
 
       if Current.ByName('REOP').AsString = 'I' then
-      laolan.Caption := 'INVENTÁRIO' else
+      laolan.Caption := 'INVENTÁRIO';
 
-      if Current.ByName('REOP').AsString = 'V' then
+      { SEPARADO }
+      if Current.ByName('IDPK').AsInteger > 0 then
       begin
-        label7.Hint := Current.ByName('DEPK').AsString;
-        laolan.Caption := 'FATURADO';
+        laolan.Caption := 'ENTRADA';
+        laeped.Caption := 'NADA CONSTA';
+        laeped.Caption := 'SEPARADO';
       end;
 
       IETipo.Text := Current.ByName('CDTP').AsString;
@@ -952,6 +964,9 @@ begin
 
       if not fields[0].IsNull then
       begin
+        label7.Hint    := Fields[1].AsString;
+        laolan.Caption := 'FATURADO';
+
         lanped.Caption := fields[1].AsString + ' '   + formatDateTime('dd/mm/yy',fields[2].AsDateTime);
         ladven.Caption := fields[4].AsString + ' / ' + fields[5].AsString;
         ladcli.Caption := fields[3].AsString;
@@ -1100,7 +1115,7 @@ begin
   CEQTCO.Font.Style := [fsBold];
 end;
 
-procedure Tfrmeti_pro.siPRIClick(Sender: TObject);
+procedure Tfrmeti_pro.SIETQ_PADClick(Sender: TObject);
 var
   RECRelatorios: TRECRelatorios;
 begin
@@ -1119,12 +1134,45 @@ begin
       RECRelatorios.PEC1ConsultaText  := EDCDET.Text;
       RECRelatorios.IEC1ConsultaField := 'PK.CDET';
 
-      RECRelatorios.PrintTAG := 1;
+      RECRelatorios.PrintTAG := oPrinterDirect('Etiquetas');
       RECRelatorios.Handle   := Self.Handle;
+
+      { IMPRIME DIRETO }
 
       qrpEST_ETQ_PAD     := TqrpEST_ETQ_PAD.Create(Self,RECRelatorios);
       qrpEST_ETQ_PAD.Tag := 4;
       qrpEST_ETQ_PAD.WinControlFormCreate(qrpEST_ETQ_PAD);
+    end;
+  finally
+    oFRECRelatorios(RECRelatorios);
+  end;
+end;
+
+procedure Tfrmeti_pro.SIETQ_PEQClick(Sender: TObject);
+var
+  RECRelatorios: TRECRelatorios;
+begin
+  ActiveControl := Nil;
+  if oEmpty(EDCDET.Text) then
+  oException(EDCDET,'Número de Etiqueta não Informado !');
+
+  try
+    oIRECRelatorios(RECRelatorios);
+    if Assigned(qrpEST_ETQ_PEQ) then qrpEST_ETQ_PEQ.BringToFront else
+    begin
+      RECRelatorios.Titulo   := 'Etiquetas de Estoque';
+      RECRelatorios.Tipo     := 'TODOS';
+      RECRelatorios.Handle   := Self.Handle;
+
+      RECRelatorios.PEC1ConsultaText  := EDCDET.Text;
+      RECRelatorios.IEC1ConsultaField := 'PK.CDET';
+
+      RECRelatorios.PrintTAG := oPrinterDirect('Etiquetas Reduzidas');
+      RECRelatorios.Handle   := Self.Handle;
+
+      qrpEST_ETQ_PEQ     := TqrpEST_ETQ_PEQ.Create(Self,RECRelatorios);
+      qrpEST_ETQ_PEQ.Tag := 4;
+      qrpEST_ETQ_PEQ.WinControlFormCreate(qrpEST_ETQ_PEQ);
     end;
   finally
     oFRECRelatorios(RECRelatorios);

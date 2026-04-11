@@ -318,7 +318,7 @@ end;
 procedure Tfrmcai_mov.FormDestroy(Sender: TObject);
 begin
   Screen.Cursor := crDefault;
-  oPRN_EXE(Handle,'Relatórios');
+  oPrinterSelect(Handle,'Relatórios');
   frmcai_mov := Nil;
 end;
 

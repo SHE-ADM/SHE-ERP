@@ -453,6 +453,7 @@ procedure uCAD_PRO_EST_LAN_UPD (ATHR_TB_PK: String;
                                 FTHR_PK_ID,
                                 FTHR_CP_ID: String); STDCALL;
 
+
 { OLD PROCEDURE }
 procedure uConstrucao(ACaption: String = ''); STDCall;
 procedure uFrmCreate(AOwner: TComponent;AFClass: TFormClass; var AInstance); STDCall;
@@ -3283,7 +3284,7 @@ begin
   end;
 
   { Impressoras }
-  oPRN_EXE(Application.Handle,'Relatórios');
+  oPrinterSelect(Application.Handle,'Relatórios');
 
   { ADMIN }
   if RECUsuarios.ID > 0 then
@@ -3513,7 +3514,7 @@ begin
             ACTPRN_EXE.Hint := 'Relatórios';
 
   try
-    oPRN_EXE(Handle,ACTPRN_EXE.Hint);
+    oPrinterSelect(Handle,ACTPRN_EXE.Hint);
   finally
     ACTPRN_EXE.Hint := EmptyStr;
   end;

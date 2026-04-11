@@ -179,7 +179,7 @@ begin
   FreeAndNil(FrmSplash);
   FreeAndNil(FrmLogin);
 
-  oPRN_EXE(Application.Handle,'Relatórios');
+  oPrinterSelect(Application.Handle,'Relatórios');
   
   Application.Run;
   FreeAndNil(FrmPrincipal);

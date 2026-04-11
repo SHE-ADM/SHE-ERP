@@ -140,6 +140,8 @@ procedure TqrpEST_ENT_ROM.WinControlFormCreate(Sender: TObject);
 begin
   with qrpEST_ENT_ROM do
     try
+      oPrinterSelect(Application.Handle,'Relatórios');
+
       _Select;
       _Report;
 

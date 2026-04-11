@@ -121,7 +121,7 @@ begin
   FrmImpressoras := Nil;
 
   try     oFTransact(TEdicao);
-          oPRN_EXE(Application.Handle,EmptyStr);
+          oPrinterSelect(Application.Handle,EmptyStr);
   finally
     RECUsuarios.CurrentPrinter := EmptyStr;
     RECUsuarios.Relatorio      := EmptyStr;

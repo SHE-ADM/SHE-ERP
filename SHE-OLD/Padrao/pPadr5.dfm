@@ -471,6 +471,7 @@ object FrmPadr5: TFrmPadr5
             end
             object SIMEAppend: TSpeedItem
               Action = ACTMEAppend
+              BtnCaption = 'ACTMEAppend'
               Cursor = crHandPoint
               Hint = 'Inclus'#227'o de Registros'
               ImageIndex = 0
@@ -484,6 +485,7 @@ object FrmPadr5: TFrmPadr5
             object SIMEEdit: TSpeedItem
               Tag = 1
               Action = ACTMEEdit
+              BtnCaption = 'ACTMEEdit'
               Cursor = crHandPoint
               Hint = 'Edi'#231#227'o de Registros'
               ImageIndex = 1
@@ -497,6 +499,7 @@ object FrmPadr5: TFrmPadr5
             object SIMEDelete: TSpeedItem
               Tag = 1
               Action = ACTMEDelete
+              BtnCaption = 'ACTMEDelete'
               Cursor = crHandPoint
               Hint = 'Exclus'#227'o de Registros'
               ImageIndex = 2
@@ -510,6 +513,7 @@ object FrmPadr5: TFrmPadr5
             object SIMEPost: TSpeedItem
               Tag = 2
               Action = ACTMEPost
+              BtnCaption = 'ACTMEPost'
               Enabled = False
               Cursor = crHandPoint
               Hint = 'Salva Edi'#231#227'o'
@@ -524,6 +528,7 @@ object FrmPadr5: TFrmPadr5
             object SIMECancel: TSpeedItem
               Tag = 2
               Action = ACTMECancel
+              BtnCaption = 'ACTMECancel'
               Enabled = False
               Cursor = crHandPoint
               Hint = 'Cancela Edi'#231#227'o'
@@ -4564,7 +4569,7 @@ object FrmPadr5: TFrmPadr5
     Left = 456
     Top = 192
     Bitmap = {
-      494C010105000900040018001800FFFFFFFFFF00FFFFFFFFFFFFFFFF424D3600
+      494C010105000900040018001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       000000000000360000002800000060000000480000000100200000000000006C
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -5459,6 +5464,7 @@ object FrmPadr5: TFrmPadr5
       0100000080000180000B80000100000080000180001380000100000080000190
       0033800001000000800001900013800011000000800001800003800001000000
       80000180000380000100000080000B800003800009000000C00001C000038000
-      01000000E00003800003800003000000}
+      01000000E0000380000380000300000000000000000000000000000000000000
+      000000000000}
   end
 end

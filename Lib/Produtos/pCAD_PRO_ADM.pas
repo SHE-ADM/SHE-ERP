@@ -1094,7 +1094,7 @@ begin
   DPSUBMENU2.Width   := 0;
 
   { INICIALIZAÇÃO DOS COMPONENTES }
-  oPRN_EXE(Application.Handle,'Relatórios');
+  oPrinterSelect(Application.Handle,'Relatórios');
 end;
 
 procedure TFrmCAD_PRO_ADM._WM_AFTER_CREATE(var Msg: TMessage);

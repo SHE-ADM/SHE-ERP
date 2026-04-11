@@ -358,7 +358,6 @@ begin
 
   { INICIALIZAÇÃO DOS OBJETOS DECLARADOS }
   { INICIALIZAÇÃO DOS COMPONENTES }
-  oPRN_EXE(Application.Handle,'Relatórios');
 end;
 
 procedure TFrmSHE_DEF_PSQ._WM_AFTER_CREATE(var Msg: TMessage);
