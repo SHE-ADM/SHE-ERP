@@ -40,7 +40,7 @@ inherited frmctr_prc: Tfrmctr_prc
       BtnCaption = 'Alterar'
       Cursor = crHandPoint
       Hint = 'Altera'#231#227'o de Pedidos'
-      ImageIndex = 5
+      ImageIndex = 3
       Spacing = 0
       Left = 245
       Top = 5

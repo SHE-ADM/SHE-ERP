@@ -1186,12 +1186,10 @@ begin
 
     if fields[0].IsNull then
     NewString := '0' else
-    begin
-      edcdrd.Hint := NewString;
-      NewString := fields[0].AsString;
-    end;
+    NewString := fields[0].AsString;
   end else
   NewString   := '0';
+  edcdrd.Hint := NewString;
   result      := NewString;
 end;
 
@@ -2269,11 +2267,11 @@ begin
   begin
     edcdrd.Text := PESQUISA_PEDIDO;
 
-    if edcdrd.Text = '0' then
-    begin
-      messageBox(handle,'Pedido de venda não informado ou não encontrado !',PChar(Self.Caption),MB_ICONERROR+MB_OK);
-      Abort;
-    end;
+    //if edcdrd.Text = '0' then
+    //begin
+    //  messageBox(handle,'Pedido de venda não informado ou não encontrado !',PChar(Self.Caption),MB_ICONERROR+MB_OK);
+    //  Abort;
+    //end;
   end else edcdrd.Text := '0';
 
   if (cbstpd.Text <> 'DEVOLUÇÃO') and (cbstpd.Text <> 'ABATIMENTO') and (cbstco.Text <> 'SEM COBRANÇA') then

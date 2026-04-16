@@ -8993,6 +8993,11 @@ object FrmPrincipal: TFrmPrincipal
       Hint = 'Listagem de vendas de produtos mensal'
       OnExecute = ACTRelatoriosExecute
     end
+    object ACTFIN_PAG: TAction
+      Category = 'Financeiro'
+      Caption = 'Pagamentos'
+      OnExecute = ACTFIN_PAGExecute
+    end
   end
   object ILPrincipal: TImageList
     AllocBy = 8
@@ -10054,6 +10059,9 @@ object FrmPrincipal: TFrmPrincipal
       end
       object NPFinanceiro1: TMenuItem
         Caption = '-'
+      end
+      object MIFIN_PAG: TMenuItem
+        Action = ACTFIN_PAG
       end
       object MIFIN_PAG_CMV: TMenuItem
         Action = ACTFIN_PAG_CMV

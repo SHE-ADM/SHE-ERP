@@ -2176,7 +2176,7 @@ object frmSobre: TfrmSobre
       Top = 25
       Width = 99
       Height = 14
-      Caption = 'Data: 07/04/2026'
+      Caption = 'Data: 16/04/2026'
       Font.Charset = ANSI_CHARSET
       Font.Color = clBlack
       Font.Height = -12

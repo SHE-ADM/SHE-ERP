@@ -168,6 +168,7 @@ Type TREC_SHE_DEF = record
      FB_PSQ_CD : Variant;     { Tipo }
      FB_PSQ_LB : String[30];  { Label  }
      FB_PSQ_CPL: String[120]; { Complemento }
+     FB_PSQ_PAD,
      FB_PSQ_SBQ,              { Sub Query }
      FB_PSQ_INI: Boolean;     { Inicial   }
 
@@ -177,8 +178,8 @@ Type TREC_SHE_DEF = record
      FB_PSQ_TB_NO_PK: String[30];  { Tabela }
 
      { TEXTO }
-     FB_PSQ_FD_NO_PK: String;      { Campo  }
-     FB_PSQ_FD_VD_PK: String[120]; { Valor  }
+     FB_PSQ_FD_NO_PK: String; { Campo  }
+     FB_PSQ_FD_VD_PK: String; { Valor  }
 
      { DATAS }
      FB_PSQ_DT_NO_PK: String;     { Campo  }
@@ -188,8 +189,8 @@ Type TREC_SHE_DEF = record
      FB_PSQ_TB_NO_FK: String[30];  { Tabela }
 
      { TEXTO }
-     FB_PSQ_FD_NO_FK: String;      { Campo  }
-     FB_PSQ_FD_VD_FK: String[120]; { Valor  }
+     FB_PSQ_FD_NO_FK: String; { Campo  }
+     FB_PSQ_FD_VD_FK: String; { Valor  }
 
      { DATAS }
      FB_PSQ_DT_NO_FK: String;     { Campo  }
@@ -269,8 +270,7 @@ Type TREC_SHE_DEF = record
 
      FB_GETSQL: String; { SQL GET }
 
-     FB_PSQ_SUB,          { Sub Query }
-     FB_PSQ_PAD: Boolean; { Padrão    }
+     FB_PSQ_SUB: Boolean; { Sub Query }
 
      { SITUAÇÕES }
      CDST: Variant;
@@ -770,8 +770,8 @@ Type TREC_SHE_REL = record
      FB_PSQ_CD_VD_PK: String[120]; { Field Value }
 
      { TEXTO }
-     FB_PSQ_FD_NO_PK: String;      { Campo  }
-     FB_PSQ_FD_VD_PK: String[120]; { Valor  }
+     FB_PSQ_FD_NO_PK: String; { Campo  }
+     FB_PSQ_FD_VD_PK: String; { Valor  }
 
      { DATAS }
      FB_PSQ_DT_LB_PK: String[60]; { Field Label }
@@ -787,8 +787,8 @@ Type TREC_SHE_REL = record
      FB_PSQ_CD_VD_FK: String[120]; { Field Value }
 
      { TEXTO }
-     FB_PSQ_FD_NO_FK: String;      { Campo  }
-     FB_PSQ_FD_VD_FK: String[120]; { Valor  }
+     FB_PSQ_FD_NO_FK: String; { Campo  }
+     FB_PSQ_FD_VD_FK: String; { Valor  }
 
      { DATAS }
      FB_PSQ_DT_QUERY: ShortString; { Query Label }
@@ -1166,6 +1166,8 @@ Type TRECParametros = record
     SHE_DATA,
     SHE_DATA_DIA_PK,
     SHE_DATA_DIA_FK,
+    SHE_DATA_SEMANA_PK,
+    SHE_DATA_SEMANA_FK,
     SHE_DATA_MES_PK,
     SHE_DATA_MES_FK: TDate;
 

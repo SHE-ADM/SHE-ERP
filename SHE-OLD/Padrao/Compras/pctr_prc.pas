@@ -343,9 +343,26 @@ begin
 
       SQL.Add('WHERE IDPK = ''' + CadastroIDPK.AsString + '''');
       ExecQuery;
+
+      Close;
+      SQL.Clear;
+      SQL.Add('DELETE FROM CAD_PRO_PRC');
+      SQL.Add('WHERE  EP_ID = ''' + CadastroEP_ID.AsString + '''');
+      SQL.Add('AND    IDPK  = ''' + CadastroIDPK.AsString  + '''');
+      ExecQuery;
     end;
 
     oCTransact(TEdicao);
+
+    { ATUALIZA ESTOQUE }
+    uCAD_PRO_EST_LAN_UPD(oREPZero('PED_COM_ITE','_',RECParametros.EP_ID,3),
+                         RECParametros.EP_ID ,
+                         CadastroIDPK.AsString,
+
+                         'EP_ID',
+                         'IDPK' ,
+                         'CP_ID');
+
     oAviso(Application.Handle,'Pedido cancelado com sucesso !');
   except
     on E: Exception do
@@ -522,7 +539,7 @@ begin
     if ANode.Values[DBGItemROM_STAV.Index] <> Null then
     if Pos('FINALIZADO',ANode.Values[DBGItemROM_STAV.Index]) > 0 then
     begin
-      AFont.Color := clwhite;
+      AFont.Color := clWindowText;
       AColor      := $00A4A400;
     end else
     if Pos('EMBARCADO',ANode.Values[DBGItemROM_STAV.Index]) > 0 then
@@ -611,7 +628,8 @@ begin
             SPEdicao.ExecProc;
             SPEdicao.UnPrepare;
           end;
-          
+
+          uSP_CAD_PRO_EST_LAN(SPEdicao,RECParametros.EP_ID,FKCadastroIDCP.AsInteger);
           FKCadastro.Next;
         end;
       end;
@@ -744,9 +762,27 @@ begin
       SQL.Add('WHERE IDPK = ''' + CadastroIDPK.AsString + '''');
       ExecQuery;
 
-      oCTransact(TEdicao);
-      oAviso(Application.Handle,'Pedido finalizado com sucesso !');
-    end;  
+      Close;
+      SQL.Clear;
+      SQL.Add('DELETE FROM CAD_PRO_PRC');
+      SQL.Add('WHERE  EP_ID = ''' + CadastroEP_ID.AsString + '''');
+      SQL.Add('AND    IDPK  = ''' + CadastroIDPK.AsString  + '''');
+      ExecQuery;
+    end;
+
+    oCTransact(TEdicao);
+
+    { ATUALIZA ESTOQUE }
+    uCAD_PRO_EST_LAN_UPD(oREPZero('PED_COM_ITE','_',RECParametros.EP_ID,3),
+                         RECParametros.EP_ID ,
+                         CadastroIDPK.AsString,
+
+                         'EP_ID',
+                         'IDPK' ,
+                         'CP_ID');
+
+
+    oAviso(Application.Handle,'Pedido finalizado com sucesso !');
   except
     on E: Exception do
     begin
@@ -773,8 +809,8 @@ begin
       SQL.Clear;
       SQL.Add('UPDATE ' + oREPZero('PED_COM_CAB','_',RECParametros.EP_ID,3));
       SQL.Add('SET   ROM_DBAI = NULL,');
-      SQL.Add('      ROM_STAV = ''PENDENTE''');
-      SQL.Add('WHERE ROM_CCAB = '''+CadastroIDPK.AsString+'''');
+      SQL.Add('      ROM_STFI = ''PENDENTE''');
+      SQL.Add('WHERE IDPK     = '''+CadastroIDPK.AsString+'''');
       ExecQuery;
 
       SQL.Clear;
@@ -810,6 +846,7 @@ begin
       SPEdicao.ExecProc;
       SPEdicao.UnPrepare;
 
+      uSP_CAD_PRO_EST_LAN(SPEdicao,RECParametros.EP_ID,FKCadastroIDCP.AsInteger);
       FKCadastro.Next;
     end;
 
@@ -826,10 +863,10 @@ begin
 
       SQL.Add('WHERE IDPK = ''' + CadastroIDPK.AsString + '''');
       ExecQuery;
+    end;
 
-      oCTransact(TEdicao);
-      oAviso(Application.Handle,'Pedido re-aberto com sucesso !');
-    end;  
+    oCTransact(TEdicao);
+    oAviso(Application.Handle,'Pedido re-aberto com sucesso !');
   except
     on E: Exception do
     begin

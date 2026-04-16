@@ -1,6 +1,6 @@
 inherited frmctr_prg: Tfrmctr_prg
-  Left = -13
-  Top = 0
+  Left = -8
+  Top = 1
   ActiveControl = DSConsulta
   AlphaBlendValue = 0
   Caption = 'Controle de Programa'#231#245'es de Vendas'
@@ -1446,6 +1446,13 @@ inherited frmctr_prg: Tfrmctr_prg
             021A4177E05804303B0A5146368EA88847790BCDF2830D37B0D8241AD90C0387
             8A316AD48A0E345C0152934F8AA3898A9AA9948D22709C258E2B4C08A10651D9
             CC48E56CE24403871419CE1610003B}
+        end
+      end
+      inherited PNLSyncRecords: TPanel
+        Width = 466
+        inherited SBSyncRecords: TdxStatusBar
+          Width = 466
+          Color = clHighlightText
         end
       end
     end

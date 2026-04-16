@@ -156,7 +156,8 @@ uses
   qREL_PED_COM in '..\..\Padrao\Relatorios\qREL_PED_COM.pas' {QRPREL_PED_COM: TQuickRep},
   qProduto_Venda in '..\..\Padrao\Relatorios\qProduto_Venda.pas' {qrpProduto_Venda: TQuickRep},
   qProduto_Venda_Mensal in '..\..\Padrao\Relatorios\qProduto_Venda_Mensal.pas' {qrpProduto_Venda_Mensal: TQuickRep},
-  pCAD_PRO_ADM in '..\..\..\Lib\Produtos\pCAD_PRO_ADM.pas' {FrmCAD_PRO_ADM};
+  pCAD_PRO_ADM in '..\..\..\Lib\Produtos\pCAD_PRO_ADM.pas' {FrmCAD_PRO_ADM},
+  pSHE_DEF_PED in '..\..\..\Lib\Default\pSHE_DEF_PED.pas' {FrmSHE_DEF_PED};
 
 {$R *.res}
 

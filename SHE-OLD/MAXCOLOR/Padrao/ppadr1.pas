@@ -319,6 +319,7 @@ end;
 
 procedure Tfrmpadr1.CadastroBeforeEdit(DataSet: TDataSet);
 begin
+  if (PCampo[0] <> EmptyStr) and (PCampo[1] <> EmptyStr) and (PCampo[2] <> EmptyStr) and (PCampo[3] <> EmptyStr) then
   if not frmprincipal.ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,PCampo[0],PCampo[1],PCampo[2],PCampo[3],false) then
   Databaseerror('ACESSO NEGADO !'+#13+'Contate o admnistrador do sistema.');
 end;
@@ -327,6 +328,7 @@ procedure Tfrmpadr1.CadastroBeforeInsert(DataSet: TDataSet);
 begin
   Cadastro.Fields[0].Tag := Cadastro.RecNo;
 
+  if (PCampo[0] <> EmptyStr) and (PCampo[1] <> EmptyStr) and (PCampo[2] <> EmptyStr) and (PCampo[3] <> EmptyStr) then
   if not frmprincipal.ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,PCampo[0],PCampo[1],PCampo[2],PCampo[3],false) then
   Databaseerror('ACESSO NEGADO !'+#13+'Contate o admnistrador do sistema.');
 end;

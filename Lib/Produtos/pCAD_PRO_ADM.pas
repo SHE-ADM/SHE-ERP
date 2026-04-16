@@ -1630,7 +1630,6 @@ end;
 procedure TFrmCAD_PRO_ADM.FormPaint(Sender: TObject);
 var
   AMainFormScreen: TRect;
-  i: Word;
 begin
   if (not Showing) or (FForceClose) then
   Exit;
@@ -3726,8 +3725,6 @@ begin
 end;
 
 procedure TFrmCAD_PRO_ADM.ACTPesquisaExecute(Sender: TObject);
-var
-  i: Integer;
 begin
   { RESET TRANSACTION }
   oCTransact(TConsulta);

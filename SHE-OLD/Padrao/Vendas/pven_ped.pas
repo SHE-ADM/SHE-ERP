@@ -1608,7 +1608,7 @@ var
 begin
   ActiveControl := Nil;
   if Edicao.State in [dsEdit,dsInsert] then
-     if (EdicaoROM_CPRO.AsString = EmptyStr) or (EdicaoROM_TCDE.Value = 0) then Edicao.Cancel else Edicao.Post;
+  if (EdicaoROM_CPRO.AsString = EmptyStr) or (EdicaoROM_TCDE.Value = 0) then Edicao.Cancel else Edicao.Post;
 
   try
     Edicao.DisableControls;
@@ -1885,13 +1885,12 @@ begin
     SelectSQL.Add('FROM   PED_VEN_ITE AS PK');
 
     if AFlag >= 0 then
-       SelectSQL.Add('WHERE PK.ROM_FLAG = '+IntToStr(AFlag));
+    SelectSQL.Add('WHERE PK.ROM_FLAG = '+IntToStr(AFlag));
 
     SelectSQL.Add('ORDER BY PK.ROM_ITEM');
     Prepare;
+    Open;
   end;
-
-  oRTransact(TSEdicao);
 end;
 
 procedure TFrmVEN_PED.CEIDCDValidate(Sender: TObject;
@@ -3223,230 +3222,226 @@ begin
     Close;
   end;
 
+  oIRECPedidos(RECSP_PED_VEN_ITE); RECSP_PED_VEN_ITE.ASPEdicao := SPEdicao;
+  oIRECPedidos(RECSP_CAD_PRO_EST); RECSP_CAD_PRO_EST.ASPEdicao := SPEdicao;
+
+  RECPedidos.IDPK := EDCDRO.Tag;
+  RECPedidos.DEPK := EDDERO.Text;
+  RECPedidos.DTPK := DEDTCA.Date;
+
+  RECPedidos.CTNR := PECTNR.Text;
+  RECPedidos.CDCX := edcdcx.Text;
+
+  RECPedidos.IDCD := CEIDCD.Value;
+  RECPedidos.IDCV := IEIDCV.Text;
+  RECPedidos.IDCR := IEIDCR.Text;
+
+  RECPedidos.PK_QTDE := CEQTDE.Value;
+  RECPedidos.PK_QTRL := Trunc(CEQTRL.Value);
+
+  RECPedidos.PK_TSDE := CETSDE.Value;
+  RECPedidos.PK_TDSC := LATDSC.Caption;
+  RECPedidos.PK_PDSC := CEPDSC.Value;
+  RECPedidos.PK_VDSC := CEVDSC.Value;
+  RECPedidos.PK_TCDE := CETCDE.Value;
+  RECPedidos.PK_VIPI := CEVIPI.Value;
+
+  RECPedidos.IDCT := PEDECT.Tag;
+  RECPedidos.MFRT := IEMFRT.Text;
+  RECPedidos.VFRT := CEVFRT.Value;
+  RECPedidos.CFRT := EmptyStr;
+
+  RECPedidos.PK_PSBR := CEPSBR.Value;
+  RECPedidos.PK_PSLQ := CEPSLQ.Value;
+
+  RECPedidos.IDFK := edcdrd.Tag;
+  RECPedidos.DEFK := edcdrd.Text;
+  RECPedidos.DTFK := 0;
+
+  RECPedidos.PED_CDPD := cbstpd.Tag;
+  RECPedidos.STPD := cbstpd.Text;
+
+  RECPedidos.CDCO := cbstco.Tag;
+  RECPedidos.STCO := cbstco.Text;
+  RECPedidos.TPCO := IETPCO.Text;
+  RECPedidos.CDPG := PEDEPG.Tag;
+
+  RECPedidos.PK_CDST := ACDST;
+  RECPedidos.PK_DEST := ASTFI;
+
+  RECPedidos.INFADCAD := EMINFADCAD.Text;
+
+  RECPedidos.ASPEdicao := SPEdicao;
+  oSP_PED_VEN_CAB(RECPedidos);
+
+  if Pos(LeftStr(cbstpd.Text,3),'ABA') > 0 then
+  begin
+    SPEdicao.StoredProcName := 'SP_PED_VEN_ABA';
+    SPEdicao.Prepare;
+
+    SPEdicao.ParamByName('AIDEP').Value     := RECParametros.EP_ID;
+    SPEdicao.ParamByName('AIDCA').Value     := RECUsuarios.Id;
+    SPEdicao.ParamByName('AIDED').Value     := RECUsuarios.Id;
+    SPEdicao.ParamByName('AIDPK').Value     := RECPedidos.IDPK;
+    SPEdicao.ParamByName('ACDPK').Value     := RECPedidos.DEPK;
+    SPEdicao.ParamByName('ADTPK').Value     := DEDTCA.Date;
+    SPEdicao.ParamByName('AIDFK').Value     := edcdrd.Tag;
+    SPEdicao.ParamByName('ACDFK').Value     := edcdrd.Text;
+    SPEdicao.ParamByName('ADTFK').Value     := DEDTCA.Date;
+    SPEdicao.ParamByName('AIDCL').Value     := CEIDCD.Value;
+    SPEdicao.ParamByName('AIDCV').Value     := IEIDCV.Text;
+    SPEdicao.ParamByName('AIDCR').Value     := IEIDCR.Text;
+    SPEdicao.ParamByName('AVTPV').Value     := CETCDE.Value;
+    SPEdicao.ParamByName('AMOTIVO').Value   := TRIM(LEFTSTR(Motivo,30));
+    SPEdicao.ParamByName('AINFADCAD').Value := InfAdMot.Text;
+
+    SPEdicao.ExecProc;
+    SPEdicao.UnPrepare;
+  end;
+
   try
-    oIRECPedidos(RECSP_PED_VEN_ITE); RECSP_PED_VEN_ITE.ASPEdicao := SPEdicao;
-    oIRECPedidos(RECSP_CAD_PRO_EST); RECSP_CAD_PRO_EST.ASPEdicao := SPEdicao;
-
-    RECPedidos.IDPK := EDCDRO.Tag;
-    RECPedidos.DEPK := EDDERO.Text;
-    RECPedidos.DTPK := DEDTCA.Date;
-
-    RECPedidos.CTNR := PECTNR.Text;
-    RECPedidos.CDCX := edcdcx.Text;
-
-    RECPedidos.IDCD := CEIDCD.Value;
-    RECPedidos.IDCV := IEIDCV.Text;
-    RECPedidos.IDCR := IEIDCR.Text;
-
-    RECPedidos.PK_QTDE := CEQTDE.Value;
-    RECPedidos.PK_QTRL := Trunc(CEQTRL.Value);
-
-    RECPedidos.PK_TSDE := CETSDE.Value;
-    RECPedidos.PK_TDSC := LATDSC.Caption;
-    RECPedidos.PK_PDSC := CEPDSC.Value;
-    RECPedidos.PK_VDSC := CEVDSC.Value;
-    RECPedidos.PK_TCDE := CETCDE.Value;
-    RECPedidos.PK_VIPI := CEVIPI.Value;
-
-    RECPedidos.IDCT := PEDECT.Tag;
-    RECPedidos.MFRT := IEMFRT.Text;
-    RECPedidos.VFRT := CEVFRT.Value;
-    RECPedidos.CFRT := EmptyStr;
-
-    RECPedidos.PK_PSBR := CEPSBR.Value;
-    RECPedidos.PK_PSLQ := CEPSLQ.Value;
-
-    RECPedidos.IDFK := edcdrd.Tag;
-    RECPedidos.DEFK := edcdrd.Text;
-    RECPedidos.DTFK := 0;
-
-    RECPedidos.PED_CDPD := cbstpd.Tag;
-    RECPedidos.STPD := cbstpd.Text;
-
-    RECPedidos.CDCO := cbstco.Tag;
-    RECPedidos.STCO := cbstco.Text;
-    RECPedidos.TPCO := IETPCO.Text;
-    RECPedidos.CDPG := PEDEPG.Tag;
-
-    RECPedidos.PK_CDST := ACDST;
-    RECPedidos.PK_DEST := ASTFI;
-
-    RECPedidos.INFADCAD := EMINFADCAD.Text;
-
-    RECPedidos.ASPEdicao := SPEdicao;
-    oSP_PED_VEN_CAB(RECPedidos);
-
+    Edicao.DisableControls;
     _Edicao(-1); // Abre todos registros, inclusive excluídos.
 
-    try
-      Edicao.DisableControls;
-      Edicao.First;
+    while not Edicao.Eof do
+    begin
+      RECSP_PED_VEN_ITE.FLAG := EdicaoROM_FLAG.AsInteger;
 
-      while not Edicao.Eof do
+      RECSP_PED_VEN_ITE.IDPK := RECPedidos.IDPK;   // Id PED_VEN_CAB
+      RECSP_PED_VEN_ITE.IDFK := EdicaoROM_IDFK.AsInteger; // Id PED_VEN_ITE
+
+      RECSP_PED_VEN_ITE.ITEM := EdicaoROM_ITEM.AsInteger;
+      RECSP_PED_VEN_ITE.IDCP := EdicaoROM_IPRO.AsInteger;
+      RECSP_PED_VEN_ITE.CEAN := EdicaoROM_CBAR.AsString;
+
+      RECSP_PED_VEN_ITE.DECP := EdicaoROM_DPRO.AsString;
+      RECSP_PED_VEN_ITE.DGCP := EdicaoROM_DCOR.AsString;
+
+      RECSP_PED_VEN_ITE.UCOM := EdicaoROM_DUNI.AsString;
+      RECSP_PED_VEN_ITE.UCON := EdicaoROM_UCON.AsString;
+
+      RECSP_PED_VEN_ITE.QTDE := EdicaoROM_QTDE.AsCurrency;
+      RECSP_PED_VEN_ITE.QTRL := EdicaoROM_QTRL.AsInteger;
+
+      RECSP_PED_VEN_ITE.VPRC_PAD_INI := EdicaoROM_PTABI.AsCurrency;
+      RECSP_PED_VEN_ITE.VPRC_PAD_FIM := EdicaoROM_PTABF.AsCurrency;
+
+      RECSP_PED_VEN_ITE.VPRC_PAD := EdicaoROM_PREC.AsCurrency;
+      RECSP_PED_VEN_ITE.VPRC_COM := EdicaoROM_UNIT.AsCurrency;
+
+      RECSP_PED_VEN_ITE.PDSC := EdicaoROM_PDSC.AsCurrency;
+      RECSP_PED_VEN_ITE.VDSC := EdicaoROM_VDSC.AsCurrency;
+
+      RECSP_PED_VEN_ITE.TSDE := EdicaoROM_TSDE.AsCurrency;
+      RECSP_PED_VEN_ITE.TCDE := EdicaoROM_TCDE.AsCurrency;
+
+      RECSP_PED_VEN_ITE.NCM  := EdicaoROM_CCLF.AsString;
+      RECSP_PED_VEN_ITE.PIPI := EdicaoROM_PIPI.AsCurrency;
+      RECSP_PED_VEN_ITE.VIPI := EdicaoROM_VIPI.AsCurrency;
+
+      RECSP_PED_VEN_ITE.PSBR := EdicaoROM_PSBR.AsCurrency;
+      RECSP_PED_VEN_ITE.PSLQ := EdicaoROM_PSLQ.AsCurrency;
+
+      oSP_PED_VEN_ITE(RECSP_PED_VEN_ITE);
+
+      if (EdicaoROM_FLAG.AsInteger = 0) and (Pos(LeftStr(cbstpd.Text,3),'DEV') > 0) then
       begin
-        RECSP_PED_VEN_ITE.FLAG := EdicaoROM_FLAG.AsInteger;
+        SPEdicao.StoredProcName := 'SP_PED_VEN_DEV';
+        SPEdicao.Prepare;
 
-        RECSP_PED_VEN_ITE.IDPK := RECPedidos.IDPK;   // Id PED_VEN_CAB
-        RECSP_PED_VEN_ITE.IDFK := EdicaoROM_IDFK.AsInteger; // Id PED_VEN_ITE
+        SPEdicao.ParamByName('AIDEP').Value       := RECParametros.EP_ID;
+        SPEdicao.ParamByName('AIDCA').Value       := RECUsuarios.Id;
+        SPEdicao.ParamByName('AIDED').Value       := RECUsuarios.Id;
+        SPEdicao.ParamByName('AIDPK').Value       := RECPedidos.IDPK;
+        SPEdicao.ParamByName('ACDPK').Value       := RECPedidos.DEPK;
+        SPEdicao.ParamByName('ADTPK').Value       := DEDTCA.Date;
 
-        RECSP_PED_VEN_ITE.ITEM := EdicaoROM_ITEM.AsInteger;
-        RECSP_PED_VEN_ITE.IDCP := EdicaoROM_IPRO.AsInteger;
-        RECSP_PED_VEN_ITE.CEAN := EdicaoROM_CBAR.AsString;
+        SPEdicao.ParamByName('AIDFK').Value       := edcdrd.Tag;
+        SPEdicao.ParamByName('ACDFK').Value       := edcdrd.Text;
+        SPEdicao.ParamByName('ADTFK').Value       := DEDTCA.Date;
 
-        RECSP_PED_VEN_ITE.DECP := EdicaoROM_DPRO.AsString;
-        RECSP_PED_VEN_ITE.DGCP := EdicaoROM_DCOR.AsString;
+        SPEdicao.ParamByName('AIDCL').Value       := CEIDCD.Value;
+        SPEdicao.ParamByName('AIDCV').Value       := IEIDCV.Text;
+        SPEdicao.ParamByName('AIDCR').Value       := IEIDCR.Text;
+        SPEdicao.ParamByName('AIDCP').Value       := EdicaoROM_IPRO.AsInteger;
+        SPEdicao.ParamByName('AARTIGO').Value     := EdicaoROM_CART.AsString;
+        SPEdicao.ParamByName('APRODUTO').Value    := EdicaoROM_CPRO.AsString;
+        SPEdicao.ParamByName('ADESCRICAO').Value  := EdicaoROM_DPRO.AsString;
+        SPEdicao.ParamByName('ACOR').Value        := TRIM(LEFTSTR(EdicaoROM_DCOR.AsString,30));
+        SPEdicao.ParamByName('AUCOM').Value       := EdicaoROM_DUNI.AsString;
+        SPEdicao.ParamByName('AQUANTIDADE').Value := EdicaoROM_QTDE.AsCurrency;
+        SPEdicao.ParamByName('AROLO').Value       := EdicaoROM_QTRL.AsInteger;
+        SPEdicao.ParamByName('AVUPV').Value       := EdicaoROM_UNIT.AsCurrency;
+        SPEdicao.ParamByName('AMOTIVO').Value     := TRIM(LEFTSTR(Motivo,30));
+        SPEdicao.ParamByName('AINFADCAD').Value   := InfAdMot.Text;
 
-        RECSP_PED_VEN_ITE.UCOM := EdicaoROM_DUNI.AsString;
-        RECSP_PED_VEN_ITE.UCON := EdicaoROM_UCON.AsString;
-
-        RECSP_PED_VEN_ITE.QTDE := EdicaoROM_QTDE.AsCurrency;
-        RECSP_PED_VEN_ITE.QTRL := EdicaoROM_QTRL.AsInteger;
-
-        RECSP_PED_VEN_ITE.VPRC_PAD_INI := EdicaoROM_PTABI.AsCurrency;
-        RECSP_PED_VEN_ITE.VPRC_PAD_FIM := EdicaoROM_PTABF.AsCurrency;
-
-        RECSP_PED_VEN_ITE.VPRC_PAD := EdicaoROM_PREC.AsCurrency;
-        RECSP_PED_VEN_ITE.VPRC_COM := EdicaoROM_UNIT.AsCurrency;
-
-        RECSP_PED_VEN_ITE.PDSC := EdicaoROM_PDSC.AsCurrency;
-        RECSP_PED_VEN_ITE.VDSC := EdicaoROM_VDSC.AsCurrency;
-
-        RECSP_PED_VEN_ITE.TSDE := EdicaoROM_TSDE.AsCurrency;
-        RECSP_PED_VEN_ITE.TCDE := EdicaoROM_TCDE.AsCurrency;
-
-        RECSP_PED_VEN_ITE.NCM  := EdicaoROM_CCLF.AsString;
-        RECSP_PED_VEN_ITE.PIPI := EdicaoROM_PIPI.AsCurrency;
-        RECSP_PED_VEN_ITE.VIPI := EdicaoROM_VIPI.AsCurrency;
-
-        RECSP_PED_VEN_ITE.PSBR := EdicaoROM_PSBR.AsCurrency;
-        RECSP_PED_VEN_ITE.PSLQ := EdicaoROM_PSLQ.AsCurrency;
-
-        oSP_PED_VEN_ITE(RECSP_PED_VEN_ITE);
-
-        if (EdicaoROM_FLAG.AsInteger = 0) and (Pos(LeftStr(cbstpd.Text,3),'DEV') > 0) then
-        begin
-          SPEdicao.StoredProcName := 'SP_PED_VEN_DEV';
-          SPEdicao.Prepare;
-
-          SPEdicao.ParamByName('AIDEP').Value       := RECParametros.EP_ID;
-          SPEdicao.ParamByName('AIDCA').Value       := RECUsuarios.Id;
-          SPEdicao.ParamByName('AIDED').Value       := RECUsuarios.Id;
-          SPEdicao.ParamByName('AIDPK').Value       := RECPedidos.IDPK;
-          SPEdicao.ParamByName('ACDPK').Value       := RECPedidos.DEPK;
-          SPEdicao.ParamByName('ADTPK').Value       := DEDTCA.Date;
-
-          SPEdicao.ParamByName('AIDFK').Value       := edcdrd.Tag;
-          SPEdicao.ParamByName('ACDFK').Value       := edcdrd.Text;
-          SPEdicao.ParamByName('ADTFK').Value       := DEDTCA.Date;
-
-          SPEdicao.ParamByName('AIDCL').Value       := CEIDCD.Value;
-          SPEdicao.ParamByName('AIDCV').Value       := IEIDCV.Text;
-          SPEdicao.ParamByName('AIDCR').Value       := IEIDCR.Text;
-          SPEdicao.ParamByName('AIDCP').Value       := EdicaoROM_IPRO.AsInteger;
-          SPEdicao.ParamByName('AARTIGO').Value     := EdicaoROM_CART.AsString;
-          SPEdicao.ParamByName('APRODUTO').Value    := EdicaoROM_CPRO.AsString;
-          SPEdicao.ParamByName('ADESCRICAO').Value  := EdicaoROM_DPRO.AsString;
-          SPEdicao.ParamByName('ACOR').Value        := TRIM(LEFTSTR(EdicaoROM_DCOR.AsString,30));
-          SPEdicao.ParamByName('AUCOM').Value       := EdicaoROM_DUNI.AsString;
-          SPEdicao.ParamByName('AQUANTIDADE').Value := EdicaoROM_QTDE.AsCurrency;
-          SPEdicao.ParamByName('AROLO').Value       := EdicaoROM_QTRL.AsInteger;
-          SPEdicao.ParamByName('AVUPV').Value       := EdicaoROM_UNIT.AsCurrency;
-          SPEdicao.ParamByName('AMOTIVO').Value     := TRIM(LEFTSTR(Motivo,30));
-          SPEdicao.ParamByName('AINFADCAD').Value   := InfAdMot.Text;
-
-          SPEdicao.ExecProc;
-          SPEdicao.UnPrepare;
-        end;
-
-        if (edbest.Text = '1') and (EdicaoROM_QTPD.AsCurrency = 0) and (Pos(LeftStr(cbstpd.Text,3),'ABA') = 0) then
-        begin
-          RECSP_CAD_PRO_EST.FLAG := EdicaoROM_FLAG.AsInteger;
-
-          RECSP_CAD_PRO_EST.IDEP := RECParametros.EP_ID;
-          RECSP_CAD_PRO_EST.IDPK := RECPedidos.IDPK;
-          RECSP_CAD_PRO_EST.IDFK := IFThen(RECSP_PED_VEN_ITE.IDFK > 0,RECSP_PED_VEN_ITE.IDFK,EdicaoROM_IDFK.AsInteger);
-
-          RECSP_CAD_PRO_EST.DEPK := RECPedidos.DEPK;
-          RECSP_CAD_PRO_EST.DTPK := DEDTCA.Date;
-          RECSP_CAD_PRO_EST.CTNR := RECPedidos.CTNR;
-
-          RECSP_CAD_PRO_EST.IDCD := RECPedidos.IDCD;
-          RECSP_CAD_PRO_EST.IDCV := RECPedidos.IDCV;
-          RECSP_CAD_PRO_EST.IDCR := RECPedidos.IDCR;
-
-          RECSP_CAD_PRO_EST.ITEM := RECSP_PED_VEN_ITE.ITEM;
-          RECSP_CAD_PRO_EST.IDCP := RECSP_PED_VEN_ITE.IDCP;
-          RECSP_CAD_PRO_EST.CEAN := RECSP_PED_VEN_ITE.CEAN;
-
-          RECSP_CAD_PRO_EST.DECP := RECSP_PED_VEN_ITE.DECP;
-          RECSP_CAD_PRO_EST.DGCP := RECSP_PED_VEN_ITE.DGCP;
-
-          RECSP_CAD_PRO_EST.UCOM := RECSP_PED_VEN_ITE.UCOM;
-          RECSP_CAD_PRO_EST.UCON := RECSP_PED_VEN_ITE.UCON;
-
-          RECSP_CAD_PRO_EST.QTDE := RECSP_PED_VEN_ITE.QTDE;
-          RECSP_CAD_PRO_EST.QTRL := RECSP_PED_VEN_ITE.QTRL;
-
-          RECSP_CAD_PRO_EST.VPRC_PAD_INI := RECSP_PED_VEN_ITE.VPRC_PAD_INI;
-          RECSP_CAD_PRO_EST.VPRC_PAD_FIM := RECSP_PED_VEN_ITE.VPRC_PAD_FIM;
-
-          RECSP_CAD_PRO_EST.VPRC_PAD := RECSP_PED_VEN_ITE.VPRC_PAD;
-          RECSP_CAD_PRO_EST.PDSC     := RECSP_PED_VEN_ITE.PDSC;
-          RECSP_CAD_PRO_EST.VDSC     := RECSP_PED_VEN_ITE.VDSC;
-          RECSP_CAD_PRO_EST.VPRC_COM := RECSP_PED_VEN_ITE.VPRC_COM;
-
-          RECSP_CAD_PRO_EST.TSDE := RECSP_PED_VEN_ITE.TSDE;
-          RECSP_CAD_PRO_EST.TCDE := RECSP_PED_VEN_ITE.TCDE;
-
-          RECSP_CAD_PRO_EST.NCM  := RECSP_PED_VEN_ITE.NCM ;
-          RECSP_CAD_PRO_EST.PIPI := RECSP_PED_VEN_ITE.PIPI;
-          RECSP_CAD_PRO_EST.VIPI := RECSP_PED_VEN_ITE.VIPI;
-
-          RECSP_CAD_PRO_EST.PSBR := RECSP_PED_VEN_ITE.PSBR;
-          RECSP_CAD_PRO_EST.PSLQ := RECSP_PED_VEN_ITE.PSLQ;
-
-          RECSP_CAD_PRO_EST.INFADCAD := RECPedidos.INFADCAD;
-
-          oSP_CAD_PRO_EST_RES(RECSP_CAD_PRO_EST);
-        end;
-
-        Edicao.Next;
+        SPEdicao.ExecProc;
+        SPEdicao.UnPrepare;
       end;
 
-    finally
-      Edicao.EnableControls;
-    end;
-    
-    _Edicao;
-    if Pos(LeftStr(cbstpd.Text,3),'ABA') > 0 then
-    begin
-      SPEdicao.StoredProcName := 'SP_PED_VEN_ABA';
-      SPEdicao.Prepare;
+      if (edbest.Text = '1') and (EdicaoROM_QTPD.AsCurrency = 0) and (Pos(LeftStr(cbstpd.Text,3),'ABA') = 0) then
+      begin
+        RECSP_CAD_PRO_EST.FLAG := EdicaoROM_FLAG.AsInteger;
 
-      SPEdicao.ParamByName('AIDEP').Value     := RECParametros.EP_ID;
-      SPEdicao.ParamByName('AIDCA').Value     := RECUsuarios.Id;
-      SPEdicao.ParamByName('AIDED').Value     := RECUsuarios.Id;
-      SPEdicao.ParamByName('AIDPK').Value     := RECPedidos.IDPK;
-      SPEdicao.ParamByName('ACDPK').Value     := RECPedidos.DEPK;
-      SPEdicao.ParamByName('ADTPK').Value     := DEDTCA.Date;
-      SPEdicao.ParamByName('AIDFK').Value     := edcdrd.Tag;
-      SPEdicao.ParamByName('ACDFK').Value     := edcdrd.Text;
-      SPEdicao.ParamByName('ADTFK').Value     := DEDTCA.Date;
-      SPEdicao.ParamByName('AIDCL').Value     := CEIDCD.Value;
-      SPEdicao.ParamByName('AIDCV').Value     := IEIDCV.Text;
-      SPEdicao.ParamByName('AIDCR').Value     := IEIDCR.Text;
-      SPEdicao.ParamByName('AVTPV').Value     := CETCDE.Value;
-      SPEdicao.ParamByName('AMOTIVO').Value   := TRIM(LEFTSTR(Motivo,30));
-      SPEdicao.ParamByName('AINFADCAD').Value := InfAdMot.Text;
+        RECSP_CAD_PRO_EST.IDEP := RECParametros.EP_ID;
+        RECSP_CAD_PRO_EST.IDPK := RECPedidos.IDPK;
+        RECSP_CAD_PRO_EST.IDFK := IFThen(RECSP_PED_VEN_ITE.IDFK > 0,RECSP_PED_VEN_ITE.IDFK,EdicaoROM_IDFK.AsInteger);
 
-      SPEdicao.ExecProc;
-      SPEdicao.UnPrepare;
+        RECSP_CAD_PRO_EST.DEPK := RECPedidos.DEPK;
+        RECSP_CAD_PRO_EST.DTPK := DEDTCA.Date;
+        RECSP_CAD_PRO_EST.CTNR := RECPedidos.CTNR;
+
+        RECSP_CAD_PRO_EST.IDCD := RECPedidos.IDCD;
+        RECSP_CAD_PRO_EST.IDCV := RECPedidos.IDCV;
+        RECSP_CAD_PRO_EST.IDCR := RECPedidos.IDCR;
+
+        RECSP_CAD_PRO_EST.ITEM := RECSP_PED_VEN_ITE.ITEM;
+        RECSP_CAD_PRO_EST.IDCP := RECSP_PED_VEN_ITE.IDCP;
+        RECSP_CAD_PRO_EST.CEAN := RECSP_PED_VEN_ITE.CEAN;
+
+        RECSP_CAD_PRO_EST.DECP := RECSP_PED_VEN_ITE.DECP;
+        RECSP_CAD_PRO_EST.DGCP := RECSP_PED_VEN_ITE.DGCP;
+
+        RECSP_CAD_PRO_EST.UCOM := RECSP_PED_VEN_ITE.UCOM;
+        RECSP_CAD_PRO_EST.UCON := RECSP_PED_VEN_ITE.UCON;
+
+        RECSP_CAD_PRO_EST.QTDE := RECSP_PED_VEN_ITE.QTDE;
+        RECSP_CAD_PRO_EST.QTRL := RECSP_PED_VEN_ITE.QTRL;
+
+        RECSP_CAD_PRO_EST.VPRC_PAD_INI := RECSP_PED_VEN_ITE.VPRC_PAD_INI;
+        RECSP_CAD_PRO_EST.VPRC_PAD_FIM := RECSP_PED_VEN_ITE.VPRC_PAD_FIM;
+
+        RECSP_CAD_PRO_EST.VPRC_PAD := RECSP_PED_VEN_ITE.VPRC_PAD;
+        RECSP_CAD_PRO_EST.PDSC     := RECSP_PED_VEN_ITE.PDSC;
+        RECSP_CAD_PRO_EST.VDSC     := RECSP_PED_VEN_ITE.VDSC;
+        RECSP_CAD_PRO_EST.VPRC_COM := RECSP_PED_VEN_ITE.VPRC_COM;
+
+        RECSP_CAD_PRO_EST.TSDE := RECSP_PED_VEN_ITE.TSDE;
+        RECSP_CAD_PRO_EST.TCDE := RECSP_PED_VEN_ITE.TCDE;
+
+        RECSP_CAD_PRO_EST.NCM  := RECSP_PED_VEN_ITE.NCM ;
+        RECSP_CAD_PRO_EST.PIPI := RECSP_PED_VEN_ITE.PIPI;
+        RECSP_CAD_PRO_EST.VIPI := RECSP_PED_VEN_ITE.VIPI;
+
+        RECSP_CAD_PRO_EST.PSBR := RECSP_PED_VEN_ITE.PSBR;
+        RECSP_CAD_PRO_EST.PSLQ := RECSP_PED_VEN_ITE.PSLQ;
+
+        RECSP_CAD_PRO_EST.INFADCAD := RECPedidos.INFADCAD;
+
+        oSP_CAD_PRO_EST_RES(RECSP_CAD_PRO_EST);
+      end;
+
+      uSP_CAD_PRO_EST_LAN(SPEdicao,RECParametros.EP_ID,RECSP_PED_VEN_ITE.IDCP);
+      Edicao.Next;
     end;
 
   finally
-    oFRECPedidos(RECSP_PED_VEN_ITE);
-    oFRECPedidos(RECSP_CAD_PRO_EST);
+    Edicao.EnableControls;
+    _Edicao(0);
   end;
+
+  oFRECPedidos(RECSP_PED_VEN_ITE);
+  oFRECPedidos(RECSP_CAD_PRO_EST);
 end;
 
 end.

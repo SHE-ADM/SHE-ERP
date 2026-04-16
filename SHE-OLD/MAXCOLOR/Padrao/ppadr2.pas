@@ -268,18 +268,21 @@ end;
 
 procedure Tfrmpadr2.SIMEAppendClick(Sender: TObject);
 begin
+  if (PCampo[0] <> EmptyStr) and (PCampo[1] <> EmptyStr) and (PCampo[2] <> EmptyStr) and (PCampo[3] <> EmptyStr) then
   if not frmprincipal.ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,PCampo[0],PCampo[1],PCampo[2],PCampo[3],false) then
   raise exception.Create('ACESSO NEGADO !'+#13+'Contate o admnistrador do sistema.');
 end;
 
 procedure Tfrmpadr2.SIMEEditClick(Sender: TObject);
 begin
+  if (PCampo[0] <> EmptyStr) and (PCampo[1] <> EmptyStr) and (PCampo[2] <> EmptyStr) and (PCampo[3] <> EmptyStr) then
   if not frmprincipal.ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,PCampo[0],PCampo[1],PCampo[2],PCampo[3],false) then
   raise exception.Create('ACESSO NEGADO !'+#13+'Contate o admnistrador do sistema.');
 end;
 
 procedure Tfrmpadr2.SIMEDeleteClick(Sender: TObject);
 begin
+  if (PCampo[0] <> EmptyStr) and (PCampo[1] <> EmptyStr) and (PCampo[2] <> EmptyStr) and (PCampo[3] <> EmptyStr) then
   if not frmprincipal.ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,PCampo[0],PCampo[1],PCampo[2],PCampo[3],false) then
   raise exception.Create('ACESSO NEGADO !'+#13+'Contate o admnistrador do sistema.');
 end;

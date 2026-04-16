@@ -343,6 +343,8 @@ type
     N9: TMenuItem;
     MIREL_PRO_VEN_DIA: TMenuItem;
     MIREL_PRO_VEN_MES: TMenuItem;
+    MIFIN_PAG: TMenuItem;
+    ACTFIN_PAG: TAction;
 
     procedure _DoneEvent(Sender: TObject);
 
@@ -428,6 +430,7 @@ type
     procedure ACTFIS_NFE_LCTExecute(Sender: TObject);
     procedure ACTREL_GER_PDV_TPOExecute(Sender: TObject);
     procedure ACTCAD_PRO_GRD_TAMExecute(Sender: TObject);
+    procedure ACTFIN_PAGExecute(Sender: TObject);
 
   private
     { Private declarations }
@@ -445,14 +448,15 @@ type
   end;
 
 { MAIN PROCEDURES }
-procedure uCAD_PRO_EST_LAN_UPD (ATHR_TB_PK: String;
-                                ATHR_EP_ID,
-                                ATHR_PK_ID: Variant;
+procedure uCAD_PRO_EST_LAN_UPD(ATHR_TB_PK: String;
+                               ATHR_EP_ID,
+                               ATHR_PK_ID: Variant;
 
-                                FTHR_EP_ID,
-                                FTHR_PK_ID,
-                                FTHR_CP_ID: String); STDCALL;
+                               FTHR_EP_ID,
+                               FTHR_PK_ID,
+                               FTHR_CP_ID: String); STDCALL;
 
+procedure uSP_CAD_PRO_EST_LAN(ASPEdicao: TIBStoredProc; AEP_ID: Variant; ACP_ID: Variant);
 
 { OLD PROCEDURE }
 procedure uConstrucao(ACaption: String = ''); STDCall;
@@ -548,7 +552,8 @@ uses bPrincipal,
   pcad_con, pProduto_Custo_Importado, pfin_rec_con, pfin_dup, ppag_com,
   pProduto_Segmento, pCAD_PRO_PSQ, pven_nfe, pcad_cli, pcad_rep, pcad_for,
   pcad_tra, pAviso_Reserva, pRelatorios, pConstrucao, pRelatorios_OLD,
-  pven_prc, pven_ped, pven_prg, pCAD_PRO_EDI, pPesquisa, pPesquisa_OLD;
+  pven_prc, pven_ped, pven_prg, pCAD_PRO_EDI, pPesquisa, pPesquisa_OLD,
+  pSHE_DEF_PED;
 
 {$R *.dfm}
 
@@ -733,15 +738,7 @@ begin
                    'Produto: ' + FBird.SQLFBEdicao.Current.ByName('SKU').AsString;
       Synchronize(SyncEvent);
 
-      FBird.SPFBEdicao.StoredProcName := 'SP_CAD_PRO_EST_LAN';
-      FBird.SPFBEdicao.Prepare;
-
-      FBird.SPFBEdicao.ParamByName('AEP_ID').Value := ATHR_EP_ID;
-      FBird.SPFBEdicao.ParamByName('ACP_ID').Value := FBird.SQLFBEdicao.Current.ByName('CP_ID').AsString;
-      FBird.SPFBEdicao.ParamByName('AIDEV' ).Value := 0;
-      FBird.SPFBEdicao.ExecProc;
-      FBird.SPFBEdicao.UnPrepare;
-
+      uSP_CAD_PRO_EST_LAN(FBird.SPFBEdicao,ATHR_EP_ID,FBird.SQLFBEdicao.Current.ByName('CP_ID').AsInteger);
       FBird.SQLFBEdicao.Next;
     end;
 
@@ -762,6 +759,19 @@ begin
     
     Application.ProcessMessages;
   end;
+end;
+
+procedure uSP_CAD_PRO_EST_LAN(ASPEdicao: TIBStoredProc; AEP_ID: Variant; ACP_ID: Variant);
+begin
+  ASPEdicao.StoredProcName := 'SP_CAD_PRO_EST_LAN';
+  ASPEdicao.Prepare;
+
+  ASPEdicao.ParamByName('AEP_ID').Value := AEP_ID;
+  ASPEdicao.ParamByName('ACP_ID').Value := ACP_ID;
+  ASPEdicao.ParamByName('AIDEV' ).Value := 0;
+
+  ASPEdicao.ExecProc;
+  ASPEdicao.UnPrepare;
 end;
 
 procedure uFrmCreate(AOwner: TComponent;AFClass: TFormClass; var AInstance); STDCall;
@@ -3982,6 +3992,11 @@ end;
 procedure TFrmPrincipal.ACTFIN_PAG_CMVExecute(Sender: TObject);
 begin
   uFrmCreate(Application,TFrmpag_com,Frmpag_com);
+end;
+
+procedure TFrmPrincipal.ACTFIN_PAGExecute(Sender: TObject);
+begin
+  TFrmSHE_DEF_PED._ExecForm(Application,FrmSHE_DEF_PED);
 end;
 
 procedure TFrmPrincipal._Aviso_Reserva;

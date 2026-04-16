@@ -1581,6 +1581,13 @@ begin
       SQL.Add('DELETE FROM '+oREPZero('PED_COM_ITE','_',RECParametros.EP_ID,3));
       SQL.Add('WHERE  ROM_CCAB = '''+edcdro.Text+'''');
       ExecQuery;
+
+      Close;
+      SQL.Clear;
+      SQL.Add('DELETE FROM CAD_PRO_PRC');
+      SQL.Add('WHERE  EP_ID = ''' + RECParametros.EP_ID + '''');
+      SQL.Add('AND    IDPK  = ''' + EDCDRO.Text         + '''');
+      ExecQuery;
     end;
 
     Edicao.DisableControls;
@@ -1660,6 +1667,7 @@ begin
         IBTRA.CommitRetaining;
       end;
 
+      uSP_CAD_PRO_EST_LAN(IBSP,RECParametros.EP_ID,EdicaoROM_IPRO.AsInteger);
       Edicao.Next;
     end;
     Edicao.EnableControls;

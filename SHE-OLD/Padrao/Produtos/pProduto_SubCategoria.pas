@@ -463,7 +463,8 @@ begin
     SQL.Clear;
     SQL.Add('SELECT FIRST 1 ID FROM CAD_PRO');
     SQL.Add('WHERE  IDSCT = ''' + CadastroID.AsString + '''');
-    SQL.Add('AND    REST  = ''A''');
+    SQL.Add('AND    REST  <> ''I''');
+    SQL.Add('AND    REST  <> ''C''');
     ExecQuery;
 
     if Current.Vars[0].AsInteger = 0 then
@@ -557,7 +558,8 @@ begin
           SQL.Clear;
           SQL.Add('SELECT FIRST 1 ID FROM CAD_PRO');
           SQL.Add('WHERE  IDSCT = ''' + CadastroID.AsString + '''');
-          SQL.Add('AND    REST  = ''A''');
+          SQL.Add('AND    REST  <> ''I''');
+          SQL.Add('AND    REST  <> ''C''');
           ExecQuery;
         end;
 

@@ -331,7 +331,11 @@ type
     ATCDE: Double;
     AQTRL: Integer;
 
+    LProdutos: TList;
+    ACP_ID: Integer;
+
     procedure _DoCommitWait;
+    procedure _DoCommitWaitEstoque;
     function RETORNA_STFI: string;
   public
     { Public declarations }
@@ -395,50 +399,19 @@ end;
 procedure Tfrmctr_prg.siCROClick(Sender: TObject);
 begin
   if oYesNo(handle,'Cancelar Programação No.: '+CadastroDEPK.AsString+' ?') = mrno then
-     Abort;
+  Abort;
 
   try
     TFrmProduto_Devolucao_Cancelamento._ExecForm(Nil,FrmProduto_Devolucao_Cancelamento,false,fsNormal);
   finally
     if not FrmProduto_Devolucao_Cancelamento.Editado then
-       Abort;
+    Abort;
 
     if oEmpty(FrmProduto_Devolucao_Cancelamento.IEMotivo.Text) then
-       oException(DBGConsulta,'Motivo de cancelamento Incorreto ou não Informado !');
+    oException(DBGConsulta,'Motivo de cancelamento Incorreto ou não Informado !');
 
     try
       oOTransact(TEdicao);
-      FKCadastro.First;
-      while not FKCadastro.Eof do
-      begin
-        SPEdicao.StoredProcName := 'SP_PED_VEN_CAN';
-        SPEdicao.Prepare;
-        SPEdicao.ParamByName('AIDEP').Value      := RECParametros.EP_ID;
-        SPEdicao.ParamByName('AIDCA').Value      := RECUsuarios.Id;
-        SPEdicao.ParamByName('AIDED').Value      := RECUsuarios.Id;
-        SPEdicao.ParamByName('AIDPK').Value      := CadastroId.AsInteger;
-        SPEdicao.ParamByName('ACDPK').Value      := CadastroDEPK.AsString;
-        SPEdicao.ParamByName('ADTPK').Value      := RECParametros.SHE_DATA;
-        SPEdicao.ParamByName('ADTFK').Value      := CadastroDTPK.AsDateTime;
-        SPEdicao.ParamByName('AIDCL').Value      := CadastroCD_ID.AsInteger;
-        SPEdicao.ParamByName('AIDCV').Value      := CadastroCV_ID.AsInteger;
-        SPEdicao.ParamByName('AIDCR').Value      := CadastroCR_ID.AsInteger;
-        SPEdicao.ParamByName('AIDCP').Value      := FKCadastroIDCP.AsInteger;
-        SPEdicao.ParamByName('AARTIGO').Value    := FKCadastroARTIGO.AsString;
-        SPEdicao.ParamByName('APRODUTO').Value   := FKCadastroSKU.AsString;
-        SPEdicao.ParamByName('ADESCRICAO').Value := FKCadastroDECP.AsString;
-        SPEdicao.ParamByName('ACOR').Value       := Trim(LeftStr(FKCadastroDGCP.AsString,30));
-        SPEdicao.ParamByName('AUCOM').Value      := FKCadastroUCOM.AsString;
-        SPEdicao.ParamByName('AQUANTIDADE').Value      := FKCadastroQTDE.AsFloat;
-        SPEdicao.ParamByName('AROLO').Value      := FKCadastroQTRL.AsInteger;
-        SPEdicao.ParamByName('AVUPV').Value  := FKCadastroVPRC_COM.AsFloat;
-        SPEdicao.ParamByName('AMOTIVO').Value    := FrmProduto_Devolucao_Cancelamento.IEMotivo.Text;
-        SPEdicao.ParamByName('AINFADCAD').Value  := FrmProduto_Devolucao_Cancelamento.EMINFADCAD.Text;
-        SPEdicao.ExecProc;
-        SPEdicao.UnPrepare;
-
-        FKCadastro.Next;
-      end;
 
       with SQLEdicao do
       begin
@@ -452,10 +425,62 @@ begin
         SQL.Add('      ROM_OBSC = ''' + FrmProduto_Devolucao_Cancelamento.EMINFADCAD.Text + '''' );
         SQL.Add('WHERE ID = '''+CadastroId.AsString+'''');
         ExecQuery;
+
+        Close;
+        SQL.Clear;
+        SQL.Add('DELETE FROM CAD_PRO_PRG');
+        SQL.Add('WHERE  EP_ID = ''' + CadastroEP_ID.AsString + '''');
+        SQL.Add('AND    IDPK  = ''' + CadastroIDPK.AsString  + '''');
+        ExecQuery;
+      end;
+
+      try
+        FKCadastro.DisableControls;
+        FKCadastro.First;
+
+        while not FKCadastro.Eof do
+        begin
+          SBRodape.Panels[1].Text := 'Aguarde, atualizando estoque ... ' + FKCadastroSKU.AsString;
+          SBRodape.Update;
+
+          SPEdicao.StoredProcName := 'SP_PED_VEN_CAN';
+          SPEdicao.Prepare;
+
+          SPEdicao.ParamByName('AIDEP').Value       := RECParametros.EP_ID;
+          SPEdicao.ParamByName('AIDCA').Value       := RECUsuarios.Id;
+          SPEdicao.ParamByName('AIDED').Value       := RECUsuarios.Id;
+          SPEdicao.ParamByName('AIDPK').Value       := CadastroId.AsInteger;
+          SPEdicao.ParamByName('ACDPK').Value       := CadastroDEPK.AsString;
+          SPEdicao.ParamByName('ADTPK').Value       := RECParametros.SHE_DATA;
+          SPEdicao.ParamByName('ADTFK').Value       := CadastroDTPK.AsDateTime;
+          SPEdicao.ParamByName('AIDCL').Value       := CadastroCD_ID.AsInteger;
+          SPEdicao.ParamByName('AIDCV').Value       := CadastroCV_ID.AsInteger;
+          SPEdicao.ParamByName('AIDCR').Value       := CadastroCR_ID.AsInteger;
+          SPEdicao.ParamByName('AIDCP').Value       := FKCadastroIDCP.AsInteger;
+          SPEdicao.ParamByName('AARTIGO').Value     := FKCadastroARTIGO.AsString;
+          SPEdicao.ParamByName('APRODUTO').Value    := FKCadastroSKU.AsString;
+          SPEdicao.ParamByName('ADESCRICAO').Value  := FKCadastroDECP.AsString;
+          SPEdicao.ParamByName('ACOR').Value        := Trim(LeftStr(FKCadastroDGCP.AsString,30));
+          SPEdicao.ParamByName('AUCOM').Value       := FKCadastroUCOM.AsString;
+          SPEdicao.ParamByName('AQUANTIDADE').Value := FKCadastroQTDE.AsFloat;
+          SPEdicao.ParamByName('AROLO').Value       := FKCadastroQTRL.AsInteger;
+          SPEdicao.ParamByName('AVUPV').Value       := FKCadastroVPRC_COM.AsFloat;
+          SPEdicao.ParamByName('AMOTIVO').Value     := FrmProduto_Devolucao_Cancelamento.IEMotivo.Text;
+          SPEdicao.ParamByName('AINFADCAD').Value   := FrmProduto_Devolucao_Cancelamento.EMINFADCAD.Text;
+
+          SPEdicao.ExecProc;
+          SPEdicao.UnPrepare;
+
+          uSP_CAD_PRO_EST_LAN(SPEdicao,RECParametros.EP_ID,FKCadastroIDCP.AsInteger);
+          FKCadastro.Next;
+        end;
+      finally
+        FKCadastro.EnableControls;
       end;
 
       oCTransact(TEdicao);
       oAviso(handle,'Programação Cancelada com Sucesso !');
+      oRefresh(Cadastro);
     except
       on E: Exception do
       begin
@@ -527,9 +552,26 @@ begin
         SQL.Add('      ROM_STFI = ''FINALIZADO''');
         SQL.Add('WHERE ID       = ''' + CadastroId.AsString + '''');
         ExecQuery;
+
+        Close;
+        SQL.Clear;
+        SQL.Add('DELETE FROM CAD_PRO_PRG');
+        SQL.Add('WHERE  EP_ID = ''' + CadastroEP_ID.AsString + '''');
+        SQL.Add('AND    IDPK  = ''' + CadastroIDPK.AsString  + '''');
+        ExecQuery;
       end;
 
       oCTransact(TEdicao);
+
+      { ATUALIZA ESTOQUE }
+      uCAD_PRO_EST_LAN_UPD(oREPZero('PED_PRG_ITE','_',RECParametros.EP_ID,3),
+                           RECParametros.EP_ID ,
+                           CadastroIDPK.AsString,
+
+                           'EP_ID',
+                           'IDPK' ,
+                           'CP_ID');
+
       oAviso(handle,'Programação finalizada com sucesso !');
       oRefresh(Cadastro);
     except
@@ -1026,14 +1068,14 @@ begin
   if DBGConsulta.SelectedCount = 0 then
   oException(Nil,'Nenhum pedido de programação selecionado para gerar venda pronta entregar !');
 
+  LProdutos := TList.Create;
   try
     CAD_PRO_IMG.DisableControls;
 
     GFASyncEvent.Animate := True;
-    PNLSyncEvent.Width   := 500;
-
+    PNLSyncEvent.Width   := PNLSBRodape.Width;
     SBSyncRecords.Panels[0].Text := 'Processando ...';
-    SBSyncRecords.Update;
+    Application.ProcessMessages;
 
     for i := 0 to PRED(DBGConsulta.SelectedCount) do
     begin
@@ -1051,6 +1093,10 @@ begin
 
         while not FKCadastro.Eof do
         begin
+          ACP_ID := FKCadastroIDCP.AsInteger;
+          if LProdutos.IndexOf(Pointer(ACP_ID)) = -1 then
+          LProdutos.Add(Pointer(ACP_ID));
+
           if DBGFKCadastro.SelectedCount > 0 then
           begin
             if x > PRED(DBGFKCadastro.SelectedCount) then
@@ -1108,6 +1154,7 @@ begin
         SQL.Clear;
         SQL.Add('SELECT TCDE FROM ' + oREPZero('PED_VEN_CAB','_',RECParametros.EP_ID,3));
         SQL.Add('WHERE  CDPP = '''  + CadastroID.AsString + '''');
+        SQL.Add('AND    DEST <> ''CANCELADO''');
         ExecQuery;
       end;
 
@@ -1115,23 +1162,25 @@ begin
       oDoCommitWait(TEdicao,_DoCommitWait); { Principal }
     end;
 
-    oAviso(handle,'Pedido(s) de vendas pronta entrega gerado(s) com sucesso !');
-    oRefresh(Cadastro);
-
+    { ESTOQUE }
+    oDoCommitWait(TEdicao,_DoCommitWaitEstoque);
   finally
     CAD_PRO_IMG.EnableControls;
-    
+
     DBGFKCadastro.ClearSelection;
     DBGFKCadastro.FullRefresh;
 
+    if LProdutos <> Nil then
+    FreeAndNil(LProdutos);
+
     GFASyncEvent.Animate := False;
     PNLSyncEvent.Width   := 0;
-
     SBSyncRecords.Panels[0].Text := EmptyStr;
-    SBSyncRecords.Update;
-
     Application.ProcessMessages;
   end;
+
+  oAviso(handle,'Pedido(s) de vendas pronta entrega gerado(s) com sucesso !');
+  oRefresh(Cadastro);
 end;
 
 procedure TFrmCTR_PRG._DoCommitWait;
@@ -1244,7 +1293,7 @@ begin
         inc(x);
       end;
 
-      SBSyncRecords.Panels[0].Text := 'Programação Nº ' + CadastroDEPK.AsString + ': ' + FKCadastroITEM.AsString + ' - ' + FKCadastroSKU.AsString + ' ' + FKCadastroDECP.AsString + ' ' + FKCadastroDGCP.AsString;
+      SBSyncRecords.Panels[0].Text := 'Programação ' + CadastroDEPK.AsString + ': ' + FKCadastroITEM.AsString + ' - ' + FKCadastroSKU.AsString + ' ' + FKCadastroDECP.AsString + ' ' + FKCadastroDGCP.AsString;
       SBSyncRecords.Update;
 
       with RECSP_PED_VEN_ITE do
@@ -1360,14 +1409,6 @@ begin
         ExecQuery;
       end;
 
-      SPEdicao.StoredProcName := 'SP_CAD_PRO_EST_LAN';
-      SPEdicao.Prepare;
-
-      SPEdicao.ParamByName('AEP_ID').Value := RECParametros.EP_ID;
-      SPEdicao.ParamByName('ACP_ID').Value := FKCadastroIDCP.AsString;
-      SPEdicao.ParamByName('AIDEV' ).Value := 0;
-      SPEdicao.ExecProc;
-
       FKCadastro.Next;
     end;
 
@@ -1412,7 +1453,26 @@ begin
     SQL.Add('SET     ROM_STFI = '''+IFThen(AQTDE  >= CadastroQTDE.AsFloat,'FINALIZADO','FINALIZADO PARCIAL')+'''');
     SQL.Add('WHERE   ID = '''+CadastroId.AsString+'''');
     ExecQuery;
+
     Close;
+    SQL.Clear;
+    SQL.Add('DELETE FROM CAD_PRO_PRG');
+    SQL.Add('WHERE  EP_ID = ''' + CadastroEP_ID.AsString + '''');
+    SQL.Add('AND    IDPK  = ''' + CadastroIDPK.AsString  + '''');
+    ExecQuery;
+  end;
+end;
+
+procedure TFrmCTR_PRG._DoCommitWaitEstoque;
+var
+  i: Word;
+begin
+  for i := 0 to LProdutos.Count - 1 do
+  begin
+    SBSyncRecords.Panels[0].Text := 'Aguarde, atualizando estoque ... ' + IntToStr(Integer(LProdutos[i]));
+    SBSyncRecords.Update;
+
+    uSP_CAD_PRO_EST_LAN(SPEdicao,RECParametros.EP_ID,Integer(LProdutos[i]));
   end;
 end;
 
