@@ -2,7 +2,7 @@ object FrmSHE_API_BOL: TFrmSHE_API_BOL
   Left = 736
   Top = 190
   Width = 647
-  Height = 321
+  Height = 323
   Caption = 'API Boletos: Aguardando...'
   Color = clBtnFace
   Font.Charset = ANSI_CHARSET
@@ -259,7 +259,7 @@ object FrmSHE_API_BOL: TFrmSHE_API_BOL
     Left = 0
     Top = 0
     Width = 631
-    Height = 262
+    Height = 264
     Align = alClient
     ParentShowHint = False
     Picture.Data = {
@@ -2063,7 +2063,7 @@ object FrmSHE_API_BOL: TFrmSHE_API_BOL
   object SBRodape: TdxStatusBar
     Tag = 34
     Left = 0
-    Top = 262
+    Top = 264
     Width = 631
     Height = 20
     Cursor = crHandPoint
@@ -2101,7 +2101,7 @@ object FrmSHE_API_BOL: TFrmSHE_API_BOL
   end
   object PNLRodape: TPanel
     Left = 0
-    Top = 262
+    Top = 264
     Width = 631
     Height = 0
     Align = alBottom
@@ -2128,7 +2128,7 @@ object FrmSHE_API_BOL: TFrmSHE_API_BOL
   end
   object EMErros: TMemo
     Left = 0
-    Top = 262
+    Top = 264
     Width = 631
     Height = 0
     Align = alBottom

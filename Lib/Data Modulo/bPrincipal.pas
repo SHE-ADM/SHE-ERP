@@ -713,7 +713,9 @@ begin
       RECParametros.EMP_CDI := (RECParametros.EP_ID = RECParametros.EST_CDI);
 
       { SISTEMA }
-      RECParametros.SHE_DATA        := Current.ByName('SHE_DATA').AsDateTime;
+      RECParametros.SHE_DATA := Current.ByName('SHE_DATA').AsDateTime;
+      RECParametros.SHE_DATA_SEMANA_PK := Current.ByName('SHE_DATA_SEMANA_PK').AsDateTime;
+      RECParametros.SHE_DATA_SEMANA_FK := Current.ByName('SHE_DATA_SEMANA_FK').AsDateTime;
       RECParametros.SHE_DATA_MES_PK := Current.ByName('SHE_DATA_MES_PK').AsDateTime;
       RECParametros.SHE_DATA_MES_FK := Current.ByName('SHE_DATA_MES_FK').AsDateTime;
 

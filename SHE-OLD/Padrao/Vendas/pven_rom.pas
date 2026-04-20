@@ -429,17 +429,6 @@ begin
     end;
   end;
 
-  try
-    EEvent.UnRegisterEvents;
-  except
-    on E: Exception do
-    begin
-      oErro(Application.Handle,'Falha ao tentar fechar eventos !'+#13+#13+
-                               'Error Code: '+E.Message+'.'      +#13+
-                                Caption+'.');
-    end;
-  end;
-
   frmven_rom := Nil;
 end;
 
@@ -502,7 +491,10 @@ begin
   _Salva;
   RECPedido.IDFK := 0;
   if not SIMSalva.Enabled then
-  Close;
+  begin
+    EEvent.UnRegisterEvents;
+    Close;
+  end;
 end;
 
 procedure Tfrmven_rom.SIMNFeClick(Sender: TObject);
@@ -917,6 +909,16 @@ begin
   end;
   oCTransact(TEdicao);
   SIMSalva.Enabled := False;
+
+  { ATUALIZA ESTOQUE }
+  uCAD_PRO_EST_LAN_UPD(oREPZero('ROM_ITE','_',RECParametros.EP_ID,3),
+                       RECParametros.EP_ID ,
+                       RECPedido.IDFK,
+
+                       'EP_ID',
+                       'CDRO' ,
+                       'CP_ID');
+
   ACTEveExecute.Execute;
 end;
 

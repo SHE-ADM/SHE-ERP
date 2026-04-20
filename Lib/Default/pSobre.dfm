@@ -2468,9 +2468,9 @@ object FrmSobre: TFrmSobre
     object LANVersao: TLabel
       Left = 100
       Top = 4
-      Width = 109
+      Width = 107
       Height = 17
-      Caption = 'SHE-ERP-OLD-ETQ'
+      Caption = 'SHE-ERP-OLD-SCT'
       Color = clInfoBk
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -2485,7 +2485,7 @@ object FrmSobre: TFrmSobre
       Top = 20
       Width = 101
       Height = 17
-      Caption = '11/04/2026 09:48'
+      Caption = '16/04/2026 08:00'
       Color = clInfoBk
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -2584,8 +2584,8 @@ object FrmSobre: TFrmSobre
       Font.Name = 'Segoe UI Semibold'
       Font.Style = [fsBold, fsItalic]
       Lines.Strings = (
-        'Emiss'#227'o direta de etiquetas'
-        'Emiss'#227'o de etiquetas reduzidas em FRMETI_PRO')
+        'Atualizado vers'#227'o OCX - 4.0.12.6505'
+        'Check lista para emiss'#227'o ou apenas gera'#231#227'o de arquivo PDF')
       ParentFont = False
       TabOrder = 0
     end

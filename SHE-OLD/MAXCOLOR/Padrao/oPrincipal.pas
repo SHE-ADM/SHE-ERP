@@ -1997,6 +1997,8 @@ begin
      if AIBTransaction.InTransaction then
      try
        oSTransact(AIBTransaction,ADefaultTransaction,ADefaultAction);
+
+       if AIBTransaction.InTransaction then
        Case ADefaultTransaction of
          ltRead_Only_Release_Commit  ,
          ltCommit                    : AIBTransaction.Commit;

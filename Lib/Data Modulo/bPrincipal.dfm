@@ -7,7 +7,8 @@ object FBird: TFBird
   Height = 565
   Width = 1079
   object DBERP: TIBDatabase
-    DatabaseName = 'C:\Sheild\FBird\Otimotex.FDB'
+    Connected = True
+    DatabaseName = '192.168.0.199:C:\Sheild\FBird\Otimotex.FDB'
     Params.Strings = (
       'user_name=sysdba'
       'password=ri1903'

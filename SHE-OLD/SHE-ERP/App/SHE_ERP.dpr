@@ -139,7 +139,6 @@ uses
   pcad_rep_edi in '..\..\Padrao\Cadastros\pcad_rep_edi.pas' {frmcad_rep_edi},
   pcad_tra in '..\..\Padrao\Cadastros\pCAD_TRA.pas' {frmcad_tra},
   pcad_tra_edi in '..\..\Padrao\Cadastros\pcad_tra_edi.pas' {frmcad_tra_edi},
-  pCAD_PRO_EST_DEL in '..\..\Padrao\Estoque\pCAD_PRO_EST_DEL.pas' {FrmCAD_PRO_EST_DEL},
   qven_prg in '..\..\Padrao\Relatorios\qven_prg.pas' {qrpven_prg: TQuickRep},
   qger_prg_pro_ger in '..\..\Padrao\Relatorios\qger_prg_pro_ger.pas' {qrpger_prg_pro_ger: TQuickRep},
   pAviso_Reserva in '..\..\Padrao\Vendas\pAviso_Reserva.pas' {FrmAviso_Reserva},
@@ -156,7 +155,10 @@ uses
   qREL_PED_COM in '..\..\Padrao\Relatorios\qREL_PED_COM.pas' {QRPREL_PED_COM: TQuickRep},
   qProduto_Venda in '..\..\Padrao\Relatorios\qProduto_Venda.pas' {qrpProduto_Venda: TQuickRep},
   qProduto_Venda_Mensal in '..\..\Padrao\Relatorios\qProduto_Venda_Mensal.pas' {qrpProduto_Venda_Mensal: TQuickRep},
-  pCAD_PRO_ADM in '..\..\..\Lib\Produtos\pCAD_PRO_ADM.pas' {FrmCAD_PRO_ADM};
+  pCAD_PRO_ADM in '..\..\..\Lib\Produtos\pCAD_PRO_ADM.pas' {FrmCAD_PRO_ADM},
+  pSHE_DEF_PED in '..\..\..\Lib\Default\pSHE_DEF_PED.pas' {FrmSHE_DEF_PED},
+  pFIN_PAG_EDI in '..\..\..\Lib\Financeiro\pFIN_PAG_EDI.pas' {FrmFIN_PAG_EDI},
+  pCAD_PRO_EST_DEL in '..\..\..\Lib\Estoque\pCAD_PRO_EST_DEL.pas' {FrmCAD_PRO_EST_DEL};
 
 {$R *.res}
 
