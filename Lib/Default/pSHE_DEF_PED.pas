@@ -115,11 +115,10 @@ type
     BBPSQ_DTSP: TdxBarButton;
     BBPSQ_PER: TdxBarButton;
     ConsultaC_ID: TLargeintField;
-    BLBCAD_CLI_INF: TdxBarLargeButton;
     ALPrincipal: TActionList;
     ACTRefresh: TAction;
-    ACTEveRegister: TAction;
-    ACTEveExecute: TAction;
+    ACTRegisterEvent: TAction;
+    ACTExecuteEvent: TAction;
     ACTConsulta: TAction;
     ACTPesquisa: TAction;
     ACTPesquisaOK: TAction;
@@ -136,15 +135,13 @@ type
     ACTMPPost: TAction;
     ACTMPValidate: TAction;
     ACTMPCancel: TAction;
-    ACTEveExpress: TAction;
+    ACTExpressEvent: TAction;
     ACTProgressBar: TAction;
     ACTDashboards: TAction;
     ACTCheckConstraints: TAction;
     ACTCheckErrors: TAction;
     ACTSaida: TAction;
     ACTEdicao: TAction;
-    ILMenuPrincipal: TImageList;
-    ILMenuEdicao: TImageList;
     ConsultaPAG_ID: TLargeintField;
     ConsultaEP_ID: TSmallintField;
     ConsultaEP_NO: TIBStringField;
@@ -157,9 +154,6 @@ type
     ConsultaCENTRO_CUSTO_ID: TSmallintField;
     ConsultaCENTRO_CUSTO_NO: TIBStringField;
     ConsultaDESCRICAO: TIBStringField;
-    ConsultaDOCUMENTO: TIBStringField;
-    ConsultaTIPO_DOC_ID: TSmallintField;
-    ConsultaTIPO_DOC_NO: TIBStringField;
     ConsultaTIPO_MPG_ID: TSmallintField;
     ConsultaTIPO_MPG_NO: TIBStringField;
     ConsultaBANCO_ID: TSmallintField;
@@ -167,19 +161,12 @@ type
     ConsultaBANCO_NO: TIBStringField;
     ConsultaBANCO_AG: TIBStringField;
     ConsultaBANCO_CC: TIBStringField;
-    ConsultaDDOC: TDateField;
-    ConsultaDVCT: TDateField;
-    ConsultaVDOC: TIBBCDField;
-    ConsultaVMLT: TIBBCDField;
-    ConsultaVJUR: TIBBCDField;
-    ConsultaPARCELA: TSmallintField;
     ConsultaIS_BOLETO: TSmallintField;
     ConsultaIS_NF: TSmallintField;
     ConsultaSTATUS_ID: TSmallintField;
     ConsultaSTATUS_NO: TIBStringField;
     ConsultaINFADCAD: TMemoField;
     ConsultaCREATED_AT: TDateTimeField;
-    ConsultaCREATED_ID: TSmallintField;
     ConsultaCREATED_NO: TIBStringField;
     DBGConsultaEP_NO: TdxDBGridMaskColumn;
     DBGConsultaCF_NO: TdxDBGridMaskColumn;
@@ -188,28 +175,26 @@ type
     DBGConsultaCENTRO_CUSTO_NO: TdxDBGridMaskColumn;
     DBGConsultaDESCRICAO: TdxDBGridMaskColumn;
     DBGConsultaDOCUMENTO: TdxDBGridMaskColumn;
-    DBGConsultaTIPO_DOC_NO: TdxDBGridMaskColumn;
+    DBGConsultaTIPO_TPG_NO: TdxDBGridMaskColumn;
     DBGConsultaTIPO_MPG_NO: TdxDBGridMaskColumn;
     DBGConsultaBANCO_NO: TdxDBGridMaskColumn;
     DBGConsultaBANCO_AG: TdxDBGridMaskColumn;
     DBGConsultaBANCO_CC: TdxDBGridMaskColumn;
-    DBGConsultaDDOC: TdxDBGridDateColumn;
-    DBGConsultaDVCT: TdxDBGridDateColumn;
+    DBGConsultaDOCUMENTO_DATA_EMISSAO: TdxDBGridDateColumn;
+    DBGConsultaDOCUMENTO_DATA_VENCIMENTO: TdxDBGridDateColumn;
     DBGConsultaSTATUS_NO: TdxDBGridMaskColumn;
     DBGConsultaCREATED_AT: TdxDBGridDateColumn;
     DBGConsultaCREATED_NO: TdxDBGridMaskColumn;
     DBGConsultaC_ID: TdxDBGridColumn;
-    DBGConsultaVDOC: TdxDBGridMaskColumn;
-    DBGConsultaVMLT: TdxDBGridMaskColumn;
-    DBGConsultaVJUR: TdxDBGridMaskColumn;
+    DBGConsultaDOCUMENTO_VALOR: TdxDBGridMaskColumn;
+    DBGConsultaDOCUMENTO_VALOR_MULTA: TdxDBGridMaskColumn;
+    DBGConsultaDOCUMENTO_VALOR_JURO: TdxDBGridMaskColumn;
     DBGConsultaIS_BOLETO: TdxDBGridCheckColumn;
     DBGConsultaIS_NF: TdxDBGridCheckColumn;
     DBGFKConsulta: TdxDBGrid;
     FKConsulta: TIBQuery;
     DTSFKConsulta: TDataSource;
     FKConsultaDOCUMENTO: TIBStringField;
-    FKConsultaDVCT: TDateField;
-    FKConsultaVDOC: TIBBCDField;
     FKConsultaSTATUS_NO: TIBStringField;
     FKConsultaIS_NF: TSmallintField;
     FKConsultaIS_BOLETO: TSmallintField;
@@ -217,13 +202,31 @@ type
     FKConsultaCREATED_NO: TIBStringField;
     FKConsultaPAG_ID: TLargeintField;
     DBGFKConsultaDOCUMENTO: TdxDBGridMaskColumn;
-    DBGFKConsultaDVCT: TdxDBGridDateColumn;
-    DBGFKConsultaVDOC: TdxDBGridMaskColumn;
+    DBGFKConsultaDOCUMENTO_DATA_VENCIMENTO: TdxDBGridDateColumn;
+    DBGFKConsultaDOCUMENTO_VALOR: TdxDBGridMaskColumn;
     DBGFKConsultaSTATUS_NO: TdxDBGridMaskColumn;
     DBGFKConsultaIS_NF: TdxDBGridCheckColumn;
     DBGFKConsultaIS_BOLETO: TdxDBGridCheckColumn;
     DBGFKConsultaCREATED_AT: TdxDBGridDateColumn;
     DBGFKConsultaCREATED_NO: TdxDBGridMaskColumn;
+    ILMenuPrincipal: TImageList;
+    ILMenuEdicao: TImageList;
+    ConsultaTIPO_TPG_ID: TSmallintField;
+    ConsultaTIPO_TPG_NO: TIBStringField;
+    ConsultaDOCUMENTO: TIBStringField;
+    ConsultaDOCUMENTO_DATA_EMISSAO: TDateField;
+    ConsultaDOCUMENTO_DATA_VENCIMENTO: TDateField;
+    ConsultaDOCUMENTO_VALOR: TIBBCDField;
+    ConsultaDOCUMENTO_VALOR_MULTA: TIBBCDField;
+    ConsultaDOCUMENTO_VALOR_JURO: TIBBCDField;
+    ConsultaDOCUMENTO_PARCELA: TSmallintField;
+    FKConsultaDOCUMENTO_DATA_VENCIMENTO: TDateField;
+    FKConsultaDOCUMENTO_VALOR: TIBBCDField;
+    ConsultaCREATED_LG_ID: TSmallintField;
+    ConsultaEDITED_LG_ID: TSmallintField;
+    ConsultaEDITED_AT: TDateTimeField;
+    ConsultaSTATUS_LG_ID: TSmallintField;
+    ConsultaSTATUS_AT: TDateTimeField;
 
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -264,6 +267,34 @@ type
     procedure ConsultaAfterScroll(DataSet: TDataSet);
     procedure DTSConsultaDataChange(Sender: TObject; Field: TField);
     procedure DTSFKConsultaDataChange(Sender: TObject; Field: TField);
+    procedure ACTRefreshExecute(Sender: TObject);
+    procedure ACTSaidaExecute(Sender: TObject);
+    procedure ACTRelatoriosExecute(Sender: TObject);
+    procedure ACTCheckConstraintsExecute(Sender: TObject);
+    procedure ACTCheckErrorsExecute(Sender: TObject);
+    procedure ACTDashboardsExecute(Sender: TObject);
+    procedure ACTEdicaoExecute(Sender: TObject);
+    procedure ACTRegisterEventExecute(Sender: TObject);
+    procedure ACTExecuteEventExecute(Sender: TObject);
+    procedure ACTExpressEventExecute(Sender: TObject);
+    procedure ACTMEAppendExecute(Sender: TObject);
+    procedure ACTMEEditExecute(Sender: TObject);
+    procedure ACTMEDeleteExecute(Sender: TObject);
+    procedure ACTMEPostExecute(Sender: TObject);
+    procedure ACTMECancelExecute(Sender: TObject);
+    procedure ACTMPAppendExecute(Sender: TObject);
+    procedure ACTMPEditExecute(Sender: TObject);
+    procedure ACTMPDeleteExecute(Sender: TObject);
+    procedure ACTMPPostExecute(Sender: TObject);
+    procedure ACTMPValidateExecute(Sender: TObject);
+    procedure ACTMPCancelExecute(Sender: TObject);
+    procedure ACTConsultaExecute(Sender: TObject);
+    procedure ACTProgressBarExecute(Sender: TObject);
+    procedure DBGFKConsultaCustomDrawCell(Sender: TObject;
+      ACanvas: TCanvas; ARect: TRect; ANode: TdxTreeListNode;
+      AColumn: TdxTreeListColumn; ASelected, AFocused,
+      ANewItemRow: Boolean; var AText: String; var AColor: TColor;
+      AFont: TFont; var AAlignment: TAlignment; var ADone: Boolean);
   private
     { Private declarations }
     FDockControl: TdxCustomDockControl;
@@ -329,7 +360,7 @@ var
 
 implementation
 
-uses uPrincipal, bPrincipal;
+uses uPrincipal, bPrincipal, pFIN_PAG_EDI;
 
 {$R *.dfm}
 
@@ -348,11 +379,60 @@ begin
   FForceClose := AValue;
 end;
 
+procedure TFrmSHE_DEF_PED._SetDockControl (const AValue: TdxCustomDockControl; AXYPos: Integer = 0; ADirection: TDirection = lNone; ARepeat: boolean = False; AUpdateZones: Boolean = False);
+var
+  FUpdateZones: Boolean;
+begin
+  FUpdateZones := AUpdateZones;
+  
+  if AValue <> Nil then
+  begin
+    if FDockControl <> AValue then
+       FDockControl := AValue;
+
+    TdxCustomDockControl(AValue).Tag     := AXYPOS;
+    TdxCustomDockControl(AValue).Visible := not (TdxCustomDockControl(AValue).Tag = 0);
+
+    if ADirection = lVertical then
+    begin
+      //if AUpdateZones then
+      //   FUpdateZones := (TdxCustomDockControl(AValue).Height <> TdxCustomDockControl(AValue).Tag);
+
+      if ARepeat then
+      begin
+        repeat  TdxCustomDockControl(AValue).Height := TdxCustomDockControl(AValue).Tag;
+        until   TdxCustomDockControl(AValue).Tag     = TdxCustomDockControl(AValue).Height;
+      end else
+      begin
+        TdxCustomDockControl(AValue).Height := TdxCustomDockControl(AValue).Tag;
+      end;
+    end else
+
+    if ADirection = lHorizontal then
+    begin
+      //if AUpdateZones then
+      //   FUpdateZones := (TdxCustomDockControl(AValue).Width <> TdxCustomDockControl(AValue).Tag);
+
+      if ARepeat then
+      begin
+        repeat  TdxCustomDockControl(AValue).Width := TdxCustomDockControl(AValue).Tag;
+        until   TdxCustomDockControl(AValue).Tag    = TdxCustomDockControl(AValue).Width;
+      end else
+      begin
+        TdxCustomDockControl(AValue).Width := TdxCustomDockControl(AValue).Tag;
+      end;
+    end;
+    
+    if FUpdateZones then
+    AValue.OnUpdateDockZones(AValue,Avalue.DockZones);
+    AValue.Repaint;
+  end;
+end;
+
 procedure TFrmSHE_DEF_PED._WM_CREATE(var Msg: TMessage);
 begin
   { INICIALIZA }
   Screen.Cursor := crAppStart;  { Cursor }
-  Randomize;
 
   { INICIALIZAÇÃO DOS OBJETOS DECLARADOS }
   { PRINCIPAL DOCK MANAGER }
@@ -436,8 +516,8 @@ begin
     TCDSPrincipal1Rodape.Repaint;
   end;
 
+  { INICIALIZAÇÃO DOS OBJETOS DECLARADOS }
   { INICIALIZAÇÃO DOS COMPONENTES }
-  oPrinterSelect(Application.Handle,'Relatórios');
 end;
 
 procedure TFrmSHE_DEF_PED._WM_AFTER_CREATE(var Msg: TMessage);
@@ -454,7 +534,7 @@ end;
 procedure TFrmSHE_DEF_PED._WM_ACTIVATE(var Msg: TMessage);
 begin
   { EVENTOS }
-  ACTEveRegister.Execute; { Registro }
+  ACTRegisterEvent.Execute; { Registro }
 end;
 
 procedure TFrmSHE_DEF_PED._SW_SHOWNOACTIVATE(var Msg: TMessage);
@@ -473,24 +553,19 @@ procedure TFrmSHE_DEF_PED._WM_SHOW(var Msg: TMessage);
 begin
   { BEFORE SHOWNING }
   Screen.Cursor := crHourGlass; { Cursor }
-  REC_SHE_DEF.FResize := 0;     { Form Resize }
-  ALockWindowUpdate   := True;  { SQL Injection Enabled }
+  REC_SHE_DEF.FResize := 0; { Form Resize }
+  ALockWindowUpdate   := True; { SQL Injection Enabled }
 
+  oCTransact(TConsulta); { Transaction }
   ACTConsulta.Execute; { Tabelas }
-  ACTEdicao.Execute;   { Edições }
+  ACTEdicao.Execute; { Edições }
 end;
 
 procedure TFrmSHE_DEF_PED._WM_AFTER_SHOW(var Msg: TMessage);
 begin
   { INICIALIZAÇÃO DOS COMPONENTES }
-  try
-    Screen.Cursor  := crAppStart;
-
-    { AFTER SHOWNING }
-  finally
-    Screen.Cursor     := crDefault;
-    ALockWindowUpdate := False;  { SQL Injection Disabled }
-  end;
+  Screen.Cursor     := crDefault;
+  ALockWindowUpdate := False;  { SQL Injection Disabled }
 end;
 
 procedure TFrmSHE_DEF_PED._WM_RESIZE(var Message: TMessage);
@@ -518,7 +593,6 @@ end;
 
 procedure TFrmSHE_DEF_PED._WM_AFTER_RESIZE(var Message: TMessage);
 begin
-  { After Resize }
   if REC_SHE_DEF.FResize >= 2 then
   try
     TCDSPrincipal.Height := DPPrincipal1.Height - 1;
@@ -556,12 +630,11 @@ begin
   finally
     REC_SHE_DEF.FResize := 0; { zera controle }
 
-    { Focused }
+    { FOCUSED }
     if (BEPSQ_CAD.Visible <> ivNever) and (_FormPesquisa) then
     BEPSQ_CAD.SetFocus(False);
 
-    { Pesquisa }
-    ACTPesquisa.Execute;
+    ACTPesquisa.Execute; { Pesquisa }
   end;
 end;
 
@@ -710,6 +783,7 @@ procedure TFrmSHE_DEF_PED.FormCreate(Sender: TObject);
 begin
   Self.DoubleBuffered := True;
   SetCursorPos(500,Self.Top);
+  Randomize;
 
   _FormPesquisa := True;
 
@@ -943,56 +1017,6 @@ begin
   PostMessage(Handle, WM_EXITSIZEMOVE  , 0, 0); { After }
 end;
 
-procedure TFrmSHE_DEF_PED._SetDockControl (const AValue: TdxCustomDockControl; AXYPos: Integer = 0; ADirection: TDirection = lNone; ARepeat: boolean = False; AUpdateZones: Boolean = False);
-var
-  FUpdateZones: Boolean;
-begin
-  FUpdateZones := AUpdateZones;
-  
-  if AValue <> Nil then
-  begin
-    if FDockControl <> AValue then
-       FDockControl := AValue;
-
-    TdxCustomDockControl(AValue).Tag     := AXYPOS;
-    TdxCustomDockControl(AValue).Visible := not (TdxCustomDockControl(AValue).Tag = 0);
-
-    if ADirection = lVertical then
-    begin
-      //if AUpdateZones then
-      //   FUpdateZones := (TdxCustomDockControl(AValue).Height <> TdxCustomDockControl(AValue).Tag);
-
-      if ARepeat then
-      begin
-        repeat  TdxCustomDockControl(AValue).Height := TdxCustomDockControl(AValue).Tag;
-        until   TdxCustomDockControl(AValue).Tag     = TdxCustomDockControl(AValue).Height;
-      end else
-      begin
-        TdxCustomDockControl(AValue).Height := TdxCustomDockControl(AValue).Tag;
-      end;
-    end else
-
-    if ADirection = lHorizontal then
-    begin
-      //if AUpdateZones then
-      //   FUpdateZones := (TdxCustomDockControl(AValue).Width <> TdxCustomDockControl(AValue).Tag);
-
-      if ARepeat then
-      begin
-        repeat  TdxCustomDockControl(AValue).Width := TdxCustomDockControl(AValue).Tag;
-        until   TdxCustomDockControl(AValue).Tag    = TdxCustomDockControl(AValue).Width;
-      end else
-      begin
-        TdxCustomDockControl(AValue).Width := TdxCustomDockControl(AValue).Tag;
-      end;
-    end;
-    
-    if FUpdateZones then
-    AValue.OnUpdateDockZones(AValue,Avalue.DockZones);
-    AValue.Repaint;
-  end;
-end;
-
 procedure TFrmSHE_DEF_PED.VCDSPrincipal1RodapeLEUpdateDockZones(
   Sender: TdxCustomDockControl; AZones: TList);
 var
@@ -1072,109 +1096,192 @@ begin
   oRefresh(Consulta);
 end;
 
-procedure TFrmSHE_DEF_PED.ConsultaCalcFields(DataSet: TDataSet);
+procedure TFrmSHE_DEF_PED.ACTCheckConstraintsExecute(Sender: TObject);
 begin
-  ConsultaC_ID.Value := Consulta.RecNo;
+  { nothing }
 end;
 
-procedure TFrmSHE_DEF_PED.DBGConsultaCustomDrawCell(Sender: TObject;
-  ACanvas: TCanvas; ARect: TRect; ANode: TdxTreeListNode;
-  AColumn: TdxTreeListColumn; ASelected, AFocused, ANewItemRow: Boolean;
-  var AText: String; var AColor: TColor; AFont: TFont;
-  var AAlignment: TAlignment; var ADone: Boolean);
+procedure TFrmSHE_DEF_PED.ACTCheckErrorsExecute(Sender: TObject);
 begin
-  if not ASelected then
-  begin
-    { Zebra }
-    if ANode.Values[DBGConsultaC_ID.Index] <> Null then
-    if ANode.Values[DBGConsultaC_ID.Index] mod 2 <> 0 then
-       AColor := $00F8F8F8 else
-       AColor := clHighLightText;
+  { nothing }
+end;
 
-   if AColumn = DBGConsultaSTATUS_NO then
-   if ANode.Values[DBGConsultaSTATUS_NO.Index] = 'PAGO' then
-   begin
-     AColor      := $009FFF9F;
-     AFont.Color := clWindowText;
-   end else
+procedure TFrmSHE_DEF_PED.ACTDashboardsExecute(Sender: TObject);
+begin
+  { nothing }
+end;
 
-   if ANode.Values[DBGConsultaSTATUS_NO.Index] = 'VENCIDO' then
-   begin
-     AColor      := $0080FFFF;
-     AFont.Color := clWindowText;
-   end;
-  end;
+procedure TFrmSHE_DEF_PED.ACTEdicaoExecute(Sender: TObject);
+begin
+  { nothing }
+end;
 
-  if ANode.Selected then
-  begin
-    AColor      := $00750000;//$00400000;
-    AFont.Color := clHighlightText;
-  end;
+procedure TFrmSHE_DEF_PED.ACTRegisterEventExecute(Sender: TObject);
+begin
+  { nothing }
+end;
 
-  if ASelected then
-  begin
-    AColor      := clHighlight; //$00E1AD40;
-    AFont.Color := clHighlightText;
-    AFont.Style := [];
-  end;
+procedure TFrmSHE_DEF_PED.ACTExecuteEventExecute(Sender: TObject);
+begin
+  { nothing }
+end;
+
+procedure TFrmSHE_DEF_PED.ACTExpressEventExecute(Sender: TObject);
+begin
+  { nothing }
+end;
+
+procedure TFrmSHE_DEF_PED.ACTMEAppendExecute(Sender: TObject);
+begin
+  { nothing }
+end;
+
+procedure TFrmSHE_DEF_PED.ACTMEEditExecute(Sender: TObject);
+begin
+  { nothing }
+end;
+
+procedure TFrmSHE_DEF_PED.ACTMEDeleteExecute(Sender: TObject);
+begin
+  { nothing }
+end;
+
+procedure TFrmSHE_DEF_PED.ACTMEPostExecute(Sender: TObject);
+begin
+  { nothing }
+end;
+
+procedure TFrmSHE_DEF_PED.ACTMECancelExecute(Sender: TObject);
+begin
+  { nothing }
+end;
+
+procedure TFrmSHE_DEF_PED.ACTMPAppendExecute(Sender: TObject);
+begin
+  TFrmFIN_PAG_EDI._ExecForm(
+
+  Self, { Owner    }
+  FrmFIN_PAG_EDI, { Form     }
+  False, { Pesquisa }
+  fsNormal, { Tipo     }
+
+  0,  { Código Principal }
+  '', { Descrição Principal }
+
+  0,  { Evento Principal }
+  0,  { Tipo   Evento - 0: Copiado    1: Vazio  2: Romaneado }
+  0,  { Código Evento - 0: Triangular 1: Normal 2: Complementar 3: Ajustes 4:Devolução }
+
+  '', { Tabela }
+  ''  { Get }
+  );
+end;
+
+procedure TFrmSHE_DEF_PED.ACTMPEditExecute(Sender: TObject);
+begin
+  TFrmFIN_PAG_EDI._ExecForm(
+
+  Self, { Owner    }
+  FrmFIN_PAG_EDI, { Form     }
+  False, { Pesquisa }
+  fsNormal, { Tipo     }
+
+  ConsultaPAG_ID.AsInteger,  { Código Principal }
+  '', { Descrição Principal }
+
+  0,  { Evento Principal }
+  0,  { Tipo   Evento - 0: Copiado    1: Vazio  2: Romaneado }
+  0,  { Código Evento - 0: Triangular 1: Normal 2: Complementar 3: Ajustes 4:Devolução }
+
+  '', { Tabela }
+  ''  { Get }
+  );
+end;
+
+procedure TFrmSHE_DEF_PED.ACTMPDeleteExecute(Sender: TObject);
+begin
+  { nothing }
+end;
+
+procedure TFrmSHE_DEF_PED.ACTMPPostExecute(Sender: TObject);
+begin
+  { nothing }
+end;
+
+procedure TFrmSHE_DEF_PED.ACTMPValidateExecute(Sender: TObject);
+begin
+  { nothing }
+end;
+
+procedure TFrmSHE_DEF_PED.ACTMPCancelExecute(Sender: TObject);
+begin
+  { nothing }
+end;
+
+procedure TFrmSHE_DEF_PED.ACTConsultaExecute(Sender: TObject);
+begin
+  { nothing }
 end;
 
 procedure TFrmSHE_DEF_PED.ACTPesquisaExecute(Sender: TObject);
 var
   i: Integer;
 begin
-  { RESET TRANSACTION }
-  oCTransact(TConsulta);
-  oOTransact(TConsulta);
-
-  { RESET FILTER DEFAULT }
-  DBGConsulta.Filter.Clear; { Consulta }
-
-  { DIVERSOS }
-  REC_SHE_DEF.FB_PSQ_SBQ := False; { Sub Query }
-  REC_SHE_DEF.FB_PSQ_PAD := True;  { Padrão }
-
-  { TEXTO PRIMÁRIO }
-  REC_SHE_DEF.FB_PSQ_FD_NO_PK := BLBPSQ_CAD_MENU.Description; { Campo }
-  REC_SHE_DEF.FB_PSQ_FD_VD_PK := BEPSQ_CAD.Text;
-
-  { TEXTO SECUNDÁRIO }
-  REC_SHE_DEF.FB_PSQ_FD_NO_FK := EmptyStr;
-  REC_SHE_DEF.FB_PSQ_FD_VD_FK := EmptyStr;
-
-  { DATAS }
-  REC_SHE_DEF.FB_PSQ_DT_NO_PK := EmptyStr;
-  REC_SHE_DEF.FB_PSQ_DT_VD_PK := 0;
-  REC_SHE_DEF.FB_PSQ_DT_VD_FK := 0;
-
-  if (BDPSQ_PER_INI.Date > 0) and (BDPSQ_PER_FIM.Date >= BDPSQ_PER_INI.Date) then
-  begin
-    REC_SHE_DEF.FB_PSQ_DT_NO_PK := BBPSQ_PER_MENU.Description;
-    REC_SHE_DEF.FB_PSQ_DT_VD_PK := BDPSQ_PER_INI.Date;
-    REC_SHE_DEF.FB_PSQ_DT_VD_FK := BDPSQ_PER_FIM.Date;
-  end;
-
-  { Lista Digitada }
-  if REC_SHE_DEF.FList = Nil then
-  REC_SHE_DEF.FList := TStringList.Create else
-  REC_SHE_DEF.FList.Clear;
-
-  if (REC_SHE_DEF.FB_PSQ_FD_VD_PK <> EmptyStr) and (REC_SHE_DEF.FB_PSQ_FD_VD_PK <> '0') then
-  begin
-    { SEARCH DEFAULT }
-    REC_SHE_DEF.FB_PSQ_PAD := False; { Padrão }
-
-    { Capturar as palavras separadamente }
-    While Length(REC_SHE_DEF.FB_PSQ_FD_VD_PK) > 0 do
-    begin
-      REC_SHE_DEF.FB_PSQ_FD_VD_FK  := Trim(Fetch(REC_SHE_DEF.FB_PSQ_FD_VD_PK    ,' '));
-      REC_SHE_DEF.FB_PSQ_FD_VD_FK  := oStrTran(REC_SHE_DEF.FB_PSQ_FD_VD_FK, '+' ,' ');
-      REC_SHE_DEF.FList.Add(REC_SHE_DEF.FB_PSQ_FD_VD_FK );
-    end;
-  end;
-
-  { Pesquisa }
   try
+    Screen.Cursor := crAppStart;
+    ALockWindowUpdate := True;  { SQL Injection Enabled }
+
+    { RESET TRANSACTION }
+    oCTransact(TConsulta);
+    oOTransact(TConsulta);
+
+    { RESET FILTER DEFAULT }
+    DBGConsulta.Filter.Clear; { Consulta }
+
+    { DIVERSOS }
+    REC_SHE_DEF.FB_PSQ_SBQ := False; { Sub Query }
+    REC_SHE_DEF.FB_PSQ_PAD := True;  { Padrão }
+
+    { TEXTO PRIMÁRIO }
+    REC_SHE_DEF.FB_PSQ_FD_NO_PK := BLBPSQ_CAD_MENU.Description; { Campo }
+    REC_SHE_DEF.FB_PSQ_FD_VD_PK := BEPSQ_CAD.Text;
+
+    { TEXTO SECUNDÁRIO }
+    REC_SHE_DEF.FB_PSQ_FD_NO_FK := EmptyStr;
+    REC_SHE_DEF.FB_PSQ_FD_VD_FK := EmptyStr;
+
+    { DATAS }
+    REC_SHE_DEF.FB_PSQ_DT_NO_PK := EmptyStr;
+    REC_SHE_DEF.FB_PSQ_DT_VD_PK := 0;
+    REC_SHE_DEF.FB_PSQ_DT_VD_FK := 0;
+
+    if (BDPSQ_PER_INI.Date > 0) and (BDPSQ_PER_FIM.Date >= BDPSQ_PER_INI.Date) then
+    begin
+      REC_SHE_DEF.FB_PSQ_DT_NO_PK := BBPSQ_PER_MENU.Description;
+      REC_SHE_DEF.FB_PSQ_DT_VD_PK := BDPSQ_PER_INI.Date;
+      REC_SHE_DEF.FB_PSQ_DT_VD_FK := BDPSQ_PER_FIM.Date;
+    end;
+
+    { Lista Digitada }
+    if REC_SHE_DEF.FList = Nil then
+    REC_SHE_DEF.FList := TStringList.Create else
+    REC_SHE_DEF.FList.Clear;
+
+    if (REC_SHE_DEF.FB_PSQ_FD_VD_PK <> EmptyStr) and (REC_SHE_DEF.FB_PSQ_FD_VD_PK <> '0') then
+    begin
+      { SEARCH DEFAULT }
+      REC_SHE_DEF.FB_PSQ_PAD := False; { Padrão }
+
+      { Capturar as palavras separadamente }
+      While Length(REC_SHE_DEF.FB_PSQ_FD_VD_PK) > 0 do
+      begin
+        REC_SHE_DEF.FB_PSQ_FD_VD_FK  := Trim(Fetch(REC_SHE_DEF.FB_PSQ_FD_VD_PK    ,' '));
+        REC_SHE_DEF.FB_PSQ_FD_VD_FK  := oStrTran(REC_SHE_DEF.FB_PSQ_FD_VD_FK, '+' ,' ');
+        REC_SHE_DEF.FList.Add(REC_SHE_DEF.FB_PSQ_FD_VD_FK );
+      end;
+    end;
+
+    { PESQUISA PRINCIPAL }
     with Consulta do
     begin
       Close;
@@ -1187,7 +1294,7 @@ begin
       SQL.Add('SELECT PK.* FROM VW_PSQ_FIN_PAG_ADM AS PK');
 
       if REC_SHE_DEF.FInitialize then { Padrão }
-      SQL.Add('WHERE PK.DVCT BETWEEN ''' + FormatDateTime('mm/dd/yy',RECParametros.SHE_DATA_SEMANA_PK) + ''' AND ''' + FormatDateTime('mm/dd/yy',RECParametros.SHE_DATA_SEMANA_FK) + '''');
+      SQL.Add('WHERE PK.DOCUMENTO_DATA_VENCIMENTO BETWEEN ''' + FormatDateTime('mm/dd/yy',RECParametros.SHE_DATA_SEMANA_PK) + ''' AND ''' + FormatDateTime('mm/dd/yy',RECParametros.SHE_DATA_SEMANA_FK) + '''');
 
       { Período }
       if (BDPSQ_PER_INI.Date > 0) and (BDPSQ_PER_FIM.Date > 0) then
@@ -1246,6 +1353,11 @@ begin
           SQL.Add('UNION  ALL');
           SQL.Add('SELECT PK.* FROM PK');
           SQL.Add('WHERE  PK.TIPO_MPG_NO LIKE ''' + REC_SHE_DEF.FList.Strings[i] + '%''');
+
+          { USUÁRIO }
+          SQL.Add('UNION  ALL');
+          SQL.Add('SELECT PK.* FROM PK');
+          SQL.Add('WHERE  PK.CREATED_NO CONTAINING ''' + REC_SHE_DEF.FList.Strings[i] + '''');
         end;
       end;
       
@@ -1259,11 +1371,14 @@ begin
       begin
       end;
 
-      SQL.Add('ORDER BY PK.DVCT DESC ');
+      SQL.Add('ORDER BY PK.DOCUMENTO_DATA_VENCIMENTO DESC ');
       Prepare;
       Open;
     end;
   finally
+    Screen.Cursor := crDefault;
+    ALockWindowUpdate := False; { SQL Injection Disabled }
+
     { DOCK MANAGER }
     { Rodapé Esquerdo }
     //FDockControlPrincipal1RodapeLE := VCDSPrincipal1RodapeLE.Tag; { EST_EPE }
@@ -1396,6 +1511,79 @@ begin
   ACTSaida.Execute;
 end;
 
+procedure TFrmSHE_DEF_PED.ACTProgressBarExecute(Sender: TObject);
+begin
+  { nothing }
+end;
+
+procedure TFrmSHE_DEF_PED.ACTRelatoriosExecute(Sender: TObject);
+begin
+  { nothing }
+end;
+
+procedure TFrmSHE_DEF_PED.ACTRefreshExecute(Sender: TObject);
+begin
+  oRefresh(Consulta);
+end;
+
+procedure TFrmSHE_DEF_PED.ACTSaidaExecute(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TFrmSHE_DEF_PED.ConsultaCalcFields(DataSet: TDataSet);
+begin
+  ConsultaC_ID.Value := Consulta.RecNo;
+end;
+
+procedure TFrmSHE_DEF_PED.DBGConsultaCustomDrawCell(Sender: TObject;
+  ACanvas: TCanvas; ARect: TRect; ANode: TdxTreeListNode;
+  AColumn: TdxTreeListColumn; ASelected, AFocused, ANewItemRow: Boolean;
+  var AText: String; var AColor: TColor; AFont: TFont;
+  var AAlignment: TAlignment; var ADone: Boolean);
+begin
+  if not ASelected then
+  begin
+    { Zebra }
+    if ANode.Values[DBGConsultaC_ID.Index] <> Null then
+    if ANode.Values[DBGConsultaC_ID.Index] mod 2 <> 0 then
+       AColor := $00F8F8F8 else
+       AColor := clHighLightText;
+
+   if AColumn = DBGConsultaSTATUS_NO then
+   if ANode.Values[DBGConsultaSTATUS_NO.Index] = 'PAGO' then
+   begin
+     AColor      := $009FFF9F;
+     AFont.Color := clWindowText;
+   end else
+
+   if ANode.Values[DBGConsultaSTATUS_NO.Index] = 'VENCIDO' then
+   begin
+     AColor      := $0080FFFF;
+     AFont.Color := clWindowText;
+   end else
+
+   if ANode.Values[DBGConsultaSTATUS_NO.Index] = 'CANCELADO' then
+   begin
+     AColor      := $009FFF9F;
+     AFont.Color := clHighLightText;
+   end;
+  end;
+
+  if ANode.Selected then
+  begin
+    AColor      := $00750000;//$00400000;
+    AFont.Color := clHighlightText;
+  end;
+
+  if ASelected then
+  begin
+    AColor      := clHighlight; //$00E1AD40;
+    AFont.Color := clHighlightText;
+    AFont.Style := [];
+  end;
+end;
+
 procedure TFrmSHE_DEF_PED.BEPSQ_CADCurChange(Sender: TObject);
 begin
   BEPSQ_CAD.Text := BEPSQ_CAD.CurText;
@@ -1422,34 +1610,81 @@ end;
 
 procedure TFrmSHE_DEF_PED.ConsultaBeforeOpen(DataSet: TDataSet);
 begin
-  DBGConsultaDDOC.Visible := False;
+  DBGConsultaDOCUMENTO_DATA_EMISSAO.Visible := False;
 end;
 
 procedure TFrmSHE_DEF_PED.ConsultaAfterScroll(DataSet: TDataSet);
 begin
-  if ConsultaDDOC.AsDateTime <> ConsultaDVCT.AsDateTime then
-  DBGConsultaDDOC.Visible := True;
+  if ConsultaDOCUMENTO_DATA_EMISSAO.AsDateTime <> ConsultaDOCUMENTO_DATA_VENCIMENTO.AsDateTime then
+  DBGConsultaDOCUMENTO_DATA_EMISSAO.Visible := True;
 end;
 
 procedure TFrmSHE_DEF_PED.DTSConsultaDataChange(Sender: TObject;
   Field: TField);
 begin
-  DBGConsulta.ApplyBestFit(DBGConsultaCREATED_NO);
-  DBGConsulta.ApplyBestFit(DBGConsultaCF_NO);
-  DBGConsulta.ApplyBestFit(DBGConsultaCONTA_NO);
   DBGConsulta.ApplyBestFit(DBGConsultaDESCRICAO);
+  DBGConsulta.ApplyBestFit(DBGConsultaDOCUMENTO);
+  DBGConsulta.ApplyBestFit(DBGConsultaEP_NO);
+  DBGConsulta.ApplyBestFit(DBGConsultaCF_NO);
+
+  DBGConsulta.ApplyBestFit(DBGConsultaCONTA_NO);
   DBGConsulta.ApplyBestFit(DBGConsultaPLANO_CONTA_NO);
   DBGConsulta.ApplyBestFit(DBGConsultaCENTRO_CUSTO_NO);
-  DBGConsulta.ApplyBestFit(DBGConsultaSTATUS_NO);
   DBGConsulta.ApplyBestFit(DBGConsultaBANCO_NO);
-  DBGConsulta.ApplyBestFit(DBGConsultaEP_NO);
+  DBGConsulta.ApplyBestFit(DBGConsultaCREATED_NO);
+  DBGConsulta.ApplyBestFit(DBGConsultaSTATUS_NO);
+
+  DBGFKConsulta.Bands[0].Caption := 'Histórico ' + ConsultaCF_NO.AsString;
 end;
 
 procedure TFrmSHE_DEF_PED.DTSFKConsultaDataChange(Sender: TObject;
   Field: TField);
 begin
+  DBGFKConsulta.ApplyBestFit(DBGFKConsultaDOCUMENTO);
   DBGFKConsulta.ApplyBestFit(DBGFKConsultaCREATED_NO);
   DBGFKConsulta.ApplyBestFit(DBGFKConsultaSTATUS_NO);
+end;
+
+procedure TFrmSHE_DEF_PED.DBGFKConsultaCustomDrawCell(Sender: TObject;
+  ACanvas: TCanvas; ARect: TRect; ANode: TdxTreeListNode;
+  AColumn: TdxTreeListColumn; ASelected, AFocused, ANewItemRow: Boolean;
+  var AText: String; var AColor: TColor; AFont: TFont;
+  var AAlignment: TAlignment; var ADone: Boolean);
+begin
+  if not ASelected then
+  begin
+    if AColumn = DBGFKConsultaSTATUS_NO then
+    if ANode.Values[DBGFKConsultaSTATUS_NO.Index] = 'PAGO' then
+    begin
+      AColor      := $009FFF9F;
+      AFont.Color := clWindowText;
+    end else
+
+    if ANode.Values[DBGFKConsultaSTATUS_NO.Index] = 'VENCIDO' then
+    begin
+      AColor      := $0080FFFF;
+      AFont.Color := clWindowText;
+    end else
+
+    if ANode.Values[DBGFKConsultaSTATUS_NO.Index] = 'CANCELADO' then
+    begin
+      AColor      := $009FFF9F;
+      AFont.Color := clHighLightText;
+    end;
+  end;
+
+  if ANode.Selected then
+  begin
+    AColor      := $00FDF9F4;//$00400000;
+    AFont.Color := clWindowText;
+  end;
+
+  if ASelected then
+  begin
+    AColor      := $00750000; //$00E1AD40;
+    AFont.Color := clHighlightText;
+    AFont.Style := [];
+  end;
 end;
 
 end.

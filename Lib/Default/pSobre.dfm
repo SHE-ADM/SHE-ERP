@@ -2584,7 +2584,8 @@ object FrmSobre: TFrmSobre
       Font.Name = 'Segoe UI Semibold'
       Font.Style = [fsBold, fsItalic]
       Lines.Strings = (
-        'Tabela de pre'#231'os: Altera'#231#227'o em cadastros fora de linha')
+        'Atualizado vers'#227'o OCX - 4.0.12.6505'
+        'Check lista para emiss'#227'o ou apenas gera'#231#227'o de arquivo PDF')
       ParentFont = False
       TabOrder = 0
     end

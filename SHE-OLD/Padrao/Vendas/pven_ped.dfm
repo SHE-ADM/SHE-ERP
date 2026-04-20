@@ -1864,7 +1864,7 @@ object FrmVEN_PED: TFrmVEN_PED
               object EMINFADFIN: TdxMemo
                 Left = 0
                 Top = 0
-                Width = 496
+                Width = 486
                 Align = alClient
                 Color = clRed
                 Font.Charset = ANSI_CHARSET
@@ -1878,7 +1878,7 @@ object FrmVEN_PED: TFrmVEN_PED
                 Style.ButtonStyle = btsFlat
                 Style.Shadow = True
                 TabOrder = 0
-                Height = 107
+                Height = 72
               end
             end
           end

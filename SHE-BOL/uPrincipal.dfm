@@ -472,7 +472,7 @@ object FrmSHE_BOL: TFrmSHE_BOL
     TabOrder = 10
     object edtIdImpressao: TEdit
       Left = 5
-      Top = 45
+      Top = 21
       Width = 200
       Height = 22
       Hint = 'IdIntegracao que ser'#225' Impresso/Exportado para PDF'
@@ -487,6 +487,7 @@ object FrmSHE_BOL: TFrmSHE_BOL
       ParentShowHint = False
       ShowHint = True
       TabOrder = 0
+      Visible = False
     end
     object cbbImpressora: TComboBox
       Left = 5
@@ -503,6 +504,17 @@ object FrmSHE_BOL: TFrmSHE_BOL
       TabOrder = 1
       Text = 'Escrit'#243'rio PS'
       OnChange = cbbImpressoraChange
+    end
+    object CBImprime: TCheckBox
+      Left = 8
+      Top = 48
+      Width = 129
+      Height = 17
+      Cursor = crHandPoint
+      Caption = 'Usar impressora'
+      Checked = True
+      State = cbChecked
+      TabOrder = 2
     end
   end
   object mmoMensagens: TMemo

@@ -23,7 +23,6 @@ type
     BLBMCancel: TdxBarLargeButton;
     BLBConfirma: TdxBarLargeButton;
     BLBSaida: TdxBarLargeButton;
-    SBRodape: TdxStatusBar;
     PNLPrincipal: TPanel;
     PCPrincipal: TdxPageControl;
     TSPrincipal: TdxTabSheet;
@@ -39,21 +38,17 @@ type
     SQLEvent: TIBSQL;
     SPEvent: TIBStoredProc;
     EEvent: TIBEvents;
-    ILEdicao: TImageList;
-    ILMenu: TImageList;
+    ILMenuEdicao: TImageList;
+    ILMenuPrincipal: TImageList;
     BLBMDelete: TdxBarLargeButton;
     PNLConsulta: TPanel;
-    PNLPKConsulta: TPanel;
-    PNLDSConsulta: TPanel;
-    DSConsulta: TdxDockSite;
-    LDSConsulta: TdxLayoutDockSite;
-    DPConsulta: TdxDockPanel;
     StyleController: TdxEditStyleController;
     BLBPesquisa: TdxBarLargeButton;
+    BSProgresso: TdxBarStatic;
     ALPrincipal: TActionList;
     ACTRefresh: TAction;
-    ACTEveRegister: TAction;
-    ACTEveExecute: TAction;
+    ACTRegisterEvent: TAction;
+    ACTExecuteEvent: TAction;
     ACTConsulta: TAction;
     ACTPesquisa: TAction;
     ACTRelatorios: TAction;
@@ -68,16 +63,20 @@ type
     ACTMPPost: TAction;
     ACTMPValidate: TAction;
     ACTMPCancel: TAction;
-    ACTEveExpress: TAction;
+    ACTExpressEvent: TAction;
     ACTProgressBar: TAction;
     ACTDashboards: TAction;
     ACTCheckConstraints: TAction;
     ACTCheckErrors: TAction;
     ACTSaida: TAction;
     ACTEdicao: TAction;
+    ACTPesquisaOK: TAction;
+    ACTPesquisaFocus: TAction;
+    BPProgresso: TdxBarProgressItem;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormActivate(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure FormPaint(Sender: TObject);
@@ -85,8 +84,8 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure ACTRefreshExecute(Sender: TObject);
-    procedure ACTEveRegisterExecute(Sender: TObject);
-    procedure ACTEveExecuteExecute(Sender: TObject);
+    procedure ACTRegisterEventExecute(Sender: TObject);
+    procedure ACTExecuteEventExecute(Sender: TObject);
     procedure ACTConsultaExecute(Sender: TObject);
     procedure ACTPesquisaExecute(Sender: TObject);
     procedure ACTRelatoriosExecute(Sender: TObject);
@@ -101,7 +100,7 @@ type
     procedure ACTMPPostExecute(Sender: TObject);
     procedure ACTMPValidateExecute(Sender: TObject);
     procedure ACTMPCancelExecute(Sender: TObject);
-    procedure ACTEveExpressExecute(Sender: TObject);
+    procedure ACTExpressEventExecute(Sender: TObject);
     procedure ACTProgressBarExecute(Sender: TObject);
     procedure ACTDashboardsExecute(Sender: TObject);
     procedure ACTCheckConstraintsExecute(Sender: TObject);
@@ -111,22 +110,19 @@ type
     procedure EEventEventAlert(Sender: TObject; EventName: String;
       EventCount: Integer; var CancelAlerts: Boolean);
   private
-    { Private declarations }
+    { Public declarations }
+
     FCurrentEvent,
     FCurrentAlert: String;
     FForceClose  : Boolean;
 
+    { método para atribuição\validação de valor }
     procedure _SetCurrentEvent(const AValue: String);
     procedure _SetCurrentAlert(const AValue: String);
     procedure _SetForceClose  (const AValue: Boolean);
   public
     { Public declarations }
     REC_SHE_DEF: TREC_SHE_DEF;
-    
-    FDockControl: TdxCustomDockControl;
-    FDockControlPrincipal1RodapeLE: Integer;
-
-    procedure _SetDockControl (const AValue: TdxCustomDockControl; AXYPos: Integer = 0; ADirection: TDirection = lNone; ARepeat: boolean = False; AUpdateZones: Boolean = False);
 
     property _GetCurrentAlert: String  read FCurrentAlert write _SetCurrentAlert;
     property _GetCurrentEvent: String  read FCurrentEvent write _SetCurrentEvent;
@@ -167,6 +163,7 @@ type
     Destructor  Destroy; override;
   end;
 
+
 var
   FrmSHE_DEF_EDI: TFrmSHE_DEF_EDI;
 
@@ -194,65 +191,13 @@ begin
   FForceClose := AValue;
 end;
 
-procedure TFrmSHE_DEF_EDI._SetDockControl (const AValue: TdxCustomDockControl; AXYPos: Integer = 0; ADirection: TDirection = lNone; ARepeat: boolean = False; AUpdateZones: Boolean = False);
-var
-  FUpdateZones: Boolean;
-begin
-  FUpdateZones := AUpdateZones;
-  
-  if AValue <> Nil then
-  begin
-    if FDockControl <> AValue then
-       FDockControl := AValue;
-
-    TdxCustomDockControl(AValue).Tag     := AXYPOS;
-    TdxCustomDockControl(AValue).Visible := not (TdxCustomDockControl(AValue).Tag = 0);
-
-    if ADirection = lVertical then
-    begin
-      //if AUpdateZones then
-      //   FUpdateZones := (TdxCustomDockControl(AValue).Height <> TdxCustomDockControl(AValue).Tag);
-
-      if ARepeat then
-      begin
-        repeat  TdxCustomDockControl(AValue).Height := TdxCustomDockControl(AValue).Tag;
-        until   TdxCustomDockControl(AValue).Tag     = TdxCustomDockControl(AValue).Height;
-      end else
-      begin
-        TdxCustomDockControl(AValue).Height := TdxCustomDockControl(AValue).Tag;
-      end;
-    end else
-
-    if ADirection = lHorizontal then
-    begin
-      //if AUpdateZones then
-      //   FUpdateZones := (TdxCustomDockControl(AValue).Width <> TdxCustomDockControl(AValue).Tag);
-
-      if ARepeat then
-      begin
-        repeat  TdxCustomDockControl(AValue).Width := TdxCustomDockControl(AValue).Tag;
-        until   TdxCustomDockControl(AValue).Tag    = TdxCustomDockControl(AValue).Width;
-      end else
-      begin
-        TdxCustomDockControl(AValue).Width := TdxCustomDockControl(AValue).Tag;
-      end;
-    end;
-
-    if FUpdateZones then
-    AValue.OnUpdateDockZones(AValue,Avalue.DockZones);
-    AValue.Repaint;
-  end;
-end;
-
 procedure TFrmSHE_DEF_EDI._WM_CREATE(var Msg: TMessage);
 begin
   { INICIALIZA }
   Screen.Cursor := crAppStart;  { Cursor }
-  Randomize;
 
   { INICIALIZAÇÃO DOS OBJETOS DECLARADOS }
   { INICIALIZAÇÃO DOS COMPONENTES }
-  oPrinterSelect(Application.Handle,'Relatórios');
 end;
 
 procedure TFrmSHE_DEF_EDI._WM_AFTER_CREATE(var Msg: TMessage);
@@ -269,7 +214,7 @@ end;
 procedure TFrmSHE_DEF_EDI._WM_ACTIVATE(var Msg: TMessage);
 begin
   { EVENTOS }
-  ACTEveRegister.Execute; { Registro }
+  ACTRegisterEvent.Execute; { Registro }
 end;
 
 procedure TFrmSHE_DEF_EDI._SW_SHOWNOACTIVATE(var Msg: TMessage);
@@ -288,29 +233,19 @@ procedure TFrmSHE_DEF_EDI._WM_SHOW(var Msg: TMessage);
 begin
   { BEFORE SHOWNING }
   Screen.Cursor := crHourGlass; { Cursor }
-  REC_SHE_DEF.FResize := 0;     { Form Resize }
-  ALockWindowUpdate   := True;  { SQL Injection Enabled }
+  REC_SHE_DEF.FResize := 0; { Form Resize }
+  ALockWindowUpdate   := True; { SQL Injection Enabled }
 
+  oOTransact(TConsulta); { Transaction }
   ACTConsulta.Execute; { Tabelas }
-  ACTEdicao.Execute;   { Edições }
+  ACTEdicao.Execute; { Edições }
 end;
 
 procedure TFrmSHE_DEF_EDI._WM_AFTER_SHOW(var Msg: TMessage);
 begin
   { INICIALIZAÇÃO DOS COMPONENTES }
-  try
-    Screen.Cursor  := crAppStart;
-
-    { AFTER SHOWNING }
-    ACTPesquisa.Execute; { Pesquisa Principal }
-
-  finally
-    Screen.Cursor     := crDefault;
-    ALockWindowUpdate := False;  { SQL Injection Disabled }
-
-    { INICIALIZAÇÃO }
-    REC_SHE_DEF.FInitialize := False; { Finaliza }
-  end;
+  Screen.Cursor     := crDefault;
+  ALockWindowUpdate := False;  { SQL Injection Disabled }
 end;
 
 procedure TFrmSHE_DEF_EDI._WM_RESIZE(var Message: TMessage);
@@ -338,15 +273,12 @@ end;
 
 procedure TFrmSHE_DEF_EDI._WM_AFTER_RESIZE(var Message: TMessage);
 begin
-  { After Resize }
   if REC_SHE_DEF.FResize >= 2 then
-
   try
-    //oResize(DBGConsulta);
     Paint;
   finally
-    Screen.Cursor := crDefault;
-    REC_SHE_DEF.FResize := 0;
+    REC_SHE_DEF.FResize := 0; { zera controle }
+    ACTPesquisa.Execute; { Pesquisa }
   end;
 end;
 
@@ -493,20 +425,26 @@ end;
 
 procedure TFrmSHE_DEF_EDI.FormCreate(Sender: TObject);
 begin
-  { VALIDATE GRANT USER }
-  REC_SHE_DEF.GAppend   := (RECUsuarios.Grupo = 'DEV') or (REC_SHE_DEF.GAdmin);
-  REC_SHE_DEF.GEdit     := (RECUsuarios.Grupo = 'DEV') or (REC_SHE_DEF.GAdmin);
-  REC_SHE_DEF.GDelete   := (RECUsuarios.Grupo = 'DEV') or (REC_SHE_DEF.GAdmin);
+  Self.DoubleBuffered := True;
+  Randomize;
 
-  REC_SHE_DEF.GPost     := (RECUsuarios.Grupo = 'DEV') or (REC_SHE_DEF.GAdmin);
-  REC_SHE_DEF.GValidate := (RECUsuarios.Grupo = 'DEV') or (REC_SHE_DEF.GAdmin);
-  REC_SHE_DEF.GCancel   := (RECUsuarios.Grupo = 'DEV') or (REC_SHE_DEF.GAdmin);
+  { ADMIN MANAGER }
+  //DBGConsultaIDPK.Visible := (RECUsuarios.ID = 0); { Código Pedido }
 
-  REC_SHE_DEF.GView     := (RECUsuarios.Grupo = 'DEV') or (REC_SHE_DEF.GAdmin);
-  REC_SHE_DEF.GPrint    := (RECUsuarios.Grupo = 'DEV') or (REC_SHE_DEF.GAdmin);
+  { FORM SCREEN }
+  REC_SHE_DEF.FPosition := Self.Position; { Posição }
+  REC_SHE_DEF.FMainArea := False; { Aplicativo }
+  REC_SHE_DEF.FWorkArea := False; { Windows    }
 
-  REC_SHE_DEF.GControl  := (RECUsuarios.Grupo = 'DEV') or (REC_SHE_DEF.GAdmin);
-  REC_SHE_DEF.GAdmin    := (RECUsuarios.Grupo = 'DEV') or (REC_SHE_DEF.GAdmin);
+  { EVENTOS }
+  REC_SHE_DEF.FB_Event   := ''; { Evento Principal }
+  REC_SHE_DEF.FB_EVE_EDT := ''; { Evento Edição }
+
+  { GRANT USER }
+  REC_SHE_DEF.GDescricao  := '';
+  REC_SHE_DEF.GReferencia := '';
+  REC_SHE_DEF.GRegra      := '';
+  REC_SHE_DEF.GAdmin      := False;
 
   if not REC_SHE_DEF.GAdmin then
   begin
@@ -613,6 +551,11 @@ begin
   OnClose := Nil;
 end;
 
+procedure TFrmSHE_DEF_EDI.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  { nothing }
+end;
+
 procedure TFrmSHE_DEF_EDI.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
@@ -648,7 +591,6 @@ end;
 procedure TFrmSHE_DEF_EDI.FormPaint(Sender: TObject);
 var
   AMainFormScreen: TRect;
-  i: Word;
 begin
   if (not Showing) or (FForceClose) then
   Exit;
@@ -724,17 +666,6 @@ begin
     Self.Width  := IFThen(REC_SHE_DEF.FPosition = poDefault,REC_SHE_DEF.FRight  - REC_SHE_DEF.FLeft - 5,0);
     Self.Height := IFThen(REC_SHE_DEF.FPosition = poDefault,REC_SHE_DEF.FHeight - REC_SHE_DEF.FTop  - 5,0);
   end;
-
-  { RODAPÉ }
-  REC_SHE_DEF.FMainWidth := Self.Width;
-  for i  := 0 to SBRodape.Panels.Count - 1 do
-  if  i  <> 1 then
-  REC_SHE_DEF.FMainWidth   := REC_SHE_DEF.FMainWidth - SBRodape.Panels[i].Width;
-  SBRodape.Panels[1].Width := REC_SHE_DEF.FMainWidth - 50;
-
-  { SCREEN CAPTION }
-  if RECUsuarios.Id = 0 then
-  Self.Caption := 'Dimensões: Monitor = ' + IntToStr(Screen.Width) + ' x ' + IntToStr(Screen.Height) + ' - APP = ' + IntToStr(REC_SHE_DEF.FMainWidth)  + ' x ' + IntToStr(REC_SHE_DEF.FMainHeight) + '. ' + Self.Caption;
 end;
 
 procedure TFrmSHE_DEF_EDI.FormResize(Sender: TObject);
@@ -749,7 +680,7 @@ end;
 
 procedure TFrmSHE_DEF_EDI.ACTRefreshExecute(Sender: TObject);
 begin
-  //oRefresh(Cadastro);
+  { nothing }
 end;
 
 procedure TFrmSHE_DEF_EDI.ACTSaidaExecute(Sender: TObject);
@@ -759,70 +690,17 @@ end;
 
 procedure TFrmSHE_DEF_EDI.ACTConsultaExecute(Sender: TObject);
 begin
-  { INICIALIZAÇÃO DE TRANSAÇÕES }
-  oOTransact(TConsulta); { Principal }
-
-  { TABELAS }
+  { nothing }
 end;
 
 procedure TFrmSHE_DEF_EDI.ACTPesquisaExecute(Sender: TObject);
 begin
-  { INICIALIZA PARÂMETROS DA PESQUISA }
-  with REC_SHE_DEF do
-  begin
-    { FIREBIRD PESQUISA PRIMÁRIA }
-    { PADRÃO }
-    FB_PSQ_ID  := '0';      { Identificador }
-    FB_PSQ_CPL := EmptyStr; { Complemento }
-    FB_PSQ_SBQ := False;    { Sub Query }
-    PSQ_OK  := False;    { Validação }
-
-    { TEXTO }
-    FB_PSQ_FD_NO_PK := EmptyStr; { Campo  }
-    FB_PSQ_FD_VD_PK := EmptyStr; { Valor  }
-
-    { DATAS }
-    FB_PSQ_DT_NO_PK := EmptyStr; { Campo  }
-    FB_PSQ_DT_VD_PK := 0;        { Valor  }
-
-    { FIREBIRD PESQUISA SECUNDÁRIA }
-    { TEXTO }
-    FB_PSQ_FD_NO_FK := EmptyStr; { Campo  }
-    FB_PSQ_FD_VD_FK := EmptyStr; { Valor  }
-
-    { DATAS }
-    FB_PSQ_DT_NO_FK := EmptyStr; { Campo  }
-    FB_PSQ_DT_VD_FK := 0;        { Valor  }
-
-    { ÂNCORAS PRINCIPAIS }
-    { Empresas }
-    EP_NO := EmptyStr; { Empresa }
-    CF_NO := EmptyStr; { Fabricante }
-
-    { Situações }
-    DEST := EmptyStr; { Descrição }
-    STFI := EmptyStr; { Descrição Abreviada }
-
-    { Produtos }
-    ARTIGO     := EmptyStr; { Artigo }
-    SKU        := EmptyStr; { SKU }
-    NCM        := EmptyStr; { NCM }
-    GRADE      := EmptyStr; { Grade }
-    DESCRICAO  := EmptyStr; { Nome / Descrição }
-    COMPOSICAO := EmptyStr; { Composição }
-
-    { Lista Digitada }
-    if FList = Nil then
-    FList := TStringList.Create else
-    FList.Clear;
-  end;
+  { nothing }
 end;
 
 procedure TFrmSHE_DEF_EDI.ACTEdicaoExecute(Sender: TObject);
 begin
-  { INICIALIZAÇÃO DE TRANSAÇÕES }
-  { EDIÇÕES }
-  { PAGE CONTROL }
+  { nothing }
 end;
 
 procedure TFrmSHE_DEF_EDI.ACTMPAppendExecute(Sender: TObject);
@@ -913,7 +791,7 @@ begin
   { nothing }
 end;
 
-procedure TFrmSHE_DEF_EDI.ACTEveRegisterExecute(Sender: TObject);
+procedure TFrmSHE_DEF_EDI.ACTRegisterEventExecute(Sender: TObject);
 begin
   { UNREGISTER EVENTS }
   if EEvent.Registered then
@@ -951,12 +829,12 @@ begin
     { EDIÇÃO }
     if REC_SHE_DEF.FB_EVE_EDT <> EmptyStr then
     begin
-      if ACTEveRegister.Tag > 0 then
-      REC_SHE_DEF.FB_EVE_EDT := REC_SHE_DEF.FB_EVE_EDT + '-' + oStrZero(RECParametros.EP_ID,3) + '-' + oStrZero(ACTEveRegister.Tag,3) else
+      if ACTRegisterEvent.Tag > 0 then
+      REC_SHE_DEF.FB_EVE_EDT := REC_SHE_DEF.FB_EVE_EDT + '-' + oStrZero(RECParametros.EP_ID,3) + '-' + oStrZero(ACTRegisterEvent.Tag,3) else
       REC_SHE_DEF.FB_EVE_EDT := REC_SHE_DEF.FB_EVE_EDT + '-' + oStrZero(RECParametros.EP_ID,3) + '-' + oStrZero(RECUsuarios.ID,3);
 
       EEvent.Events.Add(REC_SHE_DEF.FB_EVE_EDT);
-      ACTEveRegister.Tag := 0;
+      ACTRegisterEvent.Tag := 0;
     end;
 
     EEvent.RegisterEvents;
@@ -969,7 +847,7 @@ begin
   end;
 end;
 
-procedure TFrmSHE_DEF_EDI.ACTEveExecuteExecute(Sender: TObject);
+procedure TFrmSHE_DEF_EDI.ACTExecuteEventExecute(Sender: TObject);
 var
   i: word;
 begin
@@ -995,7 +873,7 @@ begin
 
     SPEvent.ExecProc;
     SPEvent.UnPrepare;
-    
+
     oCTransact(TEvent);
   except
     on E: Exception do
@@ -1008,10 +886,10 @@ begin
   end;
 end;
 
-procedure TFrmSHE_DEF_EDI.ACTEveExpressExecute(Sender: TObject);
+procedure TFrmSHE_DEF_EDI.ACTExpressEventExecute(Sender: TObject);
 begin
-  ACTEveRegister.Execute;
-  ACTEveExecute.Execute;
+  ACTRegisterEvent.Execute;
+  ACTExecuteEvent.Execute;
 end;
 
 procedure TFrmSHE_DEF_EDI.EEventEventAlert(Sender: TObject;

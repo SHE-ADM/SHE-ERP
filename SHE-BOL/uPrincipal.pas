@@ -109,6 +109,7 @@ type
     GroupBox3: TGroupBox;
     BTNDescarte: TButton;
     LABusca: TLabel;
+    CBImprime: TCheckBox;
     function  ConverteErroClasse(aErroClasse: TErroClasse): string;
     procedure IncrementarNumeroDocumento;
     procedure btnGerarRemessaClick(Sender: TObject);
@@ -2211,9 +2212,11 @@ procedure TFrmSHE_BOL._PSQAPI(ATituloNumeroDocumento: String);
 var
   URL: WideString;
   hBoleto: OleVariant;
-  jBoleto: TJSONObject;
   sBoleto: TStringList;
-  i: Word;
+  jBoleto,
+  jItem: TJSONObject;
+  jDados, jOcorr, jMov: TJSONArray;
+  i,j: Word;
 begin
   if BTNConfig.Tag = 0 then
   Exit;
@@ -2239,6 +2242,8 @@ begin
 
         _ITResposta;
         hBoleto := Createoleobject('WinHttp.WinHttpRequest.5.1');
+
+        hBoleto.Option[9] := $00000800; // TLS 1.2
         hBoleto.open('GET',URL,False);
         hBoleto.SetRequestHeader('cnpj-sh'     ,RECParametros.SHE_CNPJ  );
         hBoleto.SetRequestHeader('token-sh'    ,RECParametros.FIN_API_TOKEN);
@@ -2258,113 +2263,163 @@ begin
     sBoleto := TStringList.Create;sBoleto.Add(hBoleto.ResponseText);
     jBoleto := TJSONObject.Create(sBoleto.Text);
 
-    if jBoleto.getJSONArray('_dados').Length > 0 then
+    jDados := jBoleto.getJSONArray('_dados');
+    if (jDados = nil) or (jDados.Length = 0) then
     begin
-      for i := 0 to jBoleto.getJSONArray('_dados').Length -1 do
-          if jBoleto.getJSONArray('_dados').getJSONObject(i).optString('IdIntegracao') <> EmptyStr then
-          begin
-            if ((    LABusca.Visible) and (Pos(jBoleto.getJSONArray('_dados').getJSONObject(i).optString('situacao'),'REGISTRADOEMITIDOSALVOPENDENTE') > 0)) or
-               ((not LABusca.Visible) and (Pos(jBoleto.getJSONArray('_dados').getJSONObject(i).optString('situacao'),'REGISTRADOEMITIDOSALVOPENDENTE') = 0)) then
-            begin
-              RECPrincipal.CDEV := jBoleto.getJSONArray('_dados').getJSONObject(i).optString('TituloNumeroDocumento');
-              RECPrincipal.DEEV := jBoleto.getJSONArray('_dados').getJSONObject(i).optString('situacao');
-            end;  
+      if ATituloNumeroDocumento <> '000000000' then
+      begin
+        SBRodape.Panels[2].Text := 'Título não Encontrado !';
+        SBRodape.Refresh;
+      end;
+      
+      Exit;
+    end;
 
-            with SQLPKConsulta do
-            begin
-              Close;
-              SQL.Clear;
-              SQL.Add('SELECT PK.DEST,IIF(PK.DTBX IS NOT NULL,PK.DTBX,PK.DTPK) AS DTPK FROM '  + oREPZero('FIN_REC_BAN_BAI','_',RECParametros.EP_ID,3) + ' AS PK');
-              SQL.Add('WHERE  PK.TITULO = ''' + jBoleto.getJSONArray('_dados').getJSONObject(i).optString('TituloNumeroDocumento') + '''');
-              ExecQuery;
-            end;
+    for i := 0 to jDados.length - 1 do
+    begin
+      jItem  := jDados.getJSONObject(i);
+      jOcorr := jItem.getJSONArray('TituloOcorrencias');
+      jMov   := jItem.getJSONArray('TituloMovimentos');
 
-            try
-              oOTransact(TEdicao);
-              
-              with SQLEdicao do
-              begin
-                Close;
-                SQL.Clear;
-                SQL.Add('UPDATE OR INSERT');
-                SQL.Add('INTO   FIN_REC_LOG_API (IDEP,TITULO,API_ID,API_ST,API_CA)');
-                SQL.Add('VALUES (');
-                SQL.Add('''' + RECParametros.EP_ID + ''',');
-                SQL.Add('''' + jBoleto.getJSONArray('_dados').getJSONObject(i).optString('TituloNumeroDocumento') + ''',');
-                SQL.Add('''' + jBoleto.getJSONArray('_dados').getJSONObject(i).optString('IdIntegracao'         ) + ''',');
-                SQL.Add('''' + jBoleto.getJSONArray('_dados').getJSONObject(i).optString('situacao'             ) + ''',');
-                SQL.Add('''' + jBoleto.getJSONArray('_dados').getJSONObject(i).optString('CedenteCarteira'      ) + ''')');
-                SQL.Add('MATCHING (API_ID,API_ST)');
-                ExecQuery;
+      if ((    LABusca.Visible) and (Pos(jItem.optString('situacao'),'REGISTRADOEMITIDOSALVOPENDENTE') > 0)) or
+         ((not LABusca.Visible) and (Pos(jItem.optString('situacao'),'REGISTRADOEMITIDOSALVOPENDENTE') = 0)) then
+      begin
+        RECPrincipal.CDEV := jItem.optString('TituloNumeroDocumento');
+        RECPrincipal.DEEV := jItem.optString('situacao');
+      end;
+
+      with SQLPKConsulta do
+      begin
+        Close;
+        SQL.Clear;
+        SQL.Add('SELECT PK.DEST,IIF(PK.DTBX IS NOT NULL,PK.DTBX,PK.DTPK) AS DTPK FROM '  + oREPZero('FIN_REC_BAN_BAI','_',RECParametros.EP_ID,3) + ' AS PK');
+        SQL.Add('WHERE  PK.TITULO = ''' + jItem.optString('TituloNumeroDocumento') + '''');
+        ExecQuery;
+      end;
+
+      try
+        oOTransact(TEdicao);
+
+        with SQLEdicao do
+        begin
+          Close;
+          SQL.Clear;
+          SQL.Add('UPDATE OR INSERT');
+          SQL.Add('INTO   FIN_REC_LOG_API (IDEP,TITULO,API_ID,API_ST,API_CA)');
+          SQL.Add('VALUES (');
+          SQL.Add('''' + RECParametros.EP_ID + ''',');
+          SQL.Add('''' + jItem.optString('TituloNumeroDocumento') + ''',');
+          SQL.Add('''' + jItem.optString('IdIntegracao'         ) + ''',');
+          SQL.Add('''' + jItem.optString('situacao'             ) + ''',');
+          SQL.Add('''' + jItem.optString('CedenteCarteira'      ) + ''')');
+          SQL.Add('MATCHING (API_ID,API_ST)');
+          ExecQuery;
 
 
-                Close;
-                SQL.Clear;
-                SQL.Add('UPDATE ' + oREPZero('FIN_REC_BAN_BAI','_',RECParametros.EP_ID,3));
-                SQL.Add('SET');
-                SQL.Add('API_ID = ''' + jBoleto.getJSONArray('_dados').getJSONObject(i).optString('IdIntegracao'   ) + ''',');
-                SQL.Add('API_ST = ''' + jBoleto.getJSONArray('_dados').getJSONObject(i).optString('situacao'       ) + ''',');
-                SQL.Add('API_CA = ''' + jBoleto.getJSONArray('_dados').getJSONObject(i).optString('CedenteCarteira') + ''',');
+          Close;
+          SQL.Clear;
+          SQL.Add('UPDATE ' + oREPZero('FIN_REC_BAN_BAI','_',RECParametros.EP_ID,3));
+          SQL.Add('SET');
+          SQL.Add('API_ID = ''' + jItem.optString('IdIntegracao'   ) + ''',');
+          SQL.Add('API_ST = ''' + jItem.optString('situacao'       ) + ''',');
+          SQL.Add('API_CA = ''' + jItem.optString('CedenteCarteira') + ''',');
 
-                SQL.Add('API_NN = ''' + IFThen((jBoleto.getJSONArray('_dados').getJSONObject(i).optString('TituloNossoNumero') <> EmptyStr) and
-                                               (jBoleto.getJSONArray('_dados').getJSONObject(i).optString('TituloNossoNumero') <> 'null'),
-                                                jBoleto.getJSONArray('_dados').getJSONObject(i).optString('TituloNossoNumero'),'0') + ''',');
+          SQL.Add('API_NN = ''' + IFThen((jItem.optString('TituloNossoNumero') <> EmptyStr) and
+                                         (jItem.optString('TituloNossoNumero') <> 'null'),
+                                          jItem.optString('TituloNossoNumero'),'0') + ''',');
 
-                SQL.Add('API_DTCA = CURRENT_TIMESTAMP');
+          SQL.Add('API_DTCA = CURRENT_TIMESTAMP');
 
-                SQL.Add('WHERE TITULO = ''' + jBoleto.getJSONArray('_dados').getJSONObject(i).optString('TituloNumeroDocumento') + '''');
-                SQL.Add('AND  (API_ID IS NULL OR API_ID = ''0'')');
+          SQL.Add('WHERE TITULO = ''' + jItem.optString('TituloNumeroDocumento') + '''');
+          SQL.Add('AND  (API_ID IS NULL OR API_ID = ''0'')');
 
-                ExecQuery;
-              end;
+          ExecQuery;
+        end;
 
-              oCTransact(TEdicao);
-            except
-              on E: Exception do
-              begin
-                oCTransact(TEdicao,ltRollback);
-                oException(EDCDNF,'Falha ao tentar efetivar a transmissão bancária !'+#13+#13+
-                                  'Error Code: '+E.Message+'.'+#13+
-                                  'Transmitindo Boleto.');
-              end;
-            end;
+        oCTransact(TEdicao);
+      except
+        on E: Exception do
+        begin
+          oCTransact(TEdicao,ltRollback);
+          oException(EDCDNF,'Falha ao tentar efetivar a transmissão bancária !'+#13+#13+
+                            'Error Code: '+E.Message+'.'+#13+
+                            'Transmitindo Boleto.');
+        end;
+      end;
 
-            edtIdIntegracao.Hint := jBoleto.getJSONArray('_dados').getJSONObject(i).optString('IdIntegracao');
+      edtIdIntegracao.Hint := jItem.optString('IdIntegracao');
 
-            mmoResposta.Lines.Add('TÍTULO JÁ REGISTRADO NO BANCO');
-            mmoResposta.Lines.Add('*****************************');
+      mmoResposta.Lines.Add('TÍTULO JÁ REGISTRADO NO BANCO');
+      mmoResposta.Lines.Add('*****************************');
 
-            mmoResposta.Lines.Add('Token: '             + jBoleto.getJSONArray('_dados').getJSONObject(i).optString('IdIntegracao'));
-            mmoResposta.Lines.Add('Situacao Bancária: ' + jBoleto.getJSONArray('_dados').getJSONObject(i).optString('situacao'));
-            mmoResposta.Lines.Add('Nossa Situação: '    + SQLPKConsulta.Current.Vars[0].AsString + ' desde ' + FormatDateTime('dd.mm.yy',SQLPKConsulta.Current.Vars[1].AsDate));
+      mmoResposta.Lines.Add('Token: '             + jItem.optString('IdIntegracao'));
+      mmoResposta.Lines.Add('Situacao Bancária: ' + jItem.optString('situacao'));
+      mmoResposta.Lines.Add('Nossa Situação: '    + SQLPKConsulta.Current.Vars[0].AsString + ' desde ' + FormatDateTime('dd.mm.yy',SQLPKConsulta.Current.Vars[1].AsDate));
 
-            if jBoleto.getJSONArray('_dados').getJSONObject(i).optString('Motivo') <> 'null' then
-            mmoResposta.Lines.Add('Motivo: ' + jBoleto.getJSONArray('_dados').getJSONObject(i).optString('Motivo'));
-            mmoResposta.Lines.Add('');
+      if jItem.optString('Motivo') <> 'null' then
+      mmoResposta.Lines.Add('Motivo: ' + jItem.optString('Motivo'));
+      mmoResposta.Lines.Add('');
 
-            mmoResposta.Lines.Add('Título: '   + jBoleto.getJSONArray('_dados').getJSONObject(i).optString('TituloNumeroDocumento'));
-            mmoResposta.Lines.Add('Emissão: '  + jBoleto.getJSONArray('_dados').getJSONObject(i).optString('TituloDataEmissao'));
-            mmoResposta.Lines.Add('Sacado: '   + jBoleto.getJSONArray('_dados').getJSONObject(i).optString('SacadoNome'));
-            mmoResposta.Lines.Add('');
+      mmoResposta.Lines.Add('Título: '   + jItem.optString('TituloNumeroDocumento'));
+      mmoResposta.Lines.Add('Emissão: '  + jItem.optString('TituloDataEmissao'));
+      mmoResposta.Lines.Add('Sacado: '   + jItem.optString('SacadoNome'));
+      mmoResposta.Lines.Add('');
 
-            mmoResposta.Lines.Add('Nosso Número: ' + jBoleto.getJSONArray('_dados').getJSONObject(i).optString('TituloNossoNumero' ));
-            mmoResposta.Lines.Add('Carteira: '     + jBoleto.getJSONArray('_dados').getJSONObject(i).optString('CedenteCarteira'));
-            mmoResposta.Lines.Add('');
+      mmoResposta.Lines.Add('Nosso Número: ' + jItem.optString('TituloNossoNumero' ));
+      mmoResposta.Lines.Add('Carteira: '     + jItem.optString('CedenteCarteira'));
+      mmoResposta.Lines.Add('');
 
-            mmoResposta.Lines.Add('Código de Barras: ' + jBoleto.getJSONArray('_dados').getJSONObject(i).optString('TituloCodigoBarras'));
-            mmoResposta.Lines.Add('Linha Digitável: '  + jBoleto.getJSONArray('_dados').getJSONObject(i).optString('TituloLinhaDigitavel'));
+      mmoResposta.Lines.Add('Código de Barras: ' + jItem.optString('TituloCodigoBarras'));
+      mmoResposta.Lines.Add('Linha Digitável: '  + jItem.optString('TituloLinhaDigitavel'));
 
-            mmoResposta.Lines.Add('');
-          end;
+      mmoResposta.Lines.Add('Situacao: '  + jItem.optString('situacao'));
+      mmoResposta.Lines.Add('Data: '      + LeftStr(jItem.optString('PagamentoData'),10));
 
-      SBRodape.Panels[2].Text := 'Consulta bancária realizada com sucesso !';
-      SBRodape.Refresh;
 
-    end else
-    if ATituloNumeroDocumento <> '000000000' then
-    SBRodape.Panels[2].Text := 'Título não Encontrado !';
+      mmoResposta.Lines.Add('');
+
+      if jOcorr <> nil then
+      try
+        mmoResposta.Lines.Add('==== Ocorrências ====');
+
+        for j := 0 to jOcorr.Length - 1 do
+        begin
+          mmoResposta.Lines.Add('Código: '     + jOcorr.getJSONObject(j).optString('codigo'));
+          mmoResposta.Lines.Add('Mensagem: '   + jOcorr.getJSONObject(j).optString('mensagem'));
+          mmoResposta.Lines.Add('Criado: '     + jOcorr.getJSONObject(j).optString('criado'));
+          mmoResposta.Lines.Add('Atualizado: ' + jOcorr.getJSONObject(j).optString('atualizado'));
+
+          if jOcorr.getJSONObject(j).has('retornos') then
+          mmoResposta.Lines.Add('Arquivo Retorno: ' + jOcorr.getJSONObject(j).getJSONObject('retornos').optString('nomeArquivo'));
+          mmoResposta.Lines.Add('');
+        end;
+      except
+        ;
+      end;
+
+      if jMov <> nil then
+      try
+        mmoResposta.Lines.Add('==== Movimentações ====');
+
+        for j := 0 to jMov.Length - 1 do
+        begin
+          mmoResposta.Lines.Add('Código: '   + jMov.getJSONObject(j).optString('codigo'));
+          mmoResposta.Lines.Add('Mensagem: ' + jMov.getJSONObject(j).optString('mensagem'));
+          mmoResposta.Lines.Add('Data: '     + jMov.getJSONObject(j).optString('data'));
+          mmoResposta.Lines.Add('Taxa: '     + jMov.getJSONObject(j).optString('taxa'));
+
+          if jMov.getJSONObject(j).has('retornos') then
+          mmoResposta.Lines.Add('Arquivo Retorno: ' + jMov.getJSONObject(j).getJSONObject('retornos').optString('nomeArquivo'));
+          mmoResposta.Lines.Add('');
+        end;
+      except
+        ;
+      end;
+    end;
+
+    SBRodape.Panels[2].Text := 'Consulta bancária realizada com sucesso !';
     SBRodape.Refresh;
-    
+
   finally
     _IFResposta;
 
@@ -2570,28 +2625,29 @@ begin
     end;
 
     if (FileExists(FPDF_REDE)) and (not FileExists(FPDF_LOCAL)) then
-        try
-          CopyFile(FPDF_REDE,FPDF_LOCAL,True);
-        except
-          ;
-        end;
+    try
+      CopyFile(FPDF_REDE,FPDF_LOCAL,True);
+    except
+      ;
+    end;
 
     if not FileExists(FPDF_LOCAL) then
     oException(EDCDNF,'Falha ao tentar imprimir boleto !' + #13 +
                       'Arquivo PDF não encontrado !');
 
     if not FileExists(FPDF_REDE) then
-       try
-         CopyFile(FPDF_LOCAL,FPDF_REDE,True);
-       except
-         ;
-       end;
-
-    mmoTX2.Lines.Add('');
-    mmoTX2.Lines.Add('.:: IMPRIMINDO BOLETO(S) ::.');
-
     try
-      oForcePrinterSimplex(cbbImpressora.Text) ;
+      CopyFile(FPDF_LOCAL,FPDF_REDE,True);
+    except
+      ;
+    end;
+
+    if CBImprime.Checked then
+    try
+      mmoTX2.Lines.Add('');
+      mmoTX2.Lines.Add('.:: IMPRIMINDO BOLETO(S) ::.');
+
+      oPrinterForceSimplex(cbbImpressora.Text) ;
 
       if FileExists(FPDF_LOCAL) then
       oPrintPDF(PAnsiChar(FPDF_LOCAL))  ELSE
