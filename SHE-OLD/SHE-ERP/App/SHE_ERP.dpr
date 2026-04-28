@@ -158,7 +158,8 @@ uses
   pCAD_PRO_ADM in '..\..\..\Lib\Produtos\pCAD_PRO_ADM.pas' {FrmCAD_PRO_ADM},
   pSHE_DEF_PED in '..\..\..\Lib\Default\pSHE_DEF_PED.pas' {FrmSHE_DEF_PED},
   pFIN_PAG_EDI in '..\..\..\Lib\Financeiro\pFIN_PAG_EDI.pas' {FrmFIN_PAG_EDI},
-  pCAD_PRO_EST_DEL in '..\..\..\Lib\Estoque\pCAD_PRO_EST_DEL.pas' {FrmCAD_PRO_EST_DEL};
+  pCAD_PRO_EST_DEL in '..\..\..\Lib\Estoque\pCAD_PRO_EST_DEL.pas' {FrmCAD_PRO_EST_DEL},
+  qGProduto_Tabela_Preco in '..\..\Padrao\Relatorios\qGProduto_Tabela_Preco.pas' {qrpGProduto_Tabela_Preco: TQuickRep};
 
 {$R *.res}
 

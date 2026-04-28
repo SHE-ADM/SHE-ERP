@@ -8998,6 +8998,14 @@ object FrmPrincipal: TFrmPrincipal
       Caption = 'Pagamentos'
       OnExecute = ACTFIN_PAGExecute
     end
+    object ACTREL_PRO_TAB_PRC: TAction
+      Tag = 1
+      Category = 'Relat'#243'rios Produtos'
+      Caption = 'Tabela de Pre'#231'os'
+      HelpContext = 7
+      Hint = 'Listagem de pre'#231'os de produtos'
+      OnExecute = ACTRelatoriosExecute
+    end
   end
   object ILPrincipal: TImageList
     AllocBy = 8
@@ -10152,6 +10160,13 @@ object FrmPrincipal: TFrmPrincipal
         object MIREL_PRO_VEN_MES: TMenuItem
           Tag = 1
           Action = ACTREL_PRO_VEN_MES
+        end
+        object N10: TMenuItem
+          Caption = '-'
+        end
+        object MIREL_PRO_TAB_PRC: TMenuItem
+          Tag = 1
+          Action = ACTREL_PRO_TAB_PRC
         end
       end
       object MIREL_N1: TMenuItem

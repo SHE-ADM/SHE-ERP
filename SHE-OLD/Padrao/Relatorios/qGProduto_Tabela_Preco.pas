@@ -130,8 +130,8 @@ end;
 procedure TqrpGProduto_Tabela_Preco.WinControlFormCreate(Sender: TObject);
           procedure _Report;
           begin
-            oReportPageHeader(Self,RECRelatorio); { Cabeçalho }
-            oReportPageFooter(Self,RECRelatorio); { Rodapé }
+            oReportPageHeader_(Self,RECRelatorio); { Cabeçalho }
+            oReportPageFooter_(Self,RECRelatorio); { Rodapé }
           end;
 
           procedure _Select;
@@ -306,7 +306,7 @@ begin
 
   if vPICMS > 0 then
   begin
-    RelatorioC_PICMS.Value   := IFThen((Pos(RelatorioORIG.AsString,'123') > 0) and (RECRelatorio.PEC4ConsultaText <> RECParametros.SGUF),4,vPICMS);
+    RelatorioC_PICMS.Value   := IFThen((Pos(RelatorioORIG.AsString,'123') > 0) and (RECRelatorio.PEC4ConsultaText <> RECParametros.EP_SG_NO),4,vPICMS);
     RelatorioC_VICMS.AsFloat := RelatorioVPRC_PAD.AsFloat * (RelatorioC_PICMS.AsFloat / 100);
 
     if RelatorioVICMS_ST_04.AsFloat+RelatorioVICMS_ST_07.AsFloat+RelatorioVICMS_ST_12.AsFloat+RelatorioVICMS_ST_18.AsFloat > 0 then

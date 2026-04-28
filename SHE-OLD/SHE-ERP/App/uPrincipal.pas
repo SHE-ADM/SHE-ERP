@@ -345,6 +345,9 @@ type
     MIREL_PRO_VEN_MES: TMenuItem;
     MIFIN_PAG: TMenuItem;
     ACTFIN_PAG: TAction;
+    N10: TMenuItem;
+    MIREL_PRO_TAB_PRC: TMenuItem;
+    ACTREL_PRO_TAB_PRC: TAction;
 
     procedure _DoneEvent(Sender: TObject);
 
