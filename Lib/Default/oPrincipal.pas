@@ -3085,6 +3085,10 @@ function ConsultaGtin(chave : shortstring) : shortstring; stdcall; External dllN
   { Valid acessos do usuário - 19/11/2024 07:58 }
   procedure oUSER(var AREC_SHE_DEF: TREC_SHE_DEF); STDCall;
 
+  { Campos obrigatórios - 20/04/2026 16:05 }
+  function oCampoObrigatorioVazio(C: TControl): Boolean;
+  function oValidaCamposObrigatorios(AParent: TWinControl;var MsgErro: string): Boolean;
+
   { Renomear - 24/09/2025 07:55 }
   function oFileRename(const OFileName, DFileName: String): Boolean; STDCALL;
 
@@ -8348,7 +8352,7 @@ begin
     begin
       RECUsuarios.CurrentPrinter := EmptyStr;
       if ASendMessage then
-         oAviso(AHandle,'Impressora de '+AImpressora+ ' não Cadastrada !');
+      oAviso(AHandle,'Impressora de '+AImpressora+ ' não Cadastrada !');
     end else
     begin
       { Atualiza Impressora Padrão }
@@ -8376,9 +8380,9 @@ begin
     begin
       RECUsuarios.CurrentPrinter := EmptyStr;
       oCTransact(FBird.TFBConsulta);
-      oException(Nil,'Erro ao tentar conexão com a impressora ' + AImpressora + ' !' + #13 +
+      oAviso(AHandle,'Erro ao tentar conexão com a impressora ' + AImpressora + ' !' + #13 +
                      'Verifique as impressoras instaladas no Painel de Controle.'    + #13 + #13 +
-                     'Error Code: '+E.Message);
+                     'Error Code: ' + E.Message);
     end;
   end;
 end;
@@ -10339,10 +10343,105 @@ begin
   end;
 end;
 
-  procedure oDoCommitWait(AIBTransaction: TIBTransaction; AIBWork: TIBXWorkProcNoParam; ATryCount: Integer = 5; AWaitMS: Integer = 5000); STDCall;
+procedure oDoCommitWait(AIBTransaction: TIBTransaction; AIBWork: TIBXWorkProcNoParam; ATryCount: Integer = 5; AWaitMS: Integer = 5000); STDCall;
 begin
   if not oIBX_ExecuteInTransactionWithRetry(AIBTransaction, AIBWork, ATryCount, AWaitMS) then
   Abort;
+end;
+
+function oCampoObrigatorioVazio(C: TControl): Boolean;
+begin
+  Result := False;
+
+  if C is TdxCurrencyEdit then
+    Result := TdxCurrencyEdit(C).Value = 0
+
+  else if C is TdxImageEdit then
+    Result := Trim(TdxImageEdit(C).Text) = ''
+
+  else if C is TdxEdit then
+    Result := Trim(TdxEdit(C).Text) = ''
+
+  else if C is TdxDateEdit then
+    Result := TdxDateEdit(C).Date <= 0
+
+  else if C is TdxPickEdit then
+    Result := Trim(TdxPickEdit(C).Text) = ''
+
+  else if C is TdxCheckEdit then
+    Result := not TdxCheckEdit(C).Checked;
+end;
+
+function oValidaCamposObrigatorios(AParent: TWinControl;var MsgErro: string): Boolean;
+         procedure AtivarContainersAteRaiz(C: TControl);
+         begin
+           while Assigned(C.Parent) do
+           begin
+             if C.Parent is TTabSheet then
+             TTabSheet(C.Parent).PageControl.ActivePage :=
+             TTabSheet(C.Parent);
+
+             C := C.Parent;
+           end;
+         end;
+var
+  i: Integer;
+  C: TControl;
+begin
+  Result := True;
+  MsgErro := '';
+
+  for i := 0 to AParent.ControlCount - 1 do
+  begin
+    C := AParent.Controls[i];
+
+    // === APENAS CAMPOS MARCADOS COMO OBRIGATÓRIOS ===
+    if (C.Tag = 1) and
+       (
+         (C is TdxEdit) or
+         (C is TdxCurrencyEdit) or
+         (C is TdxDateEdit) or
+         (C is TdxImageEdit) or
+         (C is TdxPickEdit) or
+         (C is TdxCheckEdit)
+       )
+    then
+    begin
+      if oCampoObrigatorioVazio(C) then
+      begin
+        MsgErro := 'Informe o campo obrigatório: ' + IFThen(C.Hint = EmptyStr,C.Name,C.Hint);
+
+        // === Garante que Tabs / Containers estejam ativos ===
+        AtivarContainersAteRaiz(C);
+
+        // === Força foco ===
+        if (C is TWinControl) and TWinControl(C).CanFocus then
+        begin
+          TWinControl(C).SetFocus;
+
+          // Seleciona conteúdo quando aplicável
+          if C is TdxEdit then
+            TdxEdit(C).SelectAll
+          else if C is TdxCurrencyEdit then
+            TdxCurrencyEdit(C).SelectAll;
+        end;
+
+        Result := False;
+        Exit; // para na PRIMEIRA inconsistência
+      end;
+    end;
+
+    // === RECURSÃO PARA CONTAINERS FILHOS ===
+    if C is TWinControl then
+    begin
+      if not oValidaCamposObrigatorios(
+        TWinControl(C), MsgErro) then
+      begin
+        Result := False;
+        Exit;
+      end;
+    end;
+  end;
 end;
 
 end.

@@ -8504,657 +8504,669 @@ begin
       repeat
         if ANodeTmp.ChildNodes['cProd'].text <> '' then
         begin
-          Edicao.Append;
-          EdicaoID.Value            := 0;
-          EdicaoNFE_CFOP.Value      := Trim(ANodeTmp.ChildNodes['CFOP'].Text);
-          EdicaoNFE_INDTOT.AsString := Trim(ANodeTmp.ChildNodes['indTot'].Text);
+          try
+            Edicao.Append;
+            EdicaoID.Value            := 0;
+            EdicaoNFE_CFOP.Value      := Trim(ANodeTmp.ChildNodes['CFOP'].Text);
+            EdicaoNFE_INDTOT.AsString := Trim(ANodeTmp.ChildNodes['indTot'].Text);
 
-          if Pos(PECFOP.Text,Trim(ANodeTmp.ChildNodes['cProd'].Text)) > 0 then
-          EdicaoNFE_CPROD.Value   := CECDNF.Text + '_' + oStrZero(EdicaoNFE_NITEMPED.AsInteger,3) else
-          EdicaoNFE_CPROD.Value   := Trim(ANodeTmp.ChildNodes['cProd'].Text) + '-' + IntToStr(EdicaoNFE_NITEMPED.AsInteger);
-          EdicaoNFE_CEAN.Value    := Trim(ANodeTmp.ChildNodes['cEAN'].Text);
-          EdicaoNFE_XPROD.Value   := Trim(ANodeTmp.ChildNodes['xProd'].Text);
-          EdicaoNFE_NCM.Value     := Trim(ANodeTmp.ChildNodes['NCM'].Text);
+            if Pos(PECFOP.Text,Trim(ANodeTmp.ChildNodes['cProd'].Text)) > 0 then
+            EdicaoNFE_CPROD.Value   := CECDNF.Text + '_' + oStrZero(EdicaoNFE_NITEMPED.AsInteger,3) else
+            EdicaoNFE_CPROD.Value   := Trim(ANodeTmp.ChildNodes['cProd'].Text) + '-' + IntToStr(EdicaoNFE_NITEMPED.AsInteger);
+            EdicaoNFE_CEAN.Value    := Trim(ANodeTmp.ChildNodes['cEAN'].Text);
+            EdicaoNFE_XPROD.Value   := Trim(ANodeTmp.ChildNodes['xProd'].Text);
+            EdicaoNFE_NCM.Value     := Trim(ANodeTmp.ChildNodes['NCM'].Text);
 
-          EdicaoNFE_UCOM.Value    := Trim(ANodeTmp.ChildNodes['uCom'].Text);
-          EdicaoNFE_QCOM.Value    := oTextToValor(Trim(ANodeTmp.ChildNodes['qCom'].Text));
+            EdicaoNFE_UCOM.Value    := Trim(ANodeTmp.ChildNodes['uCom'].Text);
+            EdicaoNFE_QCOM.Value    := oTextToValor(Trim(ANodeTmp.ChildNodes['qCom'].Text));
 
-          EdicaoNFE_UTRIB.Value   := Trim(ANodeTmp.ChildNodes['uTrib'].Text);
-          EdicaoNFE_QTRIB.Value   := oTextToValor(Trim(ANodeTmp.ChildNodes['qTrib'].Text));
+            EdicaoNFE_UTRIB.Value   := Trim(ANodeTmp.ChildNodes['uTrib'].Text);
+            EdicaoNFE_QTRIB.Value   := oTextToValor(Trim(ANodeTmp.ChildNodes['qTrib'].Text));
 
-          EdicaoNFE_VPROD.Value   := oTextToValor(Trim(ANodeTmp.ChildNodes['vProd'].Text));
-          EdicaoNFE_VUNCOM.Value  := EdicaoNFE_VPROD.Value / EdicaoNFE_QCOM.Value;
-          EdicaoNFE_VUNPAD.Value  := oTextToValor(Trim(ANodeTmp.ChildNodes['vUnCom'].Text));
+            EdicaoNFE_VPROD.Value   := oTextToValor(Trim(ANodeTmp.ChildNodes['vProd'].Text));
+            EdicaoNFE_VUNCOM.Value  := EdicaoNFE_VPROD.Value / EdicaoNFE_QCOM.Value;
+            EdicaoNFE_VUNPAD.Value  := oTextToValor(Trim(ANodeTmp.ChildNodes['vUnCom'].Text));
 
-          if EdicaoNFE_QTRIB.AsFloat > 0 then
-          EdicaoNFE_VUNTRIB.Value := EdicaoNFE_VPROD.Value / EdicaoNFE_QCOM.Value;
+            if EdicaoNFE_QTRIB.AsFloat > 0 then
+            EdicaoNFE_VUNTRIB.Value := EdicaoNFE_VPROD.Value / EdicaoNFE_QCOM.Value;
 
-          EdicaoNFE_VDESC.Value   := oTextToValor(Trim(ANodeTmp.ChildNodes['vDesc'].Text));
-          EdicaoNFE_VFRETE.Value  := oTextToValor(Trim(ANodeTmp.ChildNodes['vFrete'].Text));
-          EdicaoNFE_VSEG.Value    := oTextToValor(Trim(ANodeTmp.ChildNodes['vSeg'].Text));
-          EdicaoNFE_VOUTRO.Value  := oTextToValor(Trim(ANodeTmp.ChildNodes['vOutro'].Text));
+            EdicaoNFE_VDESC.Value   := oTextToValor(Trim(ANodeTmp.ChildNodes['vDesc'].Text));
+            EdicaoNFE_VFRETE.Value  := oTextToValor(Trim(ANodeTmp.ChildNodes['vFrete'].Text));
+            EdicaoNFE_VSEG.Value    := oTextToValor(Trim(ANodeTmp.ChildNodes['vSeg'].Text));
+            EdicaoNFE_VOUTRO.Value  := oTextToValor(Trim(ANodeTmp.ChildNodes['vOutro'].Text));
 
-          EdicaoNFE_XPED.Value    := Trim(ANodeTmp.ChildNodes['xPed'].Text);
-          EdicaoNFE_NFCI.Value    := Trim(ANodeTmp.ChildNodes['nFCI'].Text);
+            EdicaoNFE_XPED.Value    := Trim(ANodeTmp.ChildNodes['xPed'].Text);
+            EdicaoNFE_NFCI.Value    := Trim(ANodeTmp.ChildNodes['nFCI'].Text);
 
-          if  Trim(ANodeTmp.ChildNodes['nItemPed'].Text) <> '' then
-          EdicaoNFE_NITEMPED.Value   := StrToInt(Trim(ANodeTmp.ChildNodes['nItemPed'].Text));
+            if  Trim(ANodeTmp.ChildNodes['nItemPed'].Text) <> '' then
+            EdicaoNFE_NITEMPED.Value   := StrToInt(Trim(ANodeTmp.ChildNodes['nItemPed'].Text));
 
-          with SQLConsulta do
-          begin
-            Close;
-            SQL.Clear;
-            SQL.Add('SELECT REFERENCIA FROM TAB_UCOM');
-            SQL.Add('WHERE  REFERENCIA = '''+EdicaoNFE_UCOM.AsString+'''');
-            ExecQuery;
-
-            if Eof then
+            with SQLConsulta do
             begin
               Close;
               SQL.Clear;
               SQL.Add('SELECT REFERENCIA FROM TAB_UCOM');
-              SQL.Add('WHERE  DESCRICAO LIKE '''+LeftStr(EdicaoNFE_UCOM.AsString,5)+'%''');
+              SQL.Add('WHERE  REFERENCIA = '''+EdicaoNFE_UCOM.AsString+'''');
               ExecQuery;
 
-              EdicaoNFE_UCOM.Value := Fields[0].AsString;
-            end;
+              if Eof then
+              begin
+                Close;
+                SQL.Clear;
+                SQL.Add('SELECT REFERENCIA FROM TAB_UCOM');
+                SQL.Add('WHERE  DESCRICAO LIKE '''+LeftStr(EdicaoNFE_UCOM.AsString,5)+'%''');
+                ExecQuery;
 
-            Close;
-            SQL.Clear;
-            SQL.Add('SELECT REFERENCIA FROM TAB_UCOM');
-            SQL.Add('WHERE  REFERENCIA = '''+EdicaoNFE_UTRIB.AsString+'''');
-            ExecQuery;
+                EdicaoNFE_UCOM.Value := Fields[0].AsString;
+              end;
 
-            if Eof then
-            begin
               Close;
               SQL.Clear;
               SQL.Add('SELECT REFERENCIA FROM TAB_UCOM');
-              SQL.Add('WHERE  DESCRICAO LIKE '''+EdicaoNFE_UTRIB.AsString+'%''');
+              SQL.Add('WHERE  REFERENCIA = '''+EdicaoNFE_UTRIB.AsString+'''');
               ExecQuery;
-              EdicaoNFE_UTRIB.Value := Fields[0].AsString;
-            end;
-          end;
 
-          // Lendo o nó da DI
-          ANodeDI := ANodeTmp.ChildNodes['DI'];
-          ANodeDI.ChildNodes.First;
-
-          if Trim(ANodeDI.ChildNodes['nDI'].Text) <> '' then
-          begin
-            if Pos(',',EdicaoNFE_XPROD.AsString) > 0 then
-            EdicaoNFE_XPROD.Value        := Trim(LeftStr(EdicaoNFE_XPROD.AsString,Pos(',',EdicaoNFE_XPROD.AsString) - 1));
-            EdicaoNFE_NDI.Value          := Trim(ANodeDI.ChildNodes['nDI'].Text);
-            EdicaoNFE_DDI.Value          := strtodate(copy(ANodeDI.ChildNodes['dDI'].Text,9,2)+'/'+copy(ANodeDI.ChildNodes['dDI'].Text,6,2)+'/'+copy(ANodeDI.ChildNodes['dDI'].Text,1,4));
-            EdicaoNFE_XLOCDESEMB.Value   := Trim(ANodeDI.ChildNodes['xLocDesemb'].Text);
-            EdicaoNFE_UFDESEMB.Value     := Trim(ANodeDI.ChildNodes['UFDesemb'].Text);
-
-            EdicaoNFE_DDESEMB.Value      := IFThen(Length( Trim(ANodeDI.ChildNodes['dDesemb'].Text)) <= 6,RECParametros.SHE_DATA,
-                                            strtodate(copy(Trim(ANodeDI.ChildNodes['dDesemb'].Text),9,2) + '/' +
-                                                      copy(Trim(ANodeDI.ChildNodes['dDesemb'].Text),6,2) + '/' +
-                                                      copy(Trim(ANodeDI.ChildNodes['dDesemb'].Text),1,4)));
-
-            EdicaoNFE_CEXPORTADOR.Value  := Trim(ANodeDI.ChildNodes['cExportador'].Text);
-
-            if Trim(ANodeDI.ChildNodes['tpViaTransp'].Text) <> '' then
-            EdicaoNFE_TPVIATRANSP.Value  := Trim(ANodeDI.ChildNodes['tpViaTransp'].Text);
-
-            if Trim(ANodeDI.ChildNodes['vAFRMM'].Text) <> '' then
-            EdicaoNFE_VAFRMM.Value       := oTextToValor(Trim(ANodeDI.ChildNodes['vAFRMM'].Text));
-
-            if Trim(ANodeDI.ChildNodes['tpIntermedio'].Text) <> '' then
-            EdicaoNFE_TPINTERMEDIO.Value := Trim(ANodeDI.ChildNodes['tpIntermedio'].Text);
-            EdicaoNFE_CNPJTERCEIRO.Value := Trim(ANodeDI.ChildNodes['CNPJ'].Text);
-            EdicaoNFE_UFTERCEIRO.Value   := Trim(ANodeDI.ChildNodes['UFTerceiro'].Text);
-
-            // Lendo o nó da Adicao
-            ANodeADI := ANodeDI.ChildNodes['adi'];
-            ANodeADI.ChildNodes.First;
-
-            for i := 1 to length(Trim(ANodeADI.ChildNodes['nAdicao'].Text)) do
-                if copy(Trim(ANodeADI.ChildNodes['nAdicao'].Text),i,1) <> '|' then
-                EdicaoNFE_NADICAO.AsString := EdicaoNFE_NADICAO.AsString + copy(Trim(ANodeADI.ChildNodes['nAdicao'].Text),i,1);
-
-            for i := 1 to length(Trim(ANodeADI.ChildNodes['nSeqAdic'].Text)) do
-                if copy(Trim(ANodeADI.ChildNodes['nSeqAdic'].Text),i,1) <> '|' then
-                EdicaoNFE_NSEQADIC.AsString := EdicaoNFE_NSEQADIC.AsString + copy(Trim(ANodeADI.ChildNodes['nSeqAdic'].Text),i,1);
-
-            for i := 1 to length(Trim(ANodeADI.ChildNodes['cFabricante'].Text)) do
-                if copy(Trim(ANodeADI.ChildNodes['cFabricante'].Text),i,1) <> '|' then
-                EdicaoNFE_CFABRICANTE.Value := EdicaoNFE_CFABRICANTE.AsString + copy(Trim(ANodeADI.ChildNodes['cFabricante'].Text),i,1);
-          end;
-
-          ANodeTmp  := ANodeSec.ChildNodes['imposto'];
-          ANodeTmp.ChildNodes.First;
-
-          ANodeImp := ANodeTmp.ChildNodes['ICMS'];
-          ANodeImp.ChildNodes.First;
-
-          if ANodeImp.ChildNodes[0].NodeName = 'ICMSST' then
-          begin
-            // Lendo o nó dos ICMS
-            ANodeImpOSTO := ANodeImp.ChildNodes['ICMSST'];
-            ANodeImpOSTO.ChildNodes.First;
-
-            EdicaoNFE_ORIG.AsString := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
-            EdicaoNFE_CST.AsString  := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
-          end;
-
-          if ANodeImp.ChildNodes[0].NodeName = 'ICMS00' then
-          begin
-            // Lendo o nó dos ICMS
-            ANodeImpOSTO := ANodeImp.ChildNodes['ICMS00'];
-            ANodeImpOSTO.ChildNodes.First;
-
-            EdicaoNFE_ORIG.AsString   := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
-            EdicaoNFE_CST.AsString    := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
-            EdicaoNFE_MODBC.AsString  := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
-
-            EdicaoNFE_PREDBC.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pRedBC'].Text));
-
-            EdicaoNFE_VBC.Value    := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-            EdicaoNFE_PICMS.Value  := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
-            EdicaoNFE_VICMS.Value  := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
-            EdicaoNFE_VNF.Value    := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-          end;
-
-          if ANodeImp.ChildNodes[0].NodeName = 'ICMS10' then
-          begin
-            // Lendo o nó dos ICMS
-            ANodeImpOSTO := ANodeImp.ChildNodes['ICMS10'];
-            ANodeImpOSTO.ChildNodes.First;
-
-            EdicaoNFE_ORIG.AsString := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
-            EdicaoNFE_CST.AsString  := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
-            EdicaoNFE_MODBC.AsString := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
-            EdicaoNFE_VBC.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-            EdicaoNFE_PICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
-            EdicaoNFE_VICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
-            EdicaoNFE_VNF.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-          end;
-
-          if ANodeImp.ChildNodes[0].NodeName = 'ICMS20' then
-          begin
-            // Lendo o nó dos ICMS
-            ANodeImpOSTO := ANodeImp.ChildNodes['ICMS20'];
-            ANodeImpOSTO.ChildNodes.First;
-
-            EdicaoNFE_ORIG.AsString   := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
-            EdicaoNFE_CST.AsString    := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
-            EdicaoNFE_MODBC.AsString  := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
-            EdicaoNFE_PREDBC.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pRedBC'].Text));
-            EdicaoNFE_VBC.Value    := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-            EdicaoNFE_PICMS.Value  := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
-            EdicaoNFE_VICMS.Value  := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
-            EdicaoNFE_VNF.Value    := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-          end;
-
-          if ANodeImp.ChildNodes[0].NodeName = 'ICMS40' then
-          begin
-            // Lendo o nó dos ICMS
-            ANodeImpOSTO := ANodeImp.ChildNodes['ICMS40'];
-            ANodeImpOSTO.ChildNodes.First;
-
-            EdicaoNFE_ORIG.AsString   := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
-            EdicaoNFE_CST.AsString    := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
-            EdicaoNFE_MODBC.AsString  := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
-            EdicaoNFE_PREDBC.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pRedBC'].Text));
-            EdicaoNFE_VBC.Value    := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-            EdicaoNFE_PICMS.Value  := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
-            EdicaoNFE_VICMS.Value  := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
-            EdicaoNFE_VNF.Value    := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-          end;
-
-          if ANodeImp.ChildNodes[0].NodeName = 'ICMS60' then
-          begin
-            // Lendo o nó dos ICMS
-            ANodeImpOSTO := ANodeImp.ChildNodes['ICMS60'];
-            ANodeImpOSTO.ChildNodes.First;
-
-            EdicaoNFE_ORIG.AsString   := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
-            EdicaoNFE_CST.AsString    := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
-            EdicaoNFE_MODBC.AsString  := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
-            EdicaoNFE_PREDBC.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pRedBC'].Text));
-            EdicaoNFE_VBC.Value    := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-            EdicaoNFE_PICMS.Value  := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
-            EdicaoNFE_VICMS.Value  := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
-            EdicaoNFE_VNF.Value    := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-          end;
-
-          if ANodeImp.ChildNodes[0].NodeName = 'ICMS70' then
-          begin
-            // Lendo o nó dos ICMS
-            ANodeImpOSTO := ANodeImp.ChildNodes['ICMS70'];
-            ANodeImpOSTO.ChildNodes.First;
-
-            EdicaoNFE_ORIG.AsString   := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
-            EdicaoNFE_CST.AsString    := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
-            EdicaoNFE_MODBC.AsString  := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
-            EdicaoNFE_PREDBC.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pRedBC'].Text));
-            EdicaoNFE_VBC.Value    := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-            EdicaoNFE_PICMS.Value  := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
-            EdicaoNFE_VICMS.Value  := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
-            EdicaoNFE_VNF.Value    := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-          end;
-
-          if ANodeImp.ChildNodes[0].NodeName = 'ICMS90' then
-          begin
-            // Lendo o nó dos ICMS
-            ANodeImpOSTO := ANodeImp.ChildNodes['ICMS90'];
-            ANodeImpOSTO.ChildNodes.First;
-
-            EdicaoNFE_ORIG.AsString   := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
-            EdicaoNFE_CST.AsString    := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
-            EdicaoNFE_MODBC.AsString  := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
-            EdicaoNFE_PREDBC.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pRedBC'].Text));
-            EdicaoNFE_VBC.Value    := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-            EdicaoNFE_PICMS.Value  := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
-            EdicaoNFE_VICMS.Value  := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
-            EdicaoNFE_VNF.Value    := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-          end;
-
-
-          if (ANodeImp.ChildNodes[0].NodeName = 'ICMS101') or (ANodeImp.ChildNodes[0].NodeName = 'ICMSSN101') then
-          begin
-            // Lendo o nó dos ICMS
-            if (ANodeImp.ChildNodes[0].NodeName = 'ICMS101') then
-            ANodeImpOSTO := ANodeImp.ChildNodes['ICMS101'] else
-            ANodeImpOSTO := ANodeImp.ChildNodes['ICMSSN101'];
-            ANodeImpOSTO.ChildNodes.First;
-
-            EdicaoNFE_ORIG.AsString  := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
-            EdicaoNFE_MODBC.AsString := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
-
-            if Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) <> '' then
-            EdicaoNFE_CST.AsString  := Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) else
-            begin
-              EdicaoNFE_CST.AsString   := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
-              EdicaoNFE_VBC.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-              EdicaoNFE_PICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
-              EdicaoNFE_VICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
-              EdicaoNFE_VNF.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-            end;
-          end;
-
-          if (ANodeImp.ChildNodes[0].NodeName = 'ICMS102') or (ANodeImp.ChildNodes[0].NodeName = 'ICMSSN102') then
-          begin
-            // Lendo o nó dos ICMS
-            if (ANodeImp.ChildNodes[0].NodeName = 'ICMS102') then
-            ANodeImpOSTO := ANodeImp.ChildNodes['ICMS102'] else
-            ANodeImpOSTO := ANodeImp.ChildNodes['ICMSSN102'];
-            ANodeImpOSTO.ChildNodes.First;
-
-            EdicaoNFE_ORIG.AsString  := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
-            EdicaoNFE_MODBC.AsString := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
-
-            if Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) <> '' then
-            EdicaoNFE_CST.AsString  := Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) else
-            begin
-              EdicaoNFE_CST.AsString   := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
-              EdicaoNFE_VBC.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-              EdicaoNFE_PICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
-              EdicaoNFE_VICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
-              EdicaoNFE_VNF.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-            end;
-          end;
-
-          if (ANodeImp.ChildNodes[0].NodeName = 'ICMS103') or (ANodeImp.ChildNodes[0].NodeName = 'ICMSSN103') then
-          begin
-            // Lendo o nó dos ICMS
-            if (ANodeImp.ChildNodes[0].NodeName = 'ICMS103') then
-            ANodeImpOSTO := ANodeImp.ChildNodes['ICMS103'] else
-            ANodeImpOSTO := ANodeImp.ChildNodes['ICMSSN103'];
-            ANodeImpOSTO.ChildNodes.First;
-
-            EdicaoNFE_ORIG.AsString  := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
-            EdicaoNFE_MODBC.AsString := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
-
-            if Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) <> '' then
-            EdicaoNFE_CST.AsString  := Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) else
-            begin
-              EdicaoNFE_CST.AsString   := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
-              EdicaoNFE_VBC.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-              EdicaoNFE_PICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
-              EdicaoNFE_VICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
-              EdicaoNFE_VNF.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-            end;
-          end;
-
-          if (ANodeImp.ChildNodes[0].NodeName = 'ICMS201') or (ANodeImp.ChildNodes[0].NodeName = 'ICMSSN201') then
-          begin
-            // Lendo o nó dos ICMS
-            if (ANodeImp.ChildNodes[0].NodeName = 'ICMS201') then
-            ANodeImpOSTO := ANodeImp.ChildNodes['ICMS201'] else
-            ANodeImpOSTO := ANodeImp.ChildNodes['ICMSSN201'];
-            ANodeImpOSTO.ChildNodes.First;
-
-            EdicaoNFE_ORIG.AsString  := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
-            EdicaoNFE_MODBC.AsString := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
-
-            if Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) <> '' then
-            EdicaoNFE_CST.AsString  := Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) else
-            begin
-              EdicaoNFE_CST.AsString   := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
-              EdicaoNFE_VBC.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-              EdicaoNFE_PICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
-              EdicaoNFE_VICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
-              EdicaoNFE_VNF.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-            end;
-          end;
-
-          if (ANodeImp.ChildNodes[0].NodeName = 'ICMS202') or (ANodeImp.ChildNodes[0].NodeName = 'ICMSSN202') then
-          begin
-            // Lendo o nó dos ICMS
-            if (ANodeImp.ChildNodes[0].NodeName = 'ICMS202') then
-            ANodeImpOSTO := ANodeImp.ChildNodes['ICMS202'] else
-            ANodeImpOSTO := ANodeImp.ChildNodes['ICMSSN202'];
-            ANodeImpOSTO.ChildNodes.First;
-
-            EdicaoNFE_ORIG.AsString  := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
-            EdicaoNFE_MODBC.AsString := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
-
-            if Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) <> '' then
-            EdicaoNFE_CST.AsString  := Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) else
-            begin
-              EdicaoNFE_CST.AsString   := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
-              EdicaoNFE_VBC.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-              EdicaoNFE_PICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
-              EdicaoNFE_VICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
-              EdicaoNFE_VNF.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-            end;
-          end;
-
-          if (ANodeImp.ChildNodes[0].NodeName = 'ICMS203') or (ANodeImp.ChildNodes[0].NodeName = 'ICMSSN203') then
-          begin
-            // Lendo o nó dos ICMS
-            if (ANodeImp.ChildNodes[0].NodeName = 'ICMS203') then
-            ANodeImpOSTO := ANodeImp.ChildNodes['ICMS203'] else
-            ANodeImpOSTO := ANodeImp.ChildNodes['ICMSSN203'];
-            ANodeImpOSTO.ChildNodes.First;
-
-            EdicaoNFE_ORIG.AsString  := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
-            EdicaoNFE_MODBC.AsString := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
-
-            if Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) <> '' then
-            EdicaoNFE_CST.AsString  := Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) else
-            begin
-              EdicaoNFE_CST.AsString   := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
-              EdicaoNFE_VBC.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-              EdicaoNFE_PICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
-              EdicaoNFE_VICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
-              EdicaoNFE_VNF.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-            end;
-          end;
-
-          if (ANodeImp.ChildNodes[0].NodeName = 'ICMS300') or (ANodeImp.ChildNodes[0].NodeName = 'ICMSSN300') then
-          begin
-            // Lendo o nó dos ICMS
-            if (ANodeImp.ChildNodes[0].NodeName = 'ICMS300') then
-            ANodeImpOSTO := ANodeImp.ChildNodes['ICMS300'] else
-            ANodeImpOSTO := ANodeImp.ChildNodes['ICMSSN300'];
-            ANodeImpOSTO.ChildNodes.First;
-
-            EdicaoNFE_ORIG.AsString  := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
-            EdicaoNFE_MODBC.AsString := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
-
-            if Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) <> '' then
-            EdicaoNFE_CST.AsString  := Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) else
-            begin
-              EdicaoNFE_CST.AsString   := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
-              EdicaoNFE_VBC.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-              EdicaoNFE_PICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
-              EdicaoNFE_VICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
-              EdicaoNFE_VNF.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-            end;
-          end;
-
-          if (ANodeImp.ChildNodes[0].NodeName = 'ICMS400') or (ANodeImp.ChildNodes[0].NodeName = 'ICMSSN400') then
-          begin
-            // Lendo o nó dos ICMS
-            if (ANodeImp.ChildNodes[0].NodeName = 'ICMS400') then
-            ANodeImpOSTO := ANodeImp.ChildNodes['ICMS400'] else
-            ANodeImpOSTO := ANodeImp.ChildNodes['ICMSSN400'];
-            ANodeImpOSTO.ChildNodes.First;
-
-            EdicaoNFE_ORIG.AsString  := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
-            EdicaoNFE_MODBC.AsString := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
-
-            if Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) <> '' then
-            EdicaoNFE_CST.AsString  := Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) else
-            begin
-              EdicaoNFE_CST.AsString   := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
-              EdicaoNFE_VBC.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-              EdicaoNFE_PICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
-              EdicaoNFE_VICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
-              EdicaoNFE_VNF.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-            end;
-          end;
-
-          if (ANodeImp.ChildNodes[0].NodeName = 'ICMS500') or (ANodeImp.ChildNodes[0].NodeName = 'ICMSSN500') then
-          begin
-            // Lendo o nó dos ICMS
-            if (ANodeImp.ChildNodes[0].NodeName = 'ICMS500') then
-            ANodeImpOSTO := ANodeImp.ChildNodes['ICMS500'] else
-            ANodeImpOSTO := ANodeImp.ChildNodes['ICMSSN500'];
-            ANodeImpOSTO.ChildNodes.First;
-
-            EdicaoNFE_ORIG.AsString  := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
-            EdicaoNFE_MODBC.AsString := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
-
-            if Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) <> '' then
-            EdicaoNFE_CST.AsString  := Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) else
-            begin
-              EdicaoNFE_CST.AsString   := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
-              EdicaoNFE_VBC.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-              EdicaoNFE_PICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
-              EdicaoNFE_VICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
-              EdicaoNFE_VNF.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-            end;
-          end;
-
-          if (ANodeImp.ChildNodes[0].NodeName = 'ICMS900') or (ANodeImp.ChildNodes[0].NodeName = 'ICMSSN900') then
-          begin
-            // Lendo o nó dos ICMS
-            if (ANodeImp.ChildNodes[0].NodeName = 'ICMS900') then
-            ANodeImpOSTO := ANodeImp.ChildNodes['ICMS900'] else
-            ANodeImpOSTO := ANodeImp.ChildNodes['ICMSSN900'];
-            ANodeImpOSTO.ChildNodes.First;
-
-            EdicaoNFE_ORIG.AsString  := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
-            EdicaoNFE_MODBC.AsString := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
-
-            EdicaoNFE_CST.AsString   := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
-            EdicaoNFE_VBC.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-            EdicaoNFE_PICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
-            EdicaoNFE_VICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
-            EdicaoNFE_VNF.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-          end;
-
-          // Lendo o nó dos IPI
-          ANodeImp := ANodeTmp.ChildNodes['IPI'];
-          ANodeImp.ChildNodes.First;
-
-          if Trim(ANodeImp.ChildNodes['cEnq'].Text) <> '' then
-          begin
-            EdicaoNFE_CENQ.Value := Trim(ANodeImp.ChildNodes['cEnq'].Text);
-
-            ANodeImpOSTO := ANodeImp.ChildNodes['IPITrib'];
-            ANodeImpOSTO.ChildNodes.First;
-
-            EdicaoNFE_CSTIPI.Value := ANodeImpOSTO.ChildNodes['CST'].Text;
-            EdicaoNFE_CSTIPI.Value := Trim(EdicaoNFE_CSTIPI.AsString);
-
-            EdicaoNFE_VBCIPI.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-            EdicaoNFE_PIPI.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pIPI'].Text));
-            EdicaoNFE_VIPI.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vIPI'].Text));
-
-            if (EdicaoNFE_CSTIPI.AsString = EmptyStr) and (EdicaoNFE_VBCIPI.AsFloat > 0) then
-            begin
-              showmessage('ipi');
-            EdicaoNFE_CSTIPI.Value := '99';
+              if Eof then
+              begin
+                Close;
+                SQL.Clear;
+                SQL.Add('SELECT REFERENCIA FROM TAB_UCOM');
+                SQL.Add('WHERE  DESCRICAO LIKE '''+EdicaoNFE_UTRIB.AsString+'%''');
+                ExecQuery;
+                EdicaoNFE_UTRIB.Value := Fields[0].AsString;
+              end;
             end;
 
-           { if (EdicaoNFE_VIPI.AsFloat = 0) or (EdicaoNFE_PIPI.AsFloat = 0) then
+            // Lendo o nó da DI
+            ANodeDI := ANodeTmp.ChildNodes['DI'];
+            ANodeDI.ChildNodes.First;
+
+            if Trim(ANodeDI.ChildNodes['nDI'].Text) <> '' then
             begin
-              ANodeImpOSTO := ANodeImp.ChildNodes['IPINT'];
+              if Pos(',',EdicaoNFE_XPROD.AsString) > 0 then
+              EdicaoNFE_XPROD.Value        := Trim(LeftStr(EdicaoNFE_XPROD.AsString,Pos(',',EdicaoNFE_XPROD.AsString) - 1));
+              EdicaoNFE_NDI.Value          := Trim(ANodeDI.ChildNodes['nDI'].Text);
+              EdicaoNFE_DDI.Value          := strtodate(copy(ANodeDI.ChildNodes['dDI'].Text,9,2)+'/'+copy(ANodeDI.ChildNodes['dDI'].Text,6,2)+'/'+copy(ANodeDI.ChildNodes['dDI'].Text,1,4));
+              EdicaoNFE_XLOCDESEMB.Value   := Trim(ANodeDI.ChildNodes['xLocDesemb'].Text);
+              EdicaoNFE_UFDESEMB.Value     := Trim(ANodeDI.ChildNodes['UFDesemb'].Text);
+
+              EdicaoNFE_DDESEMB.Value      := IFThen(Length( Trim(ANodeDI.ChildNodes['dDesemb'].Text)) <= 6,RECParametros.SHE_DATA,
+                                              strtodate(copy(Trim(ANodeDI.ChildNodes['dDesemb'].Text),9,2) + '/' +
+                                                        copy(Trim(ANodeDI.ChildNodes['dDesemb'].Text),6,2) + '/' +
+                                                        copy(Trim(ANodeDI.ChildNodes['dDesemb'].Text),1,4)));
+
+              EdicaoNFE_CEXPORTADOR.Value  := Trim(ANodeDI.ChildNodes['cExportador'].Text);
+
+              if Trim(ANodeDI.ChildNodes['tpViaTransp'].Text) <> '' then
+              EdicaoNFE_TPVIATRANSP.Value  := Trim(ANodeDI.ChildNodes['tpViaTransp'].Text);
+
+              if Trim(ANodeDI.ChildNodes['vAFRMM'].Text) <> '' then
+              EdicaoNFE_VAFRMM.Value       := oTextToValor(Trim(ANodeDI.ChildNodes['vAFRMM'].Text));
+
+              if Trim(ANodeDI.ChildNodes['tpIntermedio'].Text) <> '' then
+              EdicaoNFE_TPINTERMEDIO.Value := Trim(ANodeDI.ChildNodes['tpIntermedio'].Text);
+              EdicaoNFE_CNPJTERCEIRO.Value := Trim(ANodeDI.ChildNodes['CNPJ'].Text);
+              EdicaoNFE_UFTERCEIRO.Value   := Trim(ANodeDI.ChildNodes['UFTerceiro'].Text);
+
+              // Lendo o nó da Adicao
+              ANodeADI := ANodeDI.ChildNodes['adi'];
+              ANodeADI.ChildNodes.First;
+
+              for i := 1 to length(Trim(ANodeADI.ChildNodes['nAdicao'].Text)) do
+                  if copy(Trim(ANodeADI.ChildNodes['nAdicao'].Text),i,1) <> '|' then
+                  EdicaoNFE_NADICAO.AsString := EdicaoNFE_NADICAO.AsString + copy(Trim(ANodeADI.ChildNodes['nAdicao'].Text),i,1);
+
+              for i := 1 to length(Trim(ANodeADI.ChildNodes['nSeqAdic'].Text)) do
+                  if copy(Trim(ANodeADI.ChildNodes['nSeqAdic'].Text),i,1) <> '|' then
+                  EdicaoNFE_NSEQADIC.AsString := EdicaoNFE_NSEQADIC.AsString + copy(Trim(ANodeADI.ChildNodes['nSeqAdic'].Text),i,1);
+
+              for i := 1 to length(Trim(ANodeADI.ChildNodes['cFabricante'].Text)) do
+                  if copy(Trim(ANodeADI.ChildNodes['cFabricante'].Text),i,1) <> '|' then
+                  EdicaoNFE_CFABRICANTE.Value := EdicaoNFE_CFABRICANTE.AsString + copy(Trim(ANodeADI.ChildNodes['cFabricante'].Text),i,1);
+            end;
+
+            ANodeTmp  := ANodeSec.ChildNodes['imposto'];
+            ANodeTmp.ChildNodes.First;
+
+            ANodeImp := ANodeTmp.ChildNodes['ICMS'];
+            ANodeImp.ChildNodes.First;
+
+            if ANodeImp.ChildNodes[0].NodeName = 'ICMSST' then
+            begin
+              // Lendo o nó dos ICMS
+              ANodeImpOSTO := ANodeImp.ChildNodes['ICMSST'];
               ANodeImpOSTO.ChildNodes.First;
 
-              if Trim(ANodeImpOSTO.ChildNodes['CST'].Text) <> '' then
-              EdicaoNFE_CSTIPI.Value := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
-            end; }
-          end;
-
-          // Lendo o nó II
-          ANodeImp := ANodeTmp.ChildNodes['II'];
-          ANodeImp.ChildNodes.First;
-
-          if ANodeImp.ChildNodes['vBC'].text <> '' then
-          begin
-            EdicaoNFE_VBCIMP.Value   := oTextToValor(Trim(ANodeImp.ChildNodes['vBC'].Text));
-            EdicaoNFE_VDESPADU.Value := oTextToValor(Trim(ANodeImp.ChildNodes['vDespAdu'].Text));
-            EdicaoNFE_VII.Value      := oTextToValor(Trim(ANodeImp.ChildNodes['vII'].Text));
-            EdicaoNFE_VIOF.Value     := oTextToValor(Trim(ANodeImp.ChildNodes['vIOF'].Text));
-          end;
-
-          // Lendo o nó dos PIS
-          ANodeImp := ANodeTmp.ChildNodes['PIS'];
-          ANodeImp.ChildNodes.First;
-
-          if ANodeImp.ChildNodes[0].NodeName = 'PISOutr' then
-          begin
-            ANodeImpOSTO := ANodeImp.ChildNodes['PISOutr'];
-            ANodeImpOSTO.ChildNodes.First;
-
-            EdicaoNFE_CSTPIS.Value := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
-            EdicaoNFE_VBCPIS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-            EdicaoNFE_PPIS.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pPIS'].Text));
-            EdicaoNFE_VPIS.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vPIS'].Text));
-          end else
-          if ANodeImp.ChildNodes[0].NodeName = 'PISAliq' then
-          begin
-            ANodeImpOSTO := ANodeImp.ChildNodes['PISAliq'];
-            ANodeImpOSTO.ChildNodes.First;
-
-            EdicaoNFE_CSTPIS.Value := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
-            EdicaoNFE_VBCPIS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-            EdicaoNFE_PPIS.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pPIS'].Text));
-            EdicaoNFE_VPIS.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vPIS'].Text));
-          end else
-          if ANodeImp.ChildNodes[0].NodeName = 'PISNT' then
-          begin
-            ANodeImpOSTO := ANodeImp.ChildNodes['PISNT'];
-            ANodeImpOSTO.ChildNodes.First;
-
-            EdicaoNFE_CSTPIS.Value := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
-            EdicaoNFE_VBCPIS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-            EdicaoNFE_PPIS.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pPIS'].Text));
-            EdicaoNFE_VPIS.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vPIS'].Text));
-          end;
-
-          // Lendo o nó dos COFINS
-          ANodeImp := ANodeTmp.ChildNodes['COFINS'];
-          ANodeImp.ChildNodes.First;
-
-          if ANodeImp.ChildNodes[0].NodeName = 'COFINSOutr' then
-          begin
-            ANodeImpOSTO := ANodeImp.ChildNodes['COFINSOutr'];
-            ANodeImpOSTO.ChildNodes.First;
-
-            EdicaoNFE_CSTCOFINS.Value := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
-            EdicaoNFE_VBCCOFINS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-            EdicaoNFE_PCOFINS.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pCOFINS'].Text));
-            EdicaoNFE_VCOFINS.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vCOFINS'].Text));
-          end else
-          if ANodeImp.ChildNodes[0].NodeName = 'COFINSAliq' then
-          begin
-            ANodeImpOSTO := ANodeImp.ChildNodes['COFINSAliq'];
-            ANodeImpOSTO.ChildNodes.First;
-
-            EdicaoNFE_CSTCOFINS.Value := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
-            EdicaoNFE_VBCCOFINS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-            EdicaoNFE_PCOFINS.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pCOFINS'].Text));
-            EdicaoNFE_VCOFINS.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vCOFINS'].Text));
-          end else
-          if ANodeImp.ChildNodes[0].NodeName = 'COFINSNT' then
-          begin
-            ANodeImpOSTO := ANodeImp.ChildNodes['COFINSNT'];
-            ANodeImpOSTO.ChildNodes.First;
-
-            EdicaoNFE_CSTCOFINS.Value := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
-            EdicaoNFE_VBCCOFINS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
-            EdicaoNFE_PCOFINS.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pCOFINS'].Text));
-            EdicaoNFE_VCOFINS.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vCOFINS'].Text));
-          end;
-
-        {  // novo (Reforma)
-          NodeIBSCBS := FindChildLocal(ANodeTmp,'IBSCBS');
-          if NodeIBSCBS <> nil then
-          begin
-            // CST := ChildText(NodeIBSCBS, 'CST');
-            // cClassTrib := ChildText(NodeIBSCBS, 'cClassTrib');
-            Exit;
-          end;
-
-          // legado (se ainda vier COFINS)
-          NodeCOFINS := FindChildLocal(Imposto, 'COFINS');
-          if NodeCOFINS <> nil then
-          begin
-            NodeAliq := FindChildLocal(NodeCOFINS, 'COFINSAliq');
-            if NodeAliq <> nil then
-            begin
-              vBC := ChildText(NodeAliq, 'vBC');
-              p   := ChildText(NodeAliq, 'pCOFINS');
-              v   := ChildText(NodeAliq, 'vCOFINS');
-
-              // aqui você decide: salvar em campos “CBS” internos, etc.
-              // Ex: FCBS_Base := vBC; FCBS_Aliq := p; FCBS_Valor := v;
+              EdicaoNFE_ORIG.AsString := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
+              EdicaoNFE_CST.AsString  := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
             end;
-          end;  }
 
-          if ANodeSec.ChildNodes['infAdProd'].text <> '' then
-          EdicaoNFE_INFADCAD.Value := Trim(ANodeSec.ChildNodes['infAdProd'].text);
+            if ANodeImp.ChildNodes[0].NodeName = 'ICMS00' then
+            begin
+              // Lendo o nó dos ICMS
+              ANodeImpOSTO := ANodeImp.ChildNodes['ICMS00'];
+              ANodeImpOSTO.ChildNodes.First;
 
-          if copy(EdicaoNFE_CFOP.AsString,1,1) = '3' then
-          begin
-            EdicaoCDEV.Value := 9;
+              EdicaoNFE_ORIG.AsString   := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
+              EdicaoNFE_CST.AsString    := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
+              EdicaoNFE_MODBC.AsString  := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
 
-            if RECParametros.NFE_CRT = 1 then
-            EdicaoNFE_CST.AsString := '900';
+              EdicaoNFE_PREDBC.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pRedBC'].Text));
 
-            if EdicaoNFE_CSTIPI.AsString = '' then
-            EdicaoNFE_CSTIPI.Value := '49';
+              EdicaoNFE_VBC.Value    := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+              EdicaoNFE_PICMS.Value  := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
+              EdicaoNFE_VICMS.Value  := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
+              EdicaoNFE_VNF.Value    := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+            end;
+
+            if ANodeImp.ChildNodes[0].NodeName = 'ICMS10' then
+            begin
+              // Lendo o nó dos ICMS
+              ANodeImpOSTO := ANodeImp.ChildNodes['ICMS10'];
+              ANodeImpOSTO.ChildNodes.First;
+
+              EdicaoNFE_ORIG.AsString := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
+              EdicaoNFE_CST.AsString  := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
+              EdicaoNFE_MODBC.AsString := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
+              EdicaoNFE_VBC.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+              EdicaoNFE_PICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
+              EdicaoNFE_VICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
+              EdicaoNFE_VNF.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+            end;
+
+            if ANodeImp.ChildNodes[0].NodeName = 'ICMS20' then
+            begin
+              // Lendo o nó dos ICMS
+              ANodeImpOSTO := ANodeImp.ChildNodes['ICMS20'];
+              ANodeImpOSTO.ChildNodes.First;
+
+              EdicaoNFE_ORIG.AsString   := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
+              EdicaoNFE_CST.AsString    := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
+              EdicaoNFE_MODBC.AsString  := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
+              EdicaoNFE_PREDBC.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pRedBC'].Text));
+              EdicaoNFE_VBC.Value    := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+              EdicaoNFE_PICMS.Value  := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
+              EdicaoNFE_VICMS.Value  := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
+              EdicaoNFE_VNF.Value    := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+            end;
+
+            if ANodeImp.ChildNodes[0].NodeName = 'ICMS40' then
+            begin
+              // Lendo o nó dos ICMS
+              ANodeImpOSTO := ANodeImp.ChildNodes['ICMS40'];
+              ANodeImpOSTO.ChildNodes.First;
+
+              EdicaoNFE_ORIG.AsString   := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
+              EdicaoNFE_CST.AsString    := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
+              EdicaoNFE_MODBC.AsString  := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
+              EdicaoNFE_PREDBC.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pRedBC'].Text));
+              EdicaoNFE_VBC.Value    := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+              EdicaoNFE_PICMS.Value  := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
+              EdicaoNFE_VICMS.Value  := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
+              EdicaoNFE_VNF.Value    := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+            end;
+
+            if ANodeImp.ChildNodes[0].NodeName = 'ICMS60' then
+            begin
+              // Lendo o nó dos ICMS
+              ANodeImpOSTO := ANodeImp.ChildNodes['ICMS60'];
+              ANodeImpOSTO.ChildNodes.First;
+
+              EdicaoNFE_ORIG.AsString   := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
+              EdicaoNFE_CST.AsString    := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
+              EdicaoNFE_MODBC.AsString  := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
+              EdicaoNFE_PREDBC.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pRedBC'].Text));
+              EdicaoNFE_VBC.Value    := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+              EdicaoNFE_PICMS.Value  := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
+              EdicaoNFE_VICMS.Value  := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
+              EdicaoNFE_VNF.Value    := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+            end;
+
+            if ANodeImp.ChildNodes[0].NodeName = 'ICMS70' then
+            begin
+              // Lendo o nó dos ICMS
+              ANodeImpOSTO := ANodeImp.ChildNodes['ICMS70'];
+              ANodeImpOSTO.ChildNodes.First;
+
+              EdicaoNFE_ORIG.AsString   := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
+              EdicaoNFE_CST.AsString    := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
+              EdicaoNFE_MODBC.AsString  := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
+              EdicaoNFE_PREDBC.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pRedBC'].Text));
+              EdicaoNFE_VBC.Value    := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+              EdicaoNFE_PICMS.Value  := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
+              EdicaoNFE_VICMS.Value  := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
+              EdicaoNFE_VNF.Value    := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+            end;
+
+            if ANodeImp.ChildNodes[0].NodeName = 'ICMS90' then
+            begin
+              // Lendo o nó dos ICMS
+              ANodeImpOSTO := ANodeImp.ChildNodes['ICMS90'];
+              ANodeImpOSTO.ChildNodes.First;
+
+              EdicaoNFE_ORIG.AsString   := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
+              EdicaoNFE_CST.AsString    := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
+              EdicaoNFE_MODBC.AsString  := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
+              EdicaoNFE_PREDBC.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pRedBC'].Text));
+              EdicaoNFE_VBC.Value    := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+              EdicaoNFE_PICMS.Value  := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
+              EdicaoNFE_VICMS.Value  := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
+              EdicaoNFE_VNF.Value    := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+            end;
+
+
+            if (ANodeImp.ChildNodes[0].NodeName = 'ICMS101') or (ANodeImp.ChildNodes[0].NodeName = 'ICMSSN101') then
+            begin
+              // Lendo o nó dos ICMS
+              if (ANodeImp.ChildNodes[0].NodeName = 'ICMS101') then
+              ANodeImpOSTO := ANodeImp.ChildNodes['ICMS101'] else
+              ANodeImpOSTO := ANodeImp.ChildNodes['ICMSSN101'];
+              ANodeImpOSTO.ChildNodes.First;
+
+              EdicaoNFE_ORIG.AsString  := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
+              EdicaoNFE_MODBC.AsString := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
+
+              if Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) <> '' then
+              EdicaoNFE_CST.AsString  := Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) else
+              begin
+                EdicaoNFE_CST.AsString   := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
+                EdicaoNFE_VBC.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+                EdicaoNFE_PICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
+                EdicaoNFE_VICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
+                EdicaoNFE_VNF.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+              end;
+            end;
+
+            if (ANodeImp.ChildNodes[0].NodeName = 'ICMS102') or (ANodeImp.ChildNodes[0].NodeName = 'ICMSSN102') then
+            begin
+              // Lendo o nó dos ICMS
+              if (ANodeImp.ChildNodes[0].NodeName = 'ICMS102') then
+              ANodeImpOSTO := ANodeImp.ChildNodes['ICMS102'] else
+              ANodeImpOSTO := ANodeImp.ChildNodes['ICMSSN102'];
+              ANodeImpOSTO.ChildNodes.First;
+
+              EdicaoNFE_ORIG.AsString  := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
+              EdicaoNFE_MODBC.AsString := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
+
+              if Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) <> '' then
+              EdicaoNFE_CST.AsString  := Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) else
+              begin
+                EdicaoNFE_CST.AsString   := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
+                EdicaoNFE_VBC.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+                EdicaoNFE_PICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
+                EdicaoNFE_VICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
+                EdicaoNFE_VNF.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+              end;
+            end;
+
+            if (ANodeImp.ChildNodes[0].NodeName = 'ICMS103') or (ANodeImp.ChildNodes[0].NodeName = 'ICMSSN103') then
+            begin
+              // Lendo o nó dos ICMS
+              if (ANodeImp.ChildNodes[0].NodeName = 'ICMS103') then
+              ANodeImpOSTO := ANodeImp.ChildNodes['ICMS103'] else
+              ANodeImpOSTO := ANodeImp.ChildNodes['ICMSSN103'];
+              ANodeImpOSTO.ChildNodes.First;
+
+              EdicaoNFE_ORIG.AsString  := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
+              EdicaoNFE_MODBC.AsString := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
+
+              if Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) <> '' then
+              EdicaoNFE_CST.AsString  := Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) else
+              begin
+                EdicaoNFE_CST.AsString   := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
+                EdicaoNFE_VBC.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+                EdicaoNFE_PICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
+                EdicaoNFE_VICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
+                EdicaoNFE_VNF.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+              end;
+            end;
+
+            if (ANodeImp.ChildNodes[0].NodeName = 'ICMS201') or (ANodeImp.ChildNodes[0].NodeName = 'ICMSSN201') then
+            begin
+              // Lendo o nó dos ICMS
+              if (ANodeImp.ChildNodes[0].NodeName = 'ICMS201') then
+              ANodeImpOSTO := ANodeImp.ChildNodes['ICMS201'] else
+              ANodeImpOSTO := ANodeImp.ChildNodes['ICMSSN201'];
+              ANodeImpOSTO.ChildNodes.First;
+
+              EdicaoNFE_ORIG.AsString  := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
+              EdicaoNFE_MODBC.AsString := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
+
+              if Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) <> '' then
+              EdicaoNFE_CST.AsString  := Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) else
+              begin
+                EdicaoNFE_CST.AsString   := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
+                EdicaoNFE_VBC.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+                EdicaoNFE_PICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
+                EdicaoNFE_VICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
+                EdicaoNFE_VNF.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+              end;
+            end;
+
+            if (ANodeImp.ChildNodes[0].NodeName = 'ICMS202') or (ANodeImp.ChildNodes[0].NodeName = 'ICMSSN202') then
+            begin
+              // Lendo o nó dos ICMS
+              if (ANodeImp.ChildNodes[0].NodeName = 'ICMS202') then
+              ANodeImpOSTO := ANodeImp.ChildNodes['ICMS202'] else
+              ANodeImpOSTO := ANodeImp.ChildNodes['ICMSSN202'];
+              ANodeImpOSTO.ChildNodes.First;
+
+              EdicaoNFE_ORIG.AsString  := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
+              EdicaoNFE_MODBC.AsString := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
+
+              if Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) <> '' then
+              EdicaoNFE_CST.AsString  := Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) else
+              begin
+                EdicaoNFE_CST.AsString   := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
+                EdicaoNFE_VBC.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+                EdicaoNFE_PICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
+                EdicaoNFE_VICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
+                EdicaoNFE_VNF.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+              end;
+            end;
+
+            if (ANodeImp.ChildNodes[0].NodeName = 'ICMS203') or (ANodeImp.ChildNodes[0].NodeName = 'ICMSSN203') then
+            begin
+              // Lendo o nó dos ICMS
+              if (ANodeImp.ChildNodes[0].NodeName = 'ICMS203') then
+              ANodeImpOSTO := ANodeImp.ChildNodes['ICMS203'] else
+              ANodeImpOSTO := ANodeImp.ChildNodes['ICMSSN203'];
+              ANodeImpOSTO.ChildNodes.First;
+
+              EdicaoNFE_ORIG.AsString  := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
+              EdicaoNFE_MODBC.AsString := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
+
+              if Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) <> '' then
+              EdicaoNFE_CST.AsString  := Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) else
+              begin
+                EdicaoNFE_CST.AsString   := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
+                EdicaoNFE_VBC.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+                EdicaoNFE_PICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
+                EdicaoNFE_VICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
+                EdicaoNFE_VNF.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+              end;
+            end;
+
+            if (ANodeImp.ChildNodes[0].NodeName = 'ICMS300') or (ANodeImp.ChildNodes[0].NodeName = 'ICMSSN300') then
+            begin
+              // Lendo o nó dos ICMS
+              if (ANodeImp.ChildNodes[0].NodeName = 'ICMS300') then
+              ANodeImpOSTO := ANodeImp.ChildNodes['ICMS300'] else
+              ANodeImpOSTO := ANodeImp.ChildNodes['ICMSSN300'];
+              ANodeImpOSTO.ChildNodes.First;
+
+              EdicaoNFE_ORIG.AsString  := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
+              EdicaoNFE_MODBC.AsString := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
+
+              if Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) <> '' then
+              EdicaoNFE_CST.AsString  := Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) else
+              begin
+                EdicaoNFE_CST.AsString   := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
+                EdicaoNFE_VBC.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+                EdicaoNFE_PICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
+                EdicaoNFE_VICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
+                EdicaoNFE_VNF.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+              end;
+            end;
+
+            if (ANodeImp.ChildNodes[0].NodeName = 'ICMS400') or (ANodeImp.ChildNodes[0].NodeName = 'ICMSSN400') then
+            begin
+              // Lendo o nó dos ICMS
+              if (ANodeImp.ChildNodes[0].NodeName = 'ICMS400') then
+              ANodeImpOSTO := ANodeImp.ChildNodes['ICMS400'] else
+              ANodeImpOSTO := ANodeImp.ChildNodes['ICMSSN400'];
+              ANodeImpOSTO.ChildNodes.First;
+
+              EdicaoNFE_ORIG.AsString  := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
+              EdicaoNFE_MODBC.AsString := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
+
+              if Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) <> '' then
+              EdicaoNFE_CST.AsString  := Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) else
+              begin
+                EdicaoNFE_CST.AsString   := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
+                EdicaoNFE_VBC.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+                EdicaoNFE_PICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
+                EdicaoNFE_VICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
+                EdicaoNFE_VNF.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+              end;
+            end;
+
+            if (ANodeImp.ChildNodes[0].NodeName = 'ICMS500') or (ANodeImp.ChildNodes[0].NodeName = 'ICMSSN500') then
+            begin
+              // Lendo o nó dos ICMS
+              if (ANodeImp.ChildNodes[0].NodeName = 'ICMS500') then
+              ANodeImpOSTO := ANodeImp.ChildNodes['ICMS500'] else
+              ANodeImpOSTO := ANodeImp.ChildNodes['ICMSSN500'];
+              ANodeImpOSTO.ChildNodes.First;
+
+              EdicaoNFE_ORIG.AsString  := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
+              EdicaoNFE_MODBC.AsString := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
+
+              if Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) <> '' then
+              EdicaoNFE_CST.AsString  := Trim(ANodeImpOSTO.ChildNodes['CSOSN'].Text) else
+              begin
+                EdicaoNFE_CST.AsString   := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
+                EdicaoNFE_VBC.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+                EdicaoNFE_PICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
+                EdicaoNFE_VICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
+                EdicaoNFE_VNF.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+              end;
+            end;
+
+            if (ANodeImp.ChildNodes[0].NodeName = 'ICMS900') or (ANodeImp.ChildNodes[0].NodeName = 'ICMSSN900') then
+            begin
+              // Lendo o nó dos ICMS
+              if (ANodeImp.ChildNodes[0].NodeName = 'ICMS900') then
+              ANodeImpOSTO := ANodeImp.ChildNodes['ICMS900'] else
+              ANodeImpOSTO := ANodeImp.ChildNodes['ICMSSN900'];
+              ANodeImpOSTO.ChildNodes.First;
+
+              EdicaoNFE_ORIG.AsString  := Trim(ANodeImpOSTO.ChildNodes['orig'].Text);
+              EdicaoNFE_MODBC.AsString := Trim(ANodeImpOSTO.ChildNodes['modBC'].Text);
+
+              EdicaoNFE_CST.AsString   := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
+              EdicaoNFE_VBC.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+              EdicaoNFE_PICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pICMS'].Text));
+              EdicaoNFE_VICMS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vICMS'].Text));
+              EdicaoNFE_VNF.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+            end;
+
+            // Lendo o nó dos IPI
+            ANodeImp := ANodeTmp.ChildNodes['IPI'];
+            ANodeImp.ChildNodes.First;
+
+            if Trim(ANodeImp.ChildNodes['cEnq'].Text) <> '' then
+            begin
+              EdicaoNFE_CENQ.Value := Trim(ANodeImp.ChildNodes['cEnq'].Text);
+
+              ANodeImpOSTO := ANodeImp.ChildNodes['IPITrib'];
+              ANodeImpOSTO.ChildNodes.First;
+
+              EdicaoNFE_CSTIPI.Value := ANodeImpOSTO.ChildNodes['CST'].Text;
+              EdicaoNFE_CSTIPI.Value := Trim(EdicaoNFE_CSTIPI.AsString);
+
+              EdicaoNFE_VBCIPI.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+              EdicaoNFE_PIPI.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pIPI'].Text));
+              EdicaoNFE_VIPI.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vIPI'].Text));
+
+              if (EdicaoNFE_CSTIPI.AsString = EmptyStr) and (EdicaoNFE_VBCIPI.AsFloat > 0) then
+              begin
+                showmessage('ipi');
+              EdicaoNFE_CSTIPI.Value := '99';
+              end;
+
+             { if (EdicaoNFE_VIPI.AsFloat = 0) or (EdicaoNFE_PIPI.AsFloat = 0) then
+              begin
+                ANodeImpOSTO := ANodeImp.ChildNodes['IPINT'];
+                ANodeImpOSTO.ChildNodes.First;
+
+                if Trim(ANodeImpOSTO.ChildNodes['CST'].Text) <> '' then
+                EdicaoNFE_CSTIPI.Value := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
+              end; }
+            end;
+
+            // Lendo o nó II
+            ANodeImp := ANodeTmp.ChildNodes['II'];
+            ANodeImp.ChildNodes.First;
+
+            if ANodeImp.ChildNodes['vBC'].text <> '' then
+            begin
+              EdicaoNFE_VBCIMP.Value   := oTextToValor(Trim(ANodeImp.ChildNodes['vBC'].Text));
+              EdicaoNFE_VDESPADU.Value := oTextToValor(Trim(ANodeImp.ChildNodes['vDespAdu'].Text));
+              EdicaoNFE_VII.Value      := oTextToValor(Trim(ANodeImp.ChildNodes['vII'].Text));
+              EdicaoNFE_VIOF.Value     := oTextToValor(Trim(ANodeImp.ChildNodes['vIOF'].Text));
+            end;
+
+            // Lendo o nó dos PIS
+            ANodeImp := ANodeTmp.ChildNodes['PIS'];
+            ANodeImp.ChildNodes.First;
+
+            if ANodeImp.ChildNodes[0].NodeName = 'PISOutr' then
+            begin
+              ANodeImpOSTO := ANodeImp.ChildNodes['PISOutr'];
+              ANodeImpOSTO.ChildNodes.First;
+
+              EdicaoNFE_CSTPIS.Value := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
+              EdicaoNFE_VBCPIS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+              EdicaoNFE_PPIS.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pPIS'].Text));
+              EdicaoNFE_VPIS.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vPIS'].Text));
+            end else
+            if ANodeImp.ChildNodes[0].NodeName = 'PISAliq' then
+            begin
+              ANodeImpOSTO := ANodeImp.ChildNodes['PISAliq'];
+              ANodeImpOSTO.ChildNodes.First;
+
+              EdicaoNFE_CSTPIS.Value := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
+              EdicaoNFE_VBCPIS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+              EdicaoNFE_PPIS.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pPIS'].Text));
+              EdicaoNFE_VPIS.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vPIS'].Text));
+            end else
+            if ANodeImp.ChildNodes[0].NodeName = 'PISNT' then
+            begin
+              ANodeImpOSTO := ANodeImp.ChildNodes['PISNT'];
+              ANodeImpOSTO.ChildNodes.First;
+
+              EdicaoNFE_CSTPIS.Value := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
+              EdicaoNFE_VBCPIS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+              EdicaoNFE_PPIS.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pPIS'].Text));
+              EdicaoNFE_VPIS.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vPIS'].Text));
+            end;
+
+            // Lendo o nó dos COFINS
+            ANodeImp := ANodeTmp.ChildNodes['COFINS'];
+            ANodeImp.ChildNodes.First;
+
+            if ANodeImp.ChildNodes[0].NodeName = 'COFINSOutr' then
+            begin
+              ANodeImpOSTO := ANodeImp.ChildNodes['COFINSOutr'];
+              ANodeImpOSTO.ChildNodes.First;
+
+              EdicaoNFE_CSTCOFINS.Value := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
+              EdicaoNFE_VBCCOFINS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+              EdicaoNFE_PCOFINS.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pCOFINS'].Text));
+              EdicaoNFE_VCOFINS.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vCOFINS'].Text));
+            end else
+            if ANodeImp.ChildNodes[0].NodeName = 'COFINSAliq' then
+            begin
+              ANodeImpOSTO := ANodeImp.ChildNodes['COFINSAliq'];
+              ANodeImpOSTO.ChildNodes.First;
+
+              EdicaoNFE_CSTCOFINS.Value := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
+              EdicaoNFE_VBCCOFINS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+              EdicaoNFE_PCOFINS.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pCOFINS'].Text));
+              EdicaoNFE_VCOFINS.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vCOFINS'].Text));
+            end else
+            if ANodeImp.ChildNodes[0].NodeName = 'COFINSNT' then
+            begin
+              ANodeImpOSTO := ANodeImp.ChildNodes['COFINSNT'];
+              ANodeImpOSTO.ChildNodes.First;
+
+              EdicaoNFE_CSTCOFINS.Value := Trim(ANodeImpOSTO.ChildNodes['CST'].Text);
+              EdicaoNFE_VBCCOFINS.Value := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vBC'].Text));
+              EdicaoNFE_PCOFINS.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['pCOFINS'].Text));
+              EdicaoNFE_VCOFINS.Value   := oTextToValor(Trim(ANodeImpOSTO.ChildNodes['vCOFINS'].Text));
+            end;
+
+        {{   // novo (Reforma)
+            NodeIBSCBS := FindChildLocal(ANodeTmp,'IBSCBS');
+            if NodeIBSCBS <> nil then
+            begin
+              // CST := ChildText(NodeIBSCBS, 'CST');
+              // cClassTrib := ChildText(NodeIBSCBS, 'cClassTrib');
+              Exit;
+            end;
+
+            // legado (se ainda vier COFINS)
+            NodeCOFINS := FindChildLocal(Imposto, 'COFINS');
+            if NodeCOFINS <> nil then
+            begin
+              NodeAliq := FindChildLocal(NodeCOFINS, 'COFINSAliq');
+              if NodeAliq <> nil then
+              begin
+                vBC := ChildText(NodeAliq, 'vBC');
+                p   := ChildText(NodeAliq, 'pCOFINS');
+                v   := ChildText(NodeAliq, 'vCOFINS');
+
+                // aqui você decide: salvar em campos “CBS” internos, etc.
+                // Ex: FCBS_Base := vBC; FCBS_Aliq := p; FCBS_Valor := v;
+              end;
+            end;  }
+
+            if ANodeSec.ChildNodes['infAdProd'].text <> '' then
+            EdicaoNFE_INFADCAD.Value := Trim(ANodeSec.ChildNodes['infAdProd'].text);
+
+            if copy(EdicaoNFE_CFOP.AsString,1,1) = '3' then
+            begin
+              EdicaoCDEV.Value := 9;
+
+              if RECParametros.NFE_CRT = 1 then
+              EdicaoNFE_CST.AsString := '900';
+
+              if EdicaoNFE_CSTIPI.AsString = '' then
+              EdicaoNFE_CSTIPI.Value := '49';
+            end;
+
+            if EdicaoNFE_VNF.AsFloat = 0 then
+            EdicaoNFE_VNF.Value  := EdicaoNFE_VPROD.AsFloat;
+
+            { IBS/CBS PARA XML DE IMPORTAÇÃO }
+            if EdicaoNFE_CFOP.AsString = '3102' then
+            begin
+              EdicaoNFE_IBSCBS_CSTIS.Value        := '000';
+              EdicaoNFE_IBSCBS_CCLASSTRIBIS.Value := '000001';
+             
+              EdicaoNFE_IBSCBS_VBCIBSCBS.Value    :=
+             
+              EdicaoNFE_VPROD.AsFloat      + EdicaoNFE_VSERV.AsFloat     + EdicaoNFE_VFRETE.AsFloat       + EdicaoNFE_VSEG.AsFloat  + EdicaoNFE_VOUTRO.AsFloat      + EdicaoNFE_VII.AsFloat  -
+              EdicaoNFE_VDESC.AsFloat      - EdicaoNFE_VPIS.AsFloat      - EdicaoNFE_VCOFINS.AsFloat      - EdicaoNFE_VICMS.AsFloat - EdicaoNFE_VICMSUFDEST.AsFloat - EdicaoNFE_VFCP.AsFloat -
+              EdicaoNFE_VFCPUFDEST.AsFloat - EdicaoNFE_VICMSMONO.AsFloat - EdicaoNFE_ISSQN_VISSQN.AsFloat +
+              EdicaoNFE_IS_VIS.AsFloat;
+             
+              { CBS }
+              EdicaoNFE_CBS_VBCCBS.Value := EdicaoNFE_IBSCBS_VBCIBSCBS.AsFloat;
+              EdicaoNFE_CBS_PCBS.Value   := TAB_CFOPPCBS.AsFloat;
+              EdicaoNFE_CBS_VCBS.Value   := RoundTO((EdicaoNFE_CBS_PCBS.AsFloat / 100) * EdicaoNFE_CBS_VBCCBS.AsFloat,-2);
+             
+              { IBS }
+              EdicaoNFE_IBSUF_VBCIBSUF.Value := EdicaoNFE_IBSCBS_VBCIBSCBS.AsFloat;
+              EdicaoNFE_IBSUF_PIBSUF.Value   := TAB_CFOPPIS.AsCurrency;
+              EdicaoNFE_IBSUF_VIBSUF.Value   := RoundTo((EdicaoNFE_IBSUF_PIBSUF.AsFloat / 100) * EdicaoNFE_IBSCBS_VBCIBSCBS.AsFloat,-2);
+             
+              EdicaoNFE_VNFTOT.Value := EdicaoNFE_VNF.AsFloat + EdicaoNFE_CBS_VCBS.AsFloat + EdicaoNFE_IBSUF_VIBSUF.AsFloat;    
+            end;
+
+            Edicao.Post;
+          except
+            on E: Exception do
+            begin
+              Edicao.Cancel;
+              TSEdicao.Rollback;
+
+              oErro(Application.Handle,
+              'Falha ao tentar copiar arquivo xml' + #13 +
+              'Error Code: ' + E.Message + '.');
+            end;
           end;
-
-          if EdicaoNFE_VNF.AsFloat = 0 then
-          EdicaoNFE_VNF.Value  := EdicaoNFE_VPROD.AsFloat;
-
-          { IBS/CBS PARA XML DE IMPORTAÇÃO }
-          if EdicaoNFE_CFOP.AsString = '3102' then
-          begin
-            EdicaoNFE_IBSCBS_CSTIS.Value        := '000';
-            EdicaoNFE_IBSCBS_CCLASSTRIBIS.Value := '000001';
-           
-            EdicaoNFE_IBSCBS_VBCIBSCBS.Value    :=
-           
-            EdicaoNFE_VPROD.AsFloat      + EdicaoNFE_VSERV.AsFloat     + EdicaoNFE_VFRETE.AsFloat       + EdicaoNFE_VSEG.AsFloat  + EdicaoNFE_VOUTRO.AsFloat      + EdicaoNFE_VII.AsFloat  -
-            EdicaoNFE_VDESC.AsFloat      - EdicaoNFE_VPIS.AsFloat      - EdicaoNFE_VCOFINS.AsFloat      - EdicaoNFE_VICMS.AsFloat - EdicaoNFE_VICMSUFDEST.AsFloat - EdicaoNFE_VFCP.AsFloat -
-            EdicaoNFE_VFCPUFDEST.AsFloat - EdicaoNFE_VICMSMONO.AsFloat - EdicaoNFE_ISSQN_VISSQN.AsFloat +
-            EdicaoNFE_IS_VIS.AsFloat;
-           
-            { CBS }
-            EdicaoNFE_CBS_VBCCBS.Value := EdicaoNFE_IBSCBS_VBCIBSCBS.AsFloat;
-            EdicaoNFE_CBS_PCBS.Value   := TAB_CFOPPCBS.AsFloat;
-            EdicaoNFE_CBS_VCBS.Value   := RoundTO((EdicaoNFE_CBS_PCBS.AsFloat / 100) * EdicaoNFE_CBS_VBCCBS.AsFloat,-2);
-           
-            { IBS }
-            EdicaoNFE_IBSUF_VBCIBSUF.Value := EdicaoNFE_IBSCBS_VBCIBSCBS.AsFloat;
-            EdicaoNFE_IBSUF_PIBSUF.Value   := TAB_CFOPPIS.AsCurrency;
-            EdicaoNFE_IBSUF_VIBSUF.Value   := RoundTo((EdicaoNFE_IBSUF_PIBSUF.AsFloat / 100) * EdicaoNFE_IBSCBS_VBCIBSCBS.AsFloat,-2);
-           
-            EdicaoNFE_VNFTOT.Value := EdicaoNFE_VNF.AsFloat + EdicaoNFE_CBS_VCBS.AsFloat + EdicaoNFE_IBSUF_VIBSUF.AsFloat;    
-          end;
-
-          Edicao.Post;
         end;
         // vai para a proxima ocorrência <prod> (se houvesse)
         ANodeTmp := ANodeTmp.NextSibling;

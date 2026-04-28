@@ -1425,8 +1425,8 @@ inherited FrmCAD_PRO_PSQ: TFrmCAD_PRO_PSQ
         'P_ID) AS INTEGER      ),0) AS ESP_QTRL '
       'FROM CTE_PSQ AS PK'
       
-        'LEFT JOIN VW_PSQ_CAD_PRO_EST_SLD_NEW AS TB_EST ON (TB_EST.CP_ID ' +
-        '= PK.CP_ID AND TB_EST.EP_LG = :EP_LG)'
+        'LEFT JOIN VW_PSQ_CAD_PRO_EST_SLD AS TB_EST ON (TB_EST.CP_ID = PK' +
+        '.CP_ID AND TB_EST.EP_LG = :EP_LG)'
       'ORDER BY PK.EP_NO')
     ParamData = <
       item
@@ -2428,6 +2428,11 @@ inherited FrmCAD_PRO_PSQ: TFrmCAD_PRO_PSQ
       ProviderFlags = []
       Size = 512
     end
+    object ConsultaINFADETQ: TIBStringField
+      FieldName = 'INFADETQ'
+      ProviderFlags = []
+      Size = 512
+    end
     object ConsultaIP: TIBStringField
       FieldName = 'IP'
       ProviderFlags = []
@@ -2628,6 +2633,54 @@ inherited FrmCAD_PRO_PSQ: TFrmCAD_PRO_PSQ
       FieldName = 'C_EST_QTRL'
       DisplayFormat = ',##,0'
       Calculated = True
+    end
+    object ConsultaEP_RZ_NO: TIBStringField
+      FieldName = 'EP_RZ_NO'
+      ProviderFlags = []
+      Size = 60
+    end
+    object ConsultaCF_CNPJ: TIBStringField
+      FieldName = 'CF_CNPJ'
+      ProviderFlags = []
+      Size = 14
+    end
+    object ConsultaCF_IE: TIBStringField
+      FieldName = 'CF_IE'
+      ProviderFlags = []
+    end
+    object ConsultaCF_ISUF: TIBStringField
+      FieldName = 'CF_ISUF'
+      ProviderFlags = []
+    end
+    object ConsultaCF_IM: TIBStringField
+      FieldName = 'CF_IM'
+      ProviderFlags = []
+    end
+    object ConsultaCF_CDST: TSmallintField
+      FieldName = 'CF_CDST'
+      ProviderFlags = []
+    end
+    object ConsultaCF_REST: TIBStringField
+      FieldName = 'CF_REST'
+      ProviderFlags = []
+      Size = 10
+    end
+    object ConsultaCF_DEST: TIBStringField
+      FieldName = 'CF_DEST'
+      ProviderFlags = []
+      Size = 30
+    end
+    object ConsultaDTCA: TDateTimeField
+      FieldName = 'DTCA'
+      ProviderFlags = []
+    end
+    object ConsultaDTED: TDateTimeField
+      FieldName = 'DTED'
+      ProviderFlags = []
+    end
+    object ConsultaDTST: TDateTimeField
+      FieldName = 'DTST'
+      ProviderFlags = []
     end
   end
   object CAD_PRO_FIC: TIBQuery

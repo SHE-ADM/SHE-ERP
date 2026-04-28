@@ -688,6 +688,21 @@ begin
   Close;
 end;
 
+procedure TFrmSHE_DEF_EDI.ACTRelatoriosExecute(Sender: TObject);
+begin
+  { nothing }
+end;
+
+procedure TFrmSHE_DEF_EDI.ACTDashboardsExecute(Sender: TObject);
+begin
+  { nothing }
+end;
+
+procedure TFrmSHE_DEF_EDI.ACTProgressBarExecute(Sender: TObject);
+begin
+  { nothing }
+end;
+
 procedure TFrmSHE_DEF_EDI.ACTConsultaExecute(Sender: TObject);
 begin
   { nothing }
@@ -740,30 +755,40 @@ procedure TFrmSHE_DEF_EDI.ACTMEAppendExecute(Sender: TObject);
 begin
   if ALockWindowUpdate then { SQL Injection Enabled }
   Exit;
+
+  oAppend(Consulta,REC_SHE_DEF.GAppend);
 end;
 
 procedure TFrmSHE_DEF_EDI.ACTMEEditExecute(Sender: TObject);
 begin
   if ALockWindowUpdate then { SQL Injection Enabled }
   Exit;
+
+  oEdit(Consulta,REC_SHE_DEF.GEdit);
 end;
 
 procedure TFrmSHE_DEF_EDI.ACTMEDeleteExecute(Sender: TObject);
 begin
   if ALockWindowUpdate then { SQL Injection Enabled }
   Exit;
+
+  oDelete(Consulta,REC_SHE_DEF.GDelete);
 end;
 
 procedure TFrmSHE_DEF_EDI.ACTMEPostExecute(Sender: TObject);
 begin
   if ALockWindowUpdate then { SQL Injection Enabled }
   Exit;
+
+  oPost(Consulta,REC_SHE_DEF.GPost);
 end;
 
 procedure TFrmSHE_DEF_EDI.ACTMECancelExecute(Sender: TObject);
 begin
   if ALockWindowUpdate then { SQL Injection Enabled }
   Exit;
+
+  oCancel(Consulta,REC_SHE_DEF.GCancel);
 end;
 
 procedure TFrmSHE_DEF_EDI.ACTCheckConstraintsExecute(Sender: TObject);
@@ -772,21 +797,6 @@ begin
 end;
 
 procedure TFrmSHE_DEF_EDI.ACTCheckErrorsExecute(Sender: TObject);
-begin
-  { nothing }
-end;
-
-procedure TFrmSHE_DEF_EDI.ACTRelatoriosExecute(Sender: TObject);
-begin
-  { nothing }
-end;
-
-procedure TFrmSHE_DEF_EDI.ACTDashboardsExecute(Sender: TObject);
-begin
-  { nothing }
-end;
-
-procedure TFrmSHE_DEF_EDI.ACTProgressBarExecute(Sender: TObject);
 begin
   { nothing }
 end;

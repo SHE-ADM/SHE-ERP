@@ -2214,14 +2214,9 @@ begin
     oOTransact(TFBProdutos);
     while not SQLFBEdicao.Eof do
     begin
-      IF  SQLFBEdicao.Current.ByName('IDCP').AsInteger = 77399 THEN
-      BEGIN
-        TAG := 0;
-      END;
-
       if uCPPSQ(RECParametros.EP_ID,SQLFBEdicao.Current.ByName('IDCP').AsString,'ID') > 0 then
       begin
-        IF FBCAD_PROSKU.AsString = 'JL.01.1000' THEN
+        IF FBCAD_PROSKU.AsString = 'HE.08' THEN
         BEGIN
           TAG := 0;
         END;
@@ -2449,7 +2444,7 @@ begin
   aPesquisa[07,04] := 'Estoque ERP'; {Descrição}
   aPesquisa[07,05] := ''; {Registros}
   aPesquisa[07,06] := ''; {Erro}
-                                                                      
+
  with FBird do
   try
     oOTransact(TB2BConsulta);

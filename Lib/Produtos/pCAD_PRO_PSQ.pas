@@ -346,6 +346,18 @@ type
     DBGConsultaC_EST_QTRL: TdxDBGridMaskColumn;
     DBGConsultaEPE_QTDE: TdxDBGridCurrencyColumn;
     DBGConsultaEPE_QTRL: TdxDBGridMaskColumn;
+    ConsultaEP_RZ_NO: TIBStringField;
+    ConsultaCF_CNPJ: TIBStringField;
+    ConsultaCF_IE: TIBStringField;
+    ConsultaCF_ISUF: TIBStringField;
+    ConsultaCF_IM: TIBStringField;
+    ConsultaCF_CDST: TSmallintField;
+    ConsultaCF_REST: TIBStringField;
+    ConsultaCF_DEST: TIBStringField;
+    ConsultaDTCA: TDateTimeField;
+    ConsultaDTED: TDateTimeField;
+    ConsultaDTST: TDateTimeField;
+    ConsultaINFADETQ: TIBStringField;
     procedure FormCreate(Sender: TObject);
     procedure ACTPesquisaExecute(Sender: TObject);
     procedure ConsultaBeforeClose(DataSet: TDataSet);

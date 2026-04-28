@@ -47,7 +47,8 @@ type
     procedure _BoletosAPI_PAGO;
     procedure _BoletosAPI_REGISTRADO(ANossaSituacao: String);
 
-    function _ConnectAPI: Word;
+    procedure _TryConnectAPI;
+    function  _ConnectAPI: Word;
   end;
 
 procedure _GERTXT; STDCall;
@@ -164,14 +165,13 @@ begin
              try
                try
                  TTEmpo.Enabled := False;
-                 FrmSHE_API_BOL.Caption := RECParametros.EP_ID + ' - Consolidação Bancária, aguardando ...';
+                 FrmSHE_API_BOL.Caption := 'Consolidação Bancária, aguardando ...';
                  Application.ProcessMessages;
 
                  _API_INI('1');
-                 _API_INI('4');
                finally
                  TTEmpo.Enabled       := True;
-                 FrmSHE_API_BOL.Caption := RECParametros.EP_ID + ' - Consolidação Bancária, aguardando ...';
+                 FrmSHE_API_BOL.Caption := 'Consolidação Bancária, aguardando ...';
                  Application.ProcessMessages;
 
                  _GERTXT;
@@ -424,6 +424,20 @@ begin
   end;
 end;
 
+procedure TFrmSHE_API_BOL._TryConnectAPI;
+var
+  i: Word;
+begin
+  i := 0;
+  repeat
+    inc(i);
+
+    if (_ConnectAPI > 0) then
+    if (jDados <> nil) and (jDados.Length > 0) then
+    Break;
+  until i = 5;
+end;
+
 function TFrmSHE_API_BOL._ConnectAPI: Word;
 var
   Connected: Word;
@@ -432,26 +446,36 @@ begin
   repeat
     try
       Dec(Connected);
-      Caption := RECParametros.EP_ID + ' - Consolidação Bancária, tentando conexão ...  ' + IntToStr(Connected);
+      Caption := 'Consolidação Bancária, tentando conexão ...  ' + IntToStr(Connected);
       Application.ProcessMessages;
 
       hBoleto := Createoleobject('WinHttp.WinHttpRequest.5.1');
+
+      hBoleto.Option[9] := $00000800; // TLS 1.2
       hBoleto.open('GET',API_URL,False);
       hBoleto.SetRequestHeader('cnpj-sh'     ,RECParametros.SHE_CNPJ  );
       hBoleto.SetRequestHeader('token-sh'    ,RECParametros.FIN_API_TOKEN);
       hBoleto.SetRequestHeader('cnpj-cedente',RECParametros.CNPJ         );
       hBoleto.Send;
+
+
+      Caption := 'Conexão estabelecida com sucesso';
+      Application.ProcessMessages;
+
       Break;
     except
-      SleepEx(1000,False);
+      Caption:= 'Falha na comunicação com o banco ! ' + IntToStr(Connected) + ' tentativa(s).';
+      Application.ProcessMessages;;
     end;
   until Connected = 0;
 
   if Connected > 0 then
-  begin
+  try
     sBoleto := TStringList.Create;sBoleto.Add(hBoleto.ResponseText);
     jBoleto := TJSONObject.Create(sBoleto.Text);
     jDados  := jBoleto.getJSONArray('_dados');
+  except
+    ;
   end;
 
   result := Connected;
@@ -481,7 +505,7 @@ begin
                                 IFThen(DayOfWeek(Date) = 1,-2, // Domingo
                                                            -1))));
 
-  APagamentoData := '2026/04/10';
+  //APagamentoData := '2026/04/10';
   //API_URL := 'https://cobrancabancaria.tecnospeed.com.br/api/v1/boletos?TituloNumeroDocumento=214644-A';
 
   { Leitura paginada de 50 em 50 registros }
@@ -492,8 +516,9 @@ begin
     oOTransact(TAPIConsulta);
     while true do
     begin
-      if  _ConnectAPI = 0 then
-      Exit;
+      _TryConnectAPI;
+      if (jDados = nil) or (jDados.Length = 0) then
+      Break;
 
       API_URL := jBoleto.getJSONObject('_meta').getJSONObject('_paginacao').optString('_proximo');
       if API_URL <> 'false' then
@@ -550,7 +575,7 @@ begin
             if jItem.optString('PagamentoData') <> 'null' then
             PNLCaption.Caption := PNLCaption.Caption + 'Pagamento: ' + FormatDateTime('dd/mm/yy',StrToDate(LeftStr(jItem.optString('PagamentoData'),10))) + '.';
 
-            FrmSHE_API_BOL.Caption := RECParametros.EP_ID + ' - API: PAGOS - ' + IntToStr(PBCount) + ' de ' + IntToStr(PBPrincipal.Max) + '. ' + aPesquisa[09,05] + ' Registro(s) Lido(s). Página ' + INTTOSTR(Pagina);
+            FrmSHE_API_BOL.Caption := 'API: PAGOS - ' + IntToStr(PBCount) + ' de ' + IntToStr(PBPrincipal.Max) + '. ' + aPesquisa[09,05] + ' Registro(s) Lido(s). Página ' + INTTOSTR(Pagina);
             Application.ProcessMessages;
 
             { Consulta Título no ERP }
@@ -558,11 +583,17 @@ begin
             begin
               Close;
               SQL.Clear;
-              SQL.Add('SELECT   PK.IDPK,PK.TITULO,PK.API_ID');
-              SQL.Add('FROM ' + oREPZero('FIN_REC_BAN_BAI','_',RECParametros.EP_ID,3) + ' AS PK');
+              SQL.Add('SELECT PK.EP_ID,PK.IDPK,PK.TITULO,PK.API_ID');
+              SQL.Add('FROM   FIN_REC_BAN_BAI AS PK');
+              SQL.Add('WHERE  TITULO = ''' + jItem.optString('TituloNumeroDocumento') + '''');
 
-              SQL.Add('WHERE TITULO = ''' + jItem.optString('TituloNumeroDocumento') + '''');
+              SQL.Add('UNION');
+              SQL.Add('SELECT PK.EP_ID,PK.IDPK,PK.TITULO,PK.API_ID');
+              SQL.Add('FROM   FIN_REC_BAN_BAI_004 AS PK');
+              SQL.Add('WHERE  TITULO = ''' + jItem.optString('TituloNumeroDocumento') + '''');
               ExecQuery;
+
+              aPesquisa[9,00] := SQLAPIConsulta.Current.ByName('EP_ID').AsString; { Empresa }
             end;
 
             try
@@ -622,7 +653,7 @@ begin
               begin
                 Close;
                 SQL.Clear;
-                SQL.Add('UPDATE '+oREPZero('FIN_REC_BAN_BAI','_',RECParametros.EP_ID,3));
+                SQL.Add('UPDATE '+oREPZero('FIN_REC_BAN_BAI','_',SQLAPIConsulta.Current.ByName('EP_ID').AsInteger,3));
                 SQL.Add('SET');
 
                 SQL.Add('API_ID   = ''' + jItem.optString('IdIntegracao') + ''',');
@@ -637,6 +668,7 @@ begin
                 SQL.Add('FIN_STFI = ''' + ERP_ST + ''',');
                 SQL.Add('FIN_DPAG = ''' + FormatDateTime('mm/dd/yy',StrToDate(LeftStr(jItem.optString('PagamentoData'),10))) + ''',');
                 SQL.Add('FIN_DBAI = ''' + FormatDateTime('mm/dd/yy',StrToDate(LeftStr(jItem.optString('PagamentoData'),10))) + ''',');
+
                 SQL.Add('API_DTED = ''' + FormatDateTime('mm/dd/yy hh:mm',API_DTED) + ''',');
 
                 SQL.Add('API_MT       = ''' + RIGHTSTR(Trim(API_MTED),120) + ''',');
@@ -690,7 +722,7 @@ begin
                   begin
                     Close;
                     SQL.Clear;
-                    SQL.Add('UPDATE '+oREPZero('FIN_REC_BAN_BAI','_',RECParametros.EP_ID,3));
+                    SQL.Add('UPDATE '+oREPZero('FIN_REC_BAN_BAI','_',SQLAPIConsulta.Current.ByName('EP_ID').AsInteger,3));
                     SQL.Add('SET');
 
                     SQL.Add('API_CDEV = 199,'); { API Falha na consolidação }
@@ -769,15 +801,24 @@ begin
     begin
       Close;
       SQL.Clear;
-      SQL.Add('SELECT PK.IDPK,PK.TITULO,CAST(PK.DTCA AS DATE) AS DTCA,PK.DTVC,PK.DTPG,PK.DTBX,PK.DEST,PK.FIN_VJUR,PK.FIN_VDES,PK.API_ID,PK.API_DTED,API_NN,API_ST,PK.API_TAXA,PK.API_MT,PK.API_INFADCAD');
-      SQL.Add('FROM ' + oREPZero('FIN_REC_BAN_BAI','_',RECParametros.EP_ID,3) + ' AS PK');
+      SQL.Add('SELECT PK.EP_ID,PK.IDPK,PK.TITULO,CAST(PK.DTCA AS DATE) AS DTCA,PK.DTVC,PK.DTPG,PK.DTBX,PK.DEST,PK.FIN_VJUR,PK.FIN_VDES,PK.API_ID,PK.API_DTED,API_NN,API_ST,PK.API_TAXA,PK.API_MT,PK.API_INFADCAD');
+      SQL.Add('FROM   FIN_REC_BAN_BAI AS PK');
 
       SQL.Add('WHERE NOT FEMPTY(PK.API_ID)' );
       SQL.Add('AND   PK.DEST NOT LIKE ''PAGO%''');
       SQL.Add('AND   PK.DEST NOT LIKE ''CANCELADO%''');
       SQL.Add('AND   PK.DEST LIKE ''' + ANossaSituacao + '%''');
 
-      SQL.Add('ORDER BY PK.DTVC DESC');
+      SQL.Add('UNION');
+      SQL.Add('SELECT PK.EP_ID,PK.IDPK,PK.TITULO,CAST(PK.DTCA AS DATE) AS DTCA,PK.DTVC,PK.DTPG,PK.DTBX,PK.DEST,PK.FIN_VJUR,PK.FIN_VDES,PK.API_ID,PK.API_DTED,API_NN,API_ST,PK.API_TAXA,PK.API_MT,PK.API_INFADCAD');
+      SQL.Add('FROM   FIN_REC_BAN_BAI_004 AS PK');
+
+      SQL.Add('WHERE NOT FEMPTY(PK.API_ID)' );
+      SQL.Add('AND   PK.DEST NOT LIKE ''PAGO%''');
+      SQL.Add('AND   PK.DEST NOT LIKE ''CANCELADO%''');
+      SQL.Add('AND   PK.DEST LIKE ''' + ANossaSituacao + '%''');
+
+      SQL.Add('ORDER BY 5 DESC');
       ExecQuery;
 
       if Eof then
@@ -803,9 +844,9 @@ begin
       PNLRodape.Visible := True;
     end;
 
-    FrmSHE_API_BOL.Caption := RECParametros.EP_ID + ' - API: ' + ANossaSituacao;
+    FrmSHE_API_BOL.Caption := 'API: ' + ANossaSituacao;
 
-    aPesquisa[9,00] := RECParametros.EP_ID; { Empresa }
+    aPesquisa[9,00] := SQLAPIConsulta.Current.ByName('EP_ID').AsString; { Empresa }
     aPesquisa[9,01] := FormatDateTime('mm/dd/yy'      ,Date); { Cadastro }
     aPesquisa[9,02] := FormatDateTime('mm/dd/yy hh:mm',Now ); { Início }
     aPesquisa[9,03] := FormatDateTime('mm/dd/yy hh:mm',Now ); { Fim }
@@ -819,264 +860,224 @@ begin
     while not SQLAPIConsulta.Eof do
     begin
       API_URL := 'https://cobrancabancaria.tecnospeed.com.br/api/v1/boletos?IdIntegracao=' + SQLAPIConsulta.Current.ByName('API_ID').AsString;
-      if  _ConnectAPI = 0 then
-      Break;
-
-      if (jDados = nil) or (jDados.Length = 0) then
+      _TryConnectAPI;
+      if (jDados <> nil) and (jDados.Length > 0) then
       begin
-        try
-          oOTransact(TAPIEdicao);
-          with SQLAPIEdicao do
-          begin
-            Close;
-            SQL.Clear;
-            SQL.Add('INSERT INTO FIN_REC_LOG_API (IDPK,TITULO,API_ID,API_ST,API_MT,IDEP,IP,HOST)');
-            SQL.Add('VALUES (');
+        for i := 0 to jDados.Length - 1 do
+        begin
+          jItem  := jDados.getJSONObject(i);
+          jOcorr := jItem.getJSONArray('TituloOcorrencias');
+          jMov   := jItem.getJSONArray('TituloMovimentos');
 
-            SQL.Add('''' + SQLAPIConsulta.Current.ByName('IDPK'  ).AsString + ''',');
-            SQL.Add('''' + SQLAPIConsulta.Current.ByName('TITULO').AsString + ''',');
-            SQL.Add('''' + SQLAPIConsulta.Current.ByName('API_ID').AsString + ''',');
+          DUP_VDUP  := 0;
+          DUP_VTAXA := 0;
 
-            SQL.Add('''API_FALHA'',');
-            SQL.Add('''' + RIGHTSTR(Trim(API_MTED),120) + ''',');
+          PAG_VACR := 0;
+          PAG_VDSC := 0;
+          PAG_VPAG := 0;
 
-            SQL.Add('''' + RECParametros.EP_ID+ ''',');
-            SQL.Add('''' + RECParametros.IP   + ''',');
-            SQL.Add('''' + RECParametros.HOST + ''')');
+          API_DTED := 0;
+          API_MTED := EmptyStr;
 
-            ExecQuery;
-          end;
-          oCTransact(TAPIEdicao);
-        except
-          on E: Exception do
-          begin
-            oCTransact(TAPIEdicao,ltRollback);
+          ERP_DT := 0;
+          ERP_ST := EmptyStr;
 
-            EMErros.Lines.Add('Erro ao tentar atualizar API ERP' +#13+#13+
-                               Trim(E.Message)                   +#13+
-                               FormatDateTime('dd/mm/yy hh:mm',Now));
-            EMErros.Height  := 95;
-            EMErros.Visible := True;
+          aPesquisa[09,03] := FormatDateTime('mm/dd/yy hh:mm',Now);
+          aPesquisa[09,05] := IntToStr(StrToInt(aPesquisa[09,05]) + 1);
 
-            Application.ProcessMessages;
-          end;
-        end;
+          PBPrincipal.Position := PBPrincipal.Position  + 1;
+          Inc(PBCount);
 
-        Break;
-      end;
+          PNLCaption.Caption := 'Nº Título: ' + jItem.optString('TituloNumeroDocumento') + '. ';
+          PNLCaption.Caption := PNLCaption.Caption + ' Emissão: ' + FormatDateTime('dd/mm/yy',StrToDate(LeftStr(jItem.optString('TituloDataEmissao'),10))) + '. ';
+          PNLCaption.Caption := PNLCaption.Caption + ' Situação API: ' + jItem.optString('situacao') + '.';
+          PNLCaption.Caption := PNLCaption.Caption + ' Nossa Situação: ' + SQLAPIConsulta.Current.ByName('DEST').AsString + '.';
+          Application.ProcessMessages;
 
-      for i := 0 to jDados.Length - 1 do
-      begin
-        jItem  := jDados.getJSONObject(i);
-        jOcorr := jItem.getJSONArray('TituloOcorrencias');
-        jMov   := jItem.getJSONArray('TituloMovimentos');
+          try
+            DUP_VDUP := StrToFloat(jItem.optString('TituloValor'));
 
-        DUP_VDUP  := 0;
-        DUP_VTAXA := 0;
+            PAG_VACR := StrToFloat(jItem.optString('PagamentoValorAcrescimos')); { valor_juros + valor_multa }
+            PAG_VDSC := StrToFloat(jItem.optString('PagamentoValorDesconto'));
+            PAG_VPAG := StrToFloat(jItem.optString('PagamentoValorPago'));
 
-        PAG_VACR := 0;
-        PAG_VDSC := 0;
-        PAG_VPAG := 0;
+            ERP_ST := IFThen(Pos('LIQ' ,UPPERCASE(jItem.optString('situacao'))) > 0,
+                      IFThen(Pos('CART',UPPERCASE(jItem.optString('situacao'))) > 0,'PAGO CARTÓRIO','PAGO'),SQLAPIConsulta.Current.ByName('DEST').AsString);
 
-        API_DTED := 0;
-        API_MTED := EmptyStr;
-
-        ERP_DT := 0;
-        ERP_ST := EmptyStr;
-
-        aPesquisa[09,03] := FormatDateTime('mm/dd/yy hh:mm',Now);
-        aPesquisa[09,05] := IntToStr(StrToInt(aPesquisa[09,05]) + 1);
-
-        PBPrincipal.Position := PBPrincipal.Position  + 1;
-        Inc(PBCount);
-
-        PNLCaption.Caption := 'Nº Título: ' + jItem.optString('TituloNumeroDocumento') + '. ';
-        PNLCaption.Caption := PNLCaption.Caption + ' Emissão: ' + FormatDateTime('dd/mm/yy',StrToDate(LeftStr(jItem.optString('TituloDataEmissao'),10))) + '. ';
-        PNLCaption.Caption := PNLCaption.Caption + ' Situação API: ' + jItem.optString('situacao') + '.';
-        PNLCaption.Caption := PNLCaption.Caption + ' Nossa Situação: ' + SQLAPIConsulta.Current.ByName('DEST').AsString + '.';
-        Application.ProcessMessages;
-
-        try
-          DUP_VDUP := StrToFloat(jItem.optString('TituloValor'));
-
-          PAG_VACR := StrToFloat(jItem.optString('PagamentoValorAcrescimos')); { valor_juros + valor_multa }
-          PAG_VDSC := StrToFloat(jItem.optString('PagamentoValorDesconto'));
-          PAG_VPAG := StrToFloat(jItem.optString('PagamentoValorPago'));
-
-          ERP_ST := IFThen(Pos('LIQ' ,UPPERCASE(jItem.optString('situacao'))) > 0,
-                    IFThen(Pos('CART',UPPERCASE(jItem.optString('situacao'))) > 0,'PAGO CARTÓRIO','PAGO'),SQLAPIConsulta.Current.ByName('DEST').AsString);
-
-          { INFORMAÇÕES ADICIONAIS }
-          SOcorrencia.Clear;
-          if jOcorr <> nil then
-          begin
-            SOcorrencia.Add('==== Ocorrências ====');
-
-            for j := 0 to jOcorr.Length - 1 do
+            { INFORMAÇÕES ADICIONAIS }
+            SOcorrencia.Clear;
+            if jOcorr <> nil then
             begin
-              SOcorrencia.Add('Código: '     + jOcorr.getJSONObject(j).optString('codigo'));
-              SOcorrencia.Add('Mensagem: '   + jOcorr.getJSONObject(j).optString('mensagem'));
-              SOcorrencia.Add('Criado: '     + jOcorr.getJSONObject(j).optString('criado'));
-              SOcorrencia.Add('Atualizado: ' + jOcorr.getJSONObject(j).optString('atualizado'));
+              SOcorrencia.Add('==== Ocorrências ====');
 
-              if jOcorr.getJSONObject(j).has('retornos') then
-              SOcorrencia.Add('Arquivo Retorno: ' + jOcorr.getJSONObject(j).getJSONObject('retornos').optString('nomeArquivo'));
-              SOcorrencia.Add('');
-
-              if (LeftStr(ERP_ST,4) <> 'PAGO') and (API_DTED <= StrToDateTime(jOcorr.getJSONObject(j).optString('atualizado'))) then
+              for j := 0 to jOcorr.Length - 1 do
               begin
-                API_MTED := Trim(oStrTran(oStrTran(jOcorr.getJSONObject(j).optString('mensagem'),'Mensagem:',''),'Movimento:',''));
-                API_DTED := StrToDateTime(Trim(jOcorr.getJSONObject(j).optString('atualizado')));
+                SOcorrencia.Add('Código: '     + jOcorr.getJSONObject(j).optString('codigo'));
+                SOcorrencia.Add('Mensagem: '   + jOcorr.getJSONObject(j).optString('mensagem'));
+                SOcorrencia.Add('Criado: '     + jOcorr.getJSONObject(j).optString('criado'));
+                SOcorrencia.Add('Atualizado: ' + jOcorr.getJSONObject(j).optString('atualizado'));
 
-                with SQLAPIFKConsulta do
+                if jOcorr.getJSONObject(j).has('retornos') then
+                SOcorrencia.Add('Arquivo Retorno: ' + jOcorr.getJSONObject(j).getJSONObject('retornos').optString('nomeArquivo'));
+                SOcorrencia.Add('');
+
+                if (LeftStr(ERP_ST,4) <> 'PAGO') and (API_DTED <= StrToDateTime(jOcorr.getJSONObject(j).optString('atualizado'))) then
                 begin
-                  Close;
-                  SQL.Clear;
-                  SQL.Add('SELECT ID,ERP_ST FROM TAB_API_BOL');
-                  SQL.Add('WHERE  API_ST = ''' + API_MTED + '''');
-                  ExecQuery;
+                  API_MTED := Trim(oStrTran(oStrTran(jOcorr.getJSONObject(j).optString('mensagem'),'Mensagem:',''),'Movimento:',''));
+                  API_DTED := StrToDateTime(Trim(jOcorr.getJSONObject(j).optString('atualizado')));
 
-                  if not Eof then
-                  ERP_ST := Current.Vars[1].AsString;
+                  with SQLAPIFKConsulta do
+                  begin
+                    Close;
+                    SQL.Clear;
+                    SQL.Add('SELECT ID,ERP_ST FROM TAB_API_BOL');
+                    SQL.Add('WHERE  API_ST = ''' + API_MTED + '''');
+                    ExecQuery;
+
+                    if not Eof then
+                    ERP_ST := Current.Vars[1].AsString;
+                  end;
                 end;
               end;
             end;
-          end;
 
-          if jMov <> nil then
-          begin
-            SOcorrencia.Add('==== Movimentações ====');
-
-            for j := 0 to jMov.Length - 1 do
+            if jMov <> nil then
             begin
-              SOcorrencia.Add('Código: '   + jMov.getJSONObject(j).optString('codigo'));
-              SOcorrencia.Add('Mensagem: ' + jMov.getJSONObject(j).optString('mensagem'));
-              SOcorrencia.Add('Data: '     + jMov.getJSONObject(j).optString('data'));
-              SOcorrencia.Add('Taxa: '     + jMov.getJSONObject(j).optString('taxa'));
+              SOcorrencia.Add('==== Movimentações ====');
 
-              if jMov.getJSONObject(j).has('retornos') then
-              SOcorrencia.Add('Arquivo Retorno: ' + jMov.getJSONObject(j).getJSONObject('retornos').optString('nomeArquivo'));
-              SOcorrencia.Add('');
-
-              if (LeftStr(ERP_ST,4) <> 'PAGO') and (API_DTED <= StrToDateTime(jMov.getJSONObject(j).optString('data'))) then
+              for j := 0 to jMov.Length - 1 do
               begin
-                API_MTED := Trim(oStrTran(oStrTran(jMov.getJSONObject(j).optString('mensagem'),'Mensagem:',''),'Movimento:',''));
-                API_DTED := StrToDateTime(Trim(jMov.getJSONObject(j).optString('data')));
+                SOcorrencia.Add('Código: '   + jMov.getJSONObject(j).optString('codigo'));
+                SOcorrencia.Add('Mensagem: ' + jMov.getJSONObject(j).optString('mensagem'));
+                SOcorrencia.Add('Data: '     + jMov.getJSONObject(j).optString('data'));
+                SOcorrencia.Add('Taxa: '     + jMov.getJSONObject(j).optString('taxa'));
 
-                with SQLAPIFKConsulta do
+                if jMov.getJSONObject(j).has('retornos') then
+                SOcorrencia.Add('Arquivo Retorno: ' + jMov.getJSONObject(j).getJSONObject('retornos').optString('nomeArquivo'));
+                SOcorrencia.Add('');
+
+                if (LeftStr(ERP_ST,4) <> 'PAGO') and (API_DTED <= StrToDateTime(jMov.getJSONObject(j).optString('data'))) then
                 begin
-                  Close;
-                  SQL.Clear;
-                  SQL.Add('SELECT ID,ERP_ST FROM TAB_API_BOL');
-                  SQL.Add('WHERE  API_ST = ''' + API_MTED + '''');
-                  ExecQuery;
+                  API_MTED := Trim(oStrTran(oStrTran(jMov.getJSONObject(j).optString('mensagem'),'Mensagem:',''),'Movimento:',''));
+                  API_DTED := StrToDateTime(Trim(jMov.getJSONObject(j).optString('data')));
 
-                  if not Eof then
-                  ERP_ST := Current.Vars[1].AsString;
+                  with SQLAPIFKConsulta do
+                  begin
+                    Close;
+                    SQL.Clear;
+                    SQL.Add('SELECT ID,ERP_ST FROM TAB_API_BOL');
+                    SQL.Add('WHERE  API_ST = ''' + API_MTED + '''');
+                    ExecQuery;
+
+                    if not Eof then
+                    ERP_ST := Current.Vars[1].AsString;
+                  end;
+                end;
+
+                DUP_VTAXA := DUP_VTAXA + StrToFloat(jMov.getJSONObject(j).optString('taxa'));
+              end;
+            end;
+
+            oOTransact(TAPIEdicao);
+            with SQLAPIEdicao do
+            begin
+              Close;
+              SQL.Clear;
+              SQL.Add('UPDATE '+oREPZero('FIN_REC_BAN_BAI','_',SQLAPIConsulta.Current.ByName('EP_ID').AsInteger,3));
+              SQL.Add('SET');
+
+              SQL.Add('API_ID   = ''' + jItem.optString('IdIntegracao') + ''',');
+              SQL.Add('API_ST   = ''' + jItem.optString('situacao')     + ''',');
+              SQL.Add('API_TAXA = ''' + oStrTran(FloatToStr(DUP_VTAXA),',','.') + ''',');
+              SQL.Add('FLAG = 1,');
+
+              if (Pos('BAI',SQLAPIConsulta.Current.ByName('DEST').AsString) = 0) and
+                 (Pos('PRO',SQLAPIConsulta.Current.ByName('DEST').AsString) = 0) and
+                 (Pos('PAG',SQLAPIConsulta.Current.ByName('DEST').AsString) = 0) then
+              begin
+                SQL.Add('FIN_STFI = ''' + ERP_ST + ''',');
+                SQL.Add('FIN_VALO = ''' + oStrTran(FloatToStr(DUP_VDUP ),',','.') + ''',');
+
+                if (LeftStr(ERP_ST,4) = 'PAGO') and (jItem.optString('PagamentoData') <> 'null') then
+                begin
+                  SQL.Add('FIN_VJUR = ''' + oStrTran(FloatToStr(PAG_VACR),',','.') + ''',');
+                  SQL.Add('FIN_VDES = ''' + oStrTran(FloatToStr(PAG_VDSC),',','.') + ''',');
+                  SQL.Add('FIN_VPAG = ''' + oStrTran(FloatToStr(PAG_VPAG),',','.') + ''',');
+                  SQL.Add('FIN_DPAG = ''' + FormatDateTime('mm/dd/yy',StrToDate(LeftStr(jItem.optString('PagamentoData'),10))) + ''',');
+                  SQL.Add('FIN_DBAI = ''' + FormatDateTime('mm/dd/yy',StrToDate(LeftStr(jItem.optString('PagamentoData'),10))) + ''',');
                 end;
               end;
 
-              DUP_VTAXA := DUP_VTAXA + StrToFloat(jMov.getJSONObject(j).optString('taxa'));
+              if API_DTED > 0 then
+              SQL.Add('API_DTED = ''' + FormatDateTime('mm/dd/yy hh:mm',API_DTED) + ''',');
+
+              SQL.Add('API_MT       = ''' + RIGHTSTR(Trim(API_MTED),120) + ''',');
+              SQL.Add('API_INFADCAD = ''' + SOcorrencia.Text + ''',');
+
+              SQL.Add('API_CDEV = 200,');              { API Atualizada }
+              SQL.Add('API_DTEV = CURRENT_TIMESTAMP'); { API Evento }
+
+              SQL.Add('WHERE API_ID = ''' + TRIM(jItem.optString('IdIntegracao')) + '''');
+              ExecQuery;
+
+              Close;
+              SQL.Clear;
+              SQL.Add('UPDATE OR INSERT');
+              SQL.Add('INTO   TAB_API_LOG (IDEP,DTCA,DTINI,DTFIM,DESCRICAO,REGISTROS,TOTAL,LOG_ERRO)'); { Mudar para TB_API_BOL_LOG }
+
+              SQL.Add('VALUES (');
+              SQL.Add('''' + aPesquisa[9,00] + ''',');
+              SQL.Add('''' + aPesquisa[9,01] + ''',');
+              SQL.Add('''' + aPesquisa[9,02] + ''',');
+              SQL.Add('''' + aPesquisa[9,03] + ''',');
+              SQL.Add('''' + aPesquisa[9,04] + ''',');
+              SQL.Add('''' + aPesquisa[9,05] + ''',');
+              SQL.Add('''' + aPesquisa[9,06] + ''',');
+              SQL.Add('''' + oStrTran(aPesquisa[9,07],'''','') + '''');
+              SQL.Add(')');
+
+              SQL.Add('MATCHING (IDEP,DTCA,DESCRICAO)');
+              ExecQuery;
             end;
-          end;
+            oCTransact(TAPIEdicao);
 
-          oOTransact(TAPIEdicao);
-          with SQLAPIEdicao do
-          begin
-            Close;
-            SQL.Clear;
-            SQL.Add('UPDATE '+oREPZero('FIN_REC_BAN_BAI','_',RECParametros.EP_ID,3));
-            SQL.Add('SET');
-
-            SQL.Add('API_ID   = ''' + jItem.optString('IdIntegracao') + ''',');
-            SQL.Add('API_ST   = ''' + jItem.optString('situacao')     + ''',');
-            SQL.Add('API_TAXA = ''' + oStrTran(FloatToStr(DUP_VTAXA),',','.') + ''',');
-            SQL.Add('FLAG = 1,');
-
-            if (Pos('BAI',SQLAPIConsulta.Current.ByName('DEST').AsString) = 0) and
-               (Pos('PRO',SQLAPIConsulta.Current.ByName('DEST').AsString) = 0) and
-               (Pos('PAG',SQLAPIConsulta.Current.ByName('DEST').AsString) = 0) then
+          except
+            on E: Exception do
             begin
-              SQL.Add('FIN_STFI = ''' + ERP_ST + ''',');
-              SQL.Add('FIN_VALO = ''' + oStrTran(FloatToStr(DUP_VDUP ),',','.') + ''',');
+              oCTransact(TAPIEdicao,ltRollback);
 
-              if (LeftStr(ERP_ST,4) = 'PAGO') and (jItem.optString('PagamentoData') <> 'null') then
+              aPesquisa[09,07] := 'Falha ao tentar atualizar via API ' + aPesquisa[09,04] + '. Nº ' + jItem.optString('TituloNumeroDocumento') + ' ID ' + jItem.optString('IdIntegracao') + #13+#13+
+                                   Trim(E.Message) + #13 +
+                                   FormatDateTime('dd/mm/yy hh:mm',Now);
+
+              EMErros.Lines.Add(aPesquisa[09,07]);
+              EMErros.Height  := 95;
+              EMErros.Visible := True;
+              Application.ProcessMessages;
+
+              if SQLAPIConsulta.Current.ByName('TITULO').AsString <> EmptyStr then
               begin
-                SQL.Add('FIN_VJUR = ''' + oStrTran(FloatToStr(PAG_VACR),',','.') + ''',');
-                SQL.Add('FIN_VDES = ''' + oStrTran(FloatToStr(PAG_VDSC),',','.') + ''',');
-                SQL.Add('FIN_VPAG = ''' + oStrTran(FloatToStr(PAG_VPAG),',','.') + ''',');
-                SQL.Add('FIN_DPAG = ''' + FormatDateTime('mm/dd/yy',StrToDate(LeftStr(jItem.optString('PagamentoData'),10))) + ''',');
-                SQL.Add('FIN_DBAI = ''' + FormatDateTime('mm/dd/yy',StrToDate(LeftStr(jItem.optString('PagamentoData'),10))) + ''',');
+                oOTransact(TAPIEdicao);
+                with SQLAPIEdicao do
+                begin
+                  Close;
+                  SQL.Clear;
+                  SQL.Add('UPDATE '+oREPZero('FIN_REC_BAN_BAI','_',SQLAPIConsulta.Current.ByName('EP_ID').AsInteger,3));
+                  SQL.Add('SET');
+
+                  SQL.Add('API_CDEV = 199,'); { API Falha na consolidação }
+                  SQL.Add('API_DTEV = CURRENT_TIMESTAMP');
+
+                  SQL.Add('WHERE TITULO = ''' + SQLAPIConsulta.Current.ByName('TITULO').AsString + '''');
+                  ExecQuery;
+                end;
+                oCTransact(TAPIEdicao);
               end;
-            end;
-            
-            SQL.Add('API_DTED = ''' + FormatDateTime('mm/dd/yy hh:mm',API_DTED) + ''',');
-            SQL.Add('API_MT       = ''' + RIGHTSTR(Trim(API_MTED),120) + ''',');
-            SQL.Add('API_INFADCAD = ''' + SOcorrencia.Text + ''',');
-
-            SQL.Add('API_CDEV = 200,');              { API Atualizada }
-            SQL.Add('API_DTEV = CURRENT_TIMESTAMP'); { API Evento }
-
-            SQL.Add('WHERE API_ID = ''' + TRIM(jItem.optString('IdIntegracao')) + '''');
-            ExecQuery;
-
-            Close;
-            SQL.Clear;
-            SQL.Add('UPDATE OR INSERT');
-            SQL.Add('INTO   TAB_API_LOG (IDEP,DTCA,DTINI,DTFIM,DESCRICAO,REGISTROS,TOTAL,LOG_ERRO)'); { Mudar para TB_API_BOL_LOG }
-
-            SQL.Add('VALUES (');
-            SQL.Add('''' + aPesquisa[9,00] + ''',');
-            SQL.Add('''' + aPesquisa[9,01] + ''',');
-            SQL.Add('''' + aPesquisa[9,02] + ''',');
-            SQL.Add('''' + aPesquisa[9,03] + ''',');
-            SQL.Add('''' + aPesquisa[9,04] + ''',');
-            SQL.Add('''' + aPesquisa[9,05] + ''',');
-            SQL.Add('''' + aPesquisa[9,06] + ''',');
-            SQL.Add('''' + oStrTran(aPesquisa[9,07],'''','') + '''');
-            SQL.Add(')');
-
-            SQL.Add('MATCHING (IDEP,DTCA,DESCRICAO)');
-            ExecQuery;
-          end;
-          oCTransact(TAPIEdicao);
-
-        except
-          on E: Exception do
-          begin
-            oCTransact(TAPIEdicao,ltRollback);
-
-            aPesquisa[09,07] := 'Falha ao tentar atualizar via API ' + aPesquisa[09,04] + '. Nº ' + jItem.optString('TituloNumeroDocumento') + ' ID ' + jItem.optString('IdIntegracao') + #13+#13+
-                                 Trim(E.Message) + #13 +
-                                 FormatDateTime('dd/mm/yy hh:mm',Now);
-
-            EMErros.Lines.Add(aPesquisa[09,07]);
-            EMErros.Height  := 95;
-            EMErros.Visible := True;
-            Application.ProcessMessages;
-
-            if SQLAPIConsulta.Current.ByName('TITULO').AsString <> EmptyStr then
-            begin
-              oOTransact(TAPIEdicao);
-              with SQLAPIEdicao do
-              begin
-                Close;
-                SQL.Clear;
-                SQL.Add('UPDATE '+oREPZero('FIN_REC_BAN_BAI','_',RECParametros.EP_ID,3));
-                SQL.Add('SET');
-
-                SQL.Add('API_CDEV = 199,'); { API Falha na consolidação }
-                SQL.Add('API_DTEV = CURRENT_TIMESTAMP');
-
-                SQL.Add('WHERE TITULO = ''' + SQLAPIConsulta.Current.ByName('TITULO').AsString + '''');
-                ExecQuery;
-              end;
-              oCTransact(TAPIEdicao);
             end;
           end;
         end;
       end;
-
+      
       SQLAPIConsulta.Next;
     end;
 
@@ -1085,7 +1086,7 @@ begin
     PNLCaption.Visible := False; PNLCaption.Height := 0;
 
     oCTransact(TAPIConsulta);
-    
+
     if aPesquisa[9,00] <> EmptyStr then
     try
       oOTransact(TAPIEdicao  );

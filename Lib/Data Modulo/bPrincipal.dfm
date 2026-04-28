@@ -7,8 +7,7 @@ object FBird: TFBird
   Height = 565
   Width = 1079
   object DBERP: TIBDatabase
-    Connected = True
-    DatabaseName = '192.168.0.199:C:\Sheild\FBird\Otimotex.FDB'
+    DatabaseName = 'C:\Sheild\FBird\Otimotex.FDB'
     Params.Strings = (
       'user_name=sysdba'
       'password=ri1903'
@@ -40,7 +39,7 @@ object FBird: TFBird
       'nowait')
     AutoStopAction = saRollback
     Left = 352
-    Top = 80
+    Top = 64
   end
   object DBEvent: TIBEvents
     AutoRegister = False
@@ -89,7 +88,7 @@ object FBird: TFBird
     Database = DBEDI
     Transaction = TFBEEdicao
     Left = 352
-    Top = 128
+    Top = 112
   end
   object DTSFBBAI_FINANCEIRO: TDataSource
     AutoEdit = False
@@ -2075,237 +2074,6 @@ object FBird: TFBird
     Left = 168
     Top = 8
   end
-  object TFBResumo: TIBTransaction
-    AllowAutoStart = False
-    DefaultDatabase = DBERP
-    DefaultAction = TARollbackRetaining
-    Params.Strings = (
-      'read'
-      'read_committed'
-      'rec_version')
-    AutoStopAction = saRollback
-    Left = 352
-    Top = 280
-  end
-  object QFBResumo_Diario: TIBQuery
-    Database = DBERP
-    Transaction = TFBResumo
-    SQL.Strings = (
-      'SELECT PK.CP_IDEP,PK.CP_ABEP  ,PK.DTPK,'
-      '       PK.PED_VLPK,PK.PED_ILPK,'
-      '       PK.CLI_ITCD,PK.CLI_INCD,'
-      '       PK.PED_VLSP,PK.PED_ILSP,PK.PED_PLSP,'
-      '       PK.PED_VTLQ,PK.PED_ITLQ'
-      'FROM SP_PED_VEN_REL_FCV ('
-      #39'9'#39','
-      #39'9'#39','
-      #39'03/19/76'#39','
-      #39'03/19/76'#39')'
-      'AS PK'
-      'ORDER BY PK.DTPK DESC')
-    Left = 353
-    Top = 328
-    object QFBResumo_DiarioCP_IDEP: TSmallintField
-      FieldName = 'CP_IDEP'
-      Origin = '"SP_PED_VEN_REL"."CP_IDEP"'
-    end
-    object QFBResumo_DiarioCP_ABEP: TIBStringField
-      DisplayLabel = 'Empresa'
-      FieldName = 'CP_ABEP'
-      Origin = '"SP_PED_VEN_REL"."CP_ABEP"'
-      Size = 60
-    end
-    object QFBResumo_DiarioDTPK: TDateField
-      DisplayLabel = 'Emiss'#227'o'
-      FieldName = 'DTPK'
-      Origin = '"SP_PED_VEN_REL"."DTPK"'
-      DisplayFormat = 'dd.mm.yy'
-    end
-    object QFBResumo_DiarioCLI_ITCD: TIntegerField
-      DisplayLabel = 'Total'
-      FieldName = 'CLI_ITCD'
-      Origin = '"SP_PED_VEN_REL"."CLI_ITCD"'
-      DisplayFormat = '0'
-    end
-    object QFBResumo_DiarioCLI_INCD: TIntegerField
-      DisplayLabel = 'Novos'
-      FieldName = 'CLI_INCD'
-      Origin = '"SP_PED_VEN_REL_FCV"."CLI_INCD"'
-      DisplayFormat = '0'
-    end
-    object QFBResumo_DiarioPED_VLPK: TIBBCDField
-      DisplayLabel = 'Valor R$'
-      FieldName = 'PED_VLPK'
-      Origin = '"SP_PED_VEN_REL"."PED_VLPK"'
-      DisplayFormat = ',##,0.00'
-      Precision = 18
-      Size = 2
-    end
-    object QFBResumo_DiarioPED_ILPK: TIntegerField
-      DisplayLabel = 'Qtde.'
-      FieldName = 'PED_ILPK'
-      Origin = '"SP_PED_VEN_REL"."PED_ILPK"'
-      DisplayFormat = ',##,0'
-    end
-    object QFBResumo_DiarioPED_VLSP: TIBBCDField
-      DisplayLabel = 'Valor R$'
-      FieldName = 'PED_VLSP'
-      Origin = '"SP_PED_VEN_REL"."PED_VLSP"'
-      DisplayFormat = ',##,0.00'
-      Precision = 18
-      Size = 2
-    end
-    object QFBResumo_DiarioPED_ILSP: TIntegerField
-      DisplayLabel = 'Qtde.'
-      FieldName = 'PED_ILSP'
-      Origin = '"SP_PED_VEN_REL"."PED_ILSP"'
-      DisplayFormat = ',##,0'
-    end
-    object QFBResumo_DiarioPED_PLSP: TIBBCDField
-      DisplayLabel = '%'
-      FieldName = 'PED_PLSP'
-      Origin = '"SP_PED_VEN_REL"."PED_PLSP"'
-      DisplayFormat = '0%'
-      Precision = 9
-      Size = 2
-    end
-    object QFBResumo_DiarioPED_VTLQ: TIBBCDField
-      DisplayLabel = 'Valor R$'
-      FieldName = 'PED_VTLQ'
-      Origin = '"SP_PED_VEN_REL_FCV"."PED_VTLQ"'
-      DisplayFormat = ',##,0.00'
-      Precision = 18
-      Size = 2
-    end
-    object QFBResumo_DiarioPED_ITLQ: TIntegerField
-      DisplayLabel = 'Qtde.'
-      FieldName = 'PED_ITLQ'
-      Origin = '"SP_PED_VEN_REL_FCV"."PED_ITLQ"'
-      DisplayFormat = ',##,0'
-    end
-  end
-  object QFBResumo_Mensal: TIBQuery
-    Database = DBERP
-    Transaction = TFBResumo
-    SQL.Strings = (
-      'SELECT PK.CP_IDEP,PK.CP_ABEP,PK.DMPK,PK.AMPK,'
-      
-        '       SUM(PK.PED_VLPK) AS PED_VLPK,SUM(PK.PED_ILPK) AS PED_ILPK' +
-        ','
-      
-        '       SUM(PK.CLI_ITCD) AS CLI_ITCD,SUM(PK.CLI_INCD) AS CLI_INCD' +
-        ','
-      
-        '       SUM(PK.PED_VLSP) AS PED_VLSP,SUM(PK.PED_ILSP) AS PED_ILSP' +
-        ',AVG(PK.PED_PLSP) AS PED_PLSP,'
-      '       SUM(PK.PED_VTLQ) AS PED_VTLQ,SUM(PK.PED_ITLQ) AS PED_ITLQ'
-      ''
-      'FROM SP_PED_VEN_REL_FCV ('
-      #39'9'#39','
-      #39'9'#39','
-      #39'03/19/76'#39','
-      #39'03/19/76'#39')'
-      'AS PK'
-      ''
-      'GROUP BY DMPK,AMPK,CP_IDEP,CP_ABEP'
-      'ORDER BY AMPK DESC')
-    Left = 353
-    Top = 376
-    object QFBResumo_MensalCP_IDEP: TSmallintField
-      FieldName = 'CP_IDEP'
-      Origin = '"SP_PED_VEN_REL_FCV"."CP_IDEP"'
-    end
-    object QFBResumo_MensalCP_ABEP: TIBStringField
-      DisplayLabel = 'Empresa'
-      FieldName = 'CP_ABEP'
-      Origin = '"SP_PED_VEN_REL_FCV"."CP_ABEP"'
-      Size = 60
-    end
-    object QFBResumo_MensalDMPK: TIBStringField
-      DisplayLabel = 'Emiss'#227'o'
-      FieldName = 'DMPK'
-      Origin = '"SP_PED_VEN_REL_FCV"."DMPK"'
-      Size = 10
-    end
-    object QFBResumo_MensalAMPK: TLargeintField
-      FieldName = 'AMPK'
-      Origin = '"SP_PED_VEN_REL_FCV"."AMPK"'
-    end
-    object QFBResumo_MensalCLI_ITCD: TLargeintField
-      DisplayLabel = 'Total'
-      FieldName = 'CLI_ITCD'
-      ProviderFlags = []
-      DisplayFormat = '0'
-    end
-    object QFBResumo_MensalCLI_INCD: TLargeintField
-      DisplayLabel = 'Novos'
-      FieldName = 'CLI_INCD'
-      ProviderFlags = []
-      DisplayFormat = '0'
-    end
-    object QFBResumo_MensalPED_VLPK: TIBBCDField
-      DisplayLabel = 'Valor R$'
-      FieldName = 'PED_VLPK'
-      ProviderFlags = []
-      DisplayFormat = ',##,0.00'
-      Precision = 18
-      Size = 2
-    end
-    object QFBResumo_MensalPED_ILPK: TLargeintField
-      DisplayLabel = 'Qtde.'
-      FieldName = 'PED_ILPK'
-      ProviderFlags = []
-      DisplayFormat = ',##,0'
-    end
-    object QFBResumo_MensalPED_VLSP: TIBBCDField
-      DisplayLabel = 'Valor R$'
-      FieldName = 'PED_VLSP'
-      ProviderFlags = []
-      DisplayFormat = ',##,0.00'
-      Precision = 18
-      Size = 2
-    end
-    object QFBResumo_MensalPED_ILSP: TLargeintField
-      DisplayLabel = 'Qtde.'
-      FieldName = 'PED_ILSP'
-      ProviderFlags = []
-      DisplayFormat = ',##,0'
-    end
-    object QFBResumo_MensalPED_PLSP: TIBBCDField
-      DisplayLabel = '%'
-      FieldName = 'PED_PLSP'
-      ProviderFlags = []
-      DisplayFormat = '0%'
-      Precision = 18
-      Size = 2
-    end
-    object QFBResumo_MensalPED_VTLQ: TIBBCDField
-      DisplayLabel = 'Valor R$'
-      FieldName = 'PED_VTLQ'
-      ProviderFlags = []
-      DisplayFormat = ',##,0.00'
-      Precision = 18
-      Size = 2
-    end
-    object QFBResumo_MensalPED_ITLQ: TLargeintField
-      DisplayLabel = 'Qtde.'
-      FieldName = 'PED_ITLQ'
-      ProviderFlags = []
-      DisplayFormat = ',##,0'
-    end
-  end
-  object DTSFBResumo_Diario: TDataSource
-    AutoEdit = False
-    DataSet = QFBResumo_Diario
-    Left = 472
-    Top = 328
-  end
-  object DTSFBResumo_Mensal: TDataSource
-    AutoEdit = False
-    DataSet = QFBResumo_Mensal
-    Left = 472
-    Top = 376
-  end
   object SQLFBFKEdicao: TIBSQL
     Database = DBERP
     Transaction = TFBEdicao
@@ -2316,6 +2084,6 @@ object FBird: TFBird
     Database = DBEDI
     Transaction = TFBEEdicao
     Left = 352
-    Top = 184
+    Top = 160
   end
 end

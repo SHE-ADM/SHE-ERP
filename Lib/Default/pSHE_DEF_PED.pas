@@ -796,13 +796,13 @@ begin
   REC_SHE_DEF.FWorkArea := False; { Windows    }
 
   { EVENTOS }
-  REC_SHE_DEF.FB_Event   := ''; { Evento Principal }
+  REC_SHE_DEF.FB_Event   := 'FIN_PAG_ADM'; { Evento Principal }
   REC_SHE_DEF.FB_EVE_EDT := ''; { Evento Edição }
 
   { GRANT USER }
-  REC_SHE_DEF.GDescricao  := '';
-  REC_SHE_DEF.GReferencia := '';
-  REC_SHE_DEF.GRegra      := '';
+  REC_SHE_DEF.GDescricao  := 'Financeiro';
+  REC_SHE_DEF.GReferencia := 'Pagamentos';
+  REC_SHE_DEF.GRegra      := 'Permissões Gerais';
   REC_SHE_DEF.GAdmin      := False;
 
   if not REC_SHE_DEF.GAdmin then
@@ -1090,18 +1090,17 @@ begin
   end;
 end;
 
-procedure TFrmSHE_DEF_PED.EEventEventAlert(Sender: TObject;
-  EventName: String; EventCount: Integer; var CancelAlerts: Boolean);
+procedure TFrmSHE_DEF_PED.ACTRefreshExecute(Sender: TObject);
 begin
   oRefresh(Consulta);
 end;
 
-procedure TFrmSHE_DEF_PED.ACTCheckConstraintsExecute(Sender: TObject);
+procedure TFrmSHE_DEF_PED.ACTSaidaExecute(Sender: TObject);
 begin
-  { nothing }
+  Close;
 end;
 
-procedure TFrmSHE_DEF_PED.ACTCheckErrorsExecute(Sender: TObject);
+procedure TFrmSHE_DEF_PED.ACTRelatoriosExecute(Sender: TObject);
 begin
   { nothing }
 end;
@@ -1111,109 +1110,7 @@ begin
   { nothing }
 end;
 
-procedure TFrmSHE_DEF_PED.ACTEdicaoExecute(Sender: TObject);
-begin
-  { nothing }
-end;
-
-procedure TFrmSHE_DEF_PED.ACTRegisterEventExecute(Sender: TObject);
-begin
-  { nothing }
-end;
-
-procedure TFrmSHE_DEF_PED.ACTExecuteEventExecute(Sender: TObject);
-begin
-  { nothing }
-end;
-
-procedure TFrmSHE_DEF_PED.ACTExpressEventExecute(Sender: TObject);
-begin
-  { nothing }
-end;
-
-procedure TFrmSHE_DEF_PED.ACTMEAppendExecute(Sender: TObject);
-begin
-  { nothing }
-end;
-
-procedure TFrmSHE_DEF_PED.ACTMEEditExecute(Sender: TObject);
-begin
-  { nothing }
-end;
-
-procedure TFrmSHE_DEF_PED.ACTMEDeleteExecute(Sender: TObject);
-begin
-  { nothing }
-end;
-
-procedure TFrmSHE_DEF_PED.ACTMEPostExecute(Sender: TObject);
-begin
-  { nothing }
-end;
-
-procedure TFrmSHE_DEF_PED.ACTMECancelExecute(Sender: TObject);
-begin
-  { nothing }
-end;
-
-procedure TFrmSHE_DEF_PED.ACTMPAppendExecute(Sender: TObject);
-begin
-  TFrmFIN_PAG_EDI._ExecForm(
-
-  Self, { Owner    }
-  FrmFIN_PAG_EDI, { Form     }
-  False, { Pesquisa }
-  fsNormal, { Tipo     }
-
-  0,  { Código Principal }
-  '', { Descrição Principal }
-
-  0,  { Evento Principal }
-  0,  { Tipo   Evento - 0: Copiado    1: Vazio  2: Romaneado }
-  0,  { Código Evento - 0: Triangular 1: Normal 2: Complementar 3: Ajustes 4:Devolução }
-
-  '', { Tabela }
-  ''  { Get }
-  );
-end;
-
-procedure TFrmSHE_DEF_PED.ACTMPEditExecute(Sender: TObject);
-begin
-  TFrmFIN_PAG_EDI._ExecForm(
-
-  Self, { Owner    }
-  FrmFIN_PAG_EDI, { Form     }
-  False, { Pesquisa }
-  fsNormal, { Tipo     }
-
-  ConsultaPAG_ID.AsInteger,  { Código Principal }
-  '', { Descrição Principal }
-
-  0,  { Evento Principal }
-  0,  { Tipo   Evento - 0: Copiado    1: Vazio  2: Romaneado }
-  0,  { Código Evento - 0: Triangular 1: Normal 2: Complementar 3: Ajustes 4:Devolução }
-
-  '', { Tabela }
-  ''  { Get }
-  );
-end;
-
-procedure TFrmSHE_DEF_PED.ACTMPDeleteExecute(Sender: TObject);
-begin
-  { nothing }
-end;
-
-procedure TFrmSHE_DEF_PED.ACTMPPostExecute(Sender: TObject);
-begin
-  { nothing }
-end;
-
-procedure TFrmSHE_DEF_PED.ACTMPValidateExecute(Sender: TObject);
-begin
-  { nothing }
-end;
-
-procedure TFrmSHE_DEF_PED.ACTMPCancelExecute(Sender: TObject);
+procedure TFrmSHE_DEF_PED.ACTProgressBarExecute(Sender: TObject);
 begin
   { nothing }
 end;
@@ -1511,24 +1408,253 @@ begin
   ACTSaida.Execute;
 end;
 
-procedure TFrmSHE_DEF_PED.ACTProgressBarExecute(Sender: TObject);
+procedure TFrmSHE_DEF_PED.BEPSQ_CADCurChange(Sender: TObject);
+begin
+  BEPSQ_CAD.Text := BEPSQ_CAD.CurText;
+end;
+
+procedure TFrmSHE_DEF_PED.BDPSQ_PER_INICurChange(Sender: TObject);
+begin
+  BDPSQ_PER_INI.Date := BDPSQ_PER_INI.CurDate;
+end;
+
+procedure TFrmSHE_DEF_PED.BDPSQ_PER_FIMCurChange(Sender: TObject);
+begin
+  BDPSQ_PER_FIM.Date := BDPSQ_PER_FIM.CurDate;
+end;
+
+procedure TFrmSHE_DEF_PED.ACTEdicaoExecute(Sender: TObject);
 begin
   { nothing }
 end;
 
-procedure TFrmSHE_DEF_PED.ACTRelatoriosExecute(Sender: TObject);
+procedure TFrmSHE_DEF_PED.ACTMPAppendExecute(Sender: TObject);
+begin
+  TFrmFIN_PAG_EDI._ExecForm(
+
+  Self, { Owner    }
+  FrmFIN_PAG_EDI, { Form     }
+  False, { Pesquisa }
+  fsNormal, { Tipo     }
+
+  0,  { Código Principal }
+  '', { Descrição Principal }
+
+  0,  { Evento Principal }
+  0,  { Tipo   Evento - 0: Copiado    1: Vazio  2: Romaneado }
+  0,  { Código Evento - 0: Triangular 1: Normal 2: Complementar 3: Ajustes 4:Devolução }
+
+  '', { Tabela }
+  ''  { Get }
+  );
+end;
+
+procedure TFrmSHE_DEF_PED.ACTMPEditExecute(Sender: TObject);
+begin
+  TFrmFIN_PAG_EDI._ExecForm(
+
+  Self, { Owner    }
+  FrmFIN_PAG_EDI, { Form     }
+  False, { Pesquisa }
+  fsNormal, { Tipo     }
+
+  ConsultaPAG_ID.AsInteger,  { Código Principal }
+  '', { Descrição Principal }
+
+  0,  { Evento Principal }
+  0,  { Tipo   Evento - 0: Copiado    1: Vazio  2: Romaneado }
+  0,  { Código Evento - 0: Triangular 1: Normal 2: Complementar 3: Ajustes 4:Devolução }
+
+  '', { Tabela }
+  ''  { Get }
+  );
+end;
+
+procedure TFrmSHE_DEF_PED.ACTMPDeleteExecute(Sender: TObject);
 begin
   { nothing }
 end;
 
-procedure TFrmSHE_DEF_PED.ACTRefreshExecute(Sender: TObject);
+procedure TFrmSHE_DEF_PED.ACTMPPostExecute(Sender: TObject);
 begin
-  oRefresh(Consulta);
+  ACTCheckConstraints.Execute;
+  ACTCheckErrors.Execute;
 end;
 
-procedure TFrmSHE_DEF_PED.ACTSaidaExecute(Sender: TObject);
+procedure TFrmSHE_DEF_PED.ACTMPValidateExecute(Sender: TObject);
 begin
+  ACTCheckConstraints.Execute;
+  ACTCheckErrors.Execute;
+end;
+
+procedure TFrmSHE_DEF_PED.ACTMPCancelExecute(Sender: TObject);
+begin
+  REC_SHE_DEF.Editing := False;
   Close;
+end;
+
+procedure TFrmSHE_DEF_PED.ACTMEAppendExecute(Sender: TObject);
+begin
+  if ALockWindowUpdate then { SQL Injection Enabled }
+  Exit;
+
+  oAppend(Consulta,REC_SHE_DEF.GAppend);
+end;
+
+procedure TFrmSHE_DEF_PED.ACTMEEditExecute(Sender: TObject);
+begin
+  if ALockWindowUpdate then { SQL Injection Enabled }
+  Exit;
+
+  oEdit(Consulta,REC_SHE_DEF.GEdit);
+end;
+
+procedure TFrmSHE_DEF_PED.ACTMEDeleteExecute(Sender: TObject);
+begin
+  if ALockWindowUpdate then { SQL Injection Enabled }
+  Exit;
+
+  oDelete(Consulta,REC_SHE_DEF.GDelete);
+end;
+
+procedure TFrmSHE_DEF_PED.ACTMEPostExecute(Sender: TObject);
+begin
+  if ALockWindowUpdate then { SQL Injection Enabled }
+  Exit;
+
+  oPost(Consulta,REC_SHE_DEF.GPost);
+end;
+
+procedure TFrmSHE_DEF_PED.ACTMECancelExecute(Sender: TObject);
+begin
+  if ALockWindowUpdate then { SQL Injection Enabled }
+  Exit;
+
+  oCancel(Consulta,REC_SHE_DEF.GCancel);
+end;
+
+procedure TFrmSHE_DEF_PED.ACTCheckConstraintsExecute(Sender: TObject);
+begin
+  ActiveControl := Nil;
+end;
+
+procedure TFrmSHE_DEF_PED.ACTCheckErrorsExecute(Sender: TObject);
+begin
+  { nothing }
+end;
+
+procedure TFrmSHE_DEF_PED.ACTRegisterEventExecute(Sender: TObject);
+begin
+  { UNREGISTER EVENTS }
+  if EEvent.Registered then
+
+  try
+    EEvent.UnregisterEvents;
+    EEvent.Events.Clear;
+
+    REC_SHE_DEF.FB_EVE_ADM := EmptyStr; { Admin  }
+    REC_SHE_DEF.FB_EVE_PAD := EmptyStr; { Padrão }
+  except
+    on E: Exception do
+    begin
+      oErro(Handle,'Falha ao tentar limpar evento Padrão !' + #13 +
+                   'Erro: ' + E.Message + '.');
+    end;
+  end;
+
+  { REGISTER EVENTS }
+  REC_SHE_DEF.FB_Event := TRIM(REC_SHE_DEF.FB_Event);
+  if REC_SHE_DEF.FB_Event <> EmptyStr then
+
+  try
+    { ADMIN }
+    REC_SHE_DEF.FB_EVE_ADM := REC_SHE_DEF.FB_Event + '-' + oStrZero(RECParametros.EP_ID,3) + '-ADM';
+    EEvent.Events.Add(REC_SHE_DEF.FB_EVE_ADM);
+
+    { PADRÃO }
+    if not RECUsuarios.IS_EVE_ADM then
+    begin
+      REC_SHE_DEF.FB_EVE_PAD := REC_SHE_DEF.FB_Event + '-' + oStrZero(RECParametros.EP_ID,3) + '-' + oStrZero(RECUsuarios.ID,3);
+      EEvent.Events.Add(REC_SHE_DEF.FB_EVE_PAD);
+    end;
+
+    { EDIÇÃO }
+    if REC_SHE_DEF.FB_EVE_EDT <> EmptyStr then
+    begin
+      if ACTRegisterEvent.Tag > 0 then
+      REC_SHE_DEF.FB_EVE_EDT := REC_SHE_DEF.FB_EVE_EDT + '-' + oStrZero(RECParametros.EP_ID,3) + '-' + oStrZero(ACTRegisterEvent.Tag,3) else
+      REC_SHE_DEF.FB_EVE_EDT := REC_SHE_DEF.FB_EVE_EDT + '-' + oStrZero(RECParametros.EP_ID,3) + '-' + oStrZero(RECUsuarios.ID,3);
+
+      EEvent.Events.Add(REC_SHE_DEF.FB_EVE_EDT);
+      ACTRegisterEvent.Tag := 0;
+    end;
+
+    EEvent.RegisterEvents;
+  except
+    on E: Exception do
+    begin
+      oErro(Application.Handle,'Falha ao tentar registrar evento !' + #13 +
+                               'Erro: '   + E.Message + '.');
+    end;
+  end;
+end;
+
+procedure TFrmSHE_DEF_PED.ACTExecuteEventExecute(Sender: TObject);
+var
+  i: word;
+begin
+  if REC_SHE_DEF.FB_Event = EmptyStr then
+  begin
+    if not ALockWindowUpdate then { SQL Injection Enabled }
+    oRefresh(Consulta);
+  end else
+
+  try
+    oOTransact(TEvent);
+
+    { ADMIN }
+    SPEvent.StoredProcName := 'SP_SHE_EVE';
+    SPEvent.Prepare;
+
+    for i := 0 to SPEvent.ParamCount - 1 do
+    SPEvent.Params[i].Value := Null;
+
+    SPEvent.Params[0].Value := REC_SHE_DEF.FB_EVE_ADM;
+    SPEvent.Params[1].Value := REC_SHE_DEF.FB_EVE_PAD;
+    SPEvent.Params[2].Value := REC_SHE_DEF.FB_EVE_EDT;
+
+    SPEvent.ExecProc;
+    SPEvent.UnPrepare;
+    
+    oCTransact(TEvent);
+  except
+    on E: Exception do
+    begin
+      oCTransact(TEvent,ltRollback);
+      oErro(Application.Handle,'Falha ao tentar executar evento !' + #13 +
+                                REC_SHE_DEF.FB_Event   + '.' + #13 + #13 +
+                                E.Message              + '.');
+    end;
+  end;
+end;
+
+procedure TFrmSHE_DEF_PED.ACTExpressEventExecute(Sender: TObject);
+begin
+  ACTRegisterEvent.Execute;
+  ACTExecuteEvent.Execute;
+end;
+
+procedure TFrmSHE_DEF_PED.EEventEventAlert(Sender: TObject;
+  EventName: String; EventCount: Integer; var CancelAlerts: Boolean);
+begin
+  if ((RECUSuarios.IS_EVE_ADM    ) and (RightStr(EventName,3) = 'ADM')) or
+     ((not RECUSuarios.IS_EVE_ADM) and (RightStr(EventName,3) = oStrZero(RECUsuarios.ID,3))) then
+
+  if REC_SHE_DEF.FB_EventAlert then
+  begin
+    //ShowMessage(EventName);
+    oRefresh(Consulta);
+  end;
 end;
 
 procedure TFrmSHE_DEF_PED.ConsultaCalcFields(DataSet: TDataSet);
@@ -1584,19 +1710,9 @@ begin
   end;
 end;
 
-procedure TFrmSHE_DEF_PED.BEPSQ_CADCurChange(Sender: TObject);
+procedure TFrmSHE_DEF_PED.ConsultaBeforeOpen(DataSet: TDataSet);
 begin
-  BEPSQ_CAD.Text := BEPSQ_CAD.CurText;
-end;
-
-procedure TFrmSHE_DEF_PED.BDPSQ_PER_INICurChange(Sender: TObject);
-begin
-  BDPSQ_PER_INI.Date := BDPSQ_PER_INI.CurDate;
-end;
-
-procedure TFrmSHE_DEF_PED.BDPSQ_PER_FIMCurChange(Sender: TObject);
-begin
-  BDPSQ_PER_FIM.Date := BDPSQ_PER_FIM.CurDate;
+  DBGConsultaDOCUMENTO_DATA_EMISSAO.Visible := False;
 end;
 
 procedure TFrmSHE_DEF_PED.ConsultaAfterOpen(DataSet: TDataSet);
@@ -1606,11 +1722,6 @@ begin
 
   if FKConsulta.State = dsInactive then
   FKConsulta.Open;
-end;
-
-procedure TFrmSHE_DEF_PED.ConsultaBeforeOpen(DataSet: TDataSet);
-begin
-  DBGConsultaDOCUMENTO_DATA_EMISSAO.Visible := False;
 end;
 
 procedure TFrmSHE_DEF_PED.ConsultaAfterScroll(DataSet: TDataSet);

@@ -420,9 +420,11 @@ inherited FrmFIN_PAG_EDI: TFrmFIN_PAG_EDI
                   Transparent = True
                 end
                 object PECF_NO: TdxPickEdit
+                  Tag = 1
                   Left = 131
                   Top = 32
                   Width = 450
+                  Hint = 'Nome do Fornecedor'
                   Color = clHighlightText
                   Font.Charset = DEFAULT_CHARSET
                   Font.Color = clWindowText
@@ -442,13 +444,16 @@ inherited FrmFIN_PAG_EDI: TFrmFIN_PAG_EDI
                   AutoSize = False
                   MaxLength = 7
                   StyleController = StyleController
+                  OnValidate = PECF_NOValidate
                   Height = 22
                   StoredValues = 2
                 end
                 object CEDOCUMENTO_VALOR: TdxCurrencyEdit
+                  Tag = 1
                   Left = 131
                   Top = 232
                   Width = 120
+                  Hint = 'Valor do Pagamento'
                   Color = 16644596
                   Font.Charset = DEFAULT_CHARSET
                   Font.Color = clWindowText
@@ -472,9 +477,11 @@ inherited FrmFIN_PAG_EDI: TFrmFIN_PAG_EDI
                   StoredValues = 1
                 end
                 object DEDOCUMENTO_DATA_VENCIMENTO: TdxDateEdit
+                  Tag = 1
                   Left = 131
                   Top = 208
                   Width = 120
+                  Hint = 'Data de Vencimento'
                   Color = 16644596
                   Font.Charset = DEFAULT_CHARSET
                   Font.Color = clWindowText
@@ -498,9 +505,11 @@ inherited FrmFIN_PAG_EDI: TFrmFIN_PAG_EDI
                   StoredValues = 4
                 end
                 object IECONTA_ID: TdxImageEdit
+                  Tag = 1
                   Left = 131
                   Top = 72
                   Width = 450
+                  Hint = 'Conta'
                   Color = clHighlightText
                   Font.Charset = DEFAULT_CHARSET
                   Font.Color = clWindowText
@@ -527,9 +536,11 @@ inherited FrmFIN_PAG_EDI: TFrmFIN_PAG_EDI
                   Height = 22
                 end
                 object PEPLANO_CONTA_NO: TdxPickEdit
+                  Tag = 1
                   Left = 131
                   Top = 96
                   Width = 450
+                  Hint = 'Plano de Conta'
                   Color = clHighlightText
                   Font.Charset = DEFAULT_CHARSET
                   Font.Color = clWindowText
@@ -549,13 +560,16 @@ inherited FrmFIN_PAG_EDI: TFrmFIN_PAG_EDI
                   AutoSize = False
                   MaxLength = 7
                   StyleController = StyleController
+                  OnValidate = PEPLANO_CONTA_NOValidate
                   Height = 22
                   StoredValues = 2
                 end
                 object IETIPO_TPG_ID: TdxImageEdit
+                  Tag = 1
                   Left = 131
                   Top = 184
                   Width = 120
+                  Hint = 'Tipo de Documento'
                   Color = clHighlightText
                   Font.Charset = DEFAULT_CHARSET
                   Font.Color = clWindowText
@@ -582,9 +596,11 @@ inherited FrmFIN_PAG_EDI: TFrmFIN_PAG_EDI
                   Height = 22
                 end
                 object IETIPO_MPG_ID: TdxImageEdit
+                  Tag = 1
                   Left = 461
                   Top = 184
                   Width = 120
+                  Hint = 'Meio de Pagamento'
                   Color = clHighlightText
                   Font.Charset = DEFAULT_CHARSET
                   Font.Color = clWindowText
@@ -611,9 +627,11 @@ inherited FrmFIN_PAG_EDI: TFrmFIN_PAG_EDI
                   Height = 22
                 end
                 object EDDOCUMENTO: TdxEdit
+                  Tag = 1
                   Left = 131
                   Top = 160
                   Width = 120
+                  Hint = 'N'#250'mero do Documento'
                   Color = 16644596
                   Font.Charset = DEFAULT_CHARSET
                   Font.Color = clWindowText
@@ -634,6 +652,7 @@ inherited FrmFIN_PAG_EDI: TFrmFIN_PAG_EDI
                   StoredValues = 2
                 end
                 object DEDOCUMENTO_DATA_EMISSAO: TdxDateEdit
+                  Tag = 1
                   Left = 461
                   Top = 160
                   Width = 120
@@ -674,7 +693,7 @@ inherited FrmFIN_PAG_EDI: TFrmFIN_PAG_EDI
                   Style.ButtonStyle = btsFlat
                   Style.ButtonTransparence = ebtHideInactive
                   Style.Shadow = False
-                  TabOrder = 10
+                  TabOrder = 11
                   Alignment = taRightJustify
                   AutoSize = False
                   StyleController = StyleController
@@ -700,7 +719,7 @@ inherited FrmFIN_PAG_EDI: TFrmFIN_PAG_EDI
                   Style.ButtonStyle = btsFlat
                   Style.ButtonTransparence = ebtHideInactive
                   Style.Shadow = False
-                  TabOrder = 11
+                  TabOrder = 12
                   Alignment = taRightJustify
                   AutoSize = False
                   StyleController = StyleController
@@ -711,9 +730,11 @@ inherited FrmFIN_PAG_EDI: TFrmFIN_PAG_EDI
                   StoredValues = 1
                 end
                 object PEDESCRICAO: TdxPickEdit
+                  Tag = 1
                   Left = 131
                   Top = 8
                   Width = 450
+                  Hint = 'Descri'#231#227'o do Lan'#231'amento'
                   Color = 16644596
                   Font.Charset = DEFAULT_CHARSET
                   Font.Color = clWindowText
@@ -738,9 +759,11 @@ inherited FrmFIN_PAG_EDI: TFrmFIN_PAG_EDI
                   StoredValues = 2
                 end
                 object IECENTRO_CUSTO_ID: TdxImageEdit
+                  Tag = 1
                   Left = 131
                   Top = 120
                   Width = 450
+                  Hint = 'Centro de Custo'
                   Color = clHighlightText
                   Font.Charset = DEFAULT_CHARSET
                   Font.Color = clWindowText
@@ -754,7 +777,7 @@ inherited FrmFIN_PAG_EDI: TFrmFIN_PAG_EDI
                   Style.ButtonTransparence = ebtHideInactive
                   Style.HotTrack = True
                   Style.Shadow = False
-                  TabOrder = 18
+                  TabOrder = 20
                   Text = '0'
                   AutoSize = False
                   StyleController = StyleController
@@ -772,7 +795,7 @@ inherited FrmFIN_PAG_EDI: TFrmFIN_PAG_EDI
                   Width = 30
                   Color = clBtnFace
                   ParentColor = False
-                  TabOrder = 15
+                  TabOrder = 16
                   Alignment = taCenter
                   StyleController = StyleController
                   FullFocusRect = True
@@ -785,7 +808,7 @@ inherited FrmFIN_PAG_EDI: TFrmFIN_PAG_EDI
                   Height = 118
                   BorderWidth = 5
                   Color = clHighlightText
-                  TabOrder = 17
+                  TabOrder = 18
                   object DSINFADCAD: TdxDockSite
                     Left = 6
                     Top = 6
@@ -861,7 +884,7 @@ inherited FrmFIN_PAG_EDI: TFrmFIN_PAG_EDI
                   Style.ButtonTransparence = ebtHideInactive
                   Style.HotTrack = True
                   Style.Shadow = False
-                  TabOrder = 12
+                  TabOrder = 13
                   Text = '0'
                   AutoSize = False
                   StyleController = StyleController
@@ -889,7 +912,7 @@ inherited FrmFIN_PAG_EDI: TFrmFIN_PAG_EDI
                   Style.ButtonStyle = btsFlat
                   Style.ButtonTransparence = ebtHideInactive
                   Style.Shadow = False
-                  TabOrder = 13
+                  TabOrder = 14
                   AutoSize = False
                   MaxLength = 120
                   StyleController = StyleController
@@ -912,7 +935,7 @@ inherited FrmFIN_PAG_EDI: TFrmFIN_PAG_EDI
                   Style.ButtonStyle = btsFlat
                   Style.ButtonTransparence = ebtHideInactive
                   Style.Shadow = False
-                  TabOrder = 14
+                  TabOrder = 15
                   AutoSize = False
                   MaxLength = 120
                   StyleController = StyleController
@@ -925,16 +948,18 @@ inherited FrmFIN_PAG_EDI: TFrmFIN_PAG_EDI
                   Width = 30
                   Color = clBtnFace
                   ParentColor = False
-                  TabOrder = 16
+                  TabOrder = 17
                   Alignment = taCenter
                   StyleController = StyleController
                   FullFocusRect = True
                   StoredValues = 1
                 end
                 object IESTATUS_ID: TdxImageEdit
+                  Tag = 1
                   Left = 67
                   Top = 456
                   Width = 120
+                  Hint = 'Situa'#231#227'o'
                   Color = clHighlightText
                   Font.Charset = DEFAULT_CHARSET
                   Font.Color = clWindowText
@@ -985,7 +1010,7 @@ inherited FrmFIN_PAG_EDI: TFrmFIN_PAG_EDI
                   Style.ButtonStyle = btsFlat
                   Style.ButtonTransparence = ebtHideInactive
                   Style.Shadow = False
-                  TabOrder = 20
+                  TabOrder = 10
                   Alignment = taRightJustify
                   AutoSize = False
                   StyleController = StyleController

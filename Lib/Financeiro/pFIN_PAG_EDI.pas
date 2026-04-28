@@ -71,8 +71,15 @@ type
     procedure IESTATUS_IDChange(Sender: TObject);
     procedure DEDOCUMENTO_DATA_VENCIMENTOValidate(Sender: TObject;
       var ErrorText: String; var Accept: Boolean);
+    procedure PECF_NOValidate(Sender: TObject; var ErrorText: String;
+      var Accept: Boolean);
+    procedure PEPLANO_CONTA_NOValidate(Sender: TObject;
+      var ErrorText: String; var Accept: Boolean);
+    procedure ACTCheckConstraintsExecute(Sender: TObject);
+    procedure ACTCheckErrorsExecute(Sender: TObject);
   private
     { Private declarations }
+
   public
     { Public declarations }
   end;
@@ -100,45 +107,6 @@ begin
   REC_SHE_DEF.GReferencia := 'Pagamentos';
   REC_SHE_DEF.GRegra      := 'Permissões Gerais';
   oUSER(REC_SHE_DEF);
-end;
-
-procedure TFrmFIN_PAG_EDI.PEDESCRICAOValidate(Sender: TObject;
-  var ErrorText: String; var Accept: Boolean);
-var
-  ADescricao: String;
-begin
-  if PEDESCRICAO.Text = 'Escola' then
-  ADescricao := 'Escola / Educação' else
-
-  if PEDESCRICAO.Text = 'Mat p escritório' then
-  ADescricao := 'Materiais de Escritório/Consumo' else
-
-  if PEDESCRICAO.Text = 'Monitoramento' then
-  ADescricao := 'Mensalidade de monitoramento/vigilância' else
-
-  if PEDESCRICAO.Text = 'Multa' then
-  ADescricao := 'Multas Contratuais' else
-
-  if PEDESCRICAO.Text = 'Multas' then
-  ADescricao := 'Multas Contratuais' else
-  ADescricao := PEDESCRICAO.Text;
-
-  with SQLConsulta do
-  begin
-    Close;
-    SQL.Clear;
-    SQL.Add('SELECT PK.DESCRICAO,PK.CENTRO_CUSTO_ID FROM FIN_PLANO_CONTA AS PK');
-    SQL.Add('WHERE  PK.DESCRICAO CONTAINING ''' + ADescricao + '''');
-    ExecQuery;
-
-    if not Eof then
-    begin
-      PEPLANO_CONTA_NO.Text  := Current.Vars[0].AsString;
-      IECENTRO_CUSTO_ID.Text := Current.Vars[1].AsString;
-    end;  
-  end;
-
-  PEDESCRICAO.Modified := False;
 end;
 
 procedure TFrmFIN_PAG_EDI.ACTConsultaExecute(Sender: TObject);
@@ -318,6 +286,220 @@ begin
   end;
 end;
 
+procedure TFrmFIN_PAG_EDI.ACTCheckConstraintsExecute(Sender: TObject);
+var
+  Msg: string;
+begin
+  inherited;
+
+  if not oValidaCamposObrigatorios(Self, Msg) then
+  begin
+    oErro(handle,Msg);
+    Abort;
+  end;
+end;
+
+procedure TFrmFIN_PAG_EDI.ACTCheckErrorsExecute(Sender: TObject);
+begin
+  inherited;
+  
+  PEDESCRICAO.ValidateEdit;
+  PECF_NO.ValidateEdit;
+  PEPLANO_CONTA_NO.ValidateEdit;
+end;
+
+procedure TFrmFIN_PAG_EDI.ACTMPPostExecute(Sender: TObject);
+begin
+  if oYesNo(handle,'Salvar Registro ?') = mrNo then
+  Abort;
+
+  inherited;
+
+  try
+    oOTransact(TEdicao);
+    SPEdicao.StoredProcName := 'SP_EDI_FIN_PAG_ADM';
+    SPEdicao.Prepare;
+
+    SPEdicao.ParamByName('APAG_ID').Value := REC_SHE_DEF.ID;
+    SPEdicao.ParamByName('ADESCRICAO').Value := PEDESCRICAO.Text;
+    SPEdicao.ParamByName('AEP_ID').Value := RECParametros.EP_ID;
+    SPEdicao.ParamByName('ACF_ID').Value := PECF_NO.Tag;
+
+    SPEdicao.ParamByName('ACONTA_ID').Value := IECONTA_ID.Text;
+    SPEdicao.ParamByName('APLANO_CONTA_ID').Value := PEPLANO_CONTA_NO.Tag;
+    SPEdicao.ParamByName('ACENTRO_CUSTO_ID').Value := IECENTRO_CUSTO_ID.Text;
+
+    SPEdicao.ParamByName('ATIPO_TPG_ID').Value := IETIPO_TPG_ID.Text;
+    SPEdicao.ParamByName('ATIPO_MPG_ID').Value := IETIPO_MPG_ID.Text;
+
+    SPEdicao.ParamByName('ABANCO_ID').Value := IEBANCO_ID.Text;
+    SPEdicao.ParamByName('ABANCO_AG').Value := EDBANCO_AG.Text;
+    SPEdicao.ParamByName('ABANCO_CC').Value := EDBANCO_CC.Text;
+
+    SPEdicao.ParamByName('ADOCUMENTO').Value := EDDOCUMENTO.Text;
+    SPEdicao.ParamByName('ADOCUMENTO_DATA_EMISSAO').Value := DEDOCUMENTO_DATA_EMISSAO.Date;
+    SPEdicao.ParamByName('ADOCUMENTO_DATA_VENCIMENTO').Value := DEDOCUMENTO_DATA_VENCIMENTO.Date;
+    SPEdicao.ParamByName('ADOCUMENTO_VALOR').Value := CEDOCUMENTO_VALOR.Value;
+    SPEdicao.ParamByName('ADOCUMENTO_VALOR_MULTA').Value := CEDOCUMENTO_VALOR_MULTA.Value;
+    SPEdicao.ParamByName('ADOCUMENTO_VALOR_JURO').Value := CEDOCUMENTO_VALOR_JURO.Value;
+    SPEdicao.ParamByName('ADOCUMENTO_PARCELA').Value := CEDOCUMENTO_PARCELA.Value;
+
+    SPEdicao.ParamByName('AIS_BOLETO').Value := IFThen(CHKIS_BOLETO.Checked,1,0);
+    SPEdicao.ParamByName('AIS_NF').Value := IFThen(CHKIS_NF.Checked,1,0);
+
+    SPEdicao.ParamByName('ASTATUS_ID').Value := IESTATUS_ID.Text;
+    SPEdicao.ParamByName('AINFADCAD').Value := EMINFADCAD.Text;
+
+    SPEdicao.ParamByName('ACREATED_LG_ID').Value:= RECUsuarios.ID;
+    SPEdicao.ParamByName('AIP').Value := RECParametros.IP;
+    SPEdicao.ParamByName('AHOST').Value := RECParametros.HOST;
+
+    SPEdicao.ExecProc;
+    SPEdicao.UnPrepare;
+
+    oCTransact(TEdicao);
+    oAviso(handle,'Pagamento atualizado com sucesso !');
+  except
+    on E: Exception do
+    begin
+      oCTransact(TEdicao,ltRollback);
+      oErro(Application.Handle,'Falha ao tentar fechar eventos !' + #13 +
+                               'Erro: ' + E.Message + '.');
+    end;
+  end;
+end;
+
+procedure TFrmFIN_PAG_EDI.PEDESCRICAOValidate(Sender: TObject;
+  var ErrorText: String; var Accept: Boolean);
+begin
+  PEDESCRICAO.Text := TRIM(PEDESCRICAO.Text);
+
+  with SQLConsulta do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add('SELECT PK.CENTRO_CUSTO_ID,FK.DESCRICAO AS PLANO_CONTA_NO');
+    SQL.Add('FROM   FIN_PAG_ADM     AS PK');
+    SQL.Add('JOIN   FIN_PLANO_CONTA AS FK ON (FK.PLANO_CONTA_ID = PK.PLANO_CONTA_ID)');
+    SQL.Add('WHERE  PK.DESCRICAO CONTAINING ''' + PEDESCRICAO.Text + '''');
+    ExecQuery;
+
+    if not Eof then
+    begin
+      IECENTRO_CUSTO_ID.Text := Current.Vars[0].AsString;
+      PEPLANO_CONTA_NO.Text  := Current.Vars[1].AsString;
+    end;
+  end;
+
+  PEDESCRICAO.Modified := False;
+end;
+
+procedure TFrmFIN_PAG_EDI.PECF_NOValidate(Sender: TObject;
+  var ErrorText: String; var Accept: Boolean);
+begin
+  PECF_NO.Text := TRIM(PECF_NO.Text);
+  PECF_NO.Tag  := 0;
+
+  with SQLConsulta do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add('SELECT PK.CF_ID FROM CAD_FOR AS PK');
+    SQL.Add('WHERE  PK.FANTASIA = ''' + PECF_NO.Text + '''');
+    ExecQuery;
+  end;
+
+  if SQLConsulta.Eof then
+  begin
+    if oYesNo(handle,'Fornecedor não Encontrado !' + #13 +
+                     'Cadastrar :') = mrNo then
+    begin
+      PECF_NO.SetFocus;
+      Abort;
+    end else
+
+    { CADASTRAR }
+    try
+      oOTransact(TEdicao);
+      with SQLEdicao do
+      begin
+        Close;
+        SQL.Clear;
+        SQL.Add('EXECUTE BLOCK');
+        SQL.Add('RETURNS (RCF_ID SMALLINT)');
+        SQL.Add('AS');
+        SQL.Add('BEGIN');
+
+        SQL.Add('UPDATE OR INSERT');
+        SQL.Add('INTO CAD_FOR (IDCA,FOR_FANT,FOR_RAZA,IP,HOST)');
+        SQL.Add('VALUES (');
+
+        SQL.Add('''' + RECUsuarios.ID     + ''',');
+        SQL.Add('''' + PECF_NO.Text       + ''',');
+        SQL.Add('''' + PECF_NO.Text       + ''',');
+        SQL.Add('''' + RECParametros.IP   + ''',');
+        SQL.Add('''' + RECParametros.HOST + ''')');
+
+        SQL.Add('MATCHING (FOR_FANT)');
+        SQL.Add('RETURNING CF_ID INTO :RCF_ID;');
+
+        SQL.Add('SUSPEND;');
+        SQL.Add('END;');
+
+        ParamCheck := False;
+        Prepare;
+        ExecQuery;
+
+        PECF_NO.Tag := Current.Vars[0].AsInteger;
+
+        ParamCheck := True;
+        Close;
+      end;
+      oCTransact(TEdicao);
+    except
+      on E: Exception do
+      begin
+        SQLEdicao.ParamCheck := True;
+        oCTransact(TEdicao,ltRollback);
+        oException(Nil,'Falha ao tentar cadastrar fornecedor !' +#13+
+                       'Erro: ' + E.Message);
+      end;
+    end;
+  end else
+  PECF_NO.Tag := SQLConsulta.Current.Vars[0].AsInteger;
+  PECF_NO.Modified := False;
+end;
+
+procedure TFrmFIN_PAG_EDI.PEPLANO_CONTA_NOValidate(Sender: TObject;
+  var ErrorText: String; var Accept: Boolean);
+begin
+  with SQLConsulta do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add('SELECT PK.CENTRO_CUSTO_ID FROM FIN_PLANO_CONTA AS PK');
+    SQL.Add('WHERE  PK.DESCRICAO = ''' + PEPLANO_CONTA_NO.Text + '''');
+    ExecQuery;
+
+    if Eof then
+    oException(PEPLANO_CONTA_NO,'Plano de conta não encontrado !');
+  end;
+
+  PEPLANO_CONTA_NO.Modified := False;
+  IECENTRO_CUSTO_ID.Text := SQLConsulta.Current.Vars[0].AsString;
+end;
+
+procedure TFrmFIN_PAG_EDI.DEDOCUMENTO_DATA_VENCIMENTOValidate(
+  Sender: TObject; var ErrorText: String; var Accept: Boolean);
+begin
+  if IESTATUS_ID.Text <> '102' then
+  if DEDOCUMENTO_DATA_VENCIMENTO.Date < RECParametros.SHE_DATA then
+  IESTATUS_ID.Text := '1' else
+
+  if DEDOCUMENTO_DATA_VENCIMENTO.Date > RECParametros.SHE_DATA then
+  IESTATUS_ID.Text := '156';
+end;
+
 procedure TFrmFIN_PAG_EDI.IESTATUS_IDChange(Sender: TObject);
 begin
   if IESTATUS_ID.Text = '156' then
@@ -341,65 +523,6 @@ begin
     IESTATUS_ID.Color := $00FDF9F4;
     IESTATUS_ID.Font.Color := clWindowText;
   end;
-end;
-
-procedure TFrmFIN_PAG_EDI.ACTMPPostExecute(Sender: TObject);
-begin
-//  inherited;
-
-  PEDESCRICAO.ValidateEdit;
-  exit;
-
-  SPEdicao.StoredProcName := 'SP_EDI_FIN_PAG_ADM';
-  SPEdicao.Prepare;
-
-  SPEdicao.ParamByName('APAG_ID').Value := REC_SHE_DEF.ID;
-  SPEdicao.ParamByName('ADESCRICAO').Value := PEDESCRICAO.Text;
-  SPEdicao.ParamByName('AEP_ID').Value := RECParametros.EP_ID;
-  SPEdicao.ParamByName('ACF_ID').Value := PECF_NO.Tag;
-
-  SPEdicao.ParamByName('ACONTA_ID').Value := IECONTA_ID.Text;
-  SPEdicao.ParamByName('APLANO_CONTA_ID').Value := PEPLANO_CONTA_NO.Tag;
-  SPEdicao.ParamByName('ACENTRO_CUSTO_ID').Value := IECENTRO_CUSTO_ID.Text;
-
-  SPEdicao.ParamByName('ATIPO_TPG_ID').Value := IETIPO_TPG_ID.Text;
-  SPEdicao.ParamByName('ATIPO_MPG_ID').Value := IETIPO_MPG_ID.Text;
-
-  SPEdicao.ParamByName('ABANCO_ID').Value := IEBANCO_ID.Text;
-  SPEdicao.ParamByName('ABANCO_AG').Value := EDBANCO_AG.Text;
-  SPEdicao.ParamByName('ABANCO_CC').Value := EDBANCO_CC.Text;
-
-  SPEdicao.ParamByName('ADOCUMENTO').Value := EDDOCUMENTO.Text;
-  SPEdicao.ParamByName('ADOCUMENTO_DATA_EMISSAO').Value := DEDOCUMENTO_DATA_EMISSAO.Date;
-  SPEdicao.ParamByName('ADOCUMENTO_DATA_VENCIMENTO').Value := DEDOCUMENTO_DATA_VENCIMENTO.Date;
-  SPEdicao.ParamByName('ADOCUMENTO_VALOR').Value := CEDOCUMENTO_VALOR.Value;
-  SPEdicao.ParamByName('ADOCUMENTO_VALOR_MULTA').Value := CEDOCUMENTO_VALOR_MULTA.Value;
-  SPEdicao.ParamByName('ADOCUMENTO_VALOR_JURO').Value := CEDOCUMENTO_VALOR_JURO.Value;
-  SPEdicao.ParamByName('ADOCUMENTO_PARCELA').Value := CEDOCUMENTO_PARCELA.Value;
-
-  SPEdicao.ParamByName('AIS_BOLETO').Value := IFThen(CHKIS_BOLETO.Checked,1,0);
-  SPEdicao.ParamByName('AIS_NF').Value := IFThen(CHKIS_NF.Checked,1,0);
-
-  SPEdicao.ParamByName('ASTATUS_ID').Value := IESTATUS_ID.Text;
-  SPEdicao.ParamByName('AINFADCAD').Value := EMINFADCAD.Text;
-
-  SPEdicao.ParamByName('ACREATED_LG_ID').Value:= RECUsuarios.ID;
-  SPEdicao.ParamByName('AIP').Value := RECParametros.IP;
-  SPEdicao.ParamByName('AHOST').Value := RECParametros.HOST;
-
-  SPEdicao.ExecProc;
-  SPEdicao.UnPrepare;
-end;
-
-procedure TFrmFIN_PAG_EDI.DEDOCUMENTO_DATA_VENCIMENTOValidate(
-  Sender: TObject; var ErrorText: String; var Accept: Boolean);
-begin
-  if IESTATUS_ID.Text <> '102' then
-  if DEDOCUMENTO_DATA_VENCIMENTO.Date < RECParametros.SHE_DATA then
-  IESTATUS_ID.Text := '1' else
-
-  if DEDOCUMENTO_DATA_VENCIMENTO.Date > RECParametros.SHE_DATA then
-  IESTATUS_ID.Text := '156';
 end;
 
 end.
