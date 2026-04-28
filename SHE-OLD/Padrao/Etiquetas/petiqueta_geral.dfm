@@ -1,7 +1,9 @@
 object FrmEtiqueta_Geral: TFrmEtiqueta_Geral
-  Left = 543
-  Top = 69
+  Left = 313
+  Top = 118
+  HelpContext = 95
   ActiveControl = EDTexto
+  AlphaBlendValue = 0
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Etiquetas'
@@ -256,7 +258,6 @@ object FrmEtiqueta_Geral: TFrmEtiqueta_Geral
   OnKeyDown = FormKeyDown
   OnPaint = FormPaint
   OnResize = FormResize
-  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 14
   object SBMenu: TSpeedBar
@@ -714,9 +715,9 @@ object FrmEtiqueta_Geral: TFrmEtiqueta_Geral
         object GBInfAdProd: TGroupBox
           Left = 0
           Top = 0
-          Width = 652
+          Width = 704
           Height = 75
-          Align = alLeft
+          Align = alClient
           Caption = '  Informa'#231#245'es Adicionais  '
           Font.Charset = ANSI_CHARSET
           Font.Color = clWindowText
@@ -760,7 +761,7 @@ object FrmEtiqueta_Geral: TFrmEtiqueta_Geral
           object DBComposicao: TdxDBMaskEdit
             Left = 69
             Top = 48
-            Width = 580
+            Width = 400
             Color = 16644596
             Font.Charset = ANSI_CHARSET
             Font.Color = clWindowText
@@ -781,7 +782,7 @@ object FrmEtiqueta_Geral: TFrmEtiqueta_Geral
           object DBIEFabricante: TdxDBImageEdit
             Left = 69
             Top = 24
-            Width = 290
+            Width = 400
             Color = 16644596
             Font.Charset = ANSI_CHARSET
             Font.Color = clWindowText
@@ -809,11 +810,11 @@ object FrmEtiqueta_Geral: TFrmEtiqueta_Geral
           end
         end
         object GBInfCplProd: TGroupBox
-          Left = 652
+          Left = 704
           Top = 0
-          Width = 512
+          Width = 460
           Height = 75
-          Align = alClient
+          Align = alRight
           Caption = '  Informa'#231#245'es Complementares'
           Font.Charset = ANSI_CHARSET
           Font.Color = clWindowText
@@ -825,7 +826,7 @@ object FrmEtiqueta_Geral: TFrmEtiqueta_Geral
           object dxDBMemo1: TdxDBMemo
             Left = 2
             Top = 19
-            Width = 508
+            Width = 456
             Align = alClient
             Color = 16644596
             Font.Charset = ANSI_CHARSET
@@ -839,7 +840,9 @@ object FrmEtiqueta_Geral: TFrmEtiqueta_Geral
             TabOrder = 0
             DataField = 'PRO_OBSE'
             DataSource = DTSEdicao
+            ReadOnly = True
             Height = 54
+            StoredValues = 64
           end
         end
       end
@@ -983,6 +986,7 @@ object FrmEtiqueta_Geral: TFrmEtiqueta_Geral
             DisableFilter = True
           end
           object DBGEdicaoPRO_PSCN: TdxDBGridCurrencyColumn
+            Visible = False
             Width = 78
             BandIndex = 0
             RowIndex = 0

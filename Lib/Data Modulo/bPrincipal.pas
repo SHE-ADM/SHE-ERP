@@ -380,36 +380,6 @@ type
     SQLFBEdicao: TIBSQL;
     SPFBEdicao: TIBStoredProc;
     TFBEvent: TIBTransaction;
-    TFBResumo: TIBTransaction;
-    QFBResumo_Diario: TIBQuery;
-    QFBResumo_DiarioCP_IDEP: TSmallintField;
-    QFBResumo_DiarioCP_ABEP: TIBStringField;
-    QFBResumo_DiarioDTPK: TDateField;
-    QFBResumo_DiarioCLI_ITCD: TIntegerField;
-    QFBResumo_DiarioCLI_INCD: TIntegerField;
-    QFBResumo_DiarioPED_VLPK: TIBBCDField;
-    QFBResumo_DiarioPED_ILPK: TIntegerField;
-    QFBResumo_DiarioPED_VLSP: TIBBCDField;
-    QFBResumo_DiarioPED_ILSP: TIntegerField;
-    QFBResumo_DiarioPED_PLSP: TIBBCDField;
-    QFBResumo_DiarioPED_VTLQ: TIBBCDField;
-    QFBResumo_DiarioPED_ITLQ: TIntegerField;
-    QFBResumo_Mensal: TIBQuery;
-    QFBResumo_MensalCP_IDEP: TSmallintField;
-    QFBResumo_MensalCP_ABEP: TIBStringField;
-    QFBResumo_MensalDMPK: TIBStringField;
-    QFBResumo_MensalAMPK: TLargeintField;
-    QFBResumo_MensalCLI_ITCD: TLargeintField;
-    QFBResumo_MensalCLI_INCD: TLargeintField;
-    QFBResumo_MensalPED_VLPK: TIBBCDField;
-    QFBResumo_MensalPED_ILPK: TLargeintField;
-    QFBResumo_MensalPED_VLSP: TIBBCDField;
-    QFBResumo_MensalPED_ILSP: TLargeintField;
-    QFBResumo_MensalPED_PLSP: TIBBCDField;
-    QFBResumo_MensalPED_VTLQ: TIBBCDField;
-    QFBResumo_MensalPED_ITLQ: TLargeintField;
-    DTSFBResumo_Diario: TDataSource;
-    DTSFBResumo_Mensal: TDataSource;
     SQLFBFKEdicao: TIBSQL;
     CDSFBTAB_USER_ADMID: TLargeintField;
     SQLFBFKEEdicao: TIBSQL;
@@ -441,7 +411,6 @@ procedure bExecUsuarios(AIDUSER: Variant); STDCall;
 procedure bExecCaixa; STDCall;
 
 { Execuções Diversas }
-procedure bResumo_Pedido; STDCall;
 procedure bExecEvent(AEvent: String;AWarning: TWarning = lwNone); STDCall;
 
 procedure bPesquisaEnderecos(var RECEndereco: TRECEnderecos); STDCall;
@@ -1664,70 +1633,6 @@ begin
     FBCAD_PROC_VPRC_PRZ.Value := FBCAD_PROVPRC_PAD_PRZ.AsFloat;
     FBCAD_PROC_VPRC_PRO.Value := FBCAD_PROVPRC_PAD_PRO.AsFloat;
     FBCAD_PROC_VPRC_PAD.Tag   := 0;
-  end;
-end;
-
-procedure bResumo_Pedido;
-begin
-  if not RECUsuarios.PED_TOTALIZADOR then
-  Exit;
-
-  with FBird do
-  begin
-    oRTransact(TFBResumo);
-    with QFBResumo_Mensal do
-    begin
-      Close;
-      SQL.Clear;
-      SQL.Add('SELECT PK.CP_IDEP,PK.CP_ABEP,PK.DMPK,PK.AMPK,');
-      SQL.Add('       SUM(PK.PED_VLPK) AS PED_VLPK,SUM(PK.PED_ILPK) AS PED_ILPK,');
-      SQL.Add('       SUM(PK.CLI_ITCD) AS CLI_ITCD,SUM(PK.CLI_INCD) AS CLI_INCD,');
-      SQL.Add('       SUM(PK.PED_VLSP) AS PED_VLSP,SUM(PK.PED_ILSP) AS PED_ILSP,AVG(PK.PED_PLSP) AS PED_PLSP,');
-      SQL.Add('       SUM(PK.PED_VTLQ) AS PED_VTLQ,SUM(PK.PED_ITLQ) AS PED_ITLQ');
-
-      SQL.Add('FROM SP_PED_VEN_REL_FCV (');
-
-      SQL.Add('''' + RECParametros.EP_ID + ''',');
-      SQL.Add('''' + RECParametros.EP_ID + ''',');
-
-      //SQL.Add('''' + FormatDateTime('mm/dd/yy',StartOfTheYear(RECParametros.SHE_DATA_MES_PK)) + ''',');
-      SQL.Add('''' + FormatDateTime('mm/dd/yy',StartOfTheYear(RECParametros.SHE_DATA_MES_PK)) + ''',');
-      SQL.Add('''' + FormatDateTime('mm/dd/yy',EndOfTheYear  (RECParametros.SHE_DATA_MES_FK)) + ''')');
-      SQL.Add('AS PK');
-
-      SQL.Add('GROUP BY DMPK,AMPK,CP_IDEP,CP_ABEP');
-      SQL.Add('ORDER BY AMPK DESC');
-
-      Prepare;
-      Open;
-    end;
-
-    with QFBResumo_Diario do
-    begin
-      Close;
-      SQL.Clear;
-      SQL.Add('SELECT PK.DTPK,PK.CP_IDEP,PK.CP_ABEP,');
-      SQL.Add('       PK.PED_VLPK,PK.PED_ILPK,');
-      SQL.Add('       PK.CLI_ITCD,PK.CLI_INCD,');
-      SQL.Add('       PK.PED_VLSP,PK.PED_ILSP,PK.PED_PLSP,');
-      SQL.Add('       PK.PED_VTLQ,PK.PED_ITLQ');
-
-      SQL.Add('FROM SP_PED_VEN_REL_FCV (');
-
-      SQL.Add('''' + RECParametros.EP_ID + ''',');
-      SQL.Add('''' + RECParametros.EP_ID + ''',');
-
-      SQL.Add('''' + FormatDateTime('mm/dd/yy',RECParametros.SHE_DATA_MES_PK) + ''',');
-      SQL.Add('''' + FormatDateTime('mm/dd/yy',RECParametros.SHE_DATA_MES_FK) + ''')');
-      SQL.Add('AS PK');
-
-      SQL.Add('ORDER BY PK.DTPK DESC');
-
-      Prepare;
-      Open;
-
-      tag := 0;
-    end;
   end;
 end;
 

@@ -7,7 +7,7 @@ uses oPrincipal, ACBrBarCode,
   Windows, SysUtils, Messages, Graphics,
   StdCtrls, ACBrBase, ACBrETQ, Math, StrUtils,
   QRDBTextRotate, DB, IBCustomDataSet, IBQuery, QrAngLbl, QRPDFFilt,
-  QRExport, IBTable;
+  QRExport, IBTable, DelphiZXingQRCode;
 
 type
   TqrpEtiqueta_Cartela = class(TQuickRep)
@@ -43,7 +43,6 @@ type
     QRDBILavagem5: TQRDBImage;
     QRDBILavagem6: TQRDBImage;
     QRDBILavagem7: TQRDBImage;
-    QRICartela: TQRImage;
     QRLLavagem: TQRLabel;
     QRDBComp1: TQRDBText;
     QRSLogo: TQRShape;
@@ -171,6 +170,7 @@ type
     RelatorioPRO_PSLQ: TIBBCDField;
     RelatorioPRO_QTUN: TIBBCDField;
     QRMInfAdic: TQRDBRichText;
+    QRIProduto: TQRImage;
     procedure WinControlFormCreate(Sender: TObject);
     procedure WinControlFormDestroy(Sender: TObject);
     procedure QRGGrupoBeforePrint(Sender: TQRCustomBand;
@@ -298,7 +298,7 @@ begin
     ReportTitle := 'Etiquetas de Cartelas';
 
     { Cabeçalho Página }
-    //oLoadJPG(RECParametros.IMG_JPG_ETQ,QRITituloLogo.Picture);
+    QRITituloLogo.Picture.Assign(RECParametros.IMG_JPG_ETQ.Picture);
     QRLCDEmpresa.Caption := RECParametros.EP_RZ_NO;
     QRLCDCNPJ.Caption    := 'CNPJ: '+RECParametros.CNPJ_MASK;
 
@@ -355,34 +355,6 @@ begin
   finally
     oPrinterSelect(RECRelatorios.Handle,'Relatórios');
     FreeAndNil(qrpEtiqueta_Cartela);
-  end;
-end;
-
-procedure TqrpEtiqueta_Cartela.QRGGrupoBeforePrint(Sender: TQRCustomBand;
-  var PrintBand: Boolean);
-var
-   BMP: TBitmap;
-begin
-  QRLRendimento.Enabled  := (LeftStr(RelatorioPRO_DUNI.AsString,1) = 'K');
-  QRDBRendimento.Enabled := (LeftStr(RelatorioPRO_DUNI.AsString,1) = 'K');
-
-  if not Relatorio.Fields[0].IsNull then
-  begin
-    BMP := Nil;
-    with FrmPrincipal.ACBrBarCode do
-    try
-      Text := RelatorioPRO_CBAR.AsString;
-
-      BMP := TBitmap.Create;
-      BMP.Width  := QRICartela.Width;
-      BMP.Height := QRICartela.Height;
-
-      DrawBarcode(BMP.Canvas);
-
-      QRICartela.Picture.Bitmap := BMP;
-    finally
-      FreeAndNil(BMP);
-    end;
   end;
 end;
 
@@ -446,6 +418,66 @@ begin
   begin
     QRDCOR2.Font.Size  := 10;
     QRDCOR2.Font.Style := [fsBold,fsItalic];
+  end;
+end;
+
+procedure TqrpEtiqueta_Cartela.QRGGrupoBeforePrint(Sender: TQRCustomBand;
+  var PrintBand: Boolean);
+var
+  BMP: TBitmap;
+  QRCode: TDelphiZXingQRCode;
+  Row, Col: Integer;
+  Scale: Integer;
+begin
+  QRLRendimento.Enabled  := (LeftStr(RelatorioPRO_DUNI.AsString,1) = 'K');
+  QRDBRendimento.Enabled := (LeftStr(RelatorioPRO_DUNI.AsString,1) = 'K');
+
+  if not Relatorio.Fields[0].IsNull then
+  begin
+   // Configurações
+    Scale := 10; // Aumenta o tamanho dos "quadradinhos" do QR Code
+
+    QRCode := TDelphiZXingQRCode.Create;
+    BMP    := TBitmap.Create;
+    try
+      // Define os dados e a codificação
+      QRCode.Data      := 'https://cartela.otimotex.app/c/' + RelatorioPRO_CART.AsString;
+      QRCode.Encoding  := qrAuto;
+      QRCode.QuietZone := 4; // Margem branca ao redor
+
+      // Define o tamanho do Bitmap resultante
+      BMP.Width  := QRCode.Rows    * Scale;
+      BMP.Height := QRCode.Columns * Scale;
+
+      // Pinta o fundo de branco
+      BMP.Canvas.Brush.Color := clWhite;
+      BMP.Canvas.FillRect(Rect(0, 0, BMP.Width, BMP.Height));
+
+      // Pinta os "pixels" pretos do QR Code
+      BMP.Canvas.Brush.Color := clBlack;
+      for Row := 0 to QRCode.Rows - 1 do
+      begin
+        for Col := 0 to QRCode.Columns - 1 do
+        begin
+          if QRCode.IsBlack[Row, Col] then
+          begin
+            BMP.Canvas.FillRect(Rect(
+              Col  * Scale,
+              Row  * Scale,
+              (Col + 1) * Scale,
+              (Row + 1) * Scale
+            ));
+          end;
+        end;
+      end;
+
+      // Exibe no componente TImage
+      QRIProduto.Picture.Assign(BMP);
+
+    finally
+      QRCode.Free;
+      BMP.Free;
+    end;
   end;
 end;
 

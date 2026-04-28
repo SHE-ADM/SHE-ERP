@@ -210,7 +210,6 @@ type
     procedure BPriClick(Sender: TObject);
     procedure EdicaoCalcFields(DataSet: TDataSet);
     procedure FormDestroy(Sender: TObject);
-    procedure FormShow(Sender: TObject);
     procedure FormPaint(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure DTSEdicaoStateChange(Sender: TObject);
@@ -237,8 +236,7 @@ type
     procedure EdicaoBeforeDelete(DataSet: TDataSet);
   private
     { Private declarations }
-    FrmStyle   : TFormStyle;
-    FrmPosition: TPosition;
+    REC_SHE_DEF: TREC_SHE_DEF;
 
     procedure _Append(var ADSOrigem: TIBDataSet; ADBGOrigem: TdxDBGrid; ASIOrigem: TSpeedItem);
     procedure _Edit(var ADSOrigem: TIBDataSet; ADBGOrigem: TdxDBGrid; ASIOrigem: TSpeedItem);
@@ -268,7 +266,15 @@ uses uPrincipal, bPrincipal,
 
 procedure TFrmEtiqueta_Geral.FormCreate(Sender: TObject);
 begin
-  Screen.Cursor := crAppStart;
+  oIREC_SHE_DEF(REC_SHE_DEF);
+
+  { FORM SCREEN }
+  REC_SHE_DEF.FPosition := Self.Position; { Posição }
+  REC_SHE_DEF.FMainArea := False; { Aplicativo }
+  REC_SHE_DEF.FWorkArea := False; { Windows    }
+
+  REC_SHE_DEF.FMainArea := (REC_SHE_DEF.FMainArea) and (Screen.Width >= 1360) and (Screen.Width <= 1366); { Aplicativo }
+  REC_SHE_DEF.FWorkArea := (REC_SHE_DEF.FWorkArea) and (Screen.Width <= 1280); { Desktop }
 
   oOTransact(IBTra);
   oOTransact(TSheild);
@@ -276,13 +282,6 @@ begin
 
   IdNo         := EdicaoPRO_IDNO.AsInteger;
   cbCAMPO.Text := IFThen(RECParametros.EP_NO = 'DONA AMELIA','Produto','Artigo');
-end;
-
-procedure TFrmEtiqueta_Geral.FormShow(Sender: TObject);
-begin
-  { Herança }
-  FrmStyle    := FormStyle;
-  FrmPosition := Position;
 end;
 
 procedure TFrmEtiqueta_Geral.FormActivate(Sender: TObject);
@@ -334,25 +333,91 @@ end;
 
 procedure TFrmEtiqueta_Geral.FormPaint(Sender: TObject);
 var
-  R: TRect;
+  AMainFormScreen: TRect;
+  i: Word;
 begin
-  if Showing then
-  begin
-    { Ajusta o Form para o tamanho da area livre do MainForm }
-    GetWindowRect(FrmPrincipal.ClientHandle,R);
+  { Ajusta o Form para o tamanho da area livre do MainForm }
+  GetWindowRect(FrmPrincipal.ClientHandle,AMainFormScreen);
 
-    if FrmPosition = poDefault then
+  REC_SHE_DEF.FTop    := AMainFormScreen.Top;
+  REC_SHE_DEF.FBottom := AMainFormScreen.Bottom;
+  REC_SHE_DEF.FLeft   := AMainFormScreen.Left;
+  REC_SHE_DEF.FRight  := AMainFormScreen.Right;
+  REC_SHE_DEF.FHeight := AMainFormScreen.Bottom;
+
+  if REC_SHE_DEF.FPosition = poDesigned then
+  begin
+    if (HelpContext = 0) then { % da altura }
+    if (AMainFormScreen.Bottom - AMainFormScreen.Top < Self.Height) then { Área livre menor que página }
+    Self.HelpContext := 95; { % }
+
+    REC_SHE_DEF.FMainHeight := IFThen(Self.HelpContext     > 0,Trunc((REC_SHE_DEF.FHeight - REC_SHE_DEF.FTop ) * (Self.HelpContext     / 100)),0);
+    REC_SHE_DEF.FMainWidth  := IFThen(Self.AlphaBlendValue > 0,Trunc((REC_SHE_DEF.FRight  - REC_SHE_DEF.FLeft) * (Self.AlphaBlendValue / 100)),0);
+
+    if (REC_SHE_DEF.FMainTop > 0) and (REC_SHE_DEF.FMainLeft > 0) then
     begin
-      Top    := IFThen(FrmStyle    = fsNormal ,R.Top ,0);
-      Left   := IFThen(FrmStyle    = fsNormal ,R.Left,0);
-      Width  := IFThen(FrmPosition = poDefault,R.Right -R.Left-5,0);
-      Height := IFThen(FrmPosition = poDefault,R.Bottom-R.Top -5,0);
+      Self.Top  := REC_SHE_DEF.FTop + 5;
+      Self.Left := REC_SHE_DEF.FLeft;
+
+      if Self.Top + Self.Height > REC_SHE_DEF.FBottom then
+      begin
+        Self.Top := Self.Top - ((Self.Top + Self.Height) - REC_SHE_DEF.FBottom);
+      end;
+
+      if Self.Left + Self.Width > REC_SHE_DEF.FRight then
+      begin
+        Self.Left := Self.Left - ((Self.Left + Self.Width) - REC_SHE_DEF.FRight);
+      end;
+
     end else
     begin
-      Top  := R.Top + ((R.Bottom - R.Top ) - Height) div 2;
-      Left :=         ((R.Right  + R.Left) - Width ) div 2;
+      if REC_SHE_DEF.FMainHeight > 0 then Self.Height := REC_SHE_DEF.FMainHeight;
+      if REC_SHE_DEF.FMainWidth  > 0 then Self.Width  := REC_SHE_DEF.FMainWidth;
+
+      if FormStyle = fsNormal then
+      begin
+        Self.Top  := ( REC_SHE_DEF.FTop   + (REC_SHE_DEF.FHeight - Self.Height)) div 2;
+        Self.Left := ((REC_SHE_DEF.FRight +  REC_SHE_DEF.FLeft)  - Self.Width)   div 2;
+      end else
+      //if (FHeight > 0) or (FWidth  > 0) then
+      begin
+        Self.Top  := ((REC_SHE_DEF.FBottom - REC_SHE_DEF.FTop ) - Self.Height) div 2;
+        Self.Left := ((REC_SHE_DEF.FRight  - REC_SHE_DEF.FLeft) - Self.Width ) div 2;
+      end;
     end;
+  end else
+  if (REC_SHE_DEF.FWorkArea) and (FormStyle = fsNormal) then
+  begin
+    Self.Top    := Screen.WorkAreaTop;
+    Self.Left   := Screen.WorkAreaLeft;
+    Self.Width  := Screen.WorkAreaWidth;
+    Self.Height := Screen.WorkAreaHeight;
+  end else
+  if (REC_SHE_DEF.FMainArea) and (FormStyle = fsNormal) then
+  begin
+    Self.Top    := 0;
+    Self.Left   := 0;
+    Self.Width  := REC_SHE_DEF.FRight  - REC_SHE_DEF.FLeft - 5;
+    Self.Height := REC_SHE_DEF.FHeight - REC_SHE_DEF.FTop  - 5;
+  end else
+  if REC_SHE_DEF.FPosition = poDefault then
+  begin
+    Self.Top    := IFThen(FormStyle = fsNormal,REC_SHE_DEF.FTop ,0);
+    Self.Left   := IFThen(FormStyle = fsNormal,REC_SHE_DEF.FLeft,0);
+    Self.Width  := IFThen(REC_SHE_DEF.FPosition = poDefault,REC_SHE_DEF.FRight  - REC_SHE_DEF.FLeft - 5,0);
+    Self.Height := IFThen(REC_SHE_DEF.FPosition = poDefault,REC_SHE_DEF.FHeight - REC_SHE_DEF.FTop  - 5,0);
   end;
+
+  { RODAPÉ }
+  REC_SHE_DEF.FMainWidth := Self.Width;
+  for i  := 0 to SBRodape.Panels.Count - 1 do
+  if  i  <> 1 then
+  REC_SHE_DEF.FMainWidth   := REC_SHE_DEF.FMainWidth - SBRodape.Panels[i].Width;
+  SBRodape.Panels[1].Width := REC_SHE_DEF.FMainWidth - 50;
+
+  { SCREEN CAPTION }
+  if RECUsuarios.Id = 0 then
+  Self.Caption := 'Dimensões: Monitor = ' + IntToStr(Screen.Width) + ' x ' + IntToStr(Screen.Height) + ' - APP = ' + IntToStr(REC_SHE_DEF.FMainWidth)  + ' x ' + IntToStr(REC_SHE_DEF.FMainHeight) + '. ' + Self.Caption;
 end;
 
 procedure TFrmEtiqueta_Geral.FormResize(Sender: TObject);
@@ -528,7 +593,7 @@ procedure TFrmEtiqueta_Geral.EDTextoKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if key = vk_return then
-     _PSQProduto(EDTexto.Text,cbCAMPO.Text);
+  _PSQProduto(EDTexto.Text,cbCAMPO.Text);
 end;
 
 procedure TFrmEtiqueta_Geral._DTSRefresh(ACommit: Boolean = True);
@@ -748,7 +813,7 @@ begin
       SQL.Add('          TRIM(TRAILING ''.'' FROM COALESCE(TRIM(TRAILING ''0'' FROM CAST(CP.PRO_GRAM AS VARCHAR(12))),0)) AS PRO_GRAM,');
       SQL.Add('          TRIM(TRAILING ''.'' FROM COALESCE(TRIM(TRAILING ''0'' FROM CAST(CP.PRO_UTIL AS VARCHAR(12))),0)) AS PRO_UTIL,TRIM(TRAILING ''.'' FROM COALESCE(TRIM(TRAILING ''0'' FROM CAST(CP.PRO_LARG AS VARCHAR(12))),0)) AS PRO_LARG,');
       SQL.Add('          CP.ORIG,IIF(POSITION(CP.ORIG IN ''1267'') > 0,''PRODUTO IMPORTADO'',''PRODUTO NACIONAL'') AS FPAIS,');
-      SQL.Add('          CP.INFADCAD,');
+      SQL.Add('          CP.INFADETQ,');
       SQL.Add('          ILA.ILA_BMP1,ILA.ILA_BMP2,ILA.ILA_BMP3,ILA.ILA_BMP4,ILA.ILA_BMP5,ILA.ILA_BMP6,ILA.ILA_BMP7,ILA.ILA_BMP8');
       SQL.Add('FROM      CAD_PRO        AS CP');
       SQL.Add('JOIN      TAB_COR        AS TC  ON (TC.ID  = CP.IDCOR)');
@@ -852,7 +917,7 @@ begin
         SQL.Add(''''+SQLConsulta.Current.ByName('PRO_LARG').AsString+''',');
         SQL.Add(''''+SQLConsulta.Current.ByName('ORIG').AsString    +''',');
         SQL.Add(''''+SQLConsulta.Current.ByName('FPAIS').AsString   +''',');
-        SQL.Add(''''+SQLConsulta.Current.ByName('INFADCAD').AsString+''',');
+        SQL.Add(''''+SQLConsulta.Current.ByName('INFADETQ').AsString+''',');
 
         SQL.Add(':IMGILA1,');
         SQL.Add(':IMGILA2,');

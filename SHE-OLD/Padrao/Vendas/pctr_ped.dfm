@@ -1,6 +1,6 @@
 inherited frmctr_ped: Tfrmctr_ped
-  Left = -8
-  Top = 3
+  Left = -7
+  Top = 107
   HelpType = htKeyword
   HelpKeyword = '0'
   AlphaBlendValue = 0
@@ -2509,595 +2509,848 @@ inherited frmctr_ped: Tfrmctr_ped
       DockType = 0
       OriginalWidth = 25
       OriginalHeight = 520
-      object dxLayoutDockSite1: TdxLayoutDockSite
+      object dxLayoutDockSite2: TdxLayoutDockSite
         Left = 0
         Top = 0
         Width = 0
         Height = 520
-        Visible = False
         DockType = 1
-        OriginalWidth = 590
+        OriginalWidth = 300
         OriginalHeight = 200
-      end
-      object dxTabContainerDockSite1: TdxTabContainerDockSite
-        Left = 0
-        Top = 0
-        Width = 0
-        Height = 520
-        Visible = False
-        ActiveChildIndex = -1
-        AllowFloating = True
-        AutoHide = False
-        DockType = 1
-        OriginalWidth = 590
-        OriginalHeight = 140
-        object DPResumoDiario: TdxDockPanel
+        object dxLayoutDockSite1: TdxLayoutDockSite
           Left = 0
           Top = 0
-          Width = 810
-          Height = 140
-          Cursor = crHandPoint
-          Color = clBtnFace
-          Font.Charset = ANSI_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Segoe UI Semibold'
-          Font.Style = [fsBold, fsItalic]
-          ManagerColor = False
-          ManagerFont = False
+          Width = 0
+          Height = 520
           Visible = False
-          AllowFloating = True
-          AutoHide = True
-          Caption = 'Resumo Di'#225'rio'
-          CaptionButtons = [cbMaximize]
-          ImageIndex = 0
-          AutoHidePosition = 2
           DockType = 1
-          OriginalWidth = 810
+          OriginalWidth = 590
+          OriginalHeight = 200
+        end
+        object dxTabContainerDockSite1: TdxTabContainerDockSite
+          Left = 0
+          Top = 0
+          Width = 0
+          Height = 520
+          Visible = False
+          ActiveChildIndex = -1
+          AllowFloating = True
+          AutoHide = False
+          DockType = 1
+          OriginalWidth = 590
           OriginalHeight = 140
-          object DBGResumoDiario: TdxDBGrid
+          object DPREL_PED_PDV_DIA: TdxDockPanel
             Left = 0
             Top = 0
-            Width = 21
-            Height = 494
+            Width = 870
+            Height = 520
             Cursor = crHandPoint
-            Bands = <
-              item
-                Caption = 'Lan'#231'amentos'
-                Fixed = bfLeft
-              end
-              item
-                Caption = 'Clientes'
-                Width = 99
-              end
-              item
-                Caption = 'Entradas de Pedidos'
-              end
-              item
-                Caption = 'Pedidos Separados'
-              end
-              item
-                Caption = 'Pedidos Faturados'
-              end>
-            DefaultLayout = False
-            HeaderPanelRowCount = 1
-            KeyField = 'DTPK'
-            ShowSummaryFooter = True
-            SummaryGroups = <>
-            SummarySeparator = ', '
-            Align = alClient
-            BorderStyle = bsNone
-            Color = 13421258
-            Ctl3D = True
+            Color = clBtnFace
             Font.Charset = ANSI_CHARSET
             Font.Color = clBlack
-            Font.Height = -12
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            ParentCtl3D = False
-            ParentFont = False
-            TabOrder = 0
-            AutoSearchColor = 9395
-            AutoSearchTextColor = clWhite
-            BandColor = clGrayText
-            BandFont.Charset = ANSI_CHARSET
-            BandFont.Color = clWhite
-            BandFont.Height = -13
-            BandFont.Name = 'Segoe UI Semibold'
-            BandFont.Style = [fsBold, fsItalic]
-            DataSource = FBird.DTSFBResumo_Diario
-            Filter.Active = True
-            Filter.Criteria = {00000000}
-            FixedBandLineWidth = 1
-            GridLineColor = clSilver
-            HeaderFont.Charset = ANSI_CHARSET
-            HeaderFont.Color = clWindowText
-            HeaderFont.Height = -13
-            HeaderFont.Name = 'Segoe UI'
-            HeaderFont.Style = [fsItalic]
-            LookAndFeel = lfUltraFlat
-            OptionsBehavior = [edgoAutoSearch, edgoAutoSort, edgoCaseInsensitive, edgoCollapsedReload, edgoDragCollapse, edgoDragExpand, edgoDragScroll, edgoEnterShowEditor, edgoImmediateEditor, edgoSeekDetail, edgoShowHourGlass, edgoTabThrough, edgoVertThrough]
-            OptionsCustomize = [edgoBandMoving, edgoBandSizing, edgoColumnMoving, edgoColumnSizing, edgoNotHideColumn]
-            OptionsDB = [edgoCancelOnExit, edgoCanNavigation, edgoConfirmDelete, edgoLoadAllRecords, edgoSyncSelection, edgoUseBookmarks]
-            OptionsView = [edgoAutoCalcPreviewLines, edgoBandHeaderWidth, edgoHotTrack, edgoRowSelect, edgoUseBitmap]
-            PreviewFont.Charset = ANSI_CHARSET
-            PreviewFont.Color = clBlack
-            PreviewFont.Height = -11
-            PreviewFont.Name = 'Segoe UI Semibold'
-            PreviewFont.Style = [fsBold, fsItalic]
-            ShowBands = True
-            ShowGrid = False
-            OnCustomDrawCell = DBGResumoDiarioCustomDrawCell
-            object DBGResumoDiarioCP_ABEP: TdxDBGridMaskColumn
-              Color = clBtnFace
+            Font.Height = -13
+            Font.Name = 'Segoe UI Semibold'
+            Font.Style = [fsBold, fsItalic]
+            ManagerColor = False
+            ManagerFont = False
+            Visible = False
+            AllowFloating = True
+            AutoHide = True
+            Caption = 'Resumo Di'#225'rio'
+            CaptionButtons = [cbMaximize]
+            ImageIndex = 0
+            AutoHidePosition = 2
+            DockType = 1
+            OriginalWidth = 870
+            OriginalHeight = 140
+            object DBGREL_PED_PDV_DIA: TdxDBGrid
+              Left = 0
+              Top = 0
+              Width = 866
+              Height = 494
+              Cursor = crHandPoint
+              Bands = <
+                item
+                  Caption = 'Lan'#231'amentos'
+                  Fixed = bfLeft
+                end
+                item
+                  Caption = 'Clientes'
+                  Width = 99
+                end
+                item
+                  Caption = 'Entradas de Pedidos'
+                end
+                item
+                  Caption = 'Pedidos Separados'
+                end
+                item
+                  Caption = 'Pedidos Faturados'
+                end>
+              DefaultLayout = False
+              HeaderPanelRowCount = 1
+              KeyField = 'ID'
+              ShowSummaryFooter = True
+              SummaryGroups = <>
+              SummarySeparator = ', '
+              Align = alClient
+              BorderStyle = bsNone
+              Color = 13421258
+              Ctl3D = True
               Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
+              Font.Color = clBlack
               Font.Height = -12
               Font.Name = 'Tahoma'
               Font.Style = []
-              Width = 95
-              BandIndex = 0
-              RowIndex = 0
-              FieldName = 'CP_ABEP'
-              SummaryFooterType = cstCount
-              SummaryFooterField = 'DTPK'
-              SummaryFooterFormat = ',##,0'
+              ParentCtl3D = False
+              ParentFont = False
+              TabOrder = 0
+              AutoSearchColor = 9395
+              AutoSearchTextColor = clWhite
+              BandColor = clGrayText
+              BandFont.Charset = ANSI_CHARSET
+              BandFont.Color = clWhite
+              BandFont.Height = -13
+              BandFont.Name = 'Segoe UI Semibold'
+              BandFont.Style = [fsBold, fsItalic]
+              DataSource = DTSREL_PED_PDV_DIA
+              Filter.Active = True
+              Filter.Criteria = {00000000}
+              FixedBandLineWidth = 1
+              GridLineColor = clSilver
+              HeaderFont.Charset = ANSI_CHARSET
+              HeaderFont.Color = clWindowText
+              HeaderFont.Height = -13
+              HeaderFont.Name = 'Segoe UI'
+              HeaderFont.Style = [fsItalic]
+              LookAndFeel = lfUltraFlat
+              OptionsBehavior = [edgoAutoSearch, edgoAutoSort, edgoCaseInsensitive, edgoCollapsedReload, edgoDragCollapse, edgoDragExpand, edgoDragScroll, edgoEnterShowEditor, edgoImmediateEditor, edgoSeekDetail, edgoShowHourGlass, edgoTabThrough, edgoVertThrough]
+              OptionsCustomize = [edgoBandMoving, edgoBandSizing, edgoColumnMoving, edgoColumnSizing, edgoNotHideColumn]
+              OptionsDB = [edgoCancelOnExit, edgoCanNavigation, edgoConfirmDelete, edgoLoadAllRecords, edgoSyncSelection, edgoUseBookmarks]
+              OptionsView = [edgoAutoCalcPreviewLines, edgoBandHeaderWidth, edgoHotTrack, edgoRowSelect, edgoUseBitmap]
+              PreviewFont.Charset = ANSI_CHARSET
+              PreviewFont.Color = clBlack
+              PreviewFont.Height = -11
+              PreviewFont.Name = 'Segoe UI Semibold'
+              PreviewFont.Style = [fsBold, fsItalic]
+              ShowBands = True
+              ShowGrid = False
+              OnCustomDrawCell = DBGREL_PED_PDV_DIACustomDrawCell
+              object DBGREL_PED_PDV_DIAPED_EP_NO: TdxDBGridMaskColumn
+                Color = clBtnFace
+                Font.Charset = ANSI_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                Width = 100
+                BandIndex = 0
+                RowIndex = 0
+                FieldName = 'PED_EP_NO'
+                SummaryFooterType = cstCount
+                SummaryFooterField = 'ID'
+                SummaryFooterFormat = ',##,0'
+              end
+              object DBGREL_PED_PDV_DIAPED_DIA: TdxDBGridDateColumn
+                Color = clBtnFace
+                Font.Charset = ANSI_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                Width = 70
+                BandIndex = 0
+                RowIndex = 0
+                FieldName = 'PED_DIA'
+              end
+              object DBGREL_PED_PDV_DIACLI_ITCD: TdxDBGridMaskColumn
+                Color = clHighlightText
+                Font.Charset = ANSI_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                HeaderAlignment = taRightJustify
+                Width = 55
+                BandIndex = 1
+                RowIndex = 0
+                FieldName = 'CLI_ITCD'
+                SummaryFooterType = cstSum
+                SummaryFooterField = 'CLI_ITCD'
+                SummaryFooterFormat = ',##,0'
+                DisableFilter = True
+              end
+              object DBGREL_PED_PDV_DIACLI_INCD: TdxDBGridMaskColumn
+                Color = clHighlightText
+                Font.Charset = ANSI_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                HeaderAlignment = taRightJustify
+                Width = 45
+                BandIndex = 1
+                RowIndex = 0
+                FieldName = 'CLI_INCD'
+                SummaryFooterType = cstSum
+                SummaryFooterField = 'CLI_INCD'
+                SummaryFooterFormat = ',##,0'
+                DisableFilter = True
+              end
+              object DBGREL_PED_PDV_DIAPED_VLPK: TdxDBGridMaskColumn
+                Color = clHighlightText
+                Font.Charset = ANSI_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                HeaderAlignment = taRightJustify
+                Width = 115
+                BandIndex = 2
+                RowIndex = 0
+                FieldName = 'PED_VLPK'
+                SummaryFooterType = cstSum
+                SummaryFooterField = 'PED_VLPK'
+                SummaryFooterFormat = 'R$ ,##,0.00'
+                DisableFilter = True
+              end
+              object DBGREL_PED_PDV_DIAPED_ILPK: TdxDBGridMaskColumn
+                Color = clHighlightText
+                Font.Charset = ANSI_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                HeaderAlignment = taRightJustify
+                Width = 55
+                BandIndex = 2
+                RowIndex = 0
+                FieldName = 'PED_ILPK'
+                SummaryFooterType = cstSum
+                SummaryFooterField = 'PED_ILPK'
+                SummaryFooterFormat = ',##,0'
+                DisableFilter = True
+              end
+              object DBGREL_PED_PDV_DIAPED_VLSP: TdxDBGridMaskColumn
+                Color = clWindowText
+                Font.Charset = ANSI_CHARSET
+                Font.Color = clHighlightText
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                HeaderAlignment = taRightJustify
+                Width = 115
+                BandIndex = 3
+                RowIndex = 0
+                FieldName = 'PED_VLSP'
+                SummaryFooterType = cstSum
+                SummaryFooterField = 'PED_VLSP'
+                SummaryFooterFormat = 'R$ ,##,0.00'
+                DisableFilter = True
+              end
+              object DBGREL_PED_PDV_DIAPED_ILSP: TdxDBGridMaskColumn
+                Color = clWindowText
+                Font.Charset = ANSI_CHARSET
+                Font.Color = clHighlightText
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                HeaderAlignment = taRightJustify
+                Width = 55
+                BandIndex = 3
+                RowIndex = 0
+                FieldName = 'PED_ILSP'
+                SummaryFooterType = cstSum
+                SummaryFooterField = 'PED_ILSP'
+                SummaryFooterFormat = ',##,0'
+                DisableFilter = True
+              end
+              object DBGREL_PED_PDV_DIAPED_PLSP: TdxDBGridMaskColumn
+                Color = clWindowText
+                Font.Charset = ANSI_CHARSET
+                Font.Color = clHighlightText
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                HeaderAlignment = taRightJustify
+                Width = 65
+                BandIndex = 3
+                RowIndex = 0
+                FieldName = 'PED_PLSP'
+                SummaryFooterType = cstAvg
+                SummaryFooterField = 'PED_PLSP'
+                SummaryFooterFormat = ',##,0.00 %'
+              end
+              object DBGREL_PED_PDV_DIAPED_VTLQ: TdxDBGridMaskColumn
+                Color = 10485663
+                Font.Charset = ANSI_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                HeaderAlignment = taRightJustify
+                Width = 115
+                BandIndex = 4
+                RowIndex = 0
+                FieldName = 'PED_VTLQ'
+                SummaryFooterType = cstSum
+                SummaryFooterField = 'PED_VTLQ'
+                SummaryFooterFormat = 'R$ ,##,0.00'
+                DisableFilter = True
+              end
+              object DBGREL_PED_PDV_DIAPED_ITLQ: TdxDBGridMaskColumn
+                Color = 10485663
+                Font.Charset = ANSI_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                HeaderAlignment = taRightJustify
+                Width = 55
+                BandIndex = 4
+                RowIndex = 0
+                FieldName = 'PED_ITLQ'
+                SummaryFooterType = cstSum
+                SummaryFooterField = 'PED_ITLQ'
+                SummaryFooterFormat = ',##,0'
+                DisableFilter = True
+              end
             end
-            object DBGResumoDiarioDTPK: TdxDBGridDateColumn
-              Color = clBtnFace
+          end
+          object DPREL_PED_PDV_MES: TdxDockPanel
+            Left = 0
+            Top = 0
+            Width = 870
+            Height = 520
+            Cursor = crHandPoint
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clBlack
+            Font.Height = -13
+            Font.Name = 'Segoe UI Semibold'
+            Font.Style = [fsBold, fsItalic]
+            ManagerFont = False
+            Visible = False
+            AllowFloating = True
+            AutoHide = True
+            Caption = 'Resumo Mensal'
+            CaptionButtons = [cbMaximize]
+            ImageIndex = 0
+            AutoHidePosition = 2
+            DockType = 1
+            OriginalWidth = 870
+            OriginalHeight = 140
+            object DBGREL_PED_PDV_MES: TdxDBGrid
+              Left = 0
+              Top = 0
+              Width = 866
+              Height = 494
+              Cursor = crHandPoint
+              Bands = <
+                item
+                  Alignment = taLeftJustify
+                  Caption = 'Lan'#231'amentos'
+                  Fixed = bfLeft
+                  Width = 99
+                end
+                item
+                  Alignment = taLeftJustify
+                  Caption = 'Clientes'
+                end
+                item
+                  Caption = 'Entradas de Pedidos'
+                end
+                item
+                  Caption = 'Pedidos Separados'
+                end
+                item
+                  Caption = 'Pedidos Faturadoss'
+                end>
+              DefaultLayout = False
+              HeaderPanelRowCount = 1
+              KeyField = 'ID'
+              ShowSummaryFooter = True
+              SummaryGroups = <>
+              SummarySeparator = ', '
+              Align = alClient
+              BorderStyle = bsNone
+              Color = 13421258
+              Ctl3D = True
               Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
+              Font.Color = clBlack
               Font.Height = -12
               Font.Name = 'Tahoma'
               Font.Style = []
-              Width = 67
-              BandIndex = 0
-              RowIndex = 0
-              FieldName = 'DTPK'
-            end
-            object DBGResumoDiarioCLI_ITCD: TdxDBGridMaskColumn
-              Color = clBtnFace
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Tahoma'
-              Font.Style = []
-              HeaderAlignment = taRightJustify
-              Width = 40
-              BandIndex = 1
-              RowIndex = 0
-              FieldName = 'CLI_ITCD'
-              SummaryFooterType = cstSum
-              SummaryFooterField = 'CLI_ITCD'
-              SummaryFooterFormat = ',##,0'
-              DisableFilter = True
-            end
-            object DBGResumoDiarioCLI_INCD: TdxDBGridMaskColumn
-              Color = clBtnFace
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Tahoma'
-              Font.Style = []
-              HeaderAlignment = taRightJustify
-              Width = 43
-              BandIndex = 1
-              RowIndex = 0
-              FieldName = 'CLI_INCD'
-              SummaryFooterType = cstSum
-              SummaryFooterField = 'CLI_INCD'
-              SummaryFooterFormat = ',##,0'
-              DisableFilter = True
-            end
-            object DBGResumoDiarioPED_VLPK: TdxDBGridMaskColumn
-              Color = clBtnFace
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Tahoma'
-              Font.Style = []
-              HeaderAlignment = taRightJustify
-              Width = 110
-              BandIndex = 2
-              RowIndex = 0
-              FieldName = 'PED_VLPK'
-              SummaryFooterType = cstSum
-              SummaryFooterField = 'PED_VLPK'
-              SummaryFooterFormat = 'R$ ,##,0.00'
-              DisableFilter = True
-            end
-            object DBGResumoDiarioPED_ILPK: TdxDBGridMaskColumn
-              Color = clBtnFace
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Tahoma'
-              Font.Style = []
-              HeaderAlignment = taRightJustify
-              Width = 50
-              BandIndex = 2
-              RowIndex = 0
-              FieldName = 'PED_ILPK'
-              SummaryFooterType = cstSum
-              SummaryFooterField = 'PED_ILPK'
-              SummaryFooterFormat = ',##,0'
-              DisableFilter = True
-            end
-            object DBGResumoDiarioPED_VLSP: TdxDBGridMaskColumn
-              Color = clBtnFace
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Tahoma'
-              Font.Style = []
-              HeaderAlignment = taRightJustify
-              Width = 110
-              BandIndex = 3
-              RowIndex = 0
-              FieldName = 'PED_VLSP'
-              SummaryFooterType = cstSum
-              SummaryFooterField = 'PED_VLSP'
-              SummaryFooterFormat = 'R$ ,##,0.00'
-              DisableFilter = True
-            end
-            object DBGResumoDiarioPED_ILSP: TdxDBGridMaskColumn
-              Color = clBtnFace
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Tahoma'
-              Font.Style = []
-              HeaderAlignment = taRightJustify
-              Width = 51
-              BandIndex = 3
-              RowIndex = 0
-              FieldName = 'PED_ILSP'
-              SummaryFooterType = cstSum
-              SummaryFooterField = 'PED_ILSP'
-              SummaryFooterFormat = ',##,0'
-              DisableFilter = True
-            end
-            object DBGResumoDiarioPED_PLSP: TdxDBGridMaskColumn
-              Color = clBtnFace
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Tahoma'
-              Font.Style = []
-              HeaderAlignment = taRightJustify
-              Width = 60
-              BandIndex = 3
-              RowIndex = 0
-              FieldName = 'PED_PLSP'
-              SummaryFooterType = cstAvg
-              SummaryFooterField = 'PED_PLSP'
-              SummaryFooterFormat = ',##,0.00%'
-            end
-            object DBGResumoDiarioPED_VTLQ: TdxDBGridMaskColumn
-              Color = clBtnFace
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Tahoma'
-              Font.Style = []
-              HeaderAlignment = taRightJustify
-              Width = 110
-              BandIndex = 4
-              RowIndex = 0
-              FieldName = 'PED_VTLQ'
-              SummaryFooterType = cstSum
-              SummaryFooterField = 'PED_VTLQ'
-              SummaryFooterFormat = 'R$ ,##,0.00'
-              DisableFilter = True
-            end
-            object DBGResumoDiarioPED_ITLQ: TdxDBGridMaskColumn
-              Color = clBtnFace
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Tahoma'
-              Font.Style = []
-              HeaderAlignment = taRightJustify
-              Width = 50
-              BandIndex = 4
-              RowIndex = 0
-              FieldName = 'PED_ITLQ'
-              SummaryFooterType = cstSum
-              SummaryFooterField = 'PED_ITLQ'
-              SummaryFooterFormat = ',##,0'
-              DisableFilter = True
+              ParentCtl3D = False
+              ParentFont = False
+              TabOrder = 0
+              AutoSearchColor = 9395
+              AutoSearchTextColor = clWhite
+              BandColor = clGrayText
+              BandFont.Charset = ANSI_CHARSET
+              BandFont.Color = clWhite
+              BandFont.Height = -13
+              BandFont.Name = 'Segoe UI Semibold'
+              BandFont.Style = [fsBold, fsItalic]
+              DataSource = DTSREL_PED_PDV_MES
+              Filter.Active = True
+              Filter.Criteria = {00000000}
+              FixedBandLineWidth = 1
+              GridLineColor = clSilver
+              HeaderFont.Charset = ANSI_CHARSET
+              HeaderFont.Color = clWindowText
+              HeaderFont.Height = -13
+              HeaderFont.Name = 'Segoe UI'
+              HeaderFont.Style = [fsItalic]
+              LookAndFeel = lfUltraFlat
+              OptionsBehavior = [edgoAutoSearch, edgoAutoSort, edgoCaseInsensitive, edgoCollapsedReload, edgoDragCollapse, edgoDragExpand, edgoDragScroll, edgoEnterShowEditor, edgoImmediateEditor, edgoSeekDetail, edgoShowHourGlass, edgoTabThrough, edgoVertThrough]
+              OptionsCustomize = [edgoBandMoving, edgoBandSizing, edgoColumnMoving, edgoColumnSizing, edgoNotHideColumn]
+              OptionsDB = [edgoCancelOnExit, edgoCanNavigation, edgoConfirmDelete, edgoLoadAllRecords, edgoSyncSelection, edgoUseBookmarks]
+              OptionsView = [edgoAutoCalcPreviewLines, edgoBandHeaderWidth, edgoHotTrack, edgoRowSelect, edgoUseBitmap]
+              PreviewFont.Charset = ANSI_CHARSET
+              PreviewFont.Color = clBlack
+              PreviewFont.Height = -11
+              PreviewFont.Name = 'Segoe UI Semibold'
+              PreviewFont.Style = [fsBold, fsItalic]
+              ShowBands = True
+              ShowGrid = False
+              OnCustomDrawCell = DBGREL_PED_PDV_MESCustomDrawCell
+              object DBGREL_PED_PDV_MESPED_EP_NO: TdxDBGridMaskColumn
+                Color = clBtnFace
+                Font.Charset = ANSI_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                Width = 100
+                BandIndex = 0
+                RowIndex = 0
+                FieldName = 'PED_EP_NO'
+                SummaryFooterType = cstCount
+                SummaryFooterField = 'ID'
+                SummaryFooterFormat = ',##,0'
+              end
+              object DBGREL_PED_PDV_MESPED_MES: TdxDBGridMaskColumn
+                Color = clBtnFace
+                Font.Charset = ANSI_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                Width = 70
+                BandIndex = 0
+                RowIndex = 0
+                FieldName = 'PED_MES'
+              end
+              object DBGREL_PED_PDV_MESCLI_ITCD: TdxDBGridColumn
+                Color = clHighlightText
+                Font.Charset = ANSI_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                HeaderAlignment = taRightJustify
+                Width = 55
+                BandIndex = 1
+                RowIndex = 0
+                FieldName = 'CLI_ITCD'
+                SummaryFooterType = cstSum
+                SummaryFooterField = 'CLI_ITCD'
+                SummaryFooterFormat = ',##,0'
+                DisableFilter = True
+              end
+              object DBGREL_PED_PDV_MESCLI_INCD: TdxDBGridColumn
+                Color = clHighlightText
+                Font.Charset = ANSI_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                HeaderAlignment = taRightJustify
+                Width = 45
+                BandIndex = 1
+                RowIndex = 0
+                FieldName = 'CLI_INCD'
+                SummaryFooterType = cstSum
+                SummaryFooterField = 'CLI_INCD'
+                SummaryFooterFormat = ',##,0'
+                DisableFilter = True
+              end
+              object DBGREL_PED_PDV_MESPED_VLPK: TdxDBGridMaskColumn
+                Color = clHighlightText
+                Font.Charset = ANSI_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                HeaderAlignment = taRightJustify
+                Width = 115
+                BandIndex = 2
+                RowIndex = 0
+                FieldName = 'PED_VLPK'
+                SummaryFooterType = cstSum
+                SummaryFooterField = 'PED_VLPK'
+                SummaryFooterFormat = 'R$ ,##,0.00'
+                DisableFilter = True
+              end
+              object DBGREL_PED_PDV_MESPED_ILPK: TdxDBGridColumn
+                Color = clHighlightText
+                Font.Charset = ANSI_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                HeaderAlignment = taRightJustify
+                Width = 55
+                BandIndex = 2
+                RowIndex = 0
+                FieldName = 'PED_ILPK'
+                SummaryFooterType = cstSum
+                SummaryFooterField = 'PED_ILPK'
+                SummaryFooterFormat = ',##,0'
+                DisableFilter = True
+              end
+              object DBGREL_PED_PDV_MESPED_VLSP: TdxDBGridMaskColumn
+                Color = clWindowText
+                Font.Charset = ANSI_CHARSET
+                Font.Color = clHighlightText
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                HeaderAlignment = taRightJustify
+                Width = 115
+                BandIndex = 3
+                RowIndex = 0
+                FieldName = 'PED_VLSP'
+                SummaryFooterType = cstSum
+                SummaryFooterField = 'PED_VLSP'
+                SummaryFooterFormat = 'R$ ,##,0.00'
+                DisableFilter = True
+              end
+              object DBGREL_PED_PDV_MESPED_ILSP: TdxDBGridColumn
+                Color = clWindowText
+                Font.Charset = ANSI_CHARSET
+                Font.Color = clHighlightText
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                HeaderAlignment = taRightJustify
+                Width = 55
+                BandIndex = 3
+                RowIndex = 0
+                FieldName = 'PED_ILSP'
+                SummaryFooterType = cstSum
+                SummaryFooterField = 'PED_ILSP'
+                SummaryFooterFormat = ',##,0'
+                DisableFilter = True
+              end
+              object DBGREL_PED_PDV_MESPED_PLSP: TdxDBGridMaskColumn
+                Alignment = taRightJustify
+                Color = clWindowText
+                Font.Charset = ANSI_CHARSET
+                Font.Color = clHighlightText
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                HeaderAlignment = taRightJustify
+                Width = 65
+                BandIndex = 3
+                RowIndex = 0
+                FieldName = 'PED_PLSP'
+                SummaryFooterType = cstAvg
+                SummaryFooterField = 'PED_PLSP'
+                SummaryFooterFormat = ',##,0.00 %'
+              end
+              object DBGREL_PED_PDV_MESPED_VTLQ: TdxDBGridMaskColumn
+                Color = 10485663
+                Font.Charset = ANSI_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                HeaderAlignment = taRightJustify
+                Width = 115
+                BandIndex = 4
+                RowIndex = 0
+                FieldName = 'PED_VTLQ'
+                SummaryFooterType = cstSum
+                SummaryFooterField = 'PED_VTLQ'
+                SummaryFooterFormat = 'R$ ,##,0.00'
+                DisableFilter = True
+              end
+              object DBGREL_PED_PDV_MESPED_ITLQ: TdxDBGridColumn
+                Color = 10485663
+                Font.Charset = ANSI_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                HeaderAlignment = taRightJustify
+                Width = 55
+                BandIndex = 4
+                RowIndex = 0
+                FieldName = 'PED_ITLQ'
+                SummaryFooterType = cstSum
+                SummaryFooterField = 'PED_ITLQ'
+                SummaryFooterFormat = ',##,0'
+                DisableFilter = True
+              end
             end
           end
         end
-        object DPResumoMensal: TdxDockPanel
+      end
+      object DPREL_PED_PDV_ANO: TdxDockPanel
+        Left = 0
+        Top = 0
+        Width = 870
+        Height = 520
+        Visible = False
+        AllowFloating = True
+        AutoHide = True
+        Caption = 'Resumo Anual'
+        AutoHidePosition = 2
+        DockType = 4
+        OriginalWidth = 870
+        OriginalHeight = 140
+        object DBGREL_PED_PDV_ANO: TdxDBGrid
           Left = 0
           Top = 0
-          Width = 810
-          Height = 140
+          Width = 866
+          Height = 495
           Cursor = crHandPoint
+          Bands = <
+            item
+              Alignment = taLeftJustify
+              Caption = 'Lan'#231'amentos'
+              Fixed = bfLeft
+              Width = 99
+            end
+            item
+              Alignment = taLeftJustify
+              Caption = 'Clientes'
+            end
+            item
+              Caption = 'Entradas de Pedidos'
+            end
+            item
+              Caption = 'Pedidos Separados'
+            end
+            item
+              Caption = 'Pedidos Faturadoss'
+            end>
+          DefaultLayout = False
+          HeaderPanelRowCount = 1
+          KeyField = 'ID'
+          ShowSummaryFooter = True
+          SummaryGroups = <>
+          SummarySeparator = ', '
+          Align = alClient
+          BorderStyle = bsNone
+          Color = 13421258
+          Ctl3D = True
           Font.Charset = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Segoe UI Semibold'
-          Font.Style = [fsBold, fsItalic]
-          ManagerFont = False
-          Visible = False
-          AllowFloating = True
-          AutoHide = True
-          Caption = 'Resumo Mensal'
-          CaptionButtons = [cbMaximize]
-          ImageIndex = 0
-          AutoHidePosition = 2
-          DockType = 1
-          OriginalWidth = 810
-          OriginalHeight = 140
-          object DBGResumoMensal: TdxDBGrid
-            Left = 0
-            Top = 0
-            Width = 0
-            Height = 494
-            Cursor = crHandPoint
-            Bands = <
-              item
-                Alignment = taLeftJustify
-                Caption = 'Lan'#231'amentos'
-                Fixed = bfLeft
-                Width = 99
-              end
-              item
-                Alignment = taLeftJustify
-                Caption = 'Clientes'
-              end
-              item
-                Caption = 'Entradas de Pedidos'
-              end
-              item
-                Caption = 'Pedidos Faturadoss'
-              end
-              item
-                Caption = 'Pedidos Separados'
-              end>
-            DefaultLayout = False
-            HeaderPanelRowCount = 1
-            KeyField = 'AMPK'
-            ShowSummaryFooter = True
-            SummaryGroups = <>
-            SummarySeparator = ', '
-            Align = alClient
-            BorderStyle = bsNone
-            Color = 13421258
-            Ctl3D = True
+          Font.Height = -12
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentCtl3D = False
+          ParentFont = False
+          TabOrder = 0
+          AutoSearchColor = 9395
+          AutoSearchTextColor = clWhite
+          BandColor = clGrayText
+          BandFont.Charset = ANSI_CHARSET
+          BandFont.Color = clWhite
+          BandFont.Height = -13
+          BandFont.Name = 'Segoe UI Semibold'
+          BandFont.Style = [fsBold, fsItalic]
+          DataSource = DTSREL_PED_PDV_ANO
+          Filter.Active = True
+          Filter.Criteria = {00000000}
+          FixedBandLineWidth = 1
+          GridLineColor = clSilver
+          HeaderFont.Charset = ANSI_CHARSET
+          HeaderFont.Color = clWindowText
+          HeaderFont.Height = -13
+          HeaderFont.Name = 'Segoe UI'
+          HeaderFont.Style = [fsItalic]
+          LookAndFeel = lfUltraFlat
+          OptionsBehavior = [edgoAutoSearch, edgoAutoSort, edgoCaseInsensitive, edgoCollapsedReload, edgoDragCollapse, edgoDragExpand, edgoDragScroll, edgoEnterShowEditor, edgoImmediateEditor, edgoSeekDetail, edgoShowHourGlass, edgoTabThrough, edgoVertThrough]
+          OptionsCustomize = [edgoBandMoving, edgoBandSizing, edgoColumnMoving, edgoColumnSizing, edgoNotHideColumn]
+          OptionsDB = [edgoCancelOnExit, edgoCanNavigation, edgoConfirmDelete, edgoLoadAllRecords, edgoSyncSelection, edgoUseBookmarks]
+          OptionsView = [edgoAutoCalcPreviewLines, edgoBandHeaderWidth, edgoHotTrack, edgoRowSelect, edgoUseBitmap]
+          PreviewFont.Charset = ANSI_CHARSET
+          PreviewFont.Color = clBlack
+          PreviewFont.Height = -11
+          PreviewFont.Name = 'Segoe UI Semibold'
+          PreviewFont.Style = [fsBold, fsItalic]
+          ShowBands = True
+          ShowGrid = False
+          OnCustomDrawCell = DBGREL_PED_PDV_MESCustomDrawCell
+          object DBGREL_PED_PDV_ANOPED_EP_NO: TdxDBGridMaskColumn
+            Width = 100
+            BandIndex = 0
+            RowIndex = 0
+            FieldName = 'PED_EP_NO'
+            SummaryFooterType = cstCount
+            SummaryFooterField = 'ID'
+            SummaryFooterFormat = ',##,0'
+          end
+          object DBGREL_PED_PDV_ANOPED_ANO: TdxDBGridMaskColumn
+            Width = 70
+            BandIndex = 0
+            RowIndex = 0
+            FieldName = 'PED_ANO'
+          end
+          object DBGREL_PED_PDV_ANOCLI_ITCD: TdxDBGridMaskColumn
+            Color = clHighlightText
             Font.Charset = ANSI_CHARSET
-            Font.Color = clBlack
+            Font.Color = clWindowText
             Font.Height = -12
             Font.Name = 'Tahoma'
             Font.Style = []
-            ParentCtl3D = False
-            ParentFont = False
-            TabOrder = 0
-            AutoSearchColor = 9395
-            AutoSearchTextColor = clWhite
-            BandColor = clGrayText
-            BandFont.Charset = ANSI_CHARSET
-            BandFont.Color = clWhite
-            BandFont.Height = -13
-            BandFont.Name = 'Segoe UI Semibold'
-            BandFont.Style = [fsBold, fsItalic]
-            DataSource = FBird.DTSFBResumo_Mensal
-            Filter.Active = True
-            Filter.Criteria = {00000000}
-            FixedBandLineWidth = 1
-            GridLineColor = clSilver
-            HeaderFont.Charset = ANSI_CHARSET
-            HeaderFont.Color = clWindowText
-            HeaderFont.Height = -13
-            HeaderFont.Name = 'Segoe UI'
-            HeaderFont.Style = [fsItalic]
-            LookAndFeel = lfUltraFlat
-            OptionsBehavior = [edgoAutoSearch, edgoAutoSort, edgoCaseInsensitive, edgoCollapsedReload, edgoDragCollapse, edgoDragExpand, edgoDragScroll, edgoEnterShowEditor, edgoImmediateEditor, edgoSeekDetail, edgoShowHourGlass, edgoTabThrough, edgoVertThrough]
-            OptionsCustomize = [edgoBandMoving, edgoBandSizing, edgoColumnMoving, edgoColumnSizing, edgoNotHideColumn]
-            OptionsDB = [edgoCancelOnExit, edgoCanNavigation, edgoConfirmDelete, edgoLoadAllRecords, edgoSyncSelection, edgoUseBookmarks]
-            OptionsView = [edgoAutoCalcPreviewLines, edgoBandHeaderWidth, edgoHotTrack, edgoRowSelect, edgoUseBitmap]
-            PreviewFont.Charset = ANSI_CHARSET
-            PreviewFont.Color = clBlack
-            PreviewFont.Height = -11
-            PreviewFont.Name = 'Segoe UI Semibold'
-            PreviewFont.Style = [fsBold, fsItalic]
-            ShowBands = True
-            ShowGrid = False
-            OnCustomDrawCell = DBGResumoMensalCustomDrawCell
-            object DBGResumoMensalCP_ABEP: TdxDBGridMaskColumn
-              Color = clBtnFace
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Tahoma'
-              Font.Style = []
-              Width = 95
-              BandIndex = 0
-              RowIndex = 0
-              FieldName = 'CP_ABEP'
-              SummaryFooterType = cstCount
-              SummaryFooterField = 'AMPK'
-              SummaryFooterFormat = ',##,0'
-            end
-            object DBGResumoMensalDMPK: TdxDBGridMaskColumn
-              Color = clBtnFace
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Tahoma'
-              Font.Style = []
-              Width = 67
-              BandIndex = 0
-              RowIndex = 0
-              FieldName = 'DMPK'
-            end
-            object DBGResumoMensalAMPK: TdxDBGridColumn
-              Color = clBtnFace
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Tahoma'
-              Font.Style = []
-              Visible = False
-              BandIndex = 0
-              RowIndex = 0
-              FieldName = 'AMPK'
-            end
-            object DBGResumoMensalCLI_ITCD: TdxDBGridColumn
-              Color = clBtnFace
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Tahoma'
-              Font.Style = []
-              HeaderAlignment = taRightJustify
-              Width = 40
-              BandIndex = 1
-              RowIndex = 0
-              FieldName = 'CLI_ITCD'
-              SummaryFooterType = cstSum
-              SummaryFooterField = 'CLI_ITCD'
-              SummaryFooterFormat = ',##,0'
-              DisableFilter = True
-            end
-            object DBGResumoMensalCLI_INCD: TdxDBGridColumn
-              Color = clBtnFace
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Tahoma'
-              Font.Style = []
-              HeaderAlignment = taRightJustify
-              Width = 43
-              BandIndex = 1
-              RowIndex = 0
-              FieldName = 'CLI_INCD'
-              SummaryFooterType = cstSum
-              SummaryFooterField = 'CLI_INCD'
-              SummaryFooterFormat = ',##,0'
-              DisableFilter = True
-            end
-            object DBGResumoMensalPED_VLPK: TdxDBGridMaskColumn
-              Color = clBtnFace
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Tahoma'
-              Font.Style = []
-              HeaderAlignment = taRightJustify
-              Width = 110
-              BandIndex = 2
-              RowIndex = 0
-              FieldName = 'PED_VLPK'
-              SummaryFooterType = cstSum
-              SummaryFooterField = 'PED_VLPK'
-              SummaryFooterFormat = 'R$ ,##,0.00'
-              DisableFilter = True
-            end
-            object DBGResumoMensalPED_ILPK: TdxDBGridColumn
-              Color = clBtnFace
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Tahoma'
-              Font.Style = []
-              HeaderAlignment = taRightJustify
-              Width = 50
-              BandIndex = 2
-              RowIndex = 0
-              FieldName = 'PED_ILPK'
-              SummaryFooterType = cstSum
-              SummaryFooterField = 'PED_ILPK'
-              SummaryFooterFormat = ',##,0'
-              DisableFilter = True
-            end
-            object DBGResumoMensalPED_VLSP: TdxDBGridMaskColumn
-              Color = clBtnFace
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clHighlightText
-              Font.Height = -12
-              Font.Name = 'Tahoma'
-              Font.Style = []
-              HeaderAlignment = taRightJustify
-              Width = 110
-              BandIndex = 4
-              RowIndex = 0
-              FieldName = 'PED_VLSP'
-              SummaryFooterType = cstSum
-              SummaryFooterField = 'PED_VLSP'
-              SummaryFooterFormat = 'R$ ,##,0.00'
-              DisableFilter = True
-            end
-            object DBGResumoMensalPED_ILSP: TdxDBGridColumn
-              Color = clBtnFace
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clHighlightText
-              Font.Height = -12
-              Font.Name = 'Tahoma'
-              Font.Style = []
-              HeaderAlignment = taRightJustify
-              Width = 50
-              BandIndex = 4
-              RowIndex = 0
-              FieldName = 'PED_ILSP'
-              SummaryFooterType = cstSum
-              SummaryFooterField = 'PED_ILSP'
-              SummaryFooterFormat = ',##,0'
-              DisableFilter = True
-            end
-            object DBGResumoMensalPED_PLSP: TdxDBGridMaskColumn
-              Alignment = taRightJustify
-              Color = clBtnFace
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clHighlightText
-              Font.Height = -12
-              Font.Name = 'Tahoma'
-              Font.Style = []
-              HeaderAlignment = taRightJustify
-              Width = 60
-              BandIndex = 4
-              RowIndex = 0
-              FieldName = 'PED_PLSP'
-              SummaryFooterType = cstAvg
-              SummaryFooterField = 'PED_PLSP'
-              SummaryFooterFormat = ',##,0.00%'
-            end
-            object DBGResumoMensalPED_VTLQ: TdxDBGridMaskColumn
-              Color = clBtnFace
-              Font.Charset = ANSI_CHARSET
-              Font.Color = 4422672
-              Font.Height = -12
-              Font.Name = 'Tahoma'
-              Font.Style = []
-              HeaderAlignment = taRightJustify
-              Width = 110
-              BandIndex = 3
-              RowIndex = 0
-              FieldName = 'PED_VTLQ'
-              SummaryFooterType = cstSum
-              SummaryFooterField = 'PED_VTLQ'
-              SummaryFooterFormat = 'R$ ,##,0.00'
-              DisableFilter = True
-            end
-            object DBGResumoMensalPED_ITLQ: TdxDBGridColumn
-              Color = clBtnFace
-              Font.Charset = ANSI_CHARSET
-              Font.Color = 4422672
-              Font.Height = -12
-              Font.Name = 'Tahoma'
-              Font.Style = []
-              HeaderAlignment = taRightJustify
-              Width = 50
-              BandIndex = 3
-              RowIndex = 0
-              FieldName = 'PED_ITLQ'
-              SummaryFooterType = cstSum
-              SummaryFooterField = 'PED_ITLQ'
-              SummaryFooterFormat = ',##,0'
-              DisableFilter = True
-            end
+            HeaderAlignment = taRightJustify
+            Width = 55
+            BandIndex = 1
+            RowIndex = 0
+            FieldName = 'CLI_ITCD'
+            SummaryFooterType = cstSum
+            SummaryFooterField = 'CLI_ITCD'
+            SummaryFooterFormat = ',##,0'
+            DisableFilter = True
+          end
+          object DBGREL_PED_PDV_ANOCLI_INCD: TdxDBGridMaskColumn
+            Color = clHighlightText
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            HeaderAlignment = taRightJustify
+            Width = 45
+            BandIndex = 1
+            RowIndex = 0
+            FieldName = 'CLI_INCD'
+            SummaryFooterType = cstSum
+            SummaryFooterField = 'CLI_INCD'
+            SummaryFooterFormat = ',##,0'
+            DisableFilter = True
+          end
+          object DBGREL_PED_PDV_ANOPED_VLPK: TdxDBGridMaskColumn
+            Color = clHighlightText
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            HeaderAlignment = taRightJustify
+            Width = 115
+            BandIndex = 2
+            RowIndex = 0
+            FieldName = 'PED_VLPK'
+            SummaryFooterType = cstSum
+            SummaryFooterField = 'PED_VLPK'
+            SummaryFooterFormat = 'R$ ,##,0.00'
+            DisableFilter = True
+          end
+          object DBGREL_PED_PDV_ANOPED_ILPK: TdxDBGridMaskColumn
+            Color = clHighlightText
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            HeaderAlignment = taRightJustify
+            Width = 55
+            BandIndex = 2
+            RowIndex = 0
+            FieldName = 'PED_ILPK'
+            SummaryFooterType = cstSum
+            SummaryFooterField = 'PED_ILPK'
+            SummaryFooterFormat = ',##,0'
+            DisableFilter = True
+          end
+          object DBGREL_PED_PDV_ANOPED_VLSP: TdxDBGridMaskColumn
+            Color = clWindowText
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clHighlightText
+            Font.Height = -12
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            HeaderAlignment = taRightJustify
+            Width = 115
+            BandIndex = 3
+            RowIndex = 0
+            FieldName = 'PED_VLSP'
+            SummaryFooterType = cstSum
+            SummaryFooterField = 'PED_VLSP'
+            SummaryFooterFormat = 'R$ ,##,0.00'
+            DisableFilter = True
+          end
+          object DBGREL_PED_PDV_ANOPED_ILSP: TdxDBGridMaskColumn
+            Color = clWindowText
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clHighlightText
+            Font.Height = -12
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            HeaderAlignment = taRightJustify
+            Width = 55
+            BandIndex = 3
+            RowIndex = 0
+            FieldName = 'PED_ILSP'
+            SummaryFooterType = cstSum
+            SummaryFooterField = 'PED_ILSP'
+            SummaryFooterFormat = ',##,0'
+            DisableFilter = True
+          end
+          object DBGREL_PED_PDV_ANOPED_PLSP: TdxDBGridMaskColumn
+            Color = clWindowText
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clHighlightText
+            Font.Height = -12
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            Width = 65
+            BandIndex = 3
+            RowIndex = 0
+            FieldName = 'PED_PLSP'
+            SummaryFooterType = cstAvg
+            SummaryFooterField = 'PED_PLSP'
+            SummaryFooterFormat = '0.00 %'
+          end
+          object DBGREL_PED_PDV_ANOPED_VTLQ: TdxDBGridMaskColumn
+            Color = 10485663
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            HeaderAlignment = taRightJustify
+            Width = 115
+            BandIndex = 4
+            RowIndex = 0
+            FieldName = 'PED_VTLQ'
+            SummaryFooterType = cstSum
+            SummaryFooterField = 'PED_VTLQ'
+            SummaryFooterFormat = 'R$ ,##,0.00'
+            DisableFilter = True
+          end
+          object DBGREL_PED_PDV_ANOPED_ITLQ: TdxDBGridMaskColumn
+            Color = 10485663
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            HeaderAlignment = taRightJustify
+            Width = 55
+            BandIndex = 4
+            RowIndex = 0
+            FieldName = 'PED_ITLQ'
+            SummaryFooterType = cstSum
+            SummaryFooterField = 'PED_ITLQ'
+            SummaryFooterFormat = ',##,0'
+            DisableFilter = True
           end
         end
       end
@@ -3616,11 +3869,11 @@ inherited frmctr_ped: Tfrmctr_ped
   end
   inherited DTSCadastro: TDataSource
     Left = 152
-    Top = 288
+    Top = 240
   end
   inherited imageOPC: TImageList
     Left = 488
-    Top = 216
+    Top = 168
     Bitmap = {
       494C01010E00130004003E002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000F8000000A00000000100200000000000006C
@@ -8826,7 +9079,7 @@ inherited frmctr_ped: Tfrmctr_ped
       'SELECT PK.* FROM PK'
       ')')
     Left = 120
-    Top = 289
+    Top = 241
     object CadastroID: TIntegerField
       FieldName = 'ID'
       Origin = '"VW_PED_VEN_CAB_004"."ID"'
@@ -9686,41 +9939,41 @@ inherited frmctr_ped: Tfrmctr_ped
   end
   inherited TConsulta: TIBTransaction
     Left = 120
-    Top = 256
+    Top = 208
   end
   inherited SQLConsulta: TIBSQL
     Left = 152
-    Top = 256
+    Top = 208
   end
   inherited TEdicao: TIBTransaction
     Left = 184
-    Top = 256
+    Top = 208
   end
   inherited SQLEdicao: TIBSQL
     Left = 216
-    Top = 256
+    Top = 208
   end
   inherited SPEdicao: TIBStoredProc
     Left = 280
-    Top = 256
+    Top = 208
   end
   inherited TEvent: TIBTransaction
     Left = 312
-    Top = 256
+    Top = 208
   end
   inherited SPEvent: TIBStoredProc
     Left = 376
-    Top = 256
+    Top = 208
   end
   inherited ILDockIcons: TImageList
-    Top = 216
+    Top = 168
   end
   inherited DMMain: TdxDockingManager
     AutoHideInterval = 20
     AutoHideMovingSize = 20
     AutoShowInterval = 20
     Left = 448
-    Top = 344
+    Top = 296
   end
   inherited BMMain: TdxBarManager
     Categories.ItemsVisibles = (
@@ -9728,7 +9981,7 @@ inherited frmctr_ped: Tfrmctr_ped
     Categories.Visibles = (
       True)
     Left = 480
-    Top = 344
+    Top = 296
     DockControlHeights = (
       0
       0
@@ -9737,15 +9990,15 @@ inherited frmctr_ped: Tfrmctr_ped
   end
   inherited SQLEvent: TIBSQL
     Left = 344
-    Top = 256
+    Top = 208
   end
   inherited EEvent: TIBEvents
     Left = 408
-    Top = 256
+    Top = 208
   end
   inherited ALPrincipal: TActionList
     Left = 440
-    Top = 256
+    Top = 208
     object ACTMPPedido: TAction
       Category = 'Menu Principal'
       Caption = 'ACTMPPedido'
@@ -9983,7 +10236,7 @@ inherited frmctr_ped: Tfrmctr_ped
       'where'
       '  ID = :OLD_ID')
     Left = 504
-    Top = 256
+    Top = 208
     object fin_rec_baiID: TIntegerField
       FieldName = 'ID'
       Origin = '"FIN_REC_BAI"."ID"'
@@ -10278,13 +10531,13 @@ inherited frmctr_ped: Tfrmctr_ped
       'nowait')
     AutoStopAction = saCommit
     Left = 472
-    Top = 256
+    Top = 208
   end
   object DTSFKCadastro: TDataSource
     DataSet = FKCadastro
     OnDataChange = DTSFKCadastroDataChange
     Left = 152
-    Top = 320
+    Top = 272
   end
   object FKCadastro: TIBQuery
     Database = FBird.DBERP
@@ -10318,7 +10571,7 @@ inherited frmctr_ped: Tfrmctr_ped
       'AND      PK.IDPK = :IDPK'
       'ORDER BY PK.ITEM')
     Left = 120
-    Top = 320
+    Top = 272
     ParamData = <
       item
         DataType = ftSmallint
@@ -10625,7 +10878,7 @@ inherited frmctr_ped: Tfrmctr_ped
       'AND      PK.IDPK = :IDPK'
       'ORDER BY PK.ITEM')
     Left = 121
-    Top = 384
+    Top = 336
     ParamData = <
       item
         DataType = ftSmallint
@@ -10750,7 +11003,7 @@ inherited frmctr_ped: Tfrmctr_ped
     DataSet = Separados
     OnDataChange = DTSFKSeparadosDataChange
     Left = 152
-    Top = 384
+    Top = 336
   end
   object Romaneios: TIBQuery
     Database = FBird.DBERP
@@ -10781,7 +11034,7 @@ inherited frmctr_ped: Tfrmctr_ped
       'AND      PK.CDRO = :CDRO'
       'ORDER BY FK.ITEM')
     Left = 121
-    Top = 416
+    Top = 368
     ParamData = <
       item
         DataType = ftUnknown
@@ -10871,13 +11124,13 @@ inherited frmctr_ped: Tfrmctr_ped
     DataSet = Romaneios
     OnDataChange = DTSFKRomaneiosDataChange
     Left = 152
-    Top = 416
+    Top = 368
   end
   object SQLFKEdicao: TIBSQL
     Database = FBird.DBERP
     Transaction = TEdicao
     Left = 248
-    Top = 256
+    Top = 208
   end
   object CAD_PRO_IMG: TIBQuery
     Database = FBird.DBERP
@@ -10899,7 +11152,7 @@ inherited frmctr_ped: Tfrmctr_ped
       'FROM   VW_PSQ_CAD_PRO_IMG AS CDN'
       'WHERE  CDN.CP_ID = :IDCP')
     Left = 120
-    Top = 352
+    Top = 304
     ParamData = <
       item
         DataType = ftInteger
@@ -11090,6 +11343,334 @@ inherited frmctr_ped: Tfrmctr_ped
     DataSet = CAD_PRO_IMG
     OnDataChange = DTSCAD_PRO_IMGDataChange
     Left = 152
-    Top = 352
+    Top = 304
+  end
+  object REL_PED_PDV_DIA: TIBQuery
+    Database = FBird.DBERP
+    Transaction = TConsulta
+    SQL.Strings = (
+      'SELECT PK.* FROM REL_PED_PDV_DIA AS PK'
+      'WHERE PK.ID = 0'
+      'ORDER BY PK.PED_DIA DESC')
+    Left = 121
+    Top = 400
+    object REL_PED_PDV_DIAID: TLargeintField
+      FieldName = 'ID'
+      Origin = '"REL_PED_PDV_DIA"."ID"'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object REL_PED_PDV_DIAEP_ID: TSmallintField
+      FieldName = 'EP_ID'
+      Origin = '"REL_PED_PDV_DIA"."EP_ID"'
+    end
+    object REL_PED_PDV_DIAPED_EP_ID: TSmallintField
+      FieldName = 'PED_EP_ID'
+      Origin = '"REL_PED_PDV_DIA"."PED_EP_ID"'
+    end
+    object REL_PED_PDV_DIAPED_EP_NO: TIBStringField
+      DisplayLabel = 'Empresa'
+      FieldName = 'PED_EP_NO'
+      Origin = '"REL_PED_PDV_DIA"."PED_EP_NO"'
+      Size = 60
+    end
+    object REL_PED_PDV_DIAPED_DIA: TDateField
+      DisplayLabel = 'Data'
+      FieldName = 'PED_DIA'
+      Origin = '"REL_PED_PDV_DIA"."PED_DIA"'
+      DisplayFormat = 'dd.mm.yy'
+    end
+    object REL_PED_PDV_DIACLI_ITCD: TIntegerField
+      DisplayLabel = 'Total'
+      FieldName = 'CLI_ITCD'
+      Origin = '"SP_PED_VEN_REL"."CLI_ITCD"'
+      DisplayFormat = ',##,0'
+    end
+    object REL_PED_PDV_DIACLI_INCD: TIntegerField
+      DisplayLabel = 'Novos'
+      FieldName = 'CLI_INCD'
+      Origin = '"SP_PED_VEN_REL_FCV"."CLI_INCD"'
+      DisplayFormat = ',##,0'
+    end
+    object REL_PED_PDV_DIAPED_VLPK: TIBBCDField
+      DisplayLabel = 'Valor R$'
+      FieldName = 'PED_VLPK'
+      Origin = '"SP_PED_VEN_REL"."PED_VLPK"'
+      DisplayFormat = 'R$ ,##,0.00'
+      Precision = 18
+      Size = 2
+    end
+    object REL_PED_PDV_DIAPED_ILPK: TIntegerField
+      DisplayLabel = 'Qtde.'
+      FieldName = 'PED_ILPK'
+      Origin = '"SP_PED_VEN_REL"."PED_ILPK"'
+      DisplayFormat = ',##,0'
+    end
+    object REL_PED_PDV_DIAPED_VLSP: TIBBCDField
+      DisplayLabel = 'Valor R$'
+      FieldName = 'PED_VLSP'
+      Origin = '"SP_PED_VEN_REL"."PED_VLSP"'
+      DisplayFormat = 'R$ ,##,0.00'
+      Precision = 18
+      Size = 2
+    end
+    object REL_PED_PDV_DIAPED_ILSP: TIntegerField
+      DisplayLabel = 'Qtde.'
+      FieldName = 'PED_ILSP'
+      Origin = '"SP_PED_VEN_REL"."PED_ILSP"'
+      DisplayFormat = ',##,0'
+    end
+    object REL_PED_PDV_DIAPED_PLSP: TIBBCDField
+      DisplayLabel = 'Ticket'
+      FieldName = 'PED_PLSP'
+      Origin = '"SP_PED_VEN_REL"."PED_PLSP"'
+      DisplayFormat = '0.00 %'
+      Precision = 9
+      Size = 2
+    end
+    object REL_PED_PDV_DIAPED_VTLQ: TIBBCDField
+      DisplayLabel = 'Valor R$'
+      FieldName = 'PED_VTLQ'
+      Origin = '"SP_PED_VEN_REL_FCV"."PED_VTLQ"'
+      DisplayFormat = 'R$ ,##,0.00'
+      Precision = 18
+      Size = 2
+    end
+    object REL_PED_PDV_DIAPED_ITLQ: TIntegerField
+      DisplayLabel = 'Qtde.'
+      FieldName = 'PED_ITLQ'
+      Origin = '"SP_PED_VEN_REL_FCV"."PED_ITLQ"'
+      DisplayFormat = ',##,0'
+    end
+    object REL_PED_PDV_DIACREATED_AT: TDateTimeField
+      FieldName = 'CREATED_AT'
+      Origin = '"REL_PED_PDV_DIA"."CREATED_AT"'
+    end
+  end
+  object REL_PED_PDV_MES: TIBQuery
+    Database = FBird.DBERP
+    Transaction = TConsulta
+    SQL.Strings = (
+      'SELECT PK.* FROM REL_PED_PDV_MES AS PK'
+      'WHERE PK.ID = 0'
+      'ORDER BY PK.PED_ANO_MES DESC')
+    Left = 121
+    Top = 432
+    object REL_PED_PDV_MESID: TLargeintField
+      FieldName = 'ID'
+      Origin = '"REL_PED_PDV_MES"."ID"'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object REL_PED_PDV_MESEP_ID: TSmallintField
+      FieldName = 'EP_ID'
+      Origin = '"REL_PED_PDV_MES"."EP_ID"'
+    end
+    object REL_PED_PDV_MESPED_EP_ID: TSmallintField
+      FieldName = 'PED_EP_ID'
+      Origin = '"REL_PED_PDV_MES"."PED_EP_ID"'
+    end
+    object REL_PED_PDV_MESPED_EP_NO: TIBStringField
+      DisplayLabel = 'Empresa'
+      FieldName = 'PED_EP_NO'
+      Origin = '"REL_PED_PDV_MES"."PED_EP_NO"'
+      Size = 60
+    end
+    object REL_PED_PDV_MESPED_MES: TIBStringField
+      DisplayLabel = 'Emiss'#227'o'
+      FieldName = 'PED_MES'
+      Origin = '"REL_PED_PDV_MES"."PED_MES"'
+      Size = 15
+    end
+    object REL_PED_PDV_MESPED_ANO_MES: TIBStringField
+      FieldName = 'PED_ANO_MES'
+      Origin = '"REL_PED_PDV_MES"."PED_ANO_MES"'
+      Size = 6
+    end
+    object REL_PED_PDV_MESPED_VLPK: TIBBCDField
+      DisplayLabel = 'Valor R$'
+      FieldName = 'PED_VLPK'
+      Origin = '"REL_PED_PDV_MES"."PED_VLPK"'
+      DisplayFormat = 'R$ ,##,0.00'
+      Precision = 18
+      Size = 2
+    end
+    object REL_PED_PDV_MESPED_ILPK: TIntegerField
+      DisplayLabel = 'Qtde.'
+      FieldName = 'PED_ILPK'
+      Origin = '"REL_PED_PDV_MES"."PED_ILPK"'
+      DisplayFormat = ',##,0'
+    end
+    object REL_PED_PDV_MESCLI_ITCD: TIntegerField
+      DisplayLabel = 'Total'
+      FieldName = 'CLI_ITCD'
+      Origin = '"REL_PED_PDV_MES"."CLI_ITCD"'
+      DisplayFormat = ',##,0'
+    end
+    object REL_PED_PDV_MESCLI_INCD: TIntegerField
+      DisplayLabel = 'Novos'
+      FieldName = 'CLI_INCD'
+      Origin = '"REL_PED_PDV_MES"."CLI_INCD"'
+      DisplayFormat = ',##,0'
+    end
+    object REL_PED_PDV_MESPED_VLSP: TIBBCDField
+      DisplayLabel = 'Valor R$'
+      FieldName = 'PED_VLSP'
+      Origin = '"REL_PED_PDV_MES"."PED_VLSP"'
+      DisplayFormat = 'R$ ,##,0.00'
+      Precision = 18
+      Size = 2
+    end
+    object REL_PED_PDV_MESPED_ILSP: TIntegerField
+      DisplayLabel = 'Qtde.'
+      FieldName = 'PED_ILSP'
+      Origin = '"REL_PED_PDV_MES"."PED_ILSP"'
+      DisplayFormat = ',##,0'
+    end
+    object REL_PED_PDV_MESPED_PLSP: TIBBCDField
+      DisplayLabel = 'Ticket'
+      FieldName = 'PED_PLSP'
+      Origin = '"REL_PED_PDV_MES"."PED_PLSP"'
+      DisplayFormat = '0.00 %'
+      Precision = 9
+      Size = 2
+    end
+    object REL_PED_PDV_MESPED_VTLQ: TIBBCDField
+      DisplayLabel = 'Valor R$'
+      FieldName = 'PED_VTLQ'
+      Origin = '"REL_PED_PDV_MES"."PED_VTLQ"'
+      DisplayFormat = 'R$ ,##,0.00'
+      Precision = 18
+      Size = 2
+    end
+    object REL_PED_PDV_MESPED_ITLQ: TIntegerField
+      DisplayLabel = 'Qtde.'
+      FieldName = 'PED_ITLQ'
+      Origin = '"REL_PED_PDV_MES"."PED_ITLQ"'
+      DisplayFormat = ',##,0'
+    end
+    object REL_PED_PDV_MESCREATED_AT: TDateTimeField
+      FieldName = 'CREATED_AT'
+      Origin = '"REL_PED_PDV_MES"."CREATED_AT"'
+    end
+  end
+  object DTSREL_PED_PDV_MES: TDataSource
+    AutoEdit = False
+    DataSet = REL_PED_PDV_MES
+    Left = 152
+    Top = 432
+  end
+  object DTSREL_PED_PDV_DIA: TDataSource
+    AutoEdit = False
+    DataSet = REL_PED_PDV_DIA
+    Left = 152
+    Top = 400
+  end
+  object REL_PED_PDV_ANO: TIBQuery
+    Database = FBird.DBERP
+    Transaction = TConsulta
+    SQL.Strings = (
+      'SELECT PK.* FROM REL_PED_PDV_ANO AS PK'
+      'WHERE PK.ID = 0'
+      'ORDER BY PK.PED_ANO DESC')
+    Left = 121
+    Top = 464
+    object REL_PED_PDV_ANOID: TLargeintField
+      FieldName = 'ID'
+      Origin = '"REL_PED_PDV_ANO"."ID"'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object REL_PED_PDV_ANOEP_ID: TSmallintField
+      FieldName = 'EP_ID'
+      Origin = '"REL_PED_PDV_ANO"."EP_ID"'
+    end
+    object REL_PED_PDV_ANOPED_EP_ID: TSmallintField
+      FieldName = 'PED_EP_ID'
+      Origin = '"REL_PED_PDV_ANO"."PED_EP_ID"'
+    end
+    object REL_PED_PDV_ANOPED_EP_NO: TIBStringField
+      DisplayLabel = 'Empresa'
+      FieldName = 'PED_EP_NO'
+      Origin = '"REL_PED_PDV_ANO"."PED_EP_NO"'
+      Size = 60
+    end
+    object REL_PED_PDV_ANOPED_ANO: TSmallintField
+      DisplayLabel = 'Emss'#227'o'
+      FieldName = 'PED_ANO'
+      Origin = '"REL_PED_PDV_ANO"."PED_ANO"'
+    end
+    object REL_PED_PDV_ANOPED_VLPK: TIBBCDField
+      DisplayLabel = 'Valor R$'
+      FieldName = 'PED_VLPK'
+      Origin = '"REL_PED_PDV_ANO"."PED_VLPK"'
+      DisplayFormat = 'R$ ,##,0.00'
+      Precision = 18
+      Size = 2
+    end
+    object REL_PED_PDV_ANOPED_ILPK: TIntegerField
+      DisplayLabel = 'Qtde.'
+      FieldName = 'PED_ILPK'
+      Origin = '"REL_PED_PDV_ANO"."PED_ILPK"'
+      DisplayFormat = ',##,0'
+    end
+    object REL_PED_PDV_ANOCLI_ITCD: TIntegerField
+      DisplayLabel = 'Total'
+      FieldName = 'CLI_ITCD'
+      Origin = '"REL_PED_PDV_ANO"."CLI_ITCD"'
+      DisplayFormat = ',##,0'
+    end
+    object REL_PED_PDV_ANOCLI_INCD: TIntegerField
+      DisplayLabel = 'Novos'
+      FieldName = 'CLI_INCD'
+      Origin = '"REL_PED_PDV_ANO"."CLI_INCD"'
+      DisplayFormat = ',##,0'
+    end
+    object REL_PED_PDV_ANOPED_VLSP: TIBBCDField
+      DisplayLabel = 'Valor R$'
+      FieldName = 'PED_VLSP'
+      Origin = '"REL_PED_PDV_ANO"."PED_VLSP"'
+      DisplayFormat = 'R$ ,##,0.00'
+      Precision = 18
+      Size = 2
+    end
+    object REL_PED_PDV_ANOPED_ILSP: TIntegerField
+      DisplayLabel = 'Qtde.'
+      FieldName = 'PED_ILSP'
+      Origin = '"REL_PED_PDV_ANO"."PED_ILSP"'
+      DisplayFormat = ',##,0'
+    end
+    object REL_PED_PDV_ANOPED_PLSP: TIBBCDField
+      DisplayLabel = 'Ticket'
+      FieldName = 'PED_PLSP'
+      Origin = '"REL_PED_PDV_ANO"."PED_PLSP"'
+      DisplayFormat = '0.00 %'
+      Precision = 9
+      Size = 2
+    end
+    object REL_PED_PDV_ANOPED_VTLQ: TIBBCDField
+      DisplayLabel = 'Valor R$'
+      FieldName = 'PED_VTLQ'
+      Origin = '"REL_PED_PDV_ANO"."PED_VTLQ"'
+      DisplayFormat = 'R$ ,##,0.00'
+      Precision = 18
+      Size = 2
+    end
+    object REL_PED_PDV_ANOPED_ITLQ: TIntegerField
+      DisplayLabel = 'Qtde.'
+      FieldName = 'PED_ITLQ'
+      Origin = '"REL_PED_PDV_ANO"."PED_ITLQ"'
+      DisplayFormat = ',##,0'
+    end
+    object REL_PED_PDV_ANOCREATED_AT: TDateTimeField
+      FieldName = 'CREATED_AT'
+      Origin = '"REL_PED_PDV_ANO"."CREATED_AT"'
+    end
+  end
+  object DTSREL_PED_PDV_ANO: TDataSource
+    AutoEdit = False
+    DataSet = REL_PED_PDV_ANO
+    Left = 152
+    Top = 464
   end
 end

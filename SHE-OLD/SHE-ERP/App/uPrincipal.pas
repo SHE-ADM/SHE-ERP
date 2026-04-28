@@ -2357,9 +2357,6 @@ begin
         except
           oCTransact(TFBConsulta,ltRollback);
         end;
-
-        if FBird.DBErp.TestConnected then
-        bResumo_Pedido;
       end;
 
       if RECParametros.SecondsIdle mod 600 = 0  then
@@ -3001,7 +2998,6 @@ begin
     bExecParametros(AIDEP);
     bExecUsuarios(AIDUSER);
     bExecCaixa;
-    bResumo_Pedido;
 
     { PATH - Área de Trabalho }
     EPrincipal.InitialDir := RECParametros.SHE_PATH_DESKTOP;

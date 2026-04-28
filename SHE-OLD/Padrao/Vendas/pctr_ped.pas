@@ -131,8 +131,8 @@ type
     DSResumos: TdxDockSite;
     dxLayoutDockSite1: TdxLayoutDockSite;
     dxTabContainerDockSite1: TdxTabContainerDockSite;
-    DPResumoDiario: TdxDockPanel;
-    DPResumoMensal: TdxDockPanel;
+    DPREL_PED_PDV_DIA: TdxDockPanel;
+    DPREL_PED_PDV_MES: TdxDockPanel;
     RomaneiosDGCP: TIBStringField;
     RomaneiosUCOM: TIBStringField;
     RomaneiosUCON: TIBStringField;
@@ -493,35 +493,100 @@ type
     ACTMPFinanceiroDelete: TAction;
     ACTMPCAD_CLI_CRD: TAction;
     ACTMPCAD_CLI_EDI: TAction;
-    DBGResumoDiario: TdxDBGrid;
-    DBGResumoDiarioCP_ABEP: TdxDBGridMaskColumn;
-    DBGResumoDiarioDTPK: TdxDBGridDateColumn;
-    DBGResumoDiarioCLI_ITCD: TdxDBGridMaskColumn;
-    DBGResumoDiarioCLI_INCD: TdxDBGridMaskColumn;
-    DBGResumoDiarioPED_VLPK: TdxDBGridMaskColumn;
-    DBGResumoDiarioPED_ILPK: TdxDBGridMaskColumn;
-    DBGResumoDiarioPED_VLSP: TdxDBGridMaskColumn;
-    DBGResumoDiarioPED_ILSP: TdxDBGridMaskColumn;
-    DBGResumoDiarioPED_PLSP: TdxDBGridMaskColumn;
-    DBGResumoDiarioPED_VTLQ: TdxDBGridMaskColumn;
-    DBGResumoDiarioPED_ITLQ: TdxDBGridMaskColumn;
-    DBGResumoMensal: TdxDBGrid;
-    DBGResumoMensalCP_ABEP: TdxDBGridMaskColumn;
-    DBGResumoMensalDMPK: TdxDBGridMaskColumn;
-    DBGResumoMensalAMPK: TdxDBGridColumn;
-    DBGResumoMensalCLI_ITCD: TdxDBGridColumn;
-    DBGResumoMensalCLI_INCD: TdxDBGridColumn;
-    DBGResumoMensalPED_VLPK: TdxDBGridMaskColumn;
-    DBGResumoMensalPED_ILPK: TdxDBGridColumn;
-    DBGResumoMensalPED_VLSP: TdxDBGridMaskColumn;
-    DBGResumoMensalPED_ILSP: TdxDBGridColumn;
-    DBGResumoMensalPED_PLSP: TdxDBGridMaskColumn;
-    DBGResumoMensalPED_VTLQ: TdxDBGridMaskColumn;
-    DBGResumoMensalPED_ITLQ: TdxDBGridColumn;
+    DBGREL_PED_PDV_DIA: TdxDBGrid;
+    DBGREL_PED_PDV_DIAPED_EP_NO: TdxDBGridMaskColumn;
+    DBGREL_PED_PDV_DIAPED_DIA: TdxDBGridDateColumn;
+    DBGREL_PED_PDV_DIACLI_ITCD: TdxDBGridMaskColumn;
+    DBGREL_PED_PDV_DIACLI_INCD: TdxDBGridMaskColumn;
+    DBGREL_PED_PDV_DIAPED_VLPK: TdxDBGridMaskColumn;
+    DBGREL_PED_PDV_DIAPED_ILPK: TdxDBGridMaskColumn;
+    DBGREL_PED_PDV_DIAPED_VLSP: TdxDBGridMaskColumn;
+    DBGREL_PED_PDV_DIAPED_ILSP: TdxDBGridMaskColumn;
+    DBGREL_PED_PDV_DIAPED_PLSP: TdxDBGridMaskColumn;
+    DBGREL_PED_PDV_DIAPED_VTLQ: TdxDBGridMaskColumn;
+    DBGREL_PED_PDV_DIAPED_ITLQ: TdxDBGridMaskColumn;
+    DBGREL_PED_PDV_MES: TdxDBGrid;
+    DBGREL_PED_PDV_MESPED_EP_NO: TdxDBGridMaskColumn;
+    DBGREL_PED_PDV_MESPED_MES: TdxDBGridMaskColumn;
+    DBGREL_PED_PDV_MESCLI_ITCD: TdxDBGridColumn;
+    DBGREL_PED_PDV_MESCLI_INCD: TdxDBGridColumn;
+    DBGREL_PED_PDV_MESPED_VLPK: TdxDBGridMaskColumn;
+    DBGREL_PED_PDV_MESPED_ILPK: TdxDBGridColumn;
+    DBGREL_PED_PDV_MESPED_VLSP: TdxDBGridMaskColumn;
+    DBGREL_PED_PDV_MESPED_ILSP: TdxDBGridColumn;
+    DBGREL_PED_PDV_MESPED_PLSP: TdxDBGridMaskColumn;
+    DBGREL_PED_PDV_MESPED_VTLQ: TdxDBGridMaskColumn;
+    DBGREL_PED_PDV_MESPED_ITLQ: TdxDBGridColumn;
     DBGConsultaD_VTSP: TdxDBGridMaskColumn;
     DBGConsultaD_PPSP: TdxDBGridMaskColumn;
     DBGConsultaD_RLSP: TdxDBGridMaskColumn;
     SeparadosDTCA: TDateTimeField;
+    REL_PED_PDV_DIA: TIBQuery;
+    REL_PED_PDV_DIACLI_ITCD: TIntegerField;
+    REL_PED_PDV_DIACLI_INCD: TIntegerField;
+    REL_PED_PDV_DIAPED_VLPK: TIBBCDField;
+    REL_PED_PDV_DIAPED_ILPK: TIntegerField;
+    REL_PED_PDV_DIAPED_VLSP: TIBBCDField;
+    REL_PED_PDV_DIAPED_ILSP: TIntegerField;
+    REL_PED_PDV_DIAPED_PLSP: TIBBCDField;
+    REL_PED_PDV_DIAPED_VTLQ: TIBBCDField;
+    REL_PED_PDV_DIAPED_ITLQ: TIntegerField;
+    REL_PED_PDV_MES: TIBQuery;
+    DTSREL_PED_PDV_MES: TDataSource;
+    DTSREL_PED_PDV_DIA: TDataSource;
+    REL_PED_PDV_DIAID: TLargeintField;
+    REL_PED_PDV_DIAEP_ID: TSmallintField;
+    REL_PED_PDV_DIAPED_EP_ID: TSmallintField;
+    REL_PED_PDV_DIAPED_EP_NO: TIBStringField;
+    REL_PED_PDV_DIAPED_DIA: TDateField;
+    REL_PED_PDV_DIACREATED_AT: TDateTimeField;
+    REL_PED_PDV_MESID: TLargeintField;
+    REL_PED_PDV_MESEP_ID: TSmallintField;
+    REL_PED_PDV_MESPED_EP_ID: TSmallintField;
+    REL_PED_PDV_MESPED_EP_NO: TIBStringField;
+    REL_PED_PDV_MESPED_MES: TIBStringField;
+    REL_PED_PDV_MESPED_ANO_MES: TIBStringField;
+    REL_PED_PDV_MESPED_VLPK: TIBBCDField;
+    REL_PED_PDV_MESPED_ILPK: TIntegerField;
+    REL_PED_PDV_MESCLI_ITCD: TIntegerField;
+    REL_PED_PDV_MESCLI_INCD: TIntegerField;
+    REL_PED_PDV_MESPED_VLSP: TIBBCDField;
+    REL_PED_PDV_MESPED_ILSP: TIntegerField;
+    REL_PED_PDV_MESPED_PLSP: TIBBCDField;
+    REL_PED_PDV_MESPED_VTLQ: TIBBCDField;
+    REL_PED_PDV_MESPED_ITLQ: TIntegerField;
+    REL_PED_PDV_MESCREATED_AT: TDateTimeField;
+    DPREL_PED_PDV_ANO: TdxDockPanel;
+    dxLayoutDockSite2: TdxLayoutDockSite;
+    DBGREL_PED_PDV_ANO: TdxDBGrid;
+    REL_PED_PDV_ANO: TIBQuery;
+    DTSREL_PED_PDV_ANO: TDataSource;
+    REL_PED_PDV_ANOID: TLargeintField;
+    REL_PED_PDV_ANOEP_ID: TSmallintField;
+    REL_PED_PDV_ANOPED_EP_ID: TSmallintField;
+    REL_PED_PDV_ANOPED_EP_NO: TIBStringField;
+    REL_PED_PDV_ANOPED_ANO: TSmallintField;
+    REL_PED_PDV_ANOPED_VLPK: TIBBCDField;
+    REL_PED_PDV_ANOPED_ILPK: TIntegerField;
+    REL_PED_PDV_ANOCLI_ITCD: TIntegerField;
+    REL_PED_PDV_ANOCLI_INCD: TIntegerField;
+    REL_PED_PDV_ANOPED_VLSP: TIBBCDField;
+    REL_PED_PDV_ANOPED_ILSP: TIntegerField;
+    REL_PED_PDV_ANOPED_PLSP: TIBBCDField;
+    REL_PED_PDV_ANOPED_VTLQ: TIBBCDField;
+    REL_PED_PDV_ANOPED_ITLQ: TIntegerField;
+    REL_PED_PDV_ANOCREATED_AT: TDateTimeField;
+    DBGREL_PED_PDV_ANOPED_EP_NO: TdxDBGridMaskColumn;
+    DBGREL_PED_PDV_ANOPED_ANO: TdxDBGridMaskColumn;
+    DBGREL_PED_PDV_ANOPED_VLPK: TdxDBGridMaskColumn;
+    DBGREL_PED_PDV_ANOPED_ILPK: TdxDBGridMaskColumn;
+    DBGREL_PED_PDV_ANOCLI_ITCD: TdxDBGridMaskColumn;
+    DBGREL_PED_PDV_ANOCLI_INCD: TdxDBGridMaskColumn;
+    DBGREL_PED_PDV_ANOPED_VLSP: TdxDBGridMaskColumn;
+    DBGREL_PED_PDV_ANOPED_ILSP: TdxDBGridMaskColumn;
+    DBGREL_PED_PDV_ANOPED_PLSP: TdxDBGridMaskColumn;
+    DBGREL_PED_PDV_ANOPED_VTLQ: TdxDBGridMaskColumn;
+    DBGREL_PED_PDV_ANOPED_ITLQ: TdxDBGridMaskColumn;
     procedure FormCreate(Sender: TObject);
     procedure dbgConsultaCustomDrawCell(Sender: TObject; ACanvas: TCanvas;
       ARect: TRect; ANode: TdxTreeListNode; AColumn: TdxTreeListColumn;
@@ -547,12 +612,12 @@ type
     procedure CadastroAfterScroll(DataSet: TDataSet);
     procedure CadastroBeforeScroll(DataSet: TDataSet);
     procedure CadastroBeforeOpen(DataSet: TDataSet);
-    procedure DBGResumoDiarioCustomDrawCell(Sender: TObject;
+    procedure DBGREL_PED_PDV_DIACustomDrawCell(Sender: TObject;
       ACanvas: TCanvas; ARect: TRect; ANode: TdxTreeListNode;
       AColumn: TdxTreeListColumn; ASelected, AFocused,
       ANewItemRow: Boolean; var AText: String; var AColor: TColor;
       AFont: TFont; var AAlignment: TAlignment; var ADone: Boolean);
-    procedure DBGResumoMensalCustomDrawCell(Sender: TObject;
+    procedure DBGREL_PED_PDV_MESCustomDrawCell(Sender: TObject;
       ACanvas: TCanvas; ARect: TRect; ANode: TdxTreeListNode;
       AColumn: TdxTreeListColumn; ASelected, AFocused,
       ANewItemRow: Boolean; var AText: String; var AColor: TColor;
@@ -851,6 +916,10 @@ begin
   if FKCadastro.State = dsInactive then FKCadastro.Open;
   if Separados.State  = dsInactive then Separados.Open;
   if Romaneios.State  = dsInactive then Romaneios.Open;
+
+  if REL_PED_PDV_DIA.State = dsInactive then REL_PED_PDV_DIA.Open;
+  if REL_PED_PDV_MES.State = dsInactive then REL_PED_PDV_MES.Open;
+  if REL_PED_PDV_ANO.State = dsInactive then REL_PED_PDV_ANO.Open;
 end;
 
 procedure Tfrmctr_ped.CadastroAfterScroll(DataSet: TDataSet);
@@ -1154,7 +1223,7 @@ begin
   FKCadastroC_ID.Value := Cadastro.RecNo;
 end;
 
-procedure Tfrmctr_ped.DBGResumoDiarioCustomDrawCell(Sender: TObject;
+procedure Tfrmctr_ped.DBGREL_PED_PDV_DIACustomDrawCell(Sender: TObject;
   ACanvas: TCanvas; ARect: TRect; ANode: TdxTreeListNode;
   AColumn: TdxTreeListColumn; ASelected, AFocused, ANewItemRow: Boolean;
   var AText: String; var AColor: TColor; AFont: TFont;
@@ -1162,23 +1231,9 @@ procedure Tfrmctr_ped.DBGResumoDiarioCustomDrawCell(Sender: TObject;
 begin
   if not ASelected then
   begin
-    { FATURADOS }
-    if (AColumn = DBGResumoDiarioPED_VTLQ) or (AColumn = DBGResumoDiarioPED_ITLQ) then
-    begin
-      AColor      := $00E8FBD9;
-      AFont.Color := $00437C10;
-    end;
-
-    { SEPARADOS }
-    if (AColumn = DBGResumoDiarioPED_VLSP) or (AColumn = DBGResumoDiarioPED_ILSP) or (AColumn = DBGResumoDiarioPED_PLSP) then
-    begin
-      AColor      := clWindowText;
-      AFont.Color := clHighlightText;
-    end;
-
     { Eficiência Separação }
-    if (AColumn = DBGResumoDiarioPED_PLSP) then
-    if (ANode.Values[DBGResumoDiarioPED_PLSP.Index] > 0) and (ANode.Values[DBGResumoDiarioPED_PLSP.Index] < 90) then
+    if (AColumn = DBGREL_PED_PDV_DIAPED_PLSP) then
+    if (ANode.Values[DBGREL_PED_PDV_DIAPED_PLSP.Index] > 0) and (ANode.Values[DBGREL_PED_PDV_DIAPED_PLSP.Index] < 90) then
     begin
       AColor      := $0080FFFF; //$00002FEC $000031F4 $00C4FFC4 $00D9FFFF;
       AFont.Color := clWindowText;
@@ -1186,7 +1241,7 @@ begin
   end;
 end;
 
-procedure Tfrmctr_ped.DBGResumoMensalCustomDrawCell(Sender: TObject;
+procedure Tfrmctr_ped.DBGREL_PED_PDV_MESCustomDrawCell(Sender: TObject;
   ACanvas: TCanvas; ARect: TRect; ANode: TdxTreeListNode;
   AColumn: TdxTreeListColumn; ASelected, AFocused, ANewItemRow: Boolean;
   var AText: String; var AColor: TColor; AFont: TFont;
@@ -1194,23 +1249,9 @@ procedure Tfrmctr_ped.DBGResumoMensalCustomDrawCell(Sender: TObject;
 begin
   if not ASelected then
   begin
-    { FATURADOS }
-    if (AColumn = DBGResumoMensalPED_VTLQ) or (AColumn = DBGResumoMensalPED_ITLQ) then
-    begin
-      AColor      := $00E8FBD9;
-      AFont.Color := $00437C10;
-    end;
-
-    { SEPARADOS }
-    if (AColumn = DBGResumoMensalPED_VLSP) or (AColumn = DBGResumoMensalPED_ILSP) or (AColumn = DBGResumoMensalPED_PLSP) then
-    begin
-      AColor      := clWindowText;
-      AFont.Color := clHighlightText;
-    end;
-
     { Eficiência Separação }
-    if (AColumn = DBGResumoMensalPED_PLSP) then
-    if (ANode.Values[DBGResumoMensalPED_PLSP.Index] > 0) and (ANode.Values[DBGResumoMensalPED_PLSP.Index] < 90) then
+    if (AColumn = DBGREL_PED_PDV_MESPED_PLSP) then
+    if (ANode.Values[DBGREL_PED_PDV_MESPED_PLSP.Index] > 0) and (ANode.Values[DBGREL_PED_PDV_MESPED_PLSP.Index] < 90) then
     begin
       AColor      := $0080FFFF; //$00002FEC $000031F4 $00C4FFC4 $00D9FFFF;
       AFont.Color := clWindowText;
@@ -1877,6 +1918,39 @@ end;
 procedure Tfrmctr_ped.ACTConsultaExecute(Sender: TObject);
 begin
   inherited;
+
+  with REL_PED_PDV_DIA do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add('SELECT   PK.* FROM REL_PED_PDV_DIA AS PK');
+    SQL.Add('WHERE    PK.EP_ID = ''' + RECParametros.EP_ID + '''');
+    SQL.Add('AND      PK.PED_DIA BETWEEN ''' + FormatDateTime('mm/dd/yy',RECParametros.SHE_DATA_MES_PK) + ''' AND ''' + FormatDateTime('mm/dd/yy',RECParametros.SHE_DATA_MES_FK) + '''');
+    SQL.Add('ORDER BY PK.PED_DIA DESC');
+    Prepare;
+  end;
+
+  with REL_PED_PDV_MES do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add('SELECT   PK.* FROM REL_PED_PDV_MES AS PK');
+    SQL.Add('WHERE    PK.EP_ID = ''' + RECParametros.EP_ID + '''');
+    SQL.Add('AND      PK.PED_ANO_MES LIKE Extract(Year FROM CURRENT_DATE) || ''%''');
+    SQL.Add('ORDER BY PK.PED_ANO_MES DESC');
+    Prepare;
+  end;  
+
+  with REL_PED_PDV_ANO do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add('SELECT   PK.* FROM REL_PED_PDV_ANO AS PK');
+    SQL.Add('WHERE    PK.EP_ID = ''' + RECParametros.EP_ID + '''');
+    SQL.Add('AND      PK.PED_ANO >= Extract(Year FROM CURRENT_DATE) - 5');
+    SQL.Add('ORDER BY PK.PED_ANO DESC');
+    Prepare;
+  end;  
 
   with FKCadastro do
   begin

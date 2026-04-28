@@ -29,7 +29,7 @@ inherited FrmCAD_PRO_EDI: TFrmCAD_PRO_EDI
         Top = 0
         Width = 1011
         Height = 405
-        ActivePage = TSMedidas
+        ActivePage = TSINFADCPL
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -4349,71 +4349,102 @@ inherited FrmCAD_PRO_EDI: TFrmCAD_PRO_EDI
         end
         object TSINFADCPL: TdxTabSheet
           Caption = 'Informa'#231#245'es Adicionais'
-          object PCINFADTEC: TdxPageControl
-            Left = 0
-            Top = 190
-            Width = 1011
-            Height = 191
-            ActivePage = TSINFADTEC
-            Align = alClient
-            HideButtons = False
-            HotTrack = False
-            MultiLine = False
-            OwnerDraw = False
-            RaggedRight = False
-            ScrollOpposite = False
-            TabHeight = 0
-            TabOrder = 1
-            TabPosition = dxtpBottom
-            TabWidth = 0
-            object TSINFADTEC: TdxTabSheet
-              Caption = '  Documentos Fiscais  '
-              object EMINFADTEC: TdxMemo
-                Left = 0
-                Top = 0
-                Width = 1011
-                Align = alClient
-                Color = clWhite
-                Font.Charset = ANSI_CHARSET
-                Font.Color = clWindowText
-                Font.Height = -12
-                Font.Name = 'Tahoma'
-                Font.Style = []
-                ParentFont = False
-                Style.BorderColor = 14065456
-                Style.BorderStyle = xbsSingle
-                Style.ButtonStyle = btsFlat
-                Style.Shadow = True
-                TabOrder = 0
-                Height = 167
-              end
-            end
-          end
-          object PCINFADCAD: TdxPageControl
+          object GroupBox3: TGroupBox
             Left = 0
             Top = 0
-            Width = 1011
-            Height = 190
-            ActivePage = TSINFADCAD
-            Align = alTop
-            HideButtons = False
-            HotTrack = False
-            MultiLine = False
-            OwnerDraw = False
-            RaggedRight = False
-            ScrollOpposite = False
-            TabHeight = 0
+            Width = 505
+            Height = 304
+            Align = alLeft
+            Caption = '  Ficha T'#233'cnica  '
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Segoe UI Semibold'
+            Font.Style = [fsBold, fsItalic]
+            ParentFont = False
             TabOrder = 0
-            TabPosition = dxtpBottom
-            TabWidth = 0
-            object TSINFADCAD: TdxTabSheet
-              Caption = '  Ficha T'#233'cnica  '
-              object EMINFADCAD: TdxMemo
-                Left = 0
-                Top = 0
-                Width = 1011
+            object EMINFADCAD: TdxMemo
+              Left = 2
+              Top = 19
+              Width = 501
+              Align = alClient
+              Color = 16644596
+              Font.Charset = ANSI_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -12
+              Font.Name = 'Tahoma'
+              Font.Style = []
+              ParentFont = False
+              Style.BorderColor = 14065456
+              Style.BorderStyle = xbsSingle
+              Style.ButtonStyle = btsFlat
+              Style.Shadow = True
+              TabOrder = 0
+              Height = 283
+            end
+          end
+          object GroupBox4: TGroupBox
+            Left = 504
+            Top = 0
+            Width = 507
+            Height = 304
+            Align = alRight
+            Caption = '  Documentos Fiscais  '
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Segoe UI Semibold'
+            Font.Style = [fsBold, fsItalic]
+            ParentFont = False
+            TabOrder = 1
+            object EMINFADTEC: TdxMemo
+              Left = 2
+              Top = 19
+              Width = 503
+              Align = alClient
+              Color = clWhite
+              Font.Charset = ANSI_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -12
+              Font.Name = 'Tahoma'
+              Font.Style = []
+              ParentFont = False
+              Style.BorderColor = 14065456
+              Style.BorderStyle = xbsSingle
+              Style.ButtonStyle = btsFlat
+              Style.Shadow = True
+              TabOrder = 0
+              Height = 283
+            end
+          end
+          object Panel1: TPanel
+            Left = 0
+            Top = 304
+            Width = 1011
+            Height = 77
+            Align = alBottom
+            BevelOuter = bvNone
+            TabOrder = 2
+            object GroupBox2: TGroupBox
+              Left = 0
+              Top = 0
+              Width = 440
+              Height = 77
+              Align = alLeft
+              Caption = '  Etiquetas  '
+              Font.Charset = ANSI_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -13
+              Font.Name = 'Segoe UI Semibold'
+              Font.Style = [fsBold, fsItalic]
+              ParentFont = False
+              TabOrder = 0
+              object EMINFADETQ: TdxMemo
+                Left = 2
+                Top = 19
+                Width = 436
                 Align = alClient
-                Color = 16644596
+                Color = clInfoBk
                 Font.Charset = ANSI_CHARSET
                 Font.Color = clWindowText
                 Font.Height = -12
@@ -4425,7 +4456,7 @@ inherited FrmCAD_PRO_EDI: TFrmCAD_PRO_EDI
                 Style.ButtonStyle = btsFlat
                 Style.Shadow = True
                 TabOrder = 0
-                Height = 166
+                Height = 56
               end
             end
           end

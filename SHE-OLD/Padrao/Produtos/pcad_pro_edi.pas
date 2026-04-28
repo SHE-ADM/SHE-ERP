@@ -115,12 +115,6 @@ type
     cbstal: TdxImageEdit;
     Label29: TLabel;
     TSINFADCPL: TdxTabSheet;
-    PCINFADTEC: TdxPageControl;
-    TSINFADTEC: TdxTabSheet;
-    EMINFADTEC: TdxMemo;
-    PCINFADCAD: TdxPageControl;
-    TSINFADCAD: TdxTabSheet;
-    EMINFADCAD: TdxMemo;
     TSIMG_ART: TdxTabSheet;
     BIMG_ART: TBevel;
     SBIMG_ART: TSpeedButton;
@@ -377,6 +371,13 @@ type
     DBGCMPCMP_DEPK: TdxDBGridPickColumn;
     DBGCMPCMP_REPK: TdxDBGridPickColumn;
     DBGCMPCMP_QTDE: TdxDBGridMaskColumn;
+    GroupBox3: TGroupBox;
+    EMINFADCAD: TdxMemo;
+    GroupBox4: TGroupBox;
+    EMINFADTEC: TdxMemo;
+    Panel1: TPanel;
+    GroupBox2: TGroupBox;
+    EMINFADETQ: TdxMemo;
     procedure FormCreate(Sender: TObject);
     procedure SBIMG_ARTClick(Sender: TObject);
     procedure IMG_ARTDblClick(Sender: TObject);
@@ -883,6 +884,7 @@ begin
 
       EMINFADCAD.Text := Current.ByName('INFADCAD').AsString;
       EMINFADTEC.Text := Current.ByName('INFADTEC').AsString;
+      EMINFADETQ.Text := Current.ByName('INFADETQ').AsString;
     end;
 
     { Artigo = Código numérico sequencial }
@@ -1053,7 +1055,9 @@ begin
     TSIMG_SKU.Enabled  := False;
     TSMarketingPlace.Enabled      := False;
     TSINFADDIV.Enabled := False;
-    TSINFADCAD.Enabled := False;
+    EMINFADCAD.Enabled := False;
+    EMINFADETQ.Enabled := False;
+    EMINFADTEC.Enabled := False;
   end;
 
   if IECDST.Text = '123' then
@@ -2709,6 +2713,7 @@ begin
 
         SPEdicao.ParamByName('INFADCAD').Value := EMINFADCAD.Text;
         SPEdicao.ParamByName('INFADTEC').Value := EMINFADTEC.Text;
+        SPEdicao.ParamByName('INFADETQ').Value := EMINFADETQ.Text;
 
         SPEdicao.ParamByName('IP'  ).Value := RECParametros.IP;
         SPEdicao.ParamByName('HOST').Value := RECParametros.Host;
