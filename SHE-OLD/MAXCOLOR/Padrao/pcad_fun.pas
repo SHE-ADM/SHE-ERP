@@ -196,14 +196,14 @@ type
     cadastroFUN_TOTA: TIBBCDField;
     cadastroFUN_REGI: TIBStringField;
     cadastroFUN_NORD: TSmallintField;
-    procedure siINCClick(Sender: TObject);
-    procedure siALTClick(Sender: TObject);
-    procedure siDELClick(Sender: TObject);
     procedure dtscadastroDataChange(Sender: TObject; Field: TField);
     procedure FormCreate(Sender: TObject);
     procedure dbgConsultaDblClick(Sender: TObject);
     procedure siPRNClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure SIMEAppendClick(Sender: TObject);
+    procedure SIMEEditClick(Sender: TObject);
+    procedure SIMEDeleteClick(Sender: TObject);
   private
     { Private declarations }
     procedure AjustaForm;
@@ -271,7 +271,72 @@ begin
   end;
 end;
 
-procedure Tfrmcad_fun.siINCClick(Sender: TObject);
+procedure Tfrmcad_fun.dtscadastroDataChange(Sender: TObject;
+  Field: TField);
+begin
+  carregaFoto(cadastroFUN_FOTO.BlobSize,cadastroFUN_FOTO,cadastro,frmprincipal.parametros);
+end;
+
+procedure Tfrmcad_fun.FormCreate(Sender: TObject);
+begin
+  cEvent := 'CAD_FUN';
+
+  inherited;
+  AjustaForm;
+end;
+
+procedure Tfrmcad_fun.dbgConsultaDblClick(Sender: TObject);
+begin
+  if Assigned(frmcad_usu_edi) then
+  begin
+    editado := true;
+    close;
+  end
+  else
+    inherited;
+end;
+
+procedure Tfrmcad_fun.siPRNClick(Sender: TObject);
+begin
+  frmrelatorio_geral := TFrmrelatorio_geral.Create(self);
+  try
+    frmrelatorio_geral.tsCAD_FUN.TabVisible := true;
+    frmrelatorio_geral.pcMAIN.ActivePage    := frmrelatorio_geral.tsCAD_FUN;
+    frmrelatorio_geral.cbCAD_FUN_DATA.Text  := 'DATA LANÇAMENTO';
+    frmrelatorio_geral.cbCAD_FUN_TREL.Text  := 'ETIQUETA MATRICIAL';
+
+    with consulta do
+    begin
+      SQL.Clear;
+      SQL.Add('SELECT   FUN_APEL FROM CAD_FUN');
+      SQL.Add('WHERE    FUN_STA = ''0''');
+      SQL.Add('ORDER BY FUN_APEL');
+      Open;
+
+      while not eof do
+      begin
+        frmrelatorio_geral.cbCAD_FUN_APEL.Items.Add(fields[0].AsString);
+        next;
+      end;
+    end;
+    frmrelatorio_geral.ShowModal;
+  finally
+    freeAndNil(frmrelatorio_geral);
+    frmrelatorio_geral.Free;
+  end;
+end;
+
+procedure Tfrmcad_fun.FormDestroy(Sender: TObject);
+begin
+  inherited;
+  if frmcad_fun <> nil then
+  begin
+    frmcad_fun.Release;
+    frmcad_fun := nil;
+  end;
+end;
+
+procedure Tfrmcad_fun.SIMEAppendClick(Sender: TObject);
 begin
   PCampo[0] := 'USU_NOVO';
   PCampo[1] := 'Funcionários';
@@ -281,7 +346,7 @@ begin
 
   frmcad_fun_edi := TFrmcad_fun_edi.Create(self);
   try
-    frmcad_fun_edi.Tag := frmcad_fun.Tag;
+    frmcad_fun_edi.Tag := 0;
     frmcad_fun_edi.ShowModal;
   finally
     if frmcad_fun_edi.editado then
@@ -291,7 +356,7 @@ begin
   end;
 end;
 
-procedure Tfrmcad_fun.siALTClick(Sender: TObject);
+procedure Tfrmcad_fun.SIMEEditClick(Sender: TObject);
 begin
   PCampo[0] := 'USU_EDIT';
   PCampo[1] := 'Funcionários';
@@ -301,7 +366,7 @@ begin
 
   frmcad_fun_edi := TFrmcad_fun_edi.Create(self);
   try
-    frmcad_fun_edi.Tag := frmcad_fun.Tag;
+    frmcad_fun_edi.Tag := 1;
     frmcad_fun_edi.ShowModal;
   finally
     if frmcad_fun_edi.editado then
@@ -311,7 +376,7 @@ begin
   end;
 end;
 
-procedure Tfrmcad_fun.siDELClick(Sender: TObject);
+procedure Tfrmcad_fun.SIMEDeleteClick(Sender: TObject);
 begin
   PCampo[0] := 'USU_DELE';
   PCampo[1] := 'Funcionários';
@@ -425,71 +490,6 @@ begin
 
   IBTra.CommitRetaining;
   ExecuteEvent;
-end;
-
-procedure Tfrmcad_fun.dtscadastroDataChange(Sender: TObject;
-  Field: TField);
-begin
-  carregaFoto(cadastroFUN_FOTO.BlobSize,cadastroFUN_FOTO,cadastro,frmprincipal.parametros);
-end;
-
-procedure Tfrmcad_fun.FormCreate(Sender: TObject);
-begin
-  cEvent := 'CAD_FUN';
-
-  inherited;
-  AjustaForm;
-end;
-
-procedure Tfrmcad_fun.dbgConsultaDblClick(Sender: TObject);
-begin
-  if Assigned(frmcad_usu_edi) then
-  begin
-    editado := true;
-    close;
-  end
-  else
-    inherited;
-end;
-
-procedure Tfrmcad_fun.siPRNClick(Sender: TObject);
-begin
-  frmrelatorio_geral := TFrmrelatorio_geral.Create(self);
-  try
-    frmrelatorio_geral.tsCAD_FUN.TabVisible := true;
-    frmrelatorio_geral.pcMAIN.ActivePage    := frmrelatorio_geral.tsCAD_FUN;
-    frmrelatorio_geral.cbCAD_FUN_DATA.Text  := 'DATA LANÇAMENTO';
-    frmrelatorio_geral.cbCAD_FUN_TREL.Text  := 'ETIQUETA MATRICIAL';
-
-    with consulta do
-    begin
-      SQL.Clear;
-      SQL.Add('SELECT   FUN_APEL FROM CAD_FUN');
-      SQL.Add('WHERE    FUN_STA = ''0''');
-      SQL.Add('ORDER BY FUN_APEL');
-      Open;
-
-      while not eof do
-      begin
-        frmrelatorio_geral.cbCAD_FUN_APEL.Items.Add(fields[0].AsString);
-        next;
-      end;
-    end;
-    frmrelatorio_geral.ShowModal;
-  finally
-    freeAndNil(frmrelatorio_geral);
-    frmrelatorio_geral.Free;
-  end;
-end;
-
-procedure Tfrmcad_fun.FormDestroy(Sender: TObject);
-begin
-  inherited;
-  if frmcad_fun <> nil then
-  begin
-    frmcad_fun.Release;
-    frmcad_fun := nil;
-  end;
 end;
 
 end.

@@ -352,24 +352,14 @@ end;
 procedure TQRPGER_PDV_CRD.QRBTOTALBeforePrint(Sender: TQRCustomBand;
   var PrintBand: Boolean);
 begin
-  if (not QRLFIN_VCRT.Enabled) and (not QRLFIN_VPTO.Enabled) and (not QRLFIN_VNPG.Enabled) then
-  QRBTOTAL.Height := 0 else
-  QRBTOTAL.Height := 20;
-
-  if RECParametros.EP_ID = 0 then
-  QRBTOTAL.Height := 40;
-
   if not QRLFIN_VCRT.Enabled then
   begin
     QRLFIN_VPTO.Left := QRLFIN_VCRT.Left;
     QRLFIN_VNPG.Left := QRLFIN_VPTO.Left;
-  end else
-
-  if not QRLFIN_VPTO.Enabled then
-  begin
-    QRLFIN_VNPG.Left := QRLFIN_VPTO.Left;
   end;
 
+  if not QRLFIN_VPTO.Enabled then
+  QRLFIN_VNPG.Left := QRLFIN_VPTO.Left;
   QRDFIN_VCRT.Left := QRLFIN_VCRT.Left + QRLFIN_VCRT.Width + 1;
 
   QRLFIN_VPTO.Left := QRDFIN_VCRT.Left + QRDFIN_VCRT.Width + 7;

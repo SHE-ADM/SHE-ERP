@@ -13,10 +13,6 @@ uses
 type
   Tfrmcad_usu_edi = class(Tfrmpadr3)
     Label3: TLabel;
-    eddusu: TdxEdit;
-    ednome: TdxEdit;
-    cbdemp: TdxImageEdit;
-    Label5: TLabel;
     pnlpri: TPanel;
     pcMENU: TdxPageControl;
     tsDIV: TdxTabSheet;
@@ -55,23 +51,27 @@ type
     cad_usu_admUSU_AUTO: TIBStringField;
     Image1: TImage;
     dbcauto: TDBCheckBox;
+    Label1: TLabel;
+    Label5: TLabel;
     Label9: TLabel;
+    Label6: TLabel;
+    Label8: TLabel;
+    clppri: TLabel;
+    Label37: TLabel;
+    Label4: TLabel;
+    Label7: TLabel;
+    ednome: TdxEdit;
+    eddusu: TdxEdit;
+    cbdemp: TdxImageEdit;
     cbpsec: TdxImageEdit;
     cbadm: TCheckBox;
     edcusu: TdxButtonEdit;
     eddias: TdxEdit;
-    Label6: TLabel;
-    Label1: TLabel;
     rgtusu: TRadioGroup;
-    Label8: TLabel;
-    clppri: TLabel;
     cbppri: TdxImageEdit;
     cbmenu: TdxImageEdit;
     cbstav: TdxImageEdit;
-    Label37: TLabel;
     cbdesc: TdxImageEdit;
-    Label4: TLabel;
-    Label7: TLabel;
     cbrela: TdxImageEdit;
     function  GetFieldList: TStringList;
     procedure FormCreate(Sender: TObject);

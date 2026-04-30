@@ -5,7 +5,7 @@ object dmDADOS: TdmDADOS
   Left = 366
   Top = 143
   Height = 588
-  Width = 937
+  Width = 922
   object ibDB: TIBDatabase
     DatabaseName = 'C:\Sheild\FBird\MAXCOLOR.FDB'
     Params.Strings = (

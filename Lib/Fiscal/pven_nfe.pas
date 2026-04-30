@@ -3242,7 +3242,7 @@ begin
         SPEdicao.ParamByName('NCM').Value    := EdicaoNFE_NCM.AsString;
         SPEdicao.ParamByName('PIPI').Value   := EdicaoNFE_PIPI.AsFloat;
 
-        SPEdicao.ParamByName('SKU' ).Value := EdicaoNFE_CPROD.AsString;
+        SPEdicao.ParamByName('SKU' ).Value := LeftStr(EdicaoNFE_CPROD.AsString,20);
         SPEdicao.ParamByName('CEAN').Value := oBarCode(REC_SHE_DEF);
 
         SPEdicao.ParamByName('DESCRICAO').Value := EdicaoNFE_XPROD.AsString;
@@ -5655,6 +5655,8 @@ end;
 procedure TFrmVEN_NFE.PECFOPValidate(Sender: TObject;
   var ErrorText: String; var Accept: Boolean);
 begin
+  ACTNFeCalculate.Tag := 0;
+
   if TAB_CFOPCFOP.AsString <> PECFOP.Text then
   begin
     TAB_CFOP.Close;
@@ -8502,6 +8504,8 @@ begin
       // agora se tivéssemos mais de uma seria o caso de posicionar também na primeira ocorrencia.
       ANodeTmp.ChildNodes.First;
       repeat
+        Application.ProcessMessages;
+        
         if ANodeTmp.ChildNodes['cProd'].text <> '' then
         begin
           try
@@ -9747,7 +9751,7 @@ begin
       SPEdicao.ParamByName('INDTOT').Value         := EdicaoNFE_INDTOT.AsInteger;
       SPEdicao.ParamByName('CFOP').Value           := EdicaoNFE_CFOP.AsString;
       SPEdicao.ParamByName('CART').Value           := EdicaoCP_ARTIGO.AsString;
-      SPEdicao.ParamByName('CPROD').Value          := EdicaoNFE_CPROD.AsString;
+      SPEdicao.ParamByName('CPROD').Value          := LeftStr(EdicaoNFE_CPROD.AsString,20);
       SPEdicao.ParamByName('CEAN').Value           := EdicaoNFE_CEAN.AsString;
       SPEdicao.ParamByName('NCM').Value            := EdicaoNFE_NCM.AsString;
       SPEdicao.ParamByName('EXTIPI').Value         := EdicaoNFE_EXTIPI.AsString;

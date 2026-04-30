@@ -752,6 +752,7 @@ type
     SBCAD_PRO_EST_ADM: TRxSpeedButton;
     RxSpeedButton8: TRxSpeedButton;
     RxSpeedButton10: TRxSpeedButton;
+    RxSpeedButton11: TRxSpeedButton;
     procedure FormCreate(Sender: TObject);
     procedure rsbSAIClick(Sender: TObject);
     procedure actcad_cliExecute(Sender: TObject);
@@ -840,6 +841,7 @@ type
     procedure ComposicaoClick(Sender: TObject);
     procedure actcad_traExecute(Sender: TObject);
     procedure actfin_pag_pag_comExecute(Sender: TObject);
+    procedure actcad_funExecute(Sender: TObject);
   private
     { Private declarations }
   public
@@ -891,7 +893,7 @@ uses pLogin, pcad_cli, ppar_pri, pSobre,
   pven_nfe, pctr_rom, pctr_nfe,
   pcai_sar, pcai_fec, pfin_dup, pven_des,
   prelatorio_geral,
-  pcai_sar_edi, pCFeSat, ppag_com;
+  pcai_sar_edi, pCFeSat, ppag_com, pcad_fun;
 
 
 {$R *.dfm}
@@ -3316,6 +3318,15 @@ begin
       frmpag_com.Show;
   end;
 
+end;
+
+procedure TFrmPrincipal.actcad_funExecute(Sender: TObject);
+begin
+  if frmcad_fun = nil then
+  begin
+    Application.CreateForm (Tfrmcad_fun, frmcad_fun);
+    frmcad_fun.Show;
+  end;
 end;
 
 end.

@@ -187,6 +187,7 @@ Type
     procedure ACTREL_FOR_PDC_RECExecute(Sender: TObject);
     procedure ACTProduto_VendaExecute(Sender: TObject);
     procedure ACTProduto_Venda_MensalExecute(Sender: TObject);
+    procedure ACTGProduto_Tabela_PrecoExecute(Sender: TObject);
   private
     { Private declarations }
     FMSGCaption: Variant;
@@ -235,7 +236,7 @@ uses uPrincipal, bPrincipal
        qProduto_Estoque, qProduto_Estoque_Etiqueta,
        qEST_ENT_ROM, qEST_ETQ_PAD, qEST_ETQ_PEQ,
        qGFornecedoresProdutosCadastrados, QREL_PED_COM,
-       QCadastros_Ranking, qProduto_Venda, qProduto_Venda_Mensal 
+       QCadastros_Ranking, qProduto_Venda, qProduto_Venda_Mensal, qGProduto_Tabela_Preco 
 
   {$ELSEIF DEFINED(DEF_PDV)}
        ,qFicha_Tecnica,
@@ -900,6 +901,20 @@ begin
   {$IFEND}
 end;
 
+procedure TFrmRelatorios_OLD.ACTGProduto_Tabela_PrecoExecute(
+  Sender: TObject);
+begin
+  {$IF DEFINED(DEF_ERP)}
+
+  if not Assigned(qrpGProduto_Tabela_Preco) then
+  begin
+    qrpGProduto_Tabela_Preco := TqrpGProduto_Tabela_Preco.Create(Self,RECRelatorios);
+    qrpGProduto_Tabela_Preco.WinControlFormCreate(qrpGProduto_Tabela_Preco);
+  end;
+
+  {$IFEND}
+end;
+
 procedure TFrmRelatorios_OLD.ACTEST_ETQ_PADExecute(Sender: TObject);
 begin
   {$IF DEFINED(DEF_ERP)}
@@ -1175,7 +1190,7 @@ begin
     IEModelo.Text := 'Artigo_X_Quantidade';
   end;
 
-  if (RECRelatorios.Nome = 'Performance de Vendas') or (RECRelatorios.Nome = 'Performance de Preços') or (RECRelatorios.Nome = 'Tabela de Preços') then
+  if (RECRelatorios.Nome = 'Performance de Vendas') or (RECRelatorios.Nome = 'Performance de Preços') or (RECRelatorios.Nome = 'Listagem de preços de produtos') then
   begin
     IEEmpresa.Text := RECParametros.EP_NO;
 
@@ -1262,6 +1277,13 @@ begin
            IENome.Text := 'ACTProduto_Compra_Listagem';
 
            _FillParams('planejamento','pedido_venda','pedido_venda',['artigo_produto_descrição','categorias','fornecedor']);
+         end else
+         if RECRelatorios.Nome = 'Listagem de preços de produtos' then
+         begin
+           IENome.Values.Add('ACTGProduto_Tabela_Preco');
+           IENome.Text := 'ACTGProduto_Tabela_Preco';
+
+           _FillParams('preco','estoque','',['artigo_produto_descrição','categorias','fornecedor','cep_UF']);
          end else
          begin
            IEEmpresa.Text := RECParametros.EP_NO;

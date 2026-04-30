@@ -3138,7 +3138,7 @@ begin
       begin
         SQL.Clear;
         SQL.Add('SELECT USU_CUSU,USU_STA,USU_MENU FROM CAD_USU');
-        SQL.Add('WHERE  USU_DUSU = '''+cbdven.Text+'''');
+        SQL.Add('WHERE  USU_DUSU = '''+ PSQ_CLIUSU_DUSU.AsString +'''');
         Open;
 
         if fields[0].IsNull then
@@ -3165,6 +3165,7 @@ begin
           messageBox(handle,PChar('Vendedor '+cbdven.Text+' não está habilitado para efetuar vendas !'),PChar(self.Caption),MB_ICONERROR+MB_OK);
         end else
         edcven.Text := fields[0].AsString;
+        CBDVEN.Text := psq_cliUSU_DUSU.AsString
       end;
 
       if cbdrep.Text <> '' then
@@ -3172,7 +3173,7 @@ begin
       begin
         SQL.Clear;
         SQL.Add('SELECT ID,REP_STA,REP_STAV,REP_FANT FROM CAD_REP');
-        SQL.Add('WHERE  REP_FANT = '''+cbdrep.Text+'''');
+        SQL.Add('WHERE  REP_FANT = '''+ psq_cliREP_FANT.AsString +'''');
         Open;
 
         if fields[0].IsNull then
@@ -3199,6 +3200,7 @@ begin
           Showmessage('Representante '+fields[3].AsString+' enviado para a lixeira !');
         end else
         edcrep.Text := fields[0].AsString;
+        CBDREP.Text := psq_cliREP_FANT.AsString;
       end;
 
       if (edobso.Text <> '') and (not impo) then
@@ -3274,6 +3276,8 @@ begin
     tag := 0;
     BSal.Enabled := true;
   end;
+
+  CBDPAG.SetFocus;
 end;
 
 procedure Tfrmven_ped.CARREGAFOTO(tam: Integer; valor: TBlobField; tab: TIbDataSet);

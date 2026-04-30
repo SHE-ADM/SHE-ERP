@@ -693,7 +693,7 @@ object FrmRelatorios_OLD: TFrmRelatorios_OLD
               CalColors.TitleTextColor = clBlack
               CalColors.MonthBackColor = 16644596
               CalColors.TrailingTextColor = clBlack
-              Date = 27838.328541238430000000
+              Date = 27838.599780995370000000
               Font.Charset = ANSI_CHARSET
               Font.Color = clBlack
               Font.Height = -15
@@ -737,7 +737,7 @@ object FrmRelatorios_OLD: TFrmRelatorios_OLD
               CalColors.TitleTextColor = clBlack
               CalColors.MonthBackColor = 16644596
               CalColors.TrailingTextColor = clBlack
-              Date = 27838.328541238430000000
+              Date = 27838.599780995370000000
               Font.Charset = ANSI_CHARSET
               Font.Color = clBlack
               Font.Height = -15
@@ -1653,6 +1653,7 @@ object FrmRelatorios_OLD: TFrmRelatorios_OLD
     object ACTGProduto_Tabela_Preco: TAction
       Category = 'Produtos'
       Caption = 'ACTGProduto_Tabela_Preco'
+      OnExecute = ACTGProduto_Tabela_PrecoExecute
     end
     object ACTProduto_Tabela_Preco: TAction
       Category = 'Produtos'

@@ -516,21 +516,32 @@ begin
           SQL.Clear;
           SQL.Add('SELECT   PK.TITULO,API_ST FROM FIN_REC_LOG_API AS PK');
           SQL.Add('WHERE    PK.TITULO = ''' + SQLConsulta.Current.ByName('TITULO').AsString + '''');
-          SQL.Add('AND      PK.DEST   <> ''BAIXADO''');
+          SQL.Add('AND      PK.API_ST = ''BAIXADO''');
           SQL.Add('ORDER BY PK.ID');
           ExecQuery;
 
-          while not Eof do
+          if Eof then
           begin
-            if (Current.ByName('API_ST').AsString <> 'FALHA') and
-               (Current.ByName('API_ST').AsString <> 'BAIXADO') and
-               (Current.ByName('API_ST').AsString <> 'DESCARTADO') and
-               (Current.ByName('API_ST').AsString <> 'ERRO') and
-               (Current.ByName('API_ST').AsString <> 'REJEITADO') then
+            Close;
+            SQL.Clear;
+            SQL.Add('SELECT   PK.TITULO,API_ST FROM FIN_REC_LOG_API AS PK');
+            SQL.Add('WHERE    PK.TITULO = ''' + SQLConsulta.Current.ByName('TITULO').AsString + '''');
+            SQL.Add('AND      PK.DEST   <> ''BAIXADO''');
+            SQL.Add('ORDER BY PK.ID');
+            ExecQuery;
 
-            API_ST := Current.ByName('API_ST').AsString;
-            next;
-          end;
+            while not Eof do
+            begin
+              if (Current.ByName('API_ST').AsString <> 'FALHA') and
+                 (Current.ByName('API_ST').AsString <> 'BAIXADO') and
+                 (Current.ByName('API_ST').AsString <> 'DESCARTADO') and
+                 (Current.ByName('API_ST').AsString <> 'ERRO') and
+                 (Current.ByName('API_ST').AsString <> 'REJEITADO') then
+
+              API_ST := Current.ByName('API_ST').AsString;
+              next;
+            end;
+          end;  
         end;
 
         SQLConsulta.Next;

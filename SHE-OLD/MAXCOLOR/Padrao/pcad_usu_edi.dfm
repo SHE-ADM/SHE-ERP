@@ -1,7 +1,7 @@
 inherited frmcad_usu_edi: Tfrmcad_usu_edi
-  Left = 372
-  Top = 0
-  ClientHeight = 640
+  Left = 569
+  Top = 265
+  ClientHeight = 609
   ClientWidth = 658
   OldCreateOrder = True
   Position = poScreenCenter
@@ -9,12 +9,12 @@ inherited frmcad_usu_edi: Tfrmcad_usu_edi
   TextHeight = 14
   inherited pnlcadastro: TPanel
     Width = 658
-    Height = 507
+    Height = 590
     inherited PaintBox: TPaintBox
       Width = 658
-      Height = 160
+      Height = 178
     end
-    object Label3: TLabel
+    object Label3: TLabel [1]
       Left = 365
       Top = 9
       Width = 45
@@ -30,9 +30,25 @@ inherited frmcad_usu_edi: Tfrmcad_usu_edi
       ParentFont = False
       Transparent = True
     end
-    object Label5: TLabel
+    object Label1: TLabel [2]
+      Left = 195
+      Top = 9
+      Width = 43
+      Height = 14
+      Caption = 'C'#243'digo'
+      Color = clBtnFace
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+    end
+    object Label5: TLabel [3]
       Left = 365
-      Top = 33
+      Top = 105
       Width = 51
       Height = 14
       Caption = 'Empresa'
@@ -46,9 +62,9 @@ inherited frmcad_usu_edi: Tfrmcad_usu_edi
       ParentFont = False
       Transparent = True
     end
-    object Label9: TLabel
+    object Label9: TLabel [4]
       Left = 3
-      Top = 66
+      Top = 146
       Width = 104
       Height = 14
       Hint = 'Tipo de Venda Secund'#225'ria'
@@ -65,9 +81,9 @@ inherited frmcad_usu_edi: Tfrmcad_usu_edi
       ShowHint = True
       Transparent = True
     end
-    object Label6: TLabel
-      Left = 195
-      Top = 33
+    object Label6: TLabel [5]
+      Left = 227
+      Top = 105
       Width = 21
       Height = 14
       Caption = 'Dias'
@@ -81,25 +97,9 @@ inherited frmcad_usu_edi: Tfrmcad_usu_edi
       ParentFont = False
       Transparent = True
     end
-    object Label1: TLabel
-      Left = 195
-      Top = 9
-      Width = 43
-      Height = 14
-      Caption = 'C'#243'digo'
-      Color = clBtnFace
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = [fsBold]
-      ParentColor = False
-      ParentFont = False
-      Transparent = True
-    end
-    object Label8: TLabel
+    object Label8: TLabel [6]
       Left = 3
-      Top = 137
+      Top = 217
       Width = 169
       Height = 14
       Hint = 'Tipo de Venda Secund'#225'ria'
@@ -116,9 +116,9 @@ inherited frmcad_usu_edi: Tfrmcad_usu_edi
       ShowHint = True
       Transparent = True
     end
-    object clppri: TLabel
+    object clppri: TLabel [7]
       Left = 3
-      Top = 113
+      Top = 193
       Width = 163
       Height = 14
       Hint = 'Tipo de Venda Principal'
@@ -135,9 +135,9 @@ inherited frmcad_usu_edi: Tfrmcad_usu_edi
       ShowHint = True
       Transparent = True
     end
-    object Label37: TLabel
+    object Label37: TLabel [8]
       Left = 365
-      Top = 61
+      Top = 141
       Width = 41
       Height = 14
       Caption = 'Status'
@@ -151,9 +151,9 @@ inherited frmcad_usu_edi: Tfrmcad_usu_edi
       ParentFont = False
       Transparent = True
     end
-    object Label4: TLabel
+    object Label4: TLabel [9]
       Left = 3
-      Top = 90
+      Top = 170
       Width = 134
       Height = 14
       Hint = 'Tipo de Venda Secund'#225'ria'
@@ -170,9 +170,9 @@ inherited frmcad_usu_edi: Tfrmcad_usu_edi
       ShowHint = True
       Transparent = True
     end
-    object Label7: TLabel
+    object Label7: TLabel [10]
       Left = 365
-      Top = 90
+      Top = 170
       Width = 52
       Height = 14
       Hint = 'Tipo de Venda Secund'#225'ria'
@@ -189,9 +189,9 @@ inherited frmcad_usu_edi: Tfrmcad_usu_edi
       ShowHint = True
       Transparent = True
     end
-    object ednome: TdxEdit
+    object ednome: TdxEdit [11]
       Left = 61
-      Top = 196
+      Top = 244
       Width = 580
       Enabled = False
       Font.Charset = DEFAULT_CHARSET
@@ -203,59 +203,21 @@ inherited frmcad_usu_edi: Tfrmcad_usu_edi
       Style.BorderStyle = xbsNone
       Style.ButtonStyle = btsFlat
       Style.Shadow = True
-      TabOrder = 12
+      TabOrder = 2
       Visible = False
       CharCase = ecUpperCase
     end
-    object eddusu: TdxEdit
-      Left = 424
-      Top = 4
-      Width = 230
-      Enabled = False
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentFont = False
-      Style.BorderStyle = xbsNone
-      Style.ButtonStyle = btsFlat
-      Style.Shadow = True
-      TabOrder = 6
-      CharCase = ecUpperCase
-    end
-    object cbdemp: TdxImageEdit
-      Left = 424
-      Top = 28
-      Width = 230
-      Color = clWhite
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentFont = False
-      Style.BorderColor = 14065456
-      Style.BorderStyle = xbsNone
-      Style.ButtonStyle = btsFlat
-      Style.Shadow = True
-      TabOrder = 7
-      AutoSize = False
-      Descriptions.Strings = (
-        'TODOS')
-      ImageIndexes.Strings = (
-        '0')
-      Values.Strings = (
-        '99')
-      Height = 24
+    inherited SBMenuPrincipal: TSpeedBar
+      Width = 658
+      TabOrder = 1
     end
     object pnlpri: TPanel
       Left = 0
-      Top = 160
+      Top = 243
       Width = 658
       Height = 347
       Align = alBottom
-      TabOrder = 11
+      TabOrder = 0
       object pcMENU: TdxPageControl
         Left = 1
         Top = 1
@@ -1534,9 +1496,51 @@ inherited frmcad_usu_edi: Tfrmcad_usu_edi
         end
       end
     end
+    object eddusu: TdxEdit
+      Left = 424
+      Top = 76
+      Width = 230
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      Style.BorderStyle = xbsNone
+      Style.ButtonStyle = btsFlat
+      Style.Shadow = True
+      TabOrder = 3
+      CharCase = ecUpperCase
+    end
+    object cbdemp: TdxImageEdit
+      Left = 424
+      Top = 100
+      Width = 230
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      Style.BorderColor = 14065456
+      Style.BorderStyle = xbsNone
+      Style.ButtonStyle = btsFlat
+      Style.Shadow = True
+      TabOrder = 4
+      AutoSize = False
+      Descriptions.Strings = (
+        'TODOS')
+      ImageIndexes.Strings = (
+        '0')
+      Values.Strings = (
+        '99')
+      Height = 24
+    end
     object cbpsec: TdxImageEdit
       Left = 185
-      Top = 133
+      Top = 213
       Width = 168
       Hint = 'Tipo de Venda Secund'#225'ria'
       Color = clWhite
@@ -1564,7 +1568,7 @@ inherited frmcad_usu_edi: Tfrmcad_usu_edi
     end
     object cbadm: TCheckBox
       Left = 488
-      Top = 138
+      Top = 218
       Width = 166
       Height = 17
       Alignment = taLeftJustify
@@ -1575,18 +1579,18 @@ inherited frmcad_usu_edi: Tfrmcad_usu_edi
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
-      TabOrder = 9
+      TabOrder = 6
       OnClick = cbadmClick
     end
     object edcusu: TdxButtonEdit
       Left = 251
-      Top = 4
+      Top = 76
       Width = 110
       Color = clWhite
       Style.BorderStyle = xbsNone
       Style.ButtonStyle = btsFlat
       Style.Shadow = True
-      TabOrder = 0
+      TabOrder = 7
       Alignment = taLeftJustify
       AutoSize = False
       CharCase = ecUpperCase
@@ -1631,7 +1635,7 @@ inherited frmcad_usu_edi: Tfrmcad_usu_edi
     end
     object eddias: TdxEdit
       Left = 251
-      Top = 28
+      Top = 100
       Width = 36
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -1642,7 +1646,7 @@ inherited frmcad_usu_edi: Tfrmcad_usu_edi
       Style.BorderStyle = xbsNone
       Style.ButtonStyle = btsFlat
       Style.Shadow = True
-      TabOrder = 1
+      TabOrder = 8
       Text = '0'
       Alignment = taLeftJustify
       CharCase = ecUpperCase
@@ -1650,9 +1654,9 @@ inherited frmcad_usu_edi: Tfrmcad_usu_edi
       StoredValues = 1
     end
     object rgtusu: TRadioGroup
-      Left = 0
-      Top = 0
-      Width = 185
+      Left = 8
+      Top = 80
+      Width = 217
       Height = 57
       Caption = 'Cadastro'
       Columns = 2
@@ -1661,11 +1665,11 @@ inherited frmcad_usu_edi: Tfrmcad_usu_edi
         'Funcion'#225'rio'
         'Comprador'
         'Representante')
-      TabOrder = 10
+      TabOrder = 9
     end
     object cbppri: TdxImageEdit
       Left = 185
-      Top = 108
+      Top = 188
       Width = 168
       Hint = 'Tipo de Venda Principal'
       Color = clWhite
@@ -1681,7 +1685,7 @@ inherited frmcad_usu_edi: Tfrmcad_usu_edi
       Style.BorderStyle = xbsNone
       Style.ButtonStyle = btsFlat
       Style.Shadow = True
-      TabOrder = 4
+      TabOrder = 10
       AutoSize = False
       Descriptions.Strings = (
         '')
@@ -1693,7 +1697,7 @@ inherited frmcad_usu_edi: Tfrmcad_usu_edi
     end
     object cbmenu: TdxImageEdit
       Left = 185
-      Top = 61
+      Top = 141
       Width = 168
       Hint = 'Tipo de Venda Secund'#225'ria'
       Color = clWhite
@@ -1709,7 +1713,7 @@ inherited frmcad_usu_edi: Tfrmcad_usu_edi
       Style.BorderStyle = xbsNone
       Style.ButtonStyle = btsFlat
       Style.Shadow = True
-      TabOrder = 2
+      TabOrder = 11
       AutoSize = False
       Descriptions.Strings = (
         'ADMINISTRA'#199#195'O'
@@ -1743,7 +1747,7 @@ inherited frmcad_usu_edi: Tfrmcad_usu_edi
     object cbstav: TdxImageEdit
       Tag = 1
       Left = 424
-      Top = 56
+      Top = 136
       Width = 230
       Color = 14065456
       Font.Charset = DEFAULT_CHARSET
@@ -1756,7 +1760,7 @@ inherited frmcad_usu_edi: Tfrmcad_usu_edi
       Style.BorderStyle = xbsNone
       Style.ButtonStyle = btsFlat
       Style.Shadow = True
-      TabOrder = 8
+      TabOrder = 12
       Text = 'ATIVO'
       AutoSize = False
       Descriptions.Strings = (
@@ -1775,7 +1779,7 @@ inherited frmcad_usu_edi: Tfrmcad_usu_edi
     end
     object cbdesc: TdxImageEdit
       Left = 185
-      Top = 85
+      Top = 165
       Width = 56
       Hint = 'Tipo de Venda Secund'#225'ria'
       Color = clWhite
@@ -1791,7 +1795,7 @@ inherited frmcad_usu_edi: Tfrmcad_usu_edi
       Style.BorderStyle = xbsNone
       Style.ButtonStyle = btsFlat
       Style.Shadow = True
-      TabOrder = 3
+      TabOrder = 13
       Text = '0'
       Alignment = taLeftJustify
       AutoSize = False
@@ -1848,7 +1852,7 @@ inherited frmcad_usu_edi: Tfrmcad_usu_edi
     end
     object cbrela: TdxImageEdit
       Left = 424
-      Top = 85
+      Top = 165
       Width = 56
       Hint = 'Tipo de Venda Secund'#225'ria'
       Color = clWhite
@@ -1864,7 +1868,7 @@ inherited frmcad_usu_edi: Tfrmcad_usu_edi
       Style.BorderStyle = xbsNone
       Style.ButtonStyle = btsFlat
       Style.Shadow = True
-      TabOrder = 13
+      TabOrder = 14
       Text = '0'
       Alignment = taLeftJustify
       AutoSize = False
@@ -1882,19 +1886,8 @@ inherited frmcad_usu_edi: Tfrmcad_usu_edi
     end
   end
   inherited sbMSG: TStatusBar
-    Top = 621
+    Top = 590
     Width = 658
-  end
-  inherited SpeedBar2: TSpeedBar
-    Width = 658
-  end
-  inherited imageOPC: TImageList
-    Left = 628
-    Top = 62
-  end
-  inherited imageITEM: TImageList
-    Left = 660
-    Top = 62
   end
   object ImageList1: TImageList
     Left = 551

@@ -74,7 +74,6 @@ type
     CadastroLOGED: TIBStringField;
     CadastroDEST: TIBStringField;
     CadastroLOGST: TIBStringField;
-    CadastroDESTA: TIBStringField;
     CadastroTRIBIPI: TIBBCDField;
     CadastroFLAG_ERP_INS: TSmallintField;
     CadastroFLAG_ERP_DEL: TSmallintField;
@@ -170,8 +169,7 @@ type
     DBGProdutosXPAIS: TdxDBGridMaskColumn;
     ProdutosIDSCT: TSmallintField;
     CadastroEVENTO: TIBStringField;
-    CadastroDTCAD: TDateField;
-    DBGConsultaDTCAD: TdxDBGridDateColumn;
+    DBGConsultaDTCA: TdxDBGridDateColumn;
     DBGConsultaNCM: TdxDBGridPickColumn;
     ProdutosVPRC_PAD: TFloatField;
     DBGProdutosVPRC_PAD: TdxDBGridMaskColumn;
@@ -214,7 +212,7 @@ type
     CadastroCDST: TSmallintField;
     CadastroREST: TIBStringField;
     ProdutosDEST: TIBStringField;
-    DBGConsultaDESTA: TdxDBGridPickColumn;
+    DBGConsultaDEST: TdxDBGridPickColumn;
     procedure FormCreate(Sender: TObject);
     procedure DBGConsultaNCMValidate(Sender: TObject;
       var ErrorText: String; var Accept: Boolean);
@@ -246,7 +244,7 @@ type
     procedure ProdutosCalcFields(DataSet: TDataSet);
     procedure ACTRefreshExecute(Sender: TObject);
     procedure DTSCadastroDataChange(Sender: TObject; Field: TField);
-    procedure DBGConsultaDESTAValidate(Sender: TObject;
+    procedure DBGConsultaDESTValidate(Sender: TObject;
       var ErrorText: String; var Accept: Boolean);
   private
     { Private declarations }
@@ -726,13 +724,13 @@ begin
          AColor      := clGray;
        end;
 
-    if (AColumn = DBGConsultaDESTA) then
-        if ANode.Values[DBGConsultaDESTA.Index] = 'PRÉ-CADASTRO' then
+    if (AColumn = DBGConsultaDEST) then
+        if ANode.Values[DBGConsultaDEST.Index] = 'PRÉ-CADASTRO' then
         begin
           AFont.Color := clBlack;
           AColor      := clInfoBk;
         end else
-        if ANode.Values[DBGConsultaDESTA.Index] = 'INATIVO' then
+        if ANode.Values[DBGConsultaDEST.Index] = 'INATIVO' then
         begin
           AFont.Color := clWhite;
           AColor      := $000024B3;
@@ -1322,7 +1320,7 @@ begin
      DBGConsulta.ApplyBestFit(DBGConsultaARTIGO);
 end;
 
-procedure TFrmProduto_SubCategoria.DBGConsultaDESTAValidate(
+procedure TFrmProduto_SubCategoria.DBGConsultaDESTValidate(
   Sender: TObject; var ErrorText: String; var Accept: Boolean);
 begin
   if TRIM(DBGConsulta.EditingText) <> EmptyStr then
