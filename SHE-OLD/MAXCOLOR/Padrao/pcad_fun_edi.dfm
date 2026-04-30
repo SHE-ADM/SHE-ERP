@@ -1,7 +1,7 @@
 inherited frmcad_fun_edi: Tfrmcad_fun_edi
-  Left = 262
-  Top = 1
-  ClientHeight = 656
+  Left = 555
+  Top = 107
+  ClientHeight = 627
   ClientWidth = 872
   OldCreateOrder = True
   Position = poDesktopCenter
@@ -9,18 +9,12 @@ inherited frmcad_fun_edi: Tfrmcad_fun_edi
   TextHeight = 14
   inherited pnlcadastro: TPanel
     Width = 872
-    Height = 523
+    Height = 608
     inherited PaintBox: TPaintBox
       Width = 872
-      Height = 340
+      Height = 360
     end
-    object Bevel2: TBevel
-      Left = 8
-      Top = 1
-      Width = 385
-      Height = 337
-    end
-    object Label1: TLabel
+    object Label1: TLabel [1]
       Left = 11
       Top = 2
       Width = 37
@@ -36,7 +30,7 @@ inherited frmcad_fun_edi: Tfrmcad_fun_edi
       ParentFont = False
       Transparent = True
     end
-    object Label5: TLabel
+    object Label5: TLabel [2]
       Left = 60
       Top = 2
       Width = 40
@@ -52,23 +46,7 @@ inherited frmcad_fun_edi: Tfrmcad_fun_edi
       ParentFont = False
       Transparent = True
     end
-    object Label4: TLabel
-      Left = 11
-      Top = 42
-      Width = 32
-      Height = 14
-      Caption = 'Nome'
-      Color = clBtnFace
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentColor = False
-      ParentFont = False
-      Transparent = True
-    end
-    object Label55: TLabel
+    object Label55: TLabel [3]
       Left = 297
       Top = 2
       Width = 47
@@ -84,269 +62,7 @@ inherited frmcad_fun_edi: Tfrmcad_fun_edi
       ParentFont = False
       Transparent = True
     end
-    object Label46: TLabel
-      Left = 11
-      Top = 83
-      Width = 46
-      Height = 14
-      Caption = 'Empresa'
-      Color = clBtnFace
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentColor = False
-      ParentFont = False
-      Transparent = True
-    end
-    object Label56: TLabel
-      Left = 11
-      Top = 123
-      Width = 79
-      Height = 14
-      Caption = 'Departamento'
-      Color = clBtnFace
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentColor = False
-      ParentFont = False
-      Transparent = True
-    end
-    object Label2: TLabel
-      Left = 11
-      Top = 163
-      Width = 33
-      Height = 14
-      Caption = 'Se'#231#227'o'
-      Color = clBtnFace
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentColor = False
-      ParentFont = False
-      Transparent = True
-    end
-    object Label48: TLabel
-      Left = 11
-      Top = 202
-      Width = 90
-      Height = 14
-      Caption = 'Centro de Custo'
-      Color = clBtnFace
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentColor = False
-      ParentFont = False
-      Transparent = True
-    end
-    object Label3: TLabel
-      Left = 107
-      Top = 202
-      Width = 51
-      Height = 14
-      Caption = 'Descri'#231#227'o'
-      Color = clBtnFace
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentColor = False
-      ParentFont = False
-      Transparent = True
-    end
-    object Label6: TLabel
-      Left = 11
-      Top = 243
-      Width = 31
-      Height = 14
-      Caption = 'Cargo'
-      Color = clBtnFace
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentColor = False
-      ParentFont = False
-      Transparent = True
-    end
-    object Label7: TLabel
-      Left = 66
-      Top = 291
-      Width = 23
-      Height = 14
-      Caption = 'CBO'
-      Color = clBtnFace
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentColor = False
-      ParentFont = False
-      Transparent = True
-    end
-    object Label8: TLabel
-      Left = 178
-      Top = 291
-      Width = 46
-      Height = 14
-      Caption = 'Chapeira'
-      Color = clBtnFace
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentColor = False
-      ParentFont = False
-      Transparent = True
-    end
-    object Label9: TLabel
-      Left = 11
-      Top = 299
-      Width = 39
-      Height = 14
-      Caption = 'V'#237'nculo'
-      Color = clBtnFace
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentColor = False
-      ParentFont = False
-      Transparent = True
-    end
-    object Bevel3: TBevel
-      Left = 400
-      Top = 1
-      Width = 465
-      Height = 337
-    end
-    object Label12: TLabel
-      Left = 404
-      Top = 41
-      Width = 32
-      Height = 14
-      Caption = 'Altura'
-      Color = clBtnFace
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentColor = False
-      ParentFont = False
-      Transparent = True
-    end
-    object Label13: TLabel
-      Left = 495
-      Top = 41
-      Width = 26
-      Height = 14
-      Caption = 'Peso'
-      Color = clBtnFace
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentColor = False
-      ParentFont = False
-      Transparent = True
-    end
-    object Label14: TLabel
-      Left = 403
-      Top = 82
-      Width = 41
-      Height = 14
-      Caption = 'Cabelos'
-      Color = clBtnFace
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentColor = False
-      ParentFont = False
-      Transparent = True
-    end
-    object Label15: TLabel
-      Left = 403
-      Top = 122
-      Width = 30
-      Height = 14
-      Caption = 'Olhos'
-      Color = clBtnFace
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentColor = False
-      ParentFont = False
-      Transparent = True
-    end
-    object Label16: TLabel
-      Left = 403
-      Top = 162
-      Width = 56
-      Height = 14
-      Caption = 'Ra'#231'a \ Cor'
-      Color = clBtnFace
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentColor = False
-      ParentFont = False
-      Transparent = True
-    end
-    object Label17: TLabel
-      Left = 403
-      Top = 202
-      Width = 57
-      Height = 14
-      Caption = 'Deficiencia'
-      Color = clBtnFace
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentColor = False
-      ParentFont = False
-      Transparent = True
-    end
-    object Label18: TLabel
-      Left = 403
-      Top = 242
-      Width = 32
-      Height = 14
-      Caption = 'Alvar'#225
-      Color = clBtnFace
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentColor = False
-      ParentFont = False
-      Transparent = True
-    end
-    object Label19: TLabel
+    object Label19: TLabel [4]
       Left = 404
       Top = 1
       Width = 63
@@ -362,7 +78,7 @@ inherited frmcad_fun_edi: Tfrmcad_fun_edi
       ParentFont = False
       Transparent = True
     end
-    object Label20: TLabel
+    object Label20: TLabel [5]
       Left = 495
       Top = 1
       Width = 31
@@ -378,12 +94,18 @@ inherited frmcad_fun_edi: Tfrmcad_fun_edi
       ParentFont = False
       Transparent = True
     end
-    object Label21: TLabel
-      Left = 403
-      Top = 283
-      Width = 29
+    object Bevel2: TBevel [6]
+      Left = 8
+      Top = 73
+      Width = 383
+      Height = 337
+    end
+    object Label4: TLabel [7]
+      Left = 11
+      Top = 114
+      Width = 32
       Height = 14
-      Caption = 'Sinais'
+      Caption = 'Nome'
       Color = clBtnFace
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -394,9 +116,255 @@ inherited frmcad_fun_edi: Tfrmcad_fun_edi
       ParentFont = False
       Transparent = True
     end
-    object Label137: TLabel
-      Left = 321
-      Top = 299
+    object Label46: TLabel [8]
+      Left = 11
+      Top = 155
+      Width = 46
+      Height = 14
+      Caption = 'Empresa'
+      Color = clBtnFace
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+    end
+    object Label56: TLabel [9]
+      Left = 11
+      Top = 195
+      Width = 79
+      Height = 14
+      Caption = 'Departamento'
+      Color = clBtnFace
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+    end
+    object Label2: TLabel [10]
+      Left = 11
+      Top = 235
+      Width = 33
+      Height = 14
+      Caption = 'Se'#231#227'o'
+      Color = clBtnFace
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+    end
+    object Label48: TLabel [11]
+      Left = 11
+      Top = 274
+      Width = 90
+      Height = 14
+      Caption = 'Centro de Custo'
+      Color = clBtnFace
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+    end
+    object Label3: TLabel [12]
+      Left = 107
+      Top = 274
+      Width = 51
+      Height = 14
+      Caption = 'Descri'#231#227'o'
+      Color = clBtnFace
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+    end
+    object Label6: TLabel [13]
+      Left = 11
+      Top = 315
+      Width = 31
+      Height = 14
+      Caption = 'Cargo'
+      Color = clBtnFace
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+    end
+    object Label7: TLabel [14]
+      Left = 66
+      Top = 363
+      Width = 23
+      Height = 14
+      Caption = 'CBO'
+      Color = clBtnFace
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+    end
+    object Label8: TLabel [15]
+      Left = 178
+      Top = 363
+      Width = 46
+      Height = 14
+      Caption = 'Chapeira'
+      Color = clBtnFace
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+    end
+    object Label9: TLabel [16]
+      Left = 11
+      Top = 371
+      Width = 39
+      Height = 14
+      Caption = 'V'#237'nculo'
+      Color = clBtnFace
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+    end
+    object Bevel3: TBevel [17]
+      Left = 400
+      Top = 73
+      Width = 463
+      Height = 337
+    end
+    object Label12: TLabel [18]
+      Left = 404
+      Top = 113
+      Width = 32
+      Height = 14
+      Caption = 'Altura'
+      Color = clBtnFace
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+    end
+    object Label13: TLabel [19]
+      Left = 495
+      Top = 113
+      Width = 26
+      Height = 14
+      Caption = 'Peso'
+      Color = clBtnFace
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+    end
+    object Label14: TLabel [20]
+      Left = 403
+      Top = 154
+      Width = 41
+      Height = 14
+      Caption = 'Cabelos'
+      Color = clBtnFace
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+    end
+    object Label15: TLabel [21]
+      Left = 403
+      Top = 194
+      Width = 30
+      Height = 14
+      Caption = 'Olhos'
+      Color = clBtnFace
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+    end
+    object Label16: TLabel [22]
+      Left = 403
+      Top = 234
+      Width = 56
+      Height = 14
+      Caption = 'Ra'#231'a \ Cor'
+      Color = clBtnFace
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+    end
+    object Label17: TLabel [23]
+      Left = 403
+      Top = 274
+      Width = 57
+      Height = 14
+      Caption = 'Deficiencia'
+      Color = clBtnFace
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+    end
+    object Label18: TLabel [24]
+      Left = 403
+      Top = 314
       Width = 32
       Height = 14
       Caption = 'Alvar'#225
@@ -410,10 +378,42 @@ inherited frmcad_fun_edi: Tfrmcad_fun_edi
       ParentFont = False
       Transparent = True
     end
-    object sbtab_dep: TSpeedButton
+    object Label21: TLabel [25]
+      Left = 403
+      Top = 355
+      Width = 29
+      Height = 14
+      Caption = 'Sinais'
+      Color = clBtnFace
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+    end
+    object Label137: TLabel [26]
+      Left = 321
+      Top = 371
+      Width = 32
+      Height = 14
+      Caption = 'Alvar'#225
+      Color = clBtnFace
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+    end
+    object sbtab_dep: TSpeedButton [27]
       Left = 364
-      Top = 138
-      Width = 21
+      Top = 210
+      Width = 19
       Height = 22
       Cursor = crHandPoint
       Hint = 'Abre Tabela de Departamento'
@@ -448,10 +448,10 @@ inherited frmcad_fun_edi: Tfrmcad_fun_edi
       ParentShowHint = False
       ShowHint = True
     end
-    object sbtab_sec: TSpeedButton
+    object sbtab_sec: TSpeedButton [28]
       Left = 364
-      Top = 178
-      Width = 21
+      Top = 250
+      Width = 19
       Height = 22
       Cursor = crHandPoint
       Hint = 'Abre Tabela de Se'#231#227'o'
@@ -486,10 +486,10 @@ inherited frmcad_fun_edi: Tfrmcad_fun_edi
       ParentShowHint = False
       ShowHint = True
     end
-    object sbtab_car: TSpeedButton
+    object sbtab_car: TSpeedButton [29]
       Left = 364
-      Top = 258
-      Width = 21
+      Top = 330
+      Width = 19
       Height = 22
       Cursor = crHandPoint
       Hint = 'Abre Tabela de Se'#231#227'o'
@@ -524,466 +524,13 @@ inherited frmcad_fun_edi: Tfrmcad_fun_edi
       ParentShowHint = False
       ShowHint = True
     end
-    object edcfun: TdxEdit
-      Left = 11
-      Top = 16
-      Width = 47
-      Enabled = False
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentFont = False
-      Style.BorderStyle = xbsFlat
-      Style.ButtonStyle = btsFlat
-      Style.Shadow = False
-      TabOrder = 0
-      CharCase = ecUpperCase
-    end
-    object edapel: TdxEdit
-      Tag = 1
-      Left = 60
-      Top = 16
-      Width = 235
-      Hint = 'Nome Fantasia'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentFont = False
-      Style.BorderStyle = xbsFlat
-      Style.ButtonStyle = btsFlat
-      Style.Shadow = False
+    inherited SBMenuPrincipal: TSpeedBar
+      Width = 872
       TabOrder = 1
-      CharCase = ecUpperCase
-      MaxLength = 30
-      StoredValues = 2
-    end
-    object ednome: TdxEdit
-      Tag = 1
-      Left = 11
-      Top = 56
-      Width = 373
-      Hint = 'Nome Completo'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentFont = False
-      Style.BorderStyle = xbsFlat
-      Style.ButtonStyle = btsFlat
-      Style.Shadow = False
-      TabOrder = 3
-      CharCase = ecUpperCase
-      MaxLength = 120
-      StoredValues = 2
-    end
-    object eddcad: TdxDateEdit
-      Left = 296
-      Top = 16
-      Width = 89
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentFont = False
-      Style.BorderStyle = xbsFlat
-      Style.ButtonStyle = btsFlat
-      TabOrder = 2
-      Date = -700000.000000000000000000
-      UseEditMask = True
-      StoredValues = 4
-    end
-    object cbdemp: TdxImageEdit
-      Left = 11
-      Top = 98
-      Width = 374
-      Color = clWhite
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentFont = False
-      Style.BorderColor = 14065456
-      Style.BorderStyle = xbsFlat
-      Style.ButtonStyle = btsFlat
-      Style.Shadow = False
-      TabOrder = 4
-      AutoSize = False
-      Descriptions.Strings = (
-        '')
-      ImageIndexes.Strings = (
-        '0')
-      Values.Strings = (
-        '')
-      Height = 21
-    end
-    object edccus: TdxButtonEdit
-      Left = 13
-      Top = 216
-      Width = 92
-      Color = clWhite
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentFont = False
-      Style.BorderStyle = xbsFlat
-      Style.ButtonStyle = btsFlat
-      Style.Shadow = False
-      TabOrder = 7
-      CharCase = ecUpperCase
-      MaxLength = 0
-      OnValidate = edccusValidate
-      Buttons = <
-        item
-          Default = True
-          Glyph.Data = {
-            36030000424D3603000000000000360000002800000010000000100000000100
-            1800000000000003000000000000000000000000000000000000FFFFFFF9F9F9
-            E4E4E4C1C1C1A6A6A69898989DA0A19FA2A4999999B2B2B2D1D1D1F0F0F0FFFF
-            FFFFFFFFFFFFFFFFFFFFF9F9F9C7C7C7A2A2A2B0B0B0CCCCCCE0E2E2E9EFF2E9
-            F1F3D4D5D5B2B2B29D9D9DA2A2A2EEEEEEFFFFFFFFFFFFFFFFFFC6C6C6939393
-            AEAEAEC4C4C4C5C5C5BEBFBFC2C5C6BCBFC0B5B6B8BCBCBCB1B1B18F8F8FA6A6
-            A6E9E9E9FFFFFFFFFFFF8282828F8F8FA7A7A7BFC2C3D4DADBE6ECEDE6ECEEE4
-            EAECDDE3E5C9CCCDADADAD989898808080B6B6B6FFFFFFFFFFFF818181B8BABA
-            DBE1E1CCD3CEB3B399BBBBA2BBBBA2BBBBA2B7B8A2C2C6BED4DBD8D2D6D77A7A
-            7AA6A6A6FFFFFFFFFFFF9D9E9FD4DADBD1D5B9E6E6B4FFFFCCFFFFCCFFFFCCFF
-            FFD3FCFCD7EDEDC7D3D5AEC4CAC2A8ABAB949494FFFFFFFFFFFFB6B8B8D2D1CE
-            CFC8A5F6F5BDFFF3CEFFF9C6FFFFBDFFFFC2FFFFC9FEFEC1F5F5AF858677D8DD
-            DFA0A0A0FFFFFFFFFFFFB7B9B9D9D8D5D0BCA6E2D6B8F0DACEFFF4BEFFFFA9FF
-            FFA9FEFEAAEBEBB2D8CEB39B9B96D8DDDFA0A0A0FFFFFFFFFFFFE0E1E1D8DEDF
-            D3D8D9C4B7ACDAC3AED4C2B0D4C2B0D4C2B0D4C2B0D9C3ADD3C7BCE1E7E9CDCD
-            CDF5F5F5FFFFFFFFFFFFFBFBFBE3E4E4D4D8D9D1D6D8D6D5D2D9D3CCD9D3CCD9
-            D3CCD9D3CCD6D3D1CDD0D1B6B7B8BCB6B6FAF7F7FFFFFFFFFFFFFFFFFFFAFAFA
-            EAEAEADCDEDED3D5D5CDCFCFCDCFCFCBCDCDC8C9CABBB8B8C1BEBEBEBDBD8767
-            63C6A7A5FAF7F7FFFFFFFFFFFFFFFFFFFEFEFEFCFCFCF5F5F5EFEFEFEFEFEFEF
-            EFEFEDECECD1BABAA97A7A756B6BB76D2EA45737CBB1B0FDFCFCFFFFFFFFFFFF
-            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFDEBAB2DD9C39FDAE
-            27EE8D2DA65027C19F9AFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-            FFFFFFFFFFFFFFFFFCF9F9DFBAB3E29D30FBAA27E8882A954122FFFFFFFFFFFF
-            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFDDB4
-            A0DC9736E389209B4122FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFBF6F5E1C3B6CD9785D5B1AE}
-          Kind = bkGlyph
-        end>
-      StoredValues = 6
-      ExistButtons = True
-    end
-    object eddcus: TdxEdit
-      Tag = 1
-      Left = 106
-      Top = 216
-      Width = 279
-      Hint = 'Nome Fantasia'
-      Enabled = False
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentFont = False
-      Style.BorderStyle = xbsFlat
-      Style.ButtonStyle = btsFlat
-      Style.Shadow = False
-      TabOrder = 8
-      CharCase = ecUpperCase
-      MaxLength = 40
-      StoredValues = 2
-    end
-    object edccbo: TdxEdit
-      Tag = 1
-      Left = 90
-      Top = 288
-      Width = 80
-      Hint = 'Nome Fantasia'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentFont = False
-      Style.BorderStyle = xbsFlat
-      Style.ButtonStyle = btsFlat
-      Style.Shadow = False
-      TabOrder = 10
-      CharCase = ecUpperCase
-      MaxLength = 0
-      OnValidate = edccboValidate
-      StoredValues = 2
-    end
-    object edchap: TdxEdit
-      Tag = 1
-      Left = 226
-      Top = 288
-      Width = 80
-      Hint = 'Nome Fantasia'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentFont = False
-      Style.BorderStyle = xbsFlat
-      Style.ButtonStyle = btsFlat
-      Style.Shadow = False
-      TabOrder = 11
-      CharCase = ecUpperCase
-      MaxLength = 0
-      OnValidate = edchapValidate
-      StoredValues = 2
-    end
-    object cbdvin: TComboBox
-      Left = 12
-      Top = 314
-      Width = 307
-      Height = 22
-      CharCase = ecUpperCase
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ItemHeight = 14
-      MaxLength = 40
-      ParentFont = False
-      TabOrder = 12
-    end
-    object Panel3: TPanel
-      Left = 592
-      Top = 8
-      Width = 270
-      Height = 281
-      BevelInner = bvLowered
-      Font.Charset = ANSI_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Cambria'
-      Font.Style = [fsBold, fsItalic]
-      ParentFont = False
-      TabOrder = 24
-      object imag: TImage
-        Left = 2
-        Top = 2
-        Width = 266
-        Height = 277
-        Align = alClient
-        Stretch = True
-        OnDblClick = imagDblClick
-      end
-      object SpeedButton1: TSpeedButton
-        Left = 249
-        Top = 259
-        Width = 17
-        Height = 17
-        Cursor = crHandPoint
-        Hint = 'Pesquisa Foto'
-        Flat = True
-        Glyph.Data = {
-          36030000424D3603000000000000360000002800000010000000100000000100
-          18000000000000030000130B0000130B00000000000000000000FFFFFFF9F9F9
-          E4E4E4C1C1C1A6A6A69898989DA0A19FA2A4999999B2B2B2D1D1D1F0F0F0FFFF
-          FFFFFFFFFFFFFFFFFFFFF9F9F9C7C7C7A2A2A2B0B0B0CCCCCCE0E2E2E9EFF2E9
-          F1F3D4D5D5B2B2B29D9D9DA2A2A2EEEEEEFFFFFFFFFFFFFFFFFFC6C6C6939393
-          AEAEAEC4C4C4C5C5C5BEBFBFC2C5C6BCBFC0B5B6B8BCBCBCB1B1B18F8F8FA6A6
-          A6E9E9E9FFFFFFFFFFFF8282828F8F8FA7A7A7BFC2C3D4DADBE6ECEDE6ECEEE4
-          EAECDDE3E5C9CCCDADADAD989898808080B6B6B6FFFFFFFFFFFF818181B8BABA
-          DBE1E1CCD3CEB3B399BBBBA2BBBBA2BBBBA2B7B8A2C2C6BED4DBD8D2D6D77A7A
-          7AA6A6A6FFFFFFFFFFFF9D9E9FD4DADBD1D5B9E6E6B4FFFFCCFFFFCCFFFFCCFF
-          FFD3FCFCD7EDEDC7D3D5AEC4CAC2A8ABAB949494FFFFFFFFFFFFB6B8B8D2D1CE
-          CFC8A5F6F5BDFFF3CEFFF9C6FFFFBDFFFFC2FFFFC9FEFEC1F5F5AF858677D8DD
-          DFA0A0A0FFFFFFFFFFFFB7B9B9D9D8D5D0BCA6E2D6B8F0DACEFFF4BEFFFFA9FF
-          FFA9FEFEAAEBEBB2D8CEB39B9B96D8DDDFA0A0A0FFFFFFFFFFFFE0E1E1D8DEDF
-          D3D8D9C4B7ACDAC3AED4C2B0D4C2B0D4C2B0D4C2B0D9C3ADD3C7BCE1E7E9CDCD
-          CDF5F5F5FFFFFFFFFFFFFBFBFBE3E4E4D4D8D9D1D6D8D6D5D2D9D3CCD9D3CCD9
-          D3CCD9D3CCD6D3D1CDD0D1B6B7B8BCB6B6FAF7F7FFFFFFFFFFFFFFFFFFFAFAFA
-          EAEAEADCDEDED3D5D5CDCFCFCDCFCFCBCDCDC8C9CABBB8B8C1BEBEBEBDBD8767
-          63C6A7A5FAF7F7FFFFFFFFFFFFFFFFFFFEFEFEFCFCFCF5F5F5EFEFEFEFEFEFEF
-          EFEFEDECECD1BABAA97A7A756B6BB76D2EA45737CBB1B0FDFCFCFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFDEBAB2DD9C39FDAE
-          27EE8D2DA65027C19F9AFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFFFCF9F9DFBAB3E29D30FBAA27E8882A954122FFFFFFFFFFFF
-          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFDDB4
-          A0DC9736E389209B4122FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFBF6F5E1C3B6CD9785D5B1AE}
-        ParentShowHint = False
-        ShowHint = True
-        OnClick = SpeedButton1Click
-      end
-    end
-    object edaltu: TdxEdit
-      Tag = 1
-      Left = 404
-      Top = 55
-      Width = 90
-      Hint = 'Nome Fantasia'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentFont = False
-      Style.BorderStyle = xbsFlat
-      Style.ButtonStyle = btsFlat
-      Style.Shadow = False
-      TabOrder = 16
-      Alignment = taRightJustify
-      CharCase = ecUpperCase
-      MaxLength = 0
-      OnValidate = edaltuValidate
-      StoredValues = 3
-    end
-    object edpeso: TdxEdit
-      Tag = 1
-      Left = 495
-      Top = 55
-      Width = 90
-      Hint = 'Nome Fantasia'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentFont = False
-      Style.BorderStyle = xbsFlat
-      Style.ButtonStyle = btsFlat
-      Style.Shadow = False
-      TabOrder = 17
-      Alignment = taRightJustify
-      CharCase = ecUpperCase
-      MaxLength = 0
-      OnValidate = edpesoValidate
-      StoredValues = 3
-    end
-    object cbcabe: TComboBox
-      Left = 404
-      Top = 97
-      Width = 181
-      Height = 22
-      CharCase = ecUpperCase
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ItemHeight = 14
-      MaxLength = 20
-      ParentFont = False
-      TabOrder = 18
-    end
-    object cbolho: TComboBox
-      Left = 404
-      Top = 137
-      Width = 181
-      Height = 22
-      CharCase = ecUpperCase
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ItemHeight = 14
-      MaxLength = 20
-      ParentFont = False
-      TabOrder = 19
-    end
-    object cbraca: TComboBox
-      Left = 404
-      Top = 177
-      Width = 181
-      Height = 22
-      CharCase = ecUpperCase
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ItemHeight = 14
-      MaxLength = 20
-      ParentFont = False
-      TabOrder = 20
-    end
-    object cbdefi: TComboBox
-      Left = 404
-      Top = 217
-      Width = 181
-      Height = 22
-      CharCase = ecUpperCase
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ItemHeight = 14
-      MaxLength = 20
-      ParentFont = False
-      TabOrder = 21
-    end
-    object eddnas: TdxDateEdit
-      Left = 404
-      Top = 15
-      Width = 90
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentFont = False
-      Style.BorderStyle = xbsFlat
-      Style.ButtonStyle = btsFlat
-      TabOrder = 14
-      OnExit = eddnasExit
-      Date = -700000.000000000000000000
-      UseEditMask = True
-      StoredValues = 4
-    end
-    object edidad: TdxEdit
-      Tag = 1
-      Left = 495
-      Top = 15
-      Width = 90
-      Hint = 'Nome Fantasia'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentFont = False
-      Style.BorderStyle = xbsFlat
-      Style.ButtonStyle = btsFlat
-      Style.Shadow = False
-      TabOrder = 15
-      Alignment = taRightJustify
-      CharCase = ecUpperCase
-      MaxLength = 0
-      OnValidate = edidadValidate
-      StoredValues = 3
-    end
-    object edsina: TdxMemo
-      Left = 404
-      Top = 296
-      Width = 461
-      Color = clWhite
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentFont = False
-      Style.BorderStyle = xbsFlat
-      Style.Shadow = True
-      TabOrder = 23
-      Height = 41
     end
     object pcmain: TdxPageControl
       Left = 0
-      Top = 340
+      Top = 425
       Width = 872
       Height = 183
       ActivePage = tsDIC
@@ -1002,7 +549,7 @@ inherited frmcad_fun_edi: Tfrmcad_fun_edi
       ScrollOpposite = False
       Style = dxtsFlatButtons
       TabHeight = 0
-      TabOrder = 25
+      TabOrder = 0
       TabPosition = dxtpTop
       TabWidth = 0
       object tsADI: TdxTabSheet
@@ -4762,9 +4309,466 @@ inherited frmcad_fun_edi: Tfrmcad_fun_edi
         end
       end
     end
+    object edcfun: TdxEdit
+      Left = 11
+      Top = 88
+      Width = 45
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      Style.BorderStyle = xbsFlat
+      Style.ButtonStyle = btsFlat
+      Style.Shadow = False
+      TabOrder = 2
+      CharCase = ecUpperCase
+    end
+    object edapel: TdxEdit
+      Tag = 1
+      Left = 60
+      Top = 88
+      Width = 233
+      Hint = 'Nome Fantasia'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      Style.BorderStyle = xbsFlat
+      Style.ButtonStyle = btsFlat
+      Style.Shadow = False
+      TabOrder = 3
+      CharCase = ecUpperCase
+      MaxLength = 30
+      StoredValues = 2
+    end
+    object ednome: TdxEdit
+      Tag = 1
+      Left = 11
+      Top = 128
+      Width = 371
+      Hint = 'Nome Completo'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      Style.BorderStyle = xbsFlat
+      Style.ButtonStyle = btsFlat
+      Style.Shadow = False
+      TabOrder = 4
+      CharCase = ecUpperCase
+      MaxLength = 120
+      StoredValues = 2
+    end
+    object eddcad: TdxDateEdit
+      Left = 296
+      Top = 88
+      Width = 88
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      Style.BorderStyle = xbsFlat
+      Style.ButtonStyle = btsFlat
+      TabOrder = 5
+      Date = -700000.000000000000000000
+      UseEditMask = True
+      StoredValues = 4
+    end
+    object cbdemp: TdxImageEdit
+      Left = 11
+      Top = 170
+      Width = 373
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      Style.BorderColor = 14065456
+      Style.BorderStyle = xbsFlat
+      Style.ButtonStyle = btsFlat
+      Style.Shadow = False
+      TabOrder = 6
+      AutoSize = False
+      Descriptions.Strings = (
+        '')
+      ImageIndexes.Strings = (
+        '0')
+      Values.Strings = (
+        '')
+      Height = 21
+    end
+    object edccus: TdxButtonEdit
+      Left = 13
+      Top = 288
+      Width = 91
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      Style.BorderStyle = xbsFlat
+      Style.ButtonStyle = btsFlat
+      Style.Shadow = False
+      TabOrder = 7
+      CharCase = ecUpperCase
+      MaxLength = 0
+      OnValidate = edccusValidate
+      Buttons = <
+        item
+          Default = True
+          Glyph.Data = {
+            36030000424D3603000000000000360000002800000010000000100000000100
+            1800000000000003000000000000000000000000000000000000FFFFFFF9F9F9
+            E4E4E4C1C1C1A6A6A69898989DA0A19FA2A4999999B2B2B2D1D1D1F0F0F0FFFF
+            FFFFFFFFFFFFFFFFFFFFF9F9F9C7C7C7A2A2A2B0B0B0CCCCCCE0E2E2E9EFF2E9
+            F1F3D4D5D5B2B2B29D9D9DA2A2A2EEEEEEFFFFFFFFFFFFFFFFFFC6C6C6939393
+            AEAEAEC4C4C4C5C5C5BEBFBFC2C5C6BCBFC0B5B6B8BCBCBCB1B1B18F8F8FA6A6
+            A6E9E9E9FFFFFFFFFFFF8282828F8F8FA7A7A7BFC2C3D4DADBE6ECEDE6ECEEE4
+            EAECDDE3E5C9CCCDADADAD989898808080B6B6B6FFFFFFFFFFFF818181B8BABA
+            DBE1E1CCD3CEB3B399BBBBA2BBBBA2BBBBA2B7B8A2C2C6BED4DBD8D2D6D77A7A
+            7AA6A6A6FFFFFFFFFFFF9D9E9FD4DADBD1D5B9E6E6B4FFFFCCFFFFCCFFFFCCFF
+            FFD3FCFCD7EDEDC7D3D5AEC4CAC2A8ABAB949494FFFFFFFFFFFFB6B8B8D2D1CE
+            CFC8A5F6F5BDFFF3CEFFF9C6FFFFBDFFFFC2FFFFC9FEFEC1F5F5AF858677D8DD
+            DFA0A0A0FFFFFFFFFFFFB7B9B9D9D8D5D0BCA6E2D6B8F0DACEFFF4BEFFFFA9FF
+            FFA9FEFEAAEBEBB2D8CEB39B9B96D8DDDFA0A0A0FFFFFFFFFFFFE0E1E1D8DEDF
+            D3D8D9C4B7ACDAC3AED4C2B0D4C2B0D4C2B0D4C2B0D9C3ADD3C7BCE1E7E9CDCD
+            CDF5F5F5FFFFFFFFFFFFFBFBFBE3E4E4D4D8D9D1D6D8D6D5D2D9D3CCD9D3CCD9
+            D3CCD9D3CCD6D3D1CDD0D1B6B7B8BCB6B6FAF7F7FFFFFFFFFFFFFFFFFFFAFAFA
+            EAEAEADCDEDED3D5D5CDCFCFCDCFCFCBCDCDC8C9CABBB8B8C1BEBEBEBDBD8767
+            63C6A7A5FAF7F7FFFFFFFFFFFFFFFFFFFEFEFEFCFCFCF5F5F5EFEFEFEFEFEFEF
+            EFEFEDECECD1BABAA97A7A756B6BB76D2EA45737CBB1B0FDFCFCFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFDEBAB2DD9C39FDAE
+            27EE8D2DA65027C19F9AFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFCF9F9DFBAB3E29D30FBAA27E8882A954122FFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFDDB4
+            A0DC9736E389209B4122FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFBF6F5E1C3B6CD9785D5B1AE}
+          Kind = bkGlyph
+        end>
+      StoredValues = 6
+      ExistButtons = True
+    end
+    object eddcus: TdxEdit
+      Tag = 1
+      Left = 106
+      Top = 288
+      Width = 278
+      Hint = 'Nome Fantasia'
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      Style.BorderStyle = xbsFlat
+      Style.ButtonStyle = btsFlat
+      Style.Shadow = False
+      TabOrder = 8
+      CharCase = ecUpperCase
+      MaxLength = 40
+      StoredValues = 2
+    end
+    object edccbo: TdxEdit
+      Tag = 1
+      Left = 90
+      Top = 360
+      Width = 79
+      Hint = 'Nome Fantasia'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      Style.BorderStyle = xbsFlat
+      Style.ButtonStyle = btsFlat
+      Style.Shadow = False
+      TabOrder = 9
+      CharCase = ecUpperCase
+      MaxLength = 0
+      OnValidate = edccboValidate
+      StoredValues = 2
+    end
+    object edchap: TdxEdit
+      Tag = 1
+      Left = 226
+      Top = 360
+      Width = 79
+      Hint = 'Nome Fantasia'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      Style.BorderStyle = xbsFlat
+      Style.ButtonStyle = btsFlat
+      Style.Shadow = False
+      TabOrder = 10
+      CharCase = ecUpperCase
+      MaxLength = 0
+      OnValidate = edchapValidate
+      StoredValues = 2
+    end
+    object cbdvin: TComboBox
+      Left = 12
+      Top = 386
+      Width = 306
+      Height = 22
+      CharCase = ecUpperCase
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ItemHeight = 14
+      MaxLength = 40
+      ParentFont = False
+      TabOrder = 11
+    end
+    object Panel3: TPanel
+      Left = 592
+      Top = 80
+      Width = 269
+      Height = 281
+      BevelInner = bvLowered
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Cambria'
+      Font.Style = [fsBold, fsItalic]
+      ParentFont = False
+      TabOrder = 12
+      object imag: TImage
+        Left = 2
+        Top = 2
+        Width = 265
+        Height = 277
+        Align = alClient
+        Stretch = True
+        OnDblClick = imagDblClick
+      end
+      object SpeedButton1: TSpeedButton
+        Left = 249
+        Top = 259
+        Width = 17
+        Height = 17
+        Cursor = crHandPoint
+        Hint = 'Pesquisa Foto'
+        Flat = True
+        Glyph.Data = {
+          36030000424D3603000000000000360000002800000010000000100000000100
+          18000000000000030000130B0000130B00000000000000000000FFFFFFF9F9F9
+          E4E4E4C1C1C1A6A6A69898989DA0A19FA2A4999999B2B2B2D1D1D1F0F0F0FFFF
+          FFFFFFFFFFFFFFFFFFFFF9F9F9C7C7C7A2A2A2B0B0B0CCCCCCE0E2E2E9EFF2E9
+          F1F3D4D5D5B2B2B29D9D9DA2A2A2EEEEEEFFFFFFFFFFFFFFFFFFC6C6C6939393
+          AEAEAEC4C4C4C5C5C5BEBFBFC2C5C6BCBFC0B5B6B8BCBCBCB1B1B18F8F8FA6A6
+          A6E9E9E9FFFFFFFFFFFF8282828F8F8FA7A7A7BFC2C3D4DADBE6ECEDE6ECEEE4
+          EAECDDE3E5C9CCCDADADAD989898808080B6B6B6FFFFFFFFFFFF818181B8BABA
+          DBE1E1CCD3CEB3B399BBBBA2BBBBA2BBBBA2B7B8A2C2C6BED4DBD8D2D6D77A7A
+          7AA6A6A6FFFFFFFFFFFF9D9E9FD4DADBD1D5B9E6E6B4FFFFCCFFFFCCFFFFCCFF
+          FFD3FCFCD7EDEDC7D3D5AEC4CAC2A8ABAB949494FFFFFFFFFFFFB6B8B8D2D1CE
+          CFC8A5F6F5BDFFF3CEFFF9C6FFFFBDFFFFC2FFFFC9FEFEC1F5F5AF858677D8DD
+          DFA0A0A0FFFFFFFFFFFFB7B9B9D9D8D5D0BCA6E2D6B8F0DACEFFF4BEFFFFA9FF
+          FFA9FEFEAAEBEBB2D8CEB39B9B96D8DDDFA0A0A0FFFFFFFFFFFFE0E1E1D8DEDF
+          D3D8D9C4B7ACDAC3AED4C2B0D4C2B0D4C2B0D4C2B0D9C3ADD3C7BCE1E7E9CDCD
+          CDF5F5F5FFFFFFFFFFFFFBFBFBE3E4E4D4D8D9D1D6D8D6D5D2D9D3CCD9D3CCD9
+          D3CCD9D3CCD6D3D1CDD0D1B6B7B8BCB6B6FAF7F7FFFFFFFFFFFFFFFFFFFAFAFA
+          EAEAEADCDEDED3D5D5CDCFCFCDCFCFCBCDCDC8C9CABBB8B8C1BEBEBEBDBD8767
+          63C6A7A5FAF7F7FFFFFFFFFFFFFFFFFFFEFEFEFCFCFCF5F5F5EFEFEFEFEFEFEF
+          EFEFEDECECD1BABAA97A7A756B6BB76D2EA45737CBB1B0FDFCFCFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFDEBAB2DD9C39FDAE
+          27EE8D2DA65027C19F9AFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFCF9F9DFBAB3E29D30FBAA27E8882A954122FFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFDDB4
+          A0DC9736E389209B4122FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFBF6F5E1C3B6CD9785D5B1AE}
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = SpeedButton1Click
+      end
+    end
+    object edaltu: TdxEdit
+      Tag = 1
+      Left = 404
+      Top = 127
+      Width = 89
+      Hint = 'Nome Fantasia'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      Style.BorderStyle = xbsFlat
+      Style.ButtonStyle = btsFlat
+      Style.Shadow = False
+      TabOrder = 13
+      Alignment = taRightJustify
+      CharCase = ecUpperCase
+      MaxLength = 0
+      OnValidate = edaltuValidate
+      StoredValues = 3
+    end
+    object edpeso: TdxEdit
+      Tag = 1
+      Left = 495
+      Top = 127
+      Width = 89
+      Hint = 'Nome Fantasia'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      Style.BorderStyle = xbsFlat
+      Style.ButtonStyle = btsFlat
+      Style.Shadow = False
+      TabOrder = 14
+      Alignment = taRightJustify
+      CharCase = ecUpperCase
+      MaxLength = 0
+      OnValidate = edpesoValidate
+      StoredValues = 3
+    end
+    object cbcabe: TComboBox
+      Left = 404
+      Top = 169
+      Width = 180
+      Height = 22
+      CharCase = ecUpperCase
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ItemHeight = 14
+      MaxLength = 20
+      ParentFont = False
+      TabOrder = 15
+    end
+    object cbolho: TComboBox
+      Left = 404
+      Top = 209
+      Width = 180
+      Height = 22
+      CharCase = ecUpperCase
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ItemHeight = 14
+      MaxLength = 20
+      ParentFont = False
+      TabOrder = 16
+    end
+    object cbraca: TComboBox
+      Left = 404
+      Top = 249
+      Width = 180
+      Height = 22
+      CharCase = ecUpperCase
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ItemHeight = 14
+      MaxLength = 20
+      ParentFont = False
+      TabOrder = 17
+    end
+    object cbdefi: TComboBox
+      Left = 404
+      Top = 289
+      Width = 180
+      Height = 22
+      CharCase = ecUpperCase
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ItemHeight = 14
+      MaxLength = 20
+      ParentFont = False
+      TabOrder = 18
+    end
+    object eddnas: TdxDateEdit
+      Left = 404
+      Top = 87
+      Width = 90
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      Style.BorderStyle = xbsFlat
+      Style.ButtonStyle = btsFlat
+      TabOrder = 19
+      OnExit = eddnasExit
+      Date = -700000.000000000000000000
+      UseEditMask = True
+      StoredValues = 4
+    end
+    object edidad: TdxEdit
+      Tag = 1
+      Left = 495
+      Top = 87
+      Width = 90
+      Hint = 'Nome Fantasia'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      Style.BorderStyle = xbsFlat
+      Style.ButtonStyle = btsFlat
+      Style.Shadow = False
+      TabOrder = 20
+      Alignment = taRightJustify
+      CharCase = ecUpperCase
+      MaxLength = 0
+      OnValidate = edidadValidate
+      StoredValues = 3
+    end
+    object edsina: TdxMemo
+      Left = 404
+      Top = 368
+      Width = 461
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      Style.BorderStyle = xbsFlat
+      Style.Shadow = True
+      TabOrder = 21
+      Height = 41
+    end
     object cbalva: TdxImageEdit
       Left = 404
-      Top = 257
+      Top = 329
       Width = 53
       Color = clWhite
       Font.Charset = DEFAULT_CHARSET
@@ -4793,7 +4797,7 @@ inherited frmcad_fun_edi: Tfrmcad_fun_edi
     end
     object cbvsta: TdxImageEdit
       Left = 320
-      Top = 314
+      Top = 386
       Width = 65
       Color = clWhite
       Font.Charset = DEFAULT_CHARSET
@@ -4806,7 +4810,7 @@ inherited frmcad_fun_edi: Tfrmcad_fun_edi
       Style.BorderStyle = xbsFlat
       Style.ButtonStyle = btsFlat
       Style.Shadow = False
-      TabOrder = 13
+      TabOrder = 23
       AutoSize = False
       Descriptions.Strings = (
         'ATIVO'
@@ -4821,7 +4825,7 @@ inherited frmcad_fun_edi: Tfrmcad_fun_edi
     end
     object cbddep: TdxImageEdit
       Left = 11
-      Top = 139
+      Top = 211
       Width = 350
       Color = clWhite
       Font.Charset = DEFAULT_CHARSET
@@ -4834,7 +4838,7 @@ inherited frmcad_fun_edi: Tfrmcad_fun_edi
       Style.BorderStyle = xbsFlat
       Style.ButtonStyle = btsFlat
       Style.Shadow = False
-      TabOrder = 5
+      TabOrder = 24
       AutoSize = False
       Descriptions.Strings = (
         '')
@@ -4846,7 +4850,7 @@ inherited frmcad_fun_edi: Tfrmcad_fun_edi
     end
     object cbdsec: TdxImageEdit
       Left = 11
-      Top = 179
+      Top = 251
       Width = 350
       Color = clWhite
       Font.Charset = DEFAULT_CHARSET
@@ -4859,7 +4863,7 @@ inherited frmcad_fun_edi: Tfrmcad_fun_edi
       Style.BorderStyle = xbsFlat
       Style.ButtonStyle = btsFlat
       Style.Shadow = False
-      TabOrder = 6
+      TabOrder = 25
       AutoSize = False
       Descriptions.Strings = (
         '')
@@ -4871,7 +4875,7 @@ inherited frmcad_fun_edi: Tfrmcad_fun_edi
     end
     object cbdcar: TdxImageEdit
       Left = 11
-      Top = 259
+      Top = 331
       Width = 350
       Color = clWhite
       Font.Charset = DEFAULT_CHARSET
@@ -4884,7 +4888,7 @@ inherited frmcad_fun_edi: Tfrmcad_fun_edi
       Style.BorderStyle = xbsFlat
       Style.ButtonStyle = btsFlat
       Style.Shadow = False
-      TabOrder = 9
+      TabOrder = 26
       AutoSize = False
       Descriptions.Strings = (
         '')
@@ -4896,29 +4900,33 @@ inherited frmcad_fun_edi: Tfrmcad_fun_edi
     end
   end
   inherited sbMSG: TStatusBar
-    Top = 637
+    Top = 608
     Width = 872
   end
-  inherited SpeedBar2: TSpeedBar
-    Width = 872
-    inherited siCAN: TSpeedItem [5]
-    end
-    inherited siVAL: TSpeedItem [6]
-    end
-    inherited siSAV: TSpeedItem [7]
-    end
+  inherited Consulta: TIBQuery
+    Left = 792
+    Top = 432
   end
-  inherited imageOPC: TImageList
-    Left = 564
-    Top = 70
+  inherited IBTra: TIBTransaction
+    Left = 792
+    Top = 400
   end
-  inherited imageITEM: TImageList
-    Left = 244
-    Top = 206
+  inherited ibSP: TIBStoredProc
+    Left = 824
+    Top = 400
+  end
+  inherited ILMenuPrincipal: TImageList
+    Left = 712
+    Top = 400
+  end
+  inherited ILMenuEdicao: TImageList
+    Left = 744
+    Top = 400
   end
   object OpenPictureDialogEdit: TOpenPictureDialog
     InitialDir = 'C:\DEV\FOTOS'
-    Left = 376
+    Left = 832
+    Top = 392
   end
   object cep_log: TIBQuery
     Database = dmDADOS.bCEP

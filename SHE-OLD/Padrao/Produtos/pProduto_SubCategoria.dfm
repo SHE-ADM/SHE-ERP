@@ -198,17 +198,18 @@ inherited FrmProduto_SubCategoria: TFrmProduto_SubCategoria
                       RowIndex = 0
                       FieldName = 'DESCRICAO'
                     end
-                    object DBGConsultaDTCAD: TdxDBGridDateColumn
+                    object DBGConsultaDTCA: TdxDBGridDateColumn
                       DisableEditor = True
+                      Width = 70
                       BandIndex = 0
                       RowIndex = 0
-                      FieldName = 'DTCAD'
+                      FieldName = 'DTCA'
                     end
-                    object DBGConsultaDESTA: TdxDBGridPickColumn
+                    object DBGConsultaDEST: TdxDBGridPickColumn
                       Width = 100
                       BandIndex = 0
                       RowIndex = 0
-                      OnValidate = DBGConsultaDESTAValidate
+                      OnValidate = DBGConsultaDESTValidate
                       FieldName = 'DEST'
                       Items.Strings = (
                         'ATIVO'
@@ -21474,54 +21475,59 @@ inherited FrmProduto_SubCategoria: TFrmProduto_SubCategoria
       '  ID = :OLD_ID')
     InsertSQL.Strings = (
       'insert into TAB_SCT'
-      '  (API_B2B, API_B2C, API_MKP, ARTIGO, CDST, CDSTA, DESCRICAO,'
-      '   DEST, DTCA, DTED, DTST, ELAS_C, ELAS_L, ENCO_C,'
       
-        '   ENCO_L, ESPESSURA, ESPESSURA_TIPO, EVENTO, FLAG, FLAG_B2B_DEL' +
-        ', FLAG_B2B_INS, '
+        '  (API_B2B, API_B2C, API_MKP, ARTIGO, CDST, DESCRICAO, DEST, DTE' +
+        'D,'
       
-        '   FLAG_B2C_DEL, FLAG_B2C_INS, FLAG_ERP_DEL, FLAG_ERP_INS, FLAG_' +
-        'MKP_DEL, '
+        '   DTST, ELAS_C, ELAS_L, ENCO_C, ENCO_L, ESPESSURA, ESPESSURA_TI' +
+        'PO, EVENTO, '
       
-        '   FLAG_MKP_INS, GRAMATURA, HOST, ID, IDCA, IDED, IDEP, IDST, IP' +
-        ', LARG_T, '
-      '   LARG_U, METRO, NCM, PESO, PSCN, PUCOM_PAD, REFERENCIA,'
+        '   FLAG, FLAG_B2B_DEL, FLAG_B2B_INS, FLAG_B2C_DEL, FLAG_B2C_INS,' +
+        ' FLAG_ERP_DEL, '
       
-        '   RENDIMENTO, REST, RESTA, TT, UPRC_PAD, VUPRC_COMPRA, VUPRC_CO' +
-        'MPRA_IMP,'
+        '   FLAG_ERP_INS, FLAG_MKP_DEL, FLAG_MKP_INS, GRAMATURA, HOST, ID' +
+        ', IDCA, '
+      
+        '   IDED, IDEP, IDST, IP, LARG_T, LARG_U, METRO, NCM, PESO, PSCN,' +
+        ' PUCOM_PAD, '
+      
+        '   REFERENCIA, RENDIMENTO, REST, UPRC_PAD, VUPRC_COMPRA, VUPRC_C' +
+        'OMPRA_IMP, '
       '   VUPRC_PAD, VUPRC_PRO, VUPRC_PRZ)'
       'values'
       
-        '  (:API_B2B, :API_B2C, :API_MKP, :ARTIGO, :CDST, :CDSTA, :DESCRI' +
-        'CAO,'
-      '   :DEST, :DTCA, :DTED, :DTST,'
+        '  (:API_B2B, :API_B2C, :API_MKP, :ARTIGO, :CDST, :DESCRICAO, :DE' +
+        'ST,'
       
-        '   :ELAS_C, :ELAS_L, :ENCO_C, :ENCO_L, :ESPESSURA, :ESPESSURA_TI' +
-        'PO, :EVENTO, '
+        '   :DTED, :DTST, :ELAS_C, :ELAS_L, :ENCO_C, :ENCO_L, :ESPESSURA,' +
+        ' :ESPESSURA_TIPO, '
       
-        '   :FLAG, :FLAG_B2B_DEL, :FLAG_B2B_INS, :FLAG_B2C_DEL, :FLAG_B2C' +
-        '_INS, :FLAG_ERP_DEL, '
+        '   :EVENTO, :FLAG, :FLAG_B2B_DEL, :FLAG_B2B_INS, :FLAG_B2C_DEL, ' +
+        ':FLAG_B2C_INS, '
       
-        '   :FLAG_ERP_INS, :FLAG_MKP_DEL, :FLAG_MKP_INS, :GRAMATURA, :HOS' +
-        'T, :ID, '
-      '   :IDCA, :IDED, :IDEP, :IDST, :IP, :LARG_T, :LARG_U,'
+        '   :FLAG_ERP_DEL, :FLAG_ERP_INS, :FLAG_MKP_DEL, :FLAG_MKP_INS, :' +
+        'GRAMATURA, '
       
-        '   :METRO, :NCM, :PESO, :PSCN, :PUCOM_PAD, :REFERENCIA, :RENDIME' +
-        'NTO, :REST, '
-      '   :RESTA, :TT, :UPRC_PAD, :VUPRC_COMPRA, :VUPRC_COMPRA_IMP,'
-      '   :VUPRC_PAD, :VUPRC_PRO, :VUPRC_PRZ)')
+        '   :HOST, :ID, :IDCA, :IDED, :IDEP, :IDST, :IP, :LARG_T, :LARG_U' +
+        ', :METRO, '
+      
+        '   :NCM, :PESO, :PSCN, :PUCOM_PAD, :REFERENCIA, :RENDIMENTO, :RE' +
+        'ST, :UPRC_PAD, '
+      
+        '   :VUPRC_COMPRA, :VUPRC_COMPRA_IMP, :VUPRC_PAD, :VUPRC_PRO, :VU' +
+        'PRC_PRZ)')
     RefreshSQL.Strings = (
       'Select '
       '  ID,'
       '  IDEP,'
       '  IDCA,'
-      '  DTCA,'
       '  IDED,'
       '  DTED,'
       '  IDST,'
       '  DTST,'
       '  CDST,'
       '  REST,'
+      '  DEST,'
       '  REFERENCIA,'
       '  DESCRICAO,'
       '  ARTIGO,'
@@ -21560,12 +21566,8 @@ inherited FrmProduto_SubCategoria: TFrmProduto_SubCategoria
       '  IP,'
       '  HOST,'
       '  FLAG,'
-      '  RESTA,'
-      '  EVENTO,'
-      '  CDSTA,'
-      '  DEST,'
-      '  TT'
-      'from TAB_SCT'
+      '  EVENTO'
+      'from TAB_SCT '
       'where'
       '  ID = :ID')
     SelectSQL.Strings = (
@@ -21624,10 +21626,8 @@ inherited FrmProduto_SubCategoria: TFrmProduto_SubCategoria
       '  API_MKP = :API_MKP,'
       '  ARTIGO = :ARTIGO,'
       '  CDST = :CDST,'
-      '  CDSTA = :CDSTA,'
       '  DESCRICAO = :DESCRICAO,'
       '  DEST = :DEST,'
-      '  DTCA = :DTCA,'
       '  DTED = :DTED,'
       '  DTST = :DTST,'
       '  ELAS_C = :ELAS_C,'
@@ -21664,8 +21664,6 @@ inherited FrmProduto_SubCategoria: TFrmProduto_SubCategoria
       '  REFERENCIA = :REFERENCIA,'
       '  RENDIMENTO = :RENDIMENTO,'
       '  REST = :REST,'
-      '  RESTA = :RESTA,'
-      '  TT = :TT,'
       '  UPRC_PAD = :UPRC_PAD,'
       '  VUPRC_COMPRA = :VUPRC_COMPRA,'
       '  VUPRC_COMPRA_IMP = :VUPRC_COMPRA_IMP,'
@@ -21693,12 +21691,6 @@ inherited FrmProduto_SubCategoria: TFrmProduto_SubCategoria
       DisplayLabel = 'Data'
       FieldName = 'DTCA'
       Origin = '"TAB_SCT"."DTCA"'
-      DisplayFormat = 'dd/mm/yy hh:mm'
-    end
-    object CadastroDTCAD: TDateField
-      DisplayLabel = 'Cadastro'
-      FieldName = 'DTCAD'
-      ProviderFlags = []
       DisplayFormat = 'dd/mm/yy'
     end
     object CadastroIDED: TSmallintField
@@ -21720,6 +21712,21 @@ inherited FrmProduto_SubCategoria: TFrmProduto_SubCategoria
       FieldName = 'DTST'
       Origin = '"TAB_SCT"."DTST"'
       DisplayFormat = 'dd/mm/yy hh:mm'
+    end
+    object CadastroCDST: TSmallintField
+      FieldName = 'CDST'
+      Origin = '"TAB_SCT"."CDST"'
+    end
+    object CadastroREST: TIBStringField
+      FieldName = 'REST'
+      Origin = '"TAB_SCT"."REST"'
+      Size = 10
+    end
+    object CadastroDEST: TIBStringField
+      DisplayLabel = 'Situa'#231#227'o'
+      FieldName = 'DEST'
+      Origin = '"TAB_USER"."LOGIN"'
+      Size = 30
     end
     object CadastroEVENTO: TIBStringField
       FieldName = 'EVENTO'
@@ -21921,23 +21928,11 @@ inherited FrmProduto_SubCategoria: TFrmProduto_SubCategoria
       ProviderFlags = []
       Size = 111
     end
-    object CadastroDEST: TIBStringField
-      DisplayLabel = 'Situa'#231#227'o'
-      FieldName = 'DEST'
-      Origin = '"TAB_USER"."LOGIN"'
-      Size = 30
-    end
     object CadastroLOGST: TIBStringField
       DisplayLabel = 'Status'
       FieldName = 'LOGST'
       ProviderFlags = []
       Size = 111
-    end
-    object CadastroDESTA: TIBStringField
-      DisplayLabel = 'Situa'#231#227'o'
-      FieldName = 'DESTA'
-      Origin = '"TAB_STA"."DESCRICAO"'
-      Size = 60
     end
     object CadastroFLAG_ERP_INS: TSmallintField
       DisplayLabel = 'Incluir'
@@ -22006,15 +22001,6 @@ inherited FrmProduto_SubCategoria: TFrmProduto_SubCategoria
       FieldKind = fkCalculated
       FieldName = 'C_ID'
       Calculated = True
-    end
-    object CadastroCDST: TSmallintField
-      FieldName = 'CDST'
-      Origin = '"TAB_SCT"."CDST"'
-    end
-    object CadastroREST: TIBStringField
-      FieldName = 'REST'
-      Origin = '"TAB_SCT"."REST"'
-      Size = 10
     end
   end
   object DTSFKCadastro: TDataSource

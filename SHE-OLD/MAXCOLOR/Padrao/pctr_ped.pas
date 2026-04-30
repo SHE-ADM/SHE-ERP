@@ -188,10 +188,6 @@ type
   private
     { Private declarations }
     gera_romaneio: boolean;
-    APED_EDI_AFC,
-    APED_EDI_PFC,
-    APED_EDI_CPD,
-    APED_EDI_CBX: Boolean;
 
     procedure baixa_carteira;
     procedure baixa_bancario;
@@ -364,11 +360,12 @@ begin
   if cadastroROM_CDBX.AsInteger > 0 then
   raise exception.Create('Pedido já finalizado !');
 
+{  if cadastroROM_CDRO.AsInteger > 0 then
+  raise exception.Create('Pedido já possui romaneio emitido !'+#13+'Romaneio No '+cadastroROM_CDRO.AsString);
+
   if cadastroROM_CDNF.AsInteger > 0 then
   raise exception.Create('Pedido já faturado !'+#13+'Nota Fiscal No '+cadastroROM_CDNF.AsString);
-
-  if cadastroROM_CDRO.AsInteger > 0 then
-  raise exception.Create('Pedido já possui romaneio emitido !'+#13+'Romaneio No '+cadastroROM_CDRO.AsString);
+ }
 
   if cadastroROM_CDCX.AsInteger > 0 then
   begin
@@ -429,7 +426,7 @@ var
   NewString: string;
   ClickedOK: Boolean;
 begin
-  if CadastroROM_CDBX.AsInteger = 0 then
+  if SICRO.Tag = 0 then
   begin
     if CadastroROM_CDNF.AsInteger > 0 then
     raise exception.Create('Pedido já faturado !'+#13+'Nota Fiscal No '+CadastroROM_CDNF.AsString);
@@ -445,7 +442,7 @@ begin
 
     ClickedOK := InputQuery('Cancelamento de Pedido', 'Motivo', NewString);
     if not ClickedOK then
-       Abort;
+    Abort;
 
     oOTransact(TEdicao);
     with SQLEdicao do
@@ -460,15 +457,15 @@ begin
       Close;
       SQL.Clear;
       SQL.Add('DELETE FROM CAD_PRO_SEP');
-      SQL.Add('WHERE  IDEP = ''' + CadastroROM_CDEP.AsString + '''');
-      SQL.Add('AND    IDPK = ''' + CadastroID.AsString + '''');
+      SQL.Add('WHERE  EST_CDEP = ''' + CadastroROM_CDEP.AsString + '''');
+      SQL.Add('AND    EST_CDPD = ''' + CadastroID.AsString + '''');
       ExecQuery;
 
       Close;
       SQL.Clear;
       SQL.Add('DELETE FROM CAD_PRO_EST');
-      SQL.Add('WHERE  IDEP = ''' + CadastroROM_CDEP.AsString + '''');
-      SQL.Add('AND    IDPK = ''' + CadastroID.AsString + '''');
+      SQL.Add('WHERE  EST_CDEP = ''' + CadastroROM_CDEP.AsString + '''');
+      SQL.Add('AND    EST_CDPD = ''' + CadastroROM_CDRO.AsString + '''');
       ExecQuery;
 
       Close;
@@ -492,14 +489,18 @@ begin
     end;
 
     oCTransact(TEdicao);
+    oAviso(Application.Handle,'Pedido cancelado com sucesso !');
+    oRefresh(Cadastro);
+
     frmprincipal.Log_Eve('Vendas',LOWERCASE(CadastroROM_STPD.AsString),'Cancelamento',CadastroROM_DERO.AsString,CadastroROM_DERO.AsString,CadastroROM_CCLI.AsString+' - '+LOWERCASE(CadastroCLI_FANT.AsString),'','');
   end else
-  begin
-    if oYesNo(handle,'Cancelar baixa financeira do pedido No.: '+CadastroROM_DERO.AsString+' ?') = mrno then
-       Abort;
 
-    oOTransact(TEdicao);   
-    CANCELA_CAIXA;
+  if SICRO.Tag = 1 then
+  begin
+    if oYesNo(handle,'Estornar Pedido No.: '+CadastroROM_DERO.AsString+' ?') = mrno then
+    abort;
+
+    oOTransact(TEdicao);
     with SQLEdicao do
     begin
       Close;
@@ -508,7 +509,7 @@ begin
       SQL.Add('SET    ROM_STFI = ''PENDENTE'',');
       SQL.Add('       ROM_CDBX = NULL,');
       SQL.Add('       ROM_DBAI = NULL ');
-      SQL.Add('WHERE  ROM_CDBX = '''+CadastroROM_CDBX.AsString+'''');
+      SQL.Add('WHERE  ID       = ''' + CadastroID.AsString + '''');
       ExecQuery;
 
       Close;
@@ -517,69 +518,104 @@ begin
       SQL.Add('SET    ROM_STFI = ''PENDENTE'',');
       SQL.Add('       ROM_DBAI = NULL,');
       SQL.Add('       ROM_CDBX = NULL');
-      SQL.Add('WHERE  ROM_CDBX = '''+CadastroROM_CDBX.AsString+'''');
+      SQL.Add('WHERE  ID       = '''+CadastroROM_CDRO.AsString+'''');
+      ExecQuery;
+    end;
+
+    if CadastroROM_CDRO.AsInteger > 0 then
+    begin
+      rom_ite.First;
+      while not rom_ite.Eof do
+      begin
+        ibSP.StoredProcName := 'SP_CAD_PRO_RES';
+        ibSP.Prepare;
+
+        ibSP.ParamByName('est').Value  := 'CAD_PRO_RES';
+        if frmprincipal.parametrosID.AsInteger > 1 then
+        ibSP.ParamByName('est').Value  := 'CAD_PRO_RES_'+oStrZero(frmprincipal.parametrosID.AsInteger,3);
+
+        ibSP.ParamByName('id').Value   := 0;
+        ibSP.ParamByName('cdep').Value := frmprincipal.parametrosID.AsInteger;
+        ibSP.ParamByName('cdro').Value := 0;
+        ibSP.ParamByName('cdpd').Value := consulta.Fields[0].AsInteger;
+        ibSP.ParamByName('cdbx').Value := 0;
+        ibSP.ParamByName('cpro').Value := rom_iteROM_CPRO.AsInteger;
+        ibSP.ParamByName('cusu').Value := cadastroROM_CVEN.AsInteger;
+        ibSP.ParamByName('dusu').Value := cadastroUSU_DUSU.AsString;
+        ibSP.ParamByName('cfav').Value := cadastroROM_CCLI.AsInteger;
+        ibSP.ParamByName('dfav').Value := cadastroCLI_FANT.AsString;
+        ibSP.ParamByName('dcad').Value := cadastroROM_DROM.AsDateTime;
+        ibSP.ParamByName('docu').Value := trim(copy(cadastroROM_DERO.AsString,1,10));
+        ibSP.ParamByName('flag').Value := 'R';
+        ibSP.ParamByName('cdet').Value := rom_iteROM_CDET.AsString;
+        ibSP.ParamByName('dsep').Value := rom_iteROM_DSEP.AsString;
+        ibSP.ParamByName('debi').Value := 0;
+        ibSP.ParamByName('cred').Value := rom_iteROM_QTDE.AsFloat;
+        ibSP.ParamByName('dmap').Value := '';
+        ibSP.ParamByName('lote').Value := '';
+        ibSP.ParamByName('ctnr').Value := '';
+        ibSP.ParamByName('UNIT').Value := 0;
+
+        ibSP.ExecProc;
+        rom_ite.Next;
+      end;
+    end;
+    
+    oCTransact(TEdicao);
+    oAviso(Application.Handle,'Cancelamento estornado com sucesso !');
+    oRefresh(Cadastro);
+  end else
+
+  if SICRO.Tag = 2 then
+  begin
+    if oYesNo(handle,'Estornar faturamento do pedido No.: '+CadastroROM_DERO.AsString+' ?') = mrno then
+    Abort;
+
+    oOTransact(TEdicao);
+    CANCELA_CAIXA;
+
+    with SQLEdicao do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add('UPDATE '+SLPrincipal.Values['ped_ven_cab']);
+      SQL.Add('SET    ROM_STFI = ''PENDENTE'',');
+      SQL.Add('       ROM_CDBX = NULL,');
+      SQL.Add('       ROM_DBAI = NULL ');
+      SQL.Add('WHERE  ID       = ''' + CadastroID.AsString + '''');
+      ExecQuery;
+
+      Close;
+      SQL.Clear;
+      SQL.Add('UPDATE '+SLPrincipal.Values['rom_cab']);
+      SQL.Add('SET    ROM_STFI = ''PENDENTE'',');
+      SQL.Add('       ROM_DBAI = NULL,');
+      SQL.Add('       ROM_CDBX = NULL');
+      SQL.Add('WHERE  ID       = '''+CadastroROM_CDRO.AsString+'''');
       ExecQuery;
 
       Close;
       SQL.Clear;
       SQL.Add('DELETE FROM CAD_PRO_RES');
-      SQL.Add('WHERE  IDEP = ''' + CadastroROM_CDEP.AsString + '''');
-      SQL.Add('AND    IDPK = ''' + CadastroID.AsString + '''');
+      SQL.Add('WHERE  EST_CDEP = ''' + CadastroROM_CDEP.AsString + '''');
+      SQL.Add('AND    EST_CDPD = ''' + CadastroID.AsString + '''');
       ExecQuery;
 
       Close;
       SQL.Clear;
       SQL.Add('DELETE FROM CAD_PRO_SEP');
-      SQL.Add('WHERE  IDEP = ''' + CadastroROM_CDEP.AsString + '''');
-      SQL.Add('AND    IDPK = ''' + CadastroID.AsString + '''');
+      SQL.Add('WHERE  EST_CDEP = ''' + CadastroROM_CDEP.AsString + '''');
+      SQL.Add('AND    EST_CDPD = ''' + CadastroID.AsString + '''');
       ExecQuery;
-
-      Close;
-      SQL.Clear;
-      SQL.Add('DELETE FROM CAD_PRO_EST');
-      SQL.Add('WHERE  IDEP = ''' + CadastroROM_CDEP.AsString + '''');
-      SQL.Add('AND    IDPK = ''' + CadastroID.AsString + '''');
-      ExecQuery;
-
-      rom_ite.First;
-      while not rom_ite.Eof do
-      begin
-        SPEdicao.Close;
-        SPEdicao.StoredProcName := 'SP_CAD_PRO_SEP';
-        SPEdicao.Prepare;
-
-        SPEdicao.ParamByName('est').Value  := oREPZero('CAD_PRO_SEP','_',RECParametros.Id,3);
-        SPEdicao.ParamByName('id').Value   := 0;
-        SPEdicao.ParamByName('cdep').Value := RECParametros.Id;
-        SPEdicao.ParamByName('cdro').Value := 0;
-        SPEdicao.ParamByName('cdpd').Value := CadastroID.AsInteger;
-        SPEdicao.ParamByName('cdbx').Value := 0;
-        SPEdicao.ParamByName('cpro').Value := rom_iteROM_CPRO.AsInteger;
-        SPEdicao.ParamByName('cusu').Value := CadastroROM_CVEN.AsInteger;
-        SPEdicao.ParamByName('dusu').Value := CadastroUSU_DUSU.AsString;
-        SPEdicao.ParamByName('cfav').Value := CadastroROM_CCLI.AsInteger;
-        SPEdicao.ParamByName('dfav').Value := CadastroCLI_FANT.AsString;
-        SPEdicao.ParamByName('dcad').Value := strtodate(SLPrincipal.Values['data_sistema']);
-        SPEdicao.ParamByName('docu').Value := copy(CadastroROM_DERO.AsString,1,10);
-        SPEdicao.ParamByName('flag').Value := 'R';
-        SPEdicao.ParamByName('cdet').Value := EmptyStr;
-        SPEdicao.ParamByName('dsep').Value := rom_iteROM_DSEP.AsString;
-        SPEdicao.ParamByName('debi').Value := 0;
-        SPEdicao.ParamByName('cred').Value := rom_iteROM_QTDE.AsFloat;
-        SPEdicao.ParamByName('dmap').Value := '';
-        SPEdicao.ParamByName('lote').Value := '';
-        SPEdicao.ParamByName('ctnr').Value := '';
-        SPEdicao.ExecProc;
-
-        rom_ite.Next;
-      end;
 
       oCTransact(TEdicao);
       frmprincipal.Log_Eve('Vendas',LOWERCASE(CadastroROM_STPD.AsString),'Cancelamento de Baixa',CadastroROM_DERO.AsString,CadastroROM_DERO.AsString,CadastroROM_CCLI.AsString+' - '+LOWERCASE(CadastroCLI_FANT.AsString),'','');
     end;
-  end;
 
-  ExecuteEvent;
+    oCTransact(TEdicao);
+    oAviso(Application.Handle,'Cancelamento estornado com sucesso !');
+    oRefresh(Cadastro);
+  end;
 end;
 
 procedure Tfrmctr_ped.siINFClick(Sender: TObject);
@@ -976,42 +1012,46 @@ end;
 procedure Tfrmctr_ped.dtsCadastroDataChange(Sender: TObject;
   Field: TField);
 begin
-  if Cadastro.State = dsBrowse then
+  if CadastroROM_TDSC.AsString = '%' then
+  dbgConsultaROM_PDSC.Caption := 'Desc (%)'
+  else if CadastroROM_TDSC.AsString = '$' then
+  dbgConsultaROM_PDSC.Caption := 'Desc ($)';
+
+  siARO.Enabled := (CadastroID.AsInteger > 0) and (CadastroROM_STFI.AsString  = 'PENDENTE');
+  siGRO.Enabled := (CadastroID.AsInteger > 0) and (CadastroROM_STFI.AsString  = 'PENDENTE') and(CadastroROM_CDRO.AsInteger = 0);
+  siBRO.Enabled := (CadastroID.AsInteger > 0) and (CadastroROM_STFI.AsString  = 'PENDENTE');
+
+  if CadastroROM_STFI.AsString = 'CANCELADO' then
   begin
-    if CadastroROM_TDSC.AsString = '%' then
-    dbgConsultaROM_PDSC.Caption := 'Desc (%)'
-    else if CadastroROM_TDSC.AsString = '$' then
-    dbgConsultaROM_PDSC.Caption := 'Desc ($)';
-
-    siARO.Enabled := (CadastroROM_STA.AsString  = '0');
-    siGRO.Enabled := (CadastroROM_STA.AsString  = '0');
-    siCRO.Enabled := (CadastroROM_STA.AsString  = '0');
-    siBRO.Enabled := (CadastroROM_STA.AsString  = '0') and (CadastroROM_STPD.AsString <> 'DEVOLUÇÃO') and (CadastroROM_STPD.AsString <> 'ABATIMENTO');
-
-    if CadastroROM_CDBX.AsInteger > 0 then
-    begin
-      SICRO.ImageIndex := 11;
-      SICRO.BtnCaption := 'Cancelar Baixa';
-      SICRO.Hint       := 'Cancela o faturamento e as contas à receber';
-    end else
-    begin
-      SICRO.ImageIndex := 6;
-      SICRO.BtnCaption := 'Cancelar';
-      SICRO.Hint       := 'Cancelamento de Pedido';
-    end;
-
-    sbMSG.Panels[1].Text := CadastroROM_CONC.AsString;
-    sbMSG.Panels[2].Text := '';
-
-    if CadastroROM_DSEP.AsString <> '' then
-    sbMSG.Panels[2].Text := 'Separador '+CadastroROM_DSEP.AsString;
-    sbMSG.Panels[2].Text := TRIM(sbMSG.Panels[2].Text)+' '+TRIM(CadastroROM_CTNR.AsString)+' '+TRIM(CadastroROM_OBSE.AsString);
-
-    edobse.Lines.Clear;
-    edobse.Lines.Add(TRIM(CadastroROM_CTNR.AsString));
-    edobse.Lines.Add(TRIM(CadastroROM_OBSE.AsString));
-
+    SICRO.Tag        := 1;
+    SICRO.ImageIndex := 12;
+    SICRO.BtnCaption := 'Restaurar';
+    SICRO.Hint       := 'Estorna Cancelamento';
+  end else
+  if CadastroROM_CDBX.AsInteger > 0 then
+  begin
+    SICRO.Tag        := 2;
+    SICRO.ImageIndex := 11;
+    SICRO.BtnCaption := 'Estornar';
+    SICRO.Hint       := 'Estorna Faturamento';
+  end else
+  begin
+    SICRO.Tag        := 0;
+    SICRO.ImageIndex := 6;
+    SICRO.BtnCaption := 'Cancelar';
+    SICRO.Hint       := 'Cancelamento de Pedido';
   end;
+
+  sbMSG.Panels[1].Text := CadastroROM_CONC.AsString;
+  sbMSG.Panels[2].Text := '';
+
+  if CadastroROM_DSEP.AsString <> '' then
+  sbMSG.Panels[2].Text := 'Separador '+CadastroROM_DSEP.AsString;
+  sbMSG.Panels[2].Text := TRIM(sbMSG.Panels[2].Text)+' '+TRIM(CadastroROM_CTNR.AsString)+' '+TRIM(CadastroROM_OBSE.AsString);
+
+  edobse.Lines.Clear;
+  edobse.Lines.Add(TRIM(CadastroROM_CTNR.AsString));
+  edobse.Lines.Add(TRIM(CadastroROM_OBSE.AsString));
 end;
 
 procedure Tfrmctr_ped.writefotoClick(Sender: TObject);

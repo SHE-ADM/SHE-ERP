@@ -2105,7 +2105,7 @@ begin
     SQL.Add('AND      PK.DGCP LIKE ''' + APSQ_DG + '%''');
     SQL.Add('ORDER BY PK.DTCA DESC');
 
-    ParamByName('IDEP').Value := RECParametros.EP_ID;
+    ParamByName('IDEP').Value := RECParametros.EP_VW_ID;
     Prepare;
   end;
 
@@ -2132,7 +2132,7 @@ begin
     SQL.Add('AND      CP.DGCP LIKE ''' + APSQ_DG + '%''');
     SQL.Add('ORDER BY PK.DTCA DESC');
 
-    ParamByName('IDEP').Value := RECParametros.EP_ID;
+    ParamByName('IDEP').Value := RECParametros.EP_VW_ID;
     Prepare;
   end;
 

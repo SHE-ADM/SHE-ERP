@@ -95,7 +95,12 @@ uses
   pLogin in '..\Padrao\pLogin.pas' {FrmLogin},
   pSplash in '..\..\..\Lib\Default\pSplash.pas' {FrmSplash},
   qPED_CUP_SCO in '..\Padrao\qPED_CUP_SCO.pas' {QRPPED_CUP_SCO: TQuickRep},
-  qPED_CUP_VEN in '..\Padrao\qPED_CUP_VEN.pas' {QRPPED_CUP_VEN: TQuickRep};
+  qPED_CUP_VEN in '..\Padrao\qPED_CUP_VEN.pas' {QRPPED_CUP_VEN: TQuickRep},
+  pcad_fun in '..\Padrao\pcad_fun.pas' {frmcad_fun},
+  pcad_fun_edi in '..\Padrao\pcad_fun_edi.pas' {frmcad_fun_edi},
+  pcad_usu in '..\Padrao\pcad_usu.pas' {frmcad_usu},
+  pcad_usu_clo in '..\Padrao\pcad_usu_clo.pas' {frmcad_usu_clo},
+  pcad_usu_edi in '..\Padrao\pcad_usu_edi.pas' {frmcad_usu_edi};
 
 {$R *.res}
 
@@ -113,6 +118,9 @@ begin
   FrmLogin.ShowModal;
 
   Application.CreateForm(TFrmPrincipal, FrmPrincipal);
+  Application.CreateForm(Tfrmcad_usu, frmcad_usu);
+  Application.CreateForm(Tfrmcad_usu_clo, frmcad_usu_clo);
+  Application.CreateForm(Tfrmcad_usu_edi, frmcad_usu_edi);
   Application.Initialize;
 
   FreeAndNil(FrmLogin);

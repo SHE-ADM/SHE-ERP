@@ -712,6 +712,17 @@ begin
 
       next;
     end;
+
+    { Composição }
+    Close;
+    SQL.Clear;
+    SQL.Add('SELECT DESCRICAO FROM TAB_PRO_CMP WHERE CDST = 30 GROUP BY 1 ORDER BY 1');
+    ExecQuery;
+    while not eof do
+    begin
+      DBGCMPCMP_DEPK.Items.Add(Current.Vars[0].AsString);
+      next;
+    end;
   end;
 
   { Edição }
@@ -963,9 +974,12 @@ begin
         CAD_PRO_GRD.Post;
         Next;
       end;
+    end;
 
-      { Composição }
-      _CAD_PRO_CMP;
+    { Composição }
+    _CAD_PRO_CMP;
+    if rEC_SHE_DEF.IDFK > 0 then
+    begin
       Close;
       SQL.Clear;
       SQL.Add('SELECT PK.ID,PK.IDPK,PK.REFERENCIA,PK.DESCRICAO,PK.QTDE');
@@ -983,7 +997,7 @@ begin
         CAD_PRO_CMP.Post;
         next;
       end;
-    end;
+    end;  
   end;
 
   with Consulta do
@@ -2253,10 +2267,11 @@ begin
     SelectSQL.Add('FROM   TAB_EDI_PRO AS PK');
     SelectSQL.Add('WHERE  PK.IDEV = ''' + AIDG_IDEV_CMP + '''');
     SelectSQL.Add('AND    PK.CDEV = 3');
+    SelectSQL.Add('AND    PK.HOST = ''' + RECParametros.HOST + '''');
 
     if AFlag >= 0 then
-       SelectSQL.Add('AND      PK.FLAG = '+IntToStr(AFlag));
-       SelectSQL.Add('ORDER BY PK.ID');
+    SelectSQL.Add('AND      PK.FLAG = '+IntToStr(AFlag));
+    SelectSQL.Add('ORDER BY PK.ID');
 
     Prepare;
     Open;

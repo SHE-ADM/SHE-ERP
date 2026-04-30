@@ -5655,6 +5655,8 @@ end;
 procedure TFrmVEN_NFE.PECFOPValidate(Sender: TObject;
   var ErrorText: String; var Accept: Boolean);
 begin
+  ACTNFeCalculate.Tag := 0;
+
   if TAB_CFOPCFOP.AsString <> PECFOP.Text then
   begin
     TAB_CFOP.Close;
@@ -8502,6 +8504,8 @@ begin
       // agora se tivéssemos mais de uma seria o caso de posicionar também na primeira ocorrencia.
       ANodeTmp.ChildNodes.First;
       repeat
+        Application.ProcessMessages;
+        
         if ANodeTmp.ChildNodes['cProd'].text <> '' then
         begin
           try

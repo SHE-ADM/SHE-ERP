@@ -3735,13 +3735,14 @@ var
   ACDET: String;
 
   AEtiquetas: Array of String;
+  Etiquetas,
   i: integer;
 
   AIDG_IDEV_PDV: Variant;
 begin
-  if RECParametros.CDCX = 0 then
-     oException(Nil,RECParametros.STCX + ' !' + #13 +
-                    'Favor efetuar os procedimentos para a abertura do caixa.');
+  if RECParametros.STCX <> 'Caixa Aberto' then
+  oException(Nil,RECParametros.STCX + ' !' + #13 +
+                'Favor efetuar os procedimentos para a abertura do caixa.');
 
   if not EPrincipal.Execute then
   Abort;
@@ -3758,6 +3759,7 @@ begin
   SetLength(AEtiquetas,SLTexto.Count);
 
   AIDG_IDEV_PDV := '0';
+  Etiquetas := 0;
   i:= 0;
 
   try
@@ -3790,6 +3792,8 @@ begin
                        'Registro: ' + ALinha);
       end;
     end;
+
+    Etiquetas := i;
   finally
     CloseFile(TFArquivo);
     SLTexto.Free;
@@ -3894,7 +3898,8 @@ begin
       end;
 
       oCTransact(TFBEdicao);
-      oAviso(Application.Handle,'Pedido Gerado com Sucesso !');
+      oAviso(Application.Handle,'Pedido Gerado com Sucesso !' + #13 +
+                                INTTOSTR(Etiquetas) + 'separada(s).');
     except
       on E: Exception do
       begin
