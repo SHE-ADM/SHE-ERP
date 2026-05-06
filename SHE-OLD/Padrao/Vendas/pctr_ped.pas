@@ -1010,7 +1010,7 @@ begin
   if CadastroPDSC.AsFloat > 0 then
   DBGConsultaPDSC.Visible := True;
 
-  DBGConsulta.ApplyBestFit(DBGConsultaDEPK);
+  //DBGConsulta.ApplyBestFit(DBGConsultaDEPK);
   DBGConsulta.ApplyBestFit(DBGConsultaQTRL); DBGConsultaQTRL.Width := DBGConsultaQTRL.Width + 08;
   DBGConsulta.ApplyBestFit(DBGConsultaRLSP); DBGConsultaRLSP.Width := DBGConsultaQTRL.Width;
 

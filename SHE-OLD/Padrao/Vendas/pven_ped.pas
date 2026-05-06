@@ -2200,9 +2200,12 @@ begin
   PEDECT.Text  := RECParametros.CT_NO;
 
   cbstpd.Text  := RECParametros.PED_TPD_NO;
-  cbstco.Text  := RECParametros.PED_TCO_NO;
-  PEDEPG.Text  := RECParametros.PED_PRZ_NO;
+  PESQUISA_TIPO('VEN_TIPO',cbstpd.Text);
 
+  PEDEPG.Text  := RECParametros.PED_PRZ_NO;
+  PESQUISA_FPAGTO('F',PEDEPG.Text);
+
+  cbstco.Text  := RECParametros.PED_TCO_NO;
   ASTFI := RECParametros.PED_STFI;
 
   if Pos(REC_SHE_DEF.CDEV,'23') > 0 then { Devolução / Abatimento }
@@ -2328,14 +2331,16 @@ begin
       { Tipos }
       cbstpd.Text := IFThen(REC_SHE_DEF.CDEV = 2,'DEVOLUÇÃO' ,
                      IFThen(REC_SHE_DEF.CDEV = 3,'ABATIMENTO',Current.ByName('STPD').AsString));
+      PESQUISA_TIPO('VEN_TIPO',cbstpd.Text);
+
+      { Prazos }
+      PEDEPG.Text := IFThen(REC_SHE_DEF.CDEV = 1,Current.ByName('DEPG').AsString,RECParametros.PED_PRZ_NO);
+      PESQUISA_FPAGTO('F',PEDEPG.Text);
 
       { Cobrança }
       cbstco.Text := Current.ByName('STCO').AsString;
       IETPCO.Text := Current.ByName('TPCO').AsString;
       IETPCO.Hint := Current.ByName('RECO').AsString;
-
-      { Prazos }
-      PEDEPG.Text := IFThen(REC_SHE_DEF.CDEV = 1,Current.ByName('DEPG').AsString,RECParametros.PED_PRZ_NO);
 
       { TOTAIS }
       CETSDE.Value := Current.ByName('PK_TSDE').AsCurrency;
@@ -2434,9 +2439,6 @@ begin
       end;
     end;
   end;
-
-  PESQUISA_TIPO('VEN_TIPO',cbstpd.Text);
-  PESQUISA_FPAGTO('F',PEDEPG.Text);
 end;
 
 procedure TFrmVEN_PED.ACTEdicaoExecute(Sender: TObject);

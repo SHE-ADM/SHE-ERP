@@ -337,6 +337,7 @@ procedure TFrmPadr3.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   case key of
+       vk_escape: ACTSaida.Execute;
        vk_return: if (not (ActiveControl is TdxDBGrid)    and
                       not (ActiveControl is TdxDBMemo)    and
                       not (ActiveControl is TdxMemo)      and

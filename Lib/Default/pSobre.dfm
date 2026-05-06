@@ -2168,7 +2168,7 @@ object FrmSobre: TFrmSobre
       Height = 25
       Alignment = taCenter
       AutoSize = False
-      Caption = 'Copyright '#169' 2026 SHEILD'
+      Caption = 'Copyright '#169' 2026 S.H.E.I.LD.'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWhite
       Font.Height = -19
@@ -2256,7 +2256,7 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object laCOM: TLabel
-      Left = 342
+      Left = 334
       Top = 198
       Width = 53
       Height = 17
@@ -2271,7 +2271,7 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object laVEN: TLabel
-      Left = 342
+      Left = 334
       Top = 214
       Width = 42
       Height = 17
@@ -2301,7 +2301,7 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object laFAT: TLabel
-      Left = 342
+      Left = 334
       Top = 230
       Width = 73
       Height = 17
@@ -2346,7 +2346,7 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object laFIN: TLabel
-      Left = 342
+      Left = 334
       Top = 246
       Width = 59
       Height = 17
@@ -2376,7 +2376,7 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object laOCA: TLabel
-      Left = 342
+      Left = 334
       Top = 182
       Width = 71
       Height = 17
@@ -2406,7 +2406,7 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object laPCP: TLabel
-      Left = 342
+      Left = 334
       Top = 150
       Width = 22
       Height = 17
@@ -2436,7 +2436,7 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object laETI: TLabel
-      Left = 342
+      Left = 334
       Top = 166
       Width = 53
       Height = 17
@@ -2468,9 +2468,9 @@ object FrmSobre: TFrmSobre
     object LANVersao: TLabel
       Left = 100
       Top = 4
-      Width = 112
+      Width = 106
       Height = 17
-      Caption = 'SHE-ERP-OLD-CMP'
+      Caption = 'SHE-ERP-OLD-EST'
       Color = clInfoBk
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -2485,7 +2485,7 @@ object FrmSobre: TFrmSobre
       Top = 20
       Width = 101
       Height = 17
-      Caption = '28/04/2026 08:10'
+      Caption = '06/05/2026 07:21'
       Color = clInfoBk
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -2496,7 +2496,7 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object lbLICE: TLabel
-      Left = 78
+      Left = 86
       Top = 230
       Width = 42
       Height = 17
@@ -2511,7 +2511,7 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object lbQUSU: TLabel
-      Left = 78
+      Left = 86
       Top = 246
       Width = 21
       Height = 17
@@ -2540,7 +2540,7 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object LABOL: TLabel
-      Left = 342
+      Left = 334
       Top = 262
       Width = 43
       Height = 17
@@ -2584,8 +2584,7 @@ object FrmSobre: TFrmSobre
       Font.Name = 'Segoe UI Semibold'
       Font.Style = [fsBold, fsItalic]
       Lines.Strings = (
-        'Composi'#231#227'o t'#234'xtil - ajustes para novos artigos'
-        'Tabela de pre'#231'os - Listagem de pre'#231'os de produtos')
+        'Estoque: cancelamento de estoque')
       ParentFont = False
       TabOrder = 0
     end

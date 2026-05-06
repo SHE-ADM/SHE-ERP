@@ -1108,7 +1108,6 @@ object FrmPadr1: TFrmPadr1
       Caption = 'Sair ...'
       Hint = 'Fechar P'#225'gina'
       ImageIndex = 8
-      ShortCut = 27
       OnExecute = ACTSaidaExecute
     end
     object ACTPSQ_OK: TAction

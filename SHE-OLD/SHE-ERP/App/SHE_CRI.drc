@@ -8,161 +8,166 @@
   resources were bound to the produced executable.
 */
 
-#define pnglang_EPNGSizeExceedsText 64320
-#define pnglang_EPNGUnknownPalEntryText 64321
-#define pnglang_EPNGUnknownCriticalChunkText 64322
-#define pnglang_EPNGUnknownCompressionText 64323
-#define pnglang_EPNGUnknownInterlaceText 64324
-#define pnglang_EPNGCannotAssignChunkText 64325
-#define pnglang_EPNGUnexpectedEndText 64326
-#define pnglang_EPNGNoImageDataText 64327
-#define pnglang_EPNGOutMemoryText 64328
-#define pnglang_EPNGHeaderNotPresentText 64329
-#define pnglang_EInvalidNewSize 64330
-#define SOAPConst_SInvalidDay 64336
-#define SOAPConst_SInvalidMonth 64337
-#define SOAPConst_SInvalidDuration 64338
-#define SOAPConst_SInvalidTimeOffset 64339
-#define SOAPConst_SInvalidHexValue 64340
-#define xdom_SOddSizeInvalid 64341
-#define xdom_SNegativeSizeInvalid 64342
-#define xdom_SCapacityLessSize 64343
-#define xdom_STargetNil 64344
-#define pnglang_EPngInvalidCRCText 64345
-#define pnglang_EPNGInvalidIHDRText 64346
-#define pnglang_EPNGMissingMultipleIDATText 64347
-#define pnglang_EPNGZLIBErrorText 64348
-#define pnglang_EPNGInvalidPaletteText 64349
-#define pnglang_EPNGInvalidFileHeaderText 64350
-#define pnglang_EPNGIHDRNotFirstText 64351
-#define TeeConst_TeeMsg_FunctionPeriod 64352
-#define TeeConst_TeeMsg_PieOther 64353
-#define TeeConst_TeeMsg_ValuesX 64354
-#define TeeConst_TeeMsg_ValuesY 64355
-#define TeeConst_TeeMsg_ValuesPie 64356
-#define TeeConst_TeeMsg_ValuesBar 64357
-#define TeeConst_TeeMsg_ValuesAngle 64358
-#define SOAPConst_SNoRTTI 64359
-#define SOAPConst_SNoRTTIParam 64360
-#define SOAPConst_SInvalidDateString 64361
-#define SOAPConst_SInvalidTimeString 64362
-#define SOAPConst_SInvalidHour 64363
-#define SOAPConst_SInvalidMinute 64364
-#define SOAPConst_SInvalidSecond 64365
-#define SOAPConst_SInvalidMillisecond 64366
-#define SOAPConst_SInvalidHourOffset 64367
-#define TeeConst_TeeMsg_PieSample5 64368
-#define TeeConst_TeeMsg_PieSample6 64369
-#define TeeConst_TeeMsg_PieSample7 64370
-#define TeeConst_TeeMsg_PieSample8 64371
-#define TeeConst_TeeMsg_GalleryStandard 64372
-#define TeeConst_TeeMsg_GalleryFunctions 64373
-#define TeeConst_TeeMsg_DefaultFontSize 64374
-#define TeeConst_TeeMsg_FunctionAdd 64375
-#define TeeConst_TeeMsg_FunctionSubtract 64376
-#define TeeConst_TeeMsg_FunctionMultiply 64377
-#define TeeConst_TeeMsg_FunctionDivide 64378
-#define TeeConst_TeeMsg_FunctionHigh 64379
-#define TeeConst_TeeMsg_FunctionLow 64380
-#define TeeConst_TeeMsg_FunctionAverage 64381
-#define TeeConst_TeeMsg_DefaultFontName 64382
-#define TeeConst_TeeMsg_CheckPointerSize 64383
-#define TeeConst_TeeMsg_DefPercentFormat 64384
-#define TeeConst_TeeMsg_DefValueFormat 64385
-#define TeeConst_TeeMsg_AxisTitle 64386
-#define TeeConst_TeeMsg_AxisLabels 64387
-#define TeeConst_TeeMsg_GalleryLine 64388
-#define TeeConst_TeeMsg_GalleryPoint 64389
-#define TeeConst_TeeMsg_GalleryArea 64390
-#define TeeConst_TeeMsg_GalleryBar 64391
-#define TeeConst_TeeMsg_GalleryHorizBar 64392
-#define TeeConst_TeeMsg_GalleryPie 64393
-#define TeeConst_TeeMsg_GalleryFastLine 64394
-#define TeeConst_TeeMsg_Rotation 64395
-#define TeeConst_TeeMsg_PieSample1 64396
-#define TeeConst_TeeMsg_PieSample2 64397
-#define TeeConst_TeeMsg_PieSample3 64398
-#define TeeConst_TeeMsg_PieSample4 64399
-#define TeeConst_TeeMsg_SeriesSetDataSource 64400
-#define TeeConst_TeeMsg_SeriesInvDataSource 64401
-#define TeeConst_TeeMsg_FillSample 64402
-#define TeeConst_TeeMsg_Angle 64403
-#define TeeConst_TeeMsg_AxisLogDateTime 64404
-#define TeeConst_TeeMsg_AxisLogNotPositive 64405
-#define TeeConst_TeeMsg_AxisLabelSep 64406
-#define TeeConst_TeeMsg_AxisIncrementNeg 64407
-#define TeeConst_TeeMsg_AxisMinMax 64408
-#define TeeConst_TeeMsg_AxisMaxMin 64409
-#define TeeConst_TeeMsg_AxisLogBase 64410
-#define TeeConst_TeeMsg_3dPercent 64411
-#define TeeConst_TeeMsg_CircularSeries 64412
-#define TeeConst_TeeMsg_BarWidthPercent 64413
-#define TeeConst_TeeMsg_BarOffsetPercent 64414
-#define TeeConst_TeeMsg_DefaultPercentOf 64415
-#define IdResourceStrings_RSStackENAMETOOLONG 64416
-#define IdResourceStrings_RSStackEHOSTDOWN 64417
-#define IdResourceStrings_RSStackEHOSTUNREACH 64418
-#define IdResourceStrings_RSStackENOTEMPTY 64419
-#define IdResourceStrings_RSStackHOST_NOT_FOUND 64420
-#define IdResourceStrings_RSThreadTerminateAndWaitFor 64421
-#define dxStatusBar_cxSTextPanelStyle 64422
-#define dxStatusBar_cxSContainerPanelStyle 64423
-#define dxStatusBar_cxSKeyboardStatePanelStyle 64424
-#define dxStatusBar_cxSStateIndicatorPanelStyle 64425
-#define dxStatusBar_cxSCantDeleteAncestor 64426
-#define ZLibConst_sInvalidStreamOp 64427
-#define ZLibConst_sError 64428
-#define TeeConst_TeeMsg_LegendTopPos 64429
-#define TeeConst_TeeMsg_LegendFirstValue 64430
-#define TeeConst_TeeMsg_LegendColorWidth 64431
-#define IdResourceStrings_RSStackEAFNOSUPPORT 64432
-#define IdResourceStrings_RSStackEADDRINUSE 64433
-#define IdResourceStrings_RSStackEADDRNOTAVAIL 64434
-#define IdResourceStrings_RSStackENETDOWN 64435
-#define IdResourceStrings_RSStackENETUNREACH 64436
-#define IdResourceStrings_RSStackENETRESET 64437
-#define IdResourceStrings_RSStackECONNABORTED 64438
-#define IdResourceStrings_RSStackECONNRESET 64439
-#define IdResourceStrings_RSStackENOBUFS 64440
-#define IdResourceStrings_RSStackEISCONN 64441
-#define IdResourceStrings_RSStackENOTCONN 64442
-#define IdResourceStrings_RSStackESHUTDOWN 64443
-#define IdResourceStrings_RSStackETOOMANYREFS 64444
-#define IdResourceStrings_RSStackETIMEDOUT 64445
-#define IdResourceStrings_RSStackECONNREFUSED 64446
-#define IdResourceStrings_RSStackELOOP 64447
-#define IdResourceStrings_RSStackEACCES 64448
-#define IdResourceStrings_RSStackEFAULT 64449
-#define IdResourceStrings_RSStackEINVAL 64450
-#define IdResourceStrings_RSStackEMFILE 64451
-#define IdResourceStrings_RSStackEWOULDBLOCK 64452
-#define IdResourceStrings_RSStackEINPROGRESS 64453
-#define IdResourceStrings_RSStackEALREADY 64454
-#define IdResourceStrings_RSStackENOTSOCK 64455
-#define IdResourceStrings_RSStackEDESTADDRREQ 64456
-#define IdResourceStrings_RSStackEMSGSIZE 64457
-#define IdResourceStrings_RSStackEPROTOTYPE 64458
-#define IdResourceStrings_RSStackENOPROTOOPT 64459
-#define IdResourceStrings_RSStackEPROTONOSUPPORT 64460
-#define IdResourceStrings_RSStackESOCKTNOSUPPORT 64461
-#define IdResourceStrings_RSStackEOPNOTSUPP 64462
-#define IdResourceStrings_RSStackEPFNOSUPPORT 64463
+#define pnglang_EPNGMissingMultipleIDATText 64320
+#define pnglang_EPNGZLIBErrorText 64321
+#define pnglang_EPNGInvalidPaletteText 64322
+#define pnglang_EPNGInvalidFileHeaderText 64323
+#define pnglang_EPNGIHDRNotFirstText 64324
+#define pnglang_EPNGSizeExceedsText 64325
+#define pnglang_EPNGUnknownPalEntryText 64326
+#define pnglang_EPNGUnknownCriticalChunkText 64327
+#define pnglang_EPNGUnknownCompressionText 64328
+#define pnglang_EPNGUnknownInterlaceText 64329
+#define pnglang_EPNGCannotAssignChunkText 64330
+#define pnglang_EPNGUnexpectedEndText 64331
+#define pnglang_EPNGNoImageDataText 64332
+#define pnglang_EPNGOutMemoryText 64333
+#define pnglang_EPNGHeaderNotPresentText 64334
+#define pnglang_EInvalidNewSize 64335
+#define SOAPConst_SInvalidHour 64336
+#define SOAPConst_SInvalidMinute 64337
+#define SOAPConst_SInvalidSecond 64338
+#define SOAPConst_SInvalidMillisecond 64339
+#define SOAPConst_SInvalidHourOffset 64340
+#define SOAPConst_SInvalidDay 64341
+#define SOAPConst_SInvalidMonth 64342
+#define SOAPConst_SInvalidDuration 64343
+#define SOAPConst_SInvalidTimeOffset 64344
+#define SOAPConst_SInvalidHexValue 64345
+#define xdom_SOddSizeInvalid 64346
+#define xdom_SNegativeSizeInvalid 64347
+#define xdom_SCapacityLessSize 64348
+#define xdom_STargetNil 64349
+#define pnglang_EPngInvalidCRCText 64350
+#define pnglang_EPNGInvalidIHDRText 64351
+#define TeeConst_TeeMsg_FunctionHigh 64352
+#define TeeConst_TeeMsg_FunctionLow 64353
+#define TeeConst_TeeMsg_FunctionAverage 64354
+#define TeeConst_TeeMsg_DefaultFontName 64355
+#define TeeConst_TeeMsg_CheckPointerSize 64356
+#define TeeConst_TeeMsg_FunctionPeriod 64357
+#define TeeConst_TeeMsg_PieOther 64358
+#define TeeConst_TeeMsg_ValuesX 64359
+#define TeeConst_TeeMsg_ValuesY 64360
+#define TeeConst_TeeMsg_ValuesPie 64361
+#define TeeConst_TeeMsg_ValuesBar 64362
+#define TeeConst_TeeMsg_ValuesAngle 64363
+#define SOAPConst_SNoRTTI 64364
+#define SOAPConst_SNoRTTIParam 64365
+#define SOAPConst_SInvalidDateString 64366
+#define SOAPConst_SInvalidTimeString 64367
+#define TeeConst_TeeMsg_Rotation 64368
+#define TeeConst_TeeMsg_PieSample1 64369
+#define TeeConst_TeeMsg_PieSample2 64370
+#define TeeConst_TeeMsg_PieSample3 64371
+#define TeeConst_TeeMsg_PieSample4 64372
+#define TeeConst_TeeMsg_PieSample5 64373
+#define TeeConst_TeeMsg_PieSample6 64374
+#define TeeConst_TeeMsg_PieSample7 64375
+#define TeeConst_TeeMsg_PieSample8 64376
+#define TeeConst_TeeMsg_GalleryStandard 64377
+#define TeeConst_TeeMsg_GalleryFunctions 64378
+#define TeeConst_TeeMsg_DefaultFontSize 64379
+#define TeeConst_TeeMsg_FunctionAdd 64380
+#define TeeConst_TeeMsg_FunctionSubtract 64381
+#define TeeConst_TeeMsg_FunctionMultiply 64382
+#define TeeConst_TeeMsg_FunctionDivide 64383
+#define TeeConst_TeeMsg_3dPercent 64384
+#define TeeConst_TeeMsg_CircularSeries 64385
+#define TeeConst_TeeMsg_BarWidthPercent 64386
+#define TeeConst_TeeMsg_BarOffsetPercent 64387
+#define TeeConst_TeeMsg_DefaultPercentOf 64388
+#define TeeConst_TeeMsg_DefPercentFormat 64389
+#define TeeConst_TeeMsg_DefValueFormat 64390
+#define TeeConst_TeeMsg_AxisTitle 64391
+#define TeeConst_TeeMsg_AxisLabels 64392
+#define TeeConst_TeeMsg_GalleryLine 64393
+#define TeeConst_TeeMsg_GalleryPoint 64394
+#define TeeConst_TeeMsg_GalleryArea 64395
+#define TeeConst_TeeMsg_GalleryBar 64396
+#define TeeConst_TeeMsg_GalleryHorizBar 64397
+#define TeeConst_TeeMsg_GalleryPie 64398
+#define TeeConst_TeeMsg_GalleryFastLine 64399
+#define ZLibConst_sInvalidStreamOp 64400
+#define ZLibConst_sError 64401
+#define TeeConst_TeeMsg_LegendTopPos 64402
+#define TeeConst_TeeMsg_LegendFirstValue 64403
+#define TeeConst_TeeMsg_LegendColorWidth 64404
+#define TeeConst_TeeMsg_SeriesSetDataSource 64405
+#define TeeConst_TeeMsg_SeriesInvDataSource 64406
+#define TeeConst_TeeMsg_FillSample 64407
+#define TeeConst_TeeMsg_Angle 64408
+#define TeeConst_TeeMsg_AxisLogDateTime 64409
+#define TeeConst_TeeMsg_AxisLogNotPositive 64410
+#define TeeConst_TeeMsg_AxisLabelSep 64411
+#define TeeConst_TeeMsg_AxisIncrementNeg 64412
+#define TeeConst_TeeMsg_AxisMinMax 64413
+#define TeeConst_TeeMsg_AxisMaxMin 64414
+#define TeeConst_TeeMsg_AxisLogBase 64415
+#define IdResourceStrings_RSStackENOTEMPTY 64416
+#define IdResourceStrings_RSStackHOST_NOT_FOUND 64417
+#define IdResourceStrings_RSStackClassUndefined 64418
+#define IdResourceStrings_RSStackAlreadyCreated 64419
+#define IdResourceStrings_RSInvalidServiceName 64420
+#define IdResourceStrings_RSInvalidIPv6Address 64421
+#define IdResourceStrings_RSIPVersionUnsupported 64422
+#define IdResourceStrings_RSNotAllBytesSent 64423
+#define IdResourceStrings_RSPackageSizeTooBig 64424
+#define IdResourceStrings_RSSetSizeExceeded 64425
+#define dxStatusBar_cxSTextPanelStyle 64426
+#define dxStatusBar_cxSContainerPanelStyle 64427
+#define dxStatusBar_cxSKeyboardStatePanelStyle 64428
+#define dxStatusBar_cxSStateIndicatorPanelStyle 64429
+#define dxStatusBar_cxSCantDeleteAncestor 64430
+#define IdResourceStringsCore_RSThreadTerminateAndWaitFor 64431
+#define IdResourceStrings_RSStackENETDOWN 64432
+#define IdResourceStrings_RSStackENETUNREACH 64433
+#define IdResourceStrings_RSStackENETRESET 64434
+#define IdResourceStrings_RSStackECONNABORTED 64435
+#define IdResourceStrings_RSStackECONNRESET 64436
+#define IdResourceStrings_RSStackENOBUFS 64437
+#define IdResourceStrings_RSStackEISCONN 64438
+#define IdResourceStrings_RSStackENOTCONN 64439
+#define IdResourceStrings_RSStackESHUTDOWN 64440
+#define IdResourceStrings_RSStackETOOMANYREFS 64441
+#define IdResourceStrings_RSStackETIMEDOUT 64442
+#define IdResourceStrings_RSStackECONNREFUSED 64443
+#define IdResourceStrings_RSStackELOOP 64444
+#define IdResourceStrings_RSStackENAMETOOLONG 64445
+#define IdResourceStrings_RSStackEHOSTDOWN 64446
+#define IdResourceStrings_RSStackEHOSTUNREACH 64447
+#define IdResourceStrings_RSStackEMFILE 64448
+#define IdResourceStrings_RSStackEWOULDBLOCK 64449
+#define IdResourceStrings_RSStackEINPROGRESS 64450
+#define IdResourceStrings_RSStackEALREADY 64451
+#define IdResourceStrings_RSStackENOTSOCK 64452
+#define IdResourceStrings_RSStackEDESTADDRREQ 64453
+#define IdResourceStrings_RSStackEMSGSIZE 64454
+#define IdResourceStrings_RSStackEPROTOTYPE 64455
+#define IdResourceStrings_RSStackENOPROTOOPT 64456
+#define IdResourceStrings_RSStackEPROTONOSUPPORT 64457
+#define IdResourceStrings_RSStackESOCKTNOSUPPORT 64458
+#define IdResourceStrings_RSStackEOPNOTSUPP 64459
+#define IdResourceStrings_RSStackEPFNOSUPPORT 64460
+#define IdResourceStrings_RSStackEAFNOSUPPORT 64461
+#define IdResourceStrings_RSStackEADDRINUSE 64462
+#define IdResourceStrings_RSStackEADDRNOTAVAIL 64463
 #define XMLConst_SMissingFileName 64464
 #define XMLConst_SLine 64465
-#define IdResourceStrings_RSWinsockInitializationError 64466
-#define IdResourceStrings_RSSetSizeExceeded 64467
-#define IdResourceStrings_RSWS2CallError 64468
-#define IdResourceStrings_RSWS2LoadError 64469
-#define IdResourceStrings_RSStatusResolving 64470
-#define IdResourceStrings_RSStatusConnecting 64471
-#define IdResourceStrings_RSStatusConnected 64472
-#define IdResourceStrings_RSStatusDisconnecting 64473
-#define IdResourceStrings_RSStatusDisconnected 64474
-#define IdResourceStrings_RSStatusText 64475
-#define IdResourceStrings_RSInvalidServiceName 64476
-#define IdResourceStrings_RSStackError 64477
-#define IdResourceStrings_RSStackEINTR 64478
-#define IdResourceStrings_RSStackEBADF 64479
+#define IdResourceStrings_RSWinsockCallError 64466
+#define IdResourceStrings_RSWinsockLoadError 64467
+#define IdResourceStrings_RSStatusResolving 64468
+#define IdResourceStrings_RSStatusConnecting 64469
+#define IdResourceStrings_RSStatusConnected 64470
+#define IdResourceStrings_RSStatusDisconnecting 64471
+#define IdResourceStrings_RSStatusDisconnected 64472
+#define IdResourceStrings_RSStatusText 64473
+#define IdResourceStrings_RSStackError 64474
+#define IdResourceStrings_RSStackEINTR 64475
+#define IdResourceStrings_RSStackEBADF 64476
+#define IdResourceStrings_RSStackEACCES 64477
+#define IdResourceStrings_RSStackEFAULT 64478
+#define IdResourceStrings_RSStackEINVAL 64479
 #define XMLConst_SNAMESPACE_ERR 64480
 #define XMLConst_SINVALID_ACCESS_ERR 64481
 #define XMLConst_SBadTransformArgs 64482
@@ -1221,6 +1226,11 @@
 #define SysConst_SEndOfFile 65535
 STRINGTABLE
 BEGIN
+	pnglang_EPNGMissingMultipleIDATText,	"This \"Portable Network Graphics\" image is invalid because it has missing image parts."
+	pnglang_EPNGZLIBErrorText,	"Could not decompress the image because it contains invalid compressed data.\r\n Description: "
+	pnglang_EPNGInvalidPaletteText,	"The \"Portable Network Graphics\" image contains an invalid palette."
+	pnglang_EPNGInvalidFileHeaderText,	"The file being readed is not a valid \"Portable Network Graphics\" image because it contains an invalid header. This file may be corruped, try obtaining it again."
+	pnglang_EPNGIHDRNotFirstText,	"This \"Portable Network Graphics\" image is not supported or it might be invalid.\r\n(IHDR chunk is not the first)"
 	pnglang_EPNGSizeExceedsText,	"This \"Portable Network Graphics\" image is not supported because either it's width or height exceeds the maximum size, which is 65535 pixels length."
 	pnglang_EPNGUnknownPalEntryText,	"There is no such palette entry."
 	pnglang_EPNGUnknownCriticalChunkText,	"This \"Portable Network Graphics\" image contains an unknown critical part which could not be decoded."
@@ -1232,6 +1242,11 @@ BEGIN
 	pnglang_EPNGOutMemoryText,	"Some operation could not be performed because the system is out of resources. Close some windows and try again."
 	pnglang_EPNGHeaderNotPresentText,	"This operation is not valid because the current image contains no valid header."
 	pnglang_EInvalidNewSize,	"The new size provided for image resizing is invalid."
+	SOAPConst_SInvalidHour,	"Invalid hour: %d"
+	SOAPConst_SInvalidMinute,	"Invalid minute: %d"
+	SOAPConst_SInvalidSecond,	"Invalid second: %d"
+	SOAPConst_SInvalidMillisecond,	"Invalid millisecond: %d"
+	SOAPConst_SInvalidHourOffset,	"Invalid hour offset: %d"
 	SOAPConst_SInvalidDay,	"Invalid day: %d"
 	SOAPConst_SInvalidMonth,	"Invalid month: %d"
 	SOAPConst_SInvalidDuration,	"Invalid duration string: %s"
@@ -1243,11 +1258,11 @@ BEGIN
 	xdom_STargetNil,	"Must have a target stream"
 	pnglang_EPngInvalidCRCText,	"This \"Portable Network Graphics\" image is not valid because it contains invalid pieces of data (crc error)"
 	pnglang_EPNGInvalidIHDRText,	"The \"Portable Network Graphics\" image could not be loaded because one of its main piece of data (ihdr) might be corrupted"
-	pnglang_EPNGMissingMultipleIDATText,	"This \"Portable Network Graphics\" image is invalid because it has missing image parts."
-	pnglang_EPNGZLIBErrorText,	"Could not decompress the image because it contains invalid compressed data.\r\n Description: "
-	pnglang_EPNGInvalidPaletteText,	"The \"Portable Network Graphics\" image contains an invalid palette."
-	pnglang_EPNGInvalidFileHeaderText,	"The file being readed is not a valid \"Portable Network Graphics\" image because it contains an invalid header. This file may be corruped, try obtaining it again."
-	pnglang_EPNGIHDRNotFirstText,	"This \"Portable Network Graphics\" image is not supported or it might be invalid.\r\n(IHDR chunk is not the first)"
+	TeeConst_TeeMsg_FunctionHigh,	"High"
+	TeeConst_TeeMsg_FunctionLow,	"Low"
+	TeeConst_TeeMsg_FunctionAverage,	"Average"
+	TeeConst_TeeMsg_DefaultFontName,	"Arial"
+	TeeConst_TeeMsg_CheckPointerSize,	"Pointer size must be greater than zero"
 	TeeConst_TeeMsg_FunctionPeriod,	"Function Period should be >= 0"
 	TeeConst_TeeMsg_PieOther,	"Other"
 	TeeConst_TeeMsg_ValuesX,	"X"
@@ -1259,11 +1274,11 @@ BEGIN
 	SOAPConst_SNoRTTIParam,	"Parameter %s on Method %s of Interface %s has no RTTI"
 	SOAPConst_SInvalidDateString,	"Invalid date string: %s"
 	SOAPConst_SInvalidTimeString,	"Invalid time string: %s"
-	SOAPConst_SInvalidHour,	"Invalid hour: %d"
-	SOAPConst_SInvalidMinute,	"Invalid minute: %d"
-	SOAPConst_SInvalidSecond,	"Invalid second: %d"
-	SOAPConst_SInvalidMillisecond,	"Invalid millisecond: %d"
-	SOAPConst_SInvalidHourOffset,	"Invalid hour offset: %d"
+	TeeConst_TeeMsg_Rotation,	"Rotation"
+	TeeConst_TeeMsg_PieSample1,	"Cars"
+	TeeConst_TeeMsg_PieSample2,	"Phones"
+	TeeConst_TeeMsg_PieSample3,	"Tables"
+	TeeConst_TeeMsg_PieSample4,	"Monitors"
 	TeeConst_TeeMsg_PieSample5,	"Lamps"
 	TeeConst_TeeMsg_PieSample6,	"Keyboards"
 	TeeConst_TeeMsg_PieSample7,	"Bikes"
@@ -1275,11 +1290,11 @@ BEGIN
 	TeeConst_TeeMsg_FunctionSubtract,	"Subtract"
 	TeeConst_TeeMsg_FunctionMultiply,	"Multiply"
 	TeeConst_TeeMsg_FunctionDivide,	"Divide"
-	TeeConst_TeeMsg_FunctionHigh,	"High"
-	TeeConst_TeeMsg_FunctionLow,	"Low"
-	TeeConst_TeeMsg_FunctionAverage,	"Average"
-	TeeConst_TeeMsg_DefaultFontName,	"Arial"
-	TeeConst_TeeMsg_CheckPointerSize,	"Pointer size must be greater than zero"
+	TeeConst_TeeMsg_3dPercent,	"3D effect percent must be between %d and %d"
+	TeeConst_TeeMsg_CircularSeries,	"Circular Series dependences are not allowed"
+	TeeConst_TeeMsg_BarWidthPercent,	"Bar Width Percent must be between 1 and 100"
+	TeeConst_TeeMsg_BarOffsetPercent,	"Bar Offset Percent must be between -100% and 100%"
+	TeeConst_TeeMsg_DefaultPercentOf,	"%s of %s"
 	TeeConst_TeeMsg_DefPercentFormat,	"##0.## %"
 	TeeConst_TeeMsg_DefValueFormat,	"#,##0.###"
 	TeeConst_TeeMsg_AxisTitle,	"Axis Title"
@@ -1291,11 +1306,11 @@ BEGIN
 	TeeConst_TeeMsg_GalleryHorizBar,	"Horiz. Bar"
 	TeeConst_TeeMsg_GalleryPie,	"Pie"
 	TeeConst_TeeMsg_GalleryFastLine,	"Fast Line"
-	TeeConst_TeeMsg_Rotation,	"Rotation"
-	TeeConst_TeeMsg_PieSample1,	"Cars"
-	TeeConst_TeeMsg_PieSample2,	"Phones"
-	TeeConst_TeeMsg_PieSample3,	"Tables"
-	TeeConst_TeeMsg_PieSample4,	"Monitors"
+	ZLibConst_sInvalidStreamOp,	"Invalid stream operation"
+	ZLibConst_sError,	"Error"
+	TeeConst_TeeMsg_LegendTopPos,	"Top Legend Position must be between 0 and 100 %"
+	TeeConst_TeeMsg_LegendFirstValue,	"First Legend Value must be > 0"
+	TeeConst_TeeMsg_LegendColorWidth,	"Legend Color Width must be between 0 and 100 %"
 	TeeConst_TeeMsg_SeriesSetDataSource,	"No ParentChart to validate DataSource"
 	TeeConst_TeeMsg_SeriesInvDataSource,	"No valid DataSource: %s"
 	TeeConst_TeeMsg_FillSample,	"FillSampleValues NumValues must be > 0"
@@ -1307,30 +1322,22 @@ BEGIN
 	TeeConst_TeeMsg_AxisMinMax,	"Axis Minimum Value must be <= Maximum"
 	TeeConst_TeeMsg_AxisMaxMin,	"Axis Maximum Value must be >= Minimum"
 	TeeConst_TeeMsg_AxisLogBase,	"Axis Logarithmic Base should be >= 2"
-	TeeConst_TeeMsg_3dPercent,	"3D effect percent must be between %d and %d"
-	TeeConst_TeeMsg_CircularSeries,	"Circular Series dependences are not allowed"
-	TeeConst_TeeMsg_BarWidthPercent,	"Bar Width Percent must be between 1 and 100"
-	TeeConst_TeeMsg_BarOffsetPercent,	"Bar Offset Percent must be between -100% and 100%"
-	TeeConst_TeeMsg_DefaultPercentOf,	"%s of %s"
-	IdResourceStrings_RSStackENAMETOOLONG,	"File name too long."
-	IdResourceStrings_RSStackEHOSTDOWN,	"Host is down."
-	IdResourceStrings_RSStackEHOSTUNREACH,	"No route to host."
 	IdResourceStrings_RSStackENOTEMPTY,	"Directory not empty"
 	IdResourceStrings_RSStackHOST_NOT_FOUND,	"Host not found."
-	IdResourceStrings_RSThreadTerminateAndWaitFor,	"Cannot call TerminateAndWaitFor on FreeAndTerminate threads"
+	IdResourceStrings_RSStackClassUndefined,	"Stack Class is undefined."
+	IdResourceStrings_RSStackAlreadyCreated,	"Stack already created."
+	IdResourceStrings_RSInvalidServiceName,	"%s is not a valid service."
+	IdResourceStrings_RSInvalidIPv6Address,	"%s is not a valid IPv6 address"
+	IdResourceStrings_RSIPVersionUnsupported,	"The requested IPVersion / Address family is not supported."
+	IdResourceStrings_RSNotAllBytesSent,	"Not all bytes sent."
+	IdResourceStrings_RSPackageSizeTooBig,	"Package Size Too Big."
+	IdResourceStrings_RSSetSizeExceeded,	"Set Size Exceeded."
 	dxStatusBar_cxSTextPanelStyle,	"Text Panel"
 	dxStatusBar_cxSContainerPanelStyle,	"Container Panel"
 	dxStatusBar_cxSKeyboardStatePanelStyle,	"Keyboard State Panel"
 	dxStatusBar_cxSStateIndicatorPanelStyle,	"State Indicator Panel"
 	dxStatusBar_cxSCantDeleteAncestor,	"Selection contains a component introduced in an ancestor form which cannot be deleted"
-	ZLibConst_sInvalidStreamOp,	"Invalid stream operation"
-	ZLibConst_sError,	"Error"
-	TeeConst_TeeMsg_LegendTopPos,	"Top Legend Position must be between 0 and 100 %"
-	TeeConst_TeeMsg_LegendFirstValue,	"First Legend Value must be > 0"
-	TeeConst_TeeMsg_LegendColorWidth,	"Legend Color Width must be between 0 and 100 %"
-	IdResourceStrings_RSStackEAFNOSUPPORT,	"Address family not supported by protocol family."
-	IdResourceStrings_RSStackEADDRINUSE,	"Address already in use."
-	IdResourceStrings_RSStackEADDRNOTAVAIL,	"Cannot assign requested address."
+	IdResourceStringsCore_RSThreadTerminateAndWaitFor,	"Cannot call TerminateAndWaitFor on FreeAndTerminate threads"
 	IdResourceStrings_RSStackENETDOWN,	"Network is down."
 	IdResourceStrings_RSStackENETUNREACH,	"Network is unreachable."
 	IdResourceStrings_RSStackENETRESET,	"Net dropped connection or reset."
@@ -1344,11 +1351,11 @@ BEGIN
 	IdResourceStrings_RSStackETIMEDOUT,	"Connection timed out."
 	IdResourceStrings_RSStackECONNREFUSED,	"Connection refused."
 	IdResourceStrings_RSStackELOOP,	"Too many levels of symbolic links."
-	IdResourceStrings_RSStackEACCES,	"Access denied."
-	IdResourceStrings_RSStackEFAULT,	"Bad address."
-	IdResourceStrings_RSStackEINVAL,	"Invalid argument."
+	IdResourceStrings_RSStackENAMETOOLONG,	"File name too long."
+	IdResourceStrings_RSStackEHOSTDOWN,	"Host is down."
+	IdResourceStrings_RSStackEHOSTUNREACH,	"No route to host."
 	IdResourceStrings_RSStackEMFILE,	"Too many open files."
-	IdResourceStrings_RSStackEWOULDBLOCK,	"Operation would block. "
+	IdResourceStrings_RSStackEWOULDBLOCK,	"Operation would block."
 	IdResourceStrings_RSStackEINPROGRESS,	"Operation now in progress."
 	IdResourceStrings_RSStackEALREADY,	"Operation already in progress."
 	IdResourceStrings_RSStackENOTSOCK,	"Socket operation on non-socket."
@@ -1360,22 +1367,25 @@ BEGIN
 	IdResourceStrings_RSStackESOCKTNOSUPPORT,	"Socket type not supported."
 	IdResourceStrings_RSStackEOPNOTSUPP,	"Operation not supported on socket."
 	IdResourceStrings_RSStackEPFNOSUPPORT,	"Protocol family not supported."
+	IdResourceStrings_RSStackEAFNOSUPPORT,	"Address family not supported by protocol family."
+	IdResourceStrings_RSStackEADDRINUSE,	"Address already in use."
+	IdResourceStrings_RSStackEADDRNOTAVAIL,	"Cannot assign requested address."
 	XMLConst_SMissingFileName,	"FileName cannot be blank"
 	XMLConst_SLine,	"Line"
-	IdResourceStrings_RSWinsockInitializationError,	"Winsock Initialization Error."
-	IdResourceStrings_RSSetSizeExceeded,	"Set Size Exceeded."
-	IdResourceStrings_RSWS2CallError,	"Error on call Winsock2 library function %s"
-	IdResourceStrings_RSWS2LoadError,	"Error on loading Winsock2 library (%s)"
+	IdResourceStrings_RSWinsockCallError,	"Error on call to Winsock2 library function %s"
+	IdResourceStrings_RSWinsockLoadError,	"Error on loading Winsock2 library (%s)"
 	IdResourceStrings_RSStatusResolving,	"Resolving hostname %s."
 	IdResourceStrings_RSStatusConnecting,	"Connecting to %s."
 	IdResourceStrings_RSStatusConnected,	"Connected."
 	IdResourceStrings_RSStatusDisconnecting,	"Disconnecting."
 	IdResourceStrings_RSStatusDisconnected,	"Disconnected."
 	IdResourceStrings_RSStatusText,	"%s"
-	IdResourceStrings_RSInvalidServiceName,	"%s is not a valid service."
 	IdResourceStrings_RSStackError,	"Socket Error # %d\r\n%s"
 	IdResourceStrings_RSStackEINTR,	"Interrupted system call."
 	IdResourceStrings_RSStackEBADF,	"Bad file number."
+	IdResourceStrings_RSStackEACCES,	"Access denied."
+	IdResourceStrings_RSStackEFAULT,	"Buffer fault."
+	IdResourceStrings_RSStackEINVAL,	"Invalid argument."
 	XMLConst_SNAMESPACE_ERR,	"Invalid namespace request"
 	XMLConst_SINVALID_ACCESS_ERR,	"Invalid access"
 	XMLConst_SBadTransformArgs,	"TransformNode most be called using a document node (not a document element) for the source and the stylesheet."

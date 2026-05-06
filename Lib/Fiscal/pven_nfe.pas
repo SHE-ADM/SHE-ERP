@@ -1951,6 +1951,7 @@ procedure TFrmVEN_NFE.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   case key of
+       vk_escape: ACTSaida.Execute;
        vk_return: if (not (ActiveControl is TdxDBGrid)    and
                       not (ActiveControl is TdxDBMemo)    and
                       not (ActiveControl is TdxMemo)      and
@@ -2094,7 +2095,7 @@ begin
     SBRodape.Panels[1].Text := 'Saindo ....';
     SBRodape.Update;
     
-    Self.Close;
+    ACTSaida.Execute;
   end;  
 end;
 

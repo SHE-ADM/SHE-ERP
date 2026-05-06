@@ -90,9 +90,7 @@ implementation
 
 procedure TFrmCAD_PRO_EST_DEL.FormCreate(Sender: TObject);
 begin
-  { FORM SCREEN }
   REC_SHE_DEF.FPosition := Self.Position; { Posição }
-
   REC_SHE_DEF.FMainArea := False; { Aplicativo }
   REC_SHE_DEF.FWorkArea := False; { Windows    }
 

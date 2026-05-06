@@ -28201,7 +28201,6 @@ object FrmVEN_NFE: TFrmVEN_NFE
       Category = 'Sistema'
       Caption = 'Sair ...'
       Hint = 'Fechar P'#225'gina'
-      ShortCut = 27
       OnExecute = ACTSaidaExecute
     end
     object ACTEdicao: TAction

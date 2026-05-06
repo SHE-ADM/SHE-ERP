@@ -108,9 +108,6 @@ type
 
     procedure ACTRelatoriosExecute(Sender: TObject);
     procedure ACTSaidaExecute(Sender: TObject);
-
-    procedure DBGConsultaKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
     procedure ConsultaBeforeOpen(DataSet: TDataSet);
     procedure ConsultaAfterOpen(DataSet: TDataSet);
 
@@ -547,7 +544,6 @@ procedure TFrmDefault.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   case key of
-       vk_escape: Close; //ACTCancela.Execute;
        vk_return: if (not (ActiveControl is TdxDBGrid) and
                       not (ActiveControl is TdxDBMemo) and
                       not (ActiveControl is TdxMemo)   and
@@ -821,15 +817,6 @@ procedure TFrmDefault.ConsultaAfterOpen(DataSet: TDataSet);
 begin
   if not ALockWindowUpdate then
      Screen.Cursor := crDefault;
-end;
-
-procedure TFrmDefault.DBGConsultaKeyDown(Sender: TObject;
-  var Key: Word; Shift: TShiftState);
-begin
-  case key of
-       vk_tab   : key := 0;
-       vk_escape: ACTSaida.Execute;
-  end;
 end;
 
 procedure TFrmDefault.EEventAdminEventAlert(Sender: TObject;

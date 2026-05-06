@@ -792,7 +792,7 @@ procedure TFrmPadr5.ACTSaidaExecute(Sender: TObject);
 begin
   if Consulta.State in [dsInsert,dsEdit] then
   ACTMECancel.Execute else
-  Close;
+  ACTSaida.Execute;
 end;
 
 procedure TFrmPadr5.ACTConsultaExecute(Sender: TObject);
@@ -1291,7 +1291,6 @@ begin
        vk_return: if Consulta.State = dsBrowse then
                   ACTMEEdit.Execute;
        VK_delete: ACTMEDelete.Execute;
-       vk_escape: ACTMECancel.Execute;
   end;
 end;
 

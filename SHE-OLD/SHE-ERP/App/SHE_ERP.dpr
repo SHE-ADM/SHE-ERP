@@ -165,8 +165,7 @@ uses
 
 begin
   Application.Initialize;
-  Application.Title := 'SHE-ERP';
-
+  Application.Title := 'S.H.E.I.L.D. ERP';
   FrmSplash := TFrmSplash.Create(Nil);
   FrmSplash.Refresh;
   FrmSplash.Show;

@@ -484,6 +484,10 @@ end;
 
 procedure TFrmPadr2.FormCreate(Sender: TObject);
 begin
+  { FORM SCREEN }
+  Self.DoubleBuffered := True;
+  Randomize;
+
   { VALIDATE GRANT USER }
   REC_SHE_DEF.GAppend   := (RECUsuarios.Grupo = 'DEV') or (REC_SHE_DEF.GAdmin);
   REC_SHE_DEF.GEdit     := (RECUsuarios.Grupo = 'DEV') or (REC_SHE_DEF.GAdmin);
@@ -1227,11 +1231,10 @@ procedure TFrmPadr2.DBGConsultaKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   case key of
-       VK_insert: ACTMEAppend.Execute;
+       VK_insert: ACTMPAppend.Execute;
        vk_return: if Cadastro.State = dsBrowse then
-                  ACTMEEdit.Execute;
-       VK_delete: ACTMEDelete.Execute;
-       vk_escape: ACTMECancel.Execute;
+                  ACTMPEdit.Execute;
+       VK_delete: ACTMPDelete.Execute;
   end;
 end;
 

@@ -1,9 +1,9 @@
 object FrmPrincipal: TFrmPrincipal
-  Left = -20
+  Left = 0
   Top = 1
   Width = 1940
   Height = 1031
-  Caption = 'Sheild Erp'
+  Caption = 'Sistema S.H.E.I.L.D.'
   Color = clBtnFace
   Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
@@ -252,6 +252,7 @@ object FrmPrincipal: TFrmPrincipal
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
   OnMouseMove = FormMouseMove
   OnPaint = FormPaint
   OnResize = FormResize
@@ -259,9 +260,9 @@ object FrmPrincipal: TFrmPrincipal
   PixelsPerInch = 96
   TextHeight = 14
   object IPrincipal: TImage
-    Left = 140
+    Left = 135
     Top = 40
-    Width = 1784
+    Width = 1789
     Height = 906
     Align = alClient
     Center = True
@@ -3156,7 +3157,7 @@ object FrmPrincipal: TFrmPrincipal
   object PNLPrincipal: TPanel
     Left = 0
     Top = 40
-    Width = 140
+    Width = 135
     Height = 906
     Cursor = crHandPoint
     Align = alLeft
@@ -3181,7 +3182,7 @@ object FrmPrincipal: TFrmPrincipal
     object PNLFIN: TPanel
       Left = 5
       Top = 21
-      Width = 133
+      Width = 128
       Height = 883
       Cursor = crHandPoint
       Hint = 'Menu Principal'
@@ -3195,7 +3196,7 @@ object FrmPrincipal: TFrmPrincipal
       object RSBFIN_CAD_CLI_ADM: TRxSpeedButton
         Left = 4
         Top = 5
-        Width = 62
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTCAD_CLI_ADM
@@ -3341,8 +3342,8 @@ object FrmPrincipal: TFrmPrincipal
       end
       object RSBFIN_REC_BAN: TRxSpeedButton
         Left = 4
-        Top = 61
-        Width = 62
+        Top = 59
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTFIN_REC_BAN
@@ -3456,9 +3457,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBFIN_PED_RDV_ADM: TRxSpeedButton
-        Left = 69
-        Top = 229
-        Width = 62
+        Left = 66
+        Top = 221
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTPED_RDV_ADM
@@ -3604,8 +3605,8 @@ object FrmPrincipal: TFrmPrincipal
       end
       object RSBFIN_PED_PDV_ADM: TRxSpeedButton
         Left = 4
-        Top = 229
-        Width = 62
+        Top = 221
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTPED_PDV_ADM
@@ -3702,9 +3703,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBFIN_PAG_CMV: TRxSpeedButton
-        Left = 69
-        Top = 117
-        Width = 62
+        Left = 66
+        Top = 113
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTFIN_PAG_CMV
@@ -3814,9 +3815,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBFIN_REC_CRT: TRxSpeedButton
-        Left = 69
-        Top = 61
-        Width = 62
+        Left = 66
+        Top = 59
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTFIN_REC_CRT
@@ -3931,8 +3932,8 @@ object FrmPrincipal: TFrmPrincipal
       end
       object RSBFIN_PAG_ADM: TRxSpeedButton
         Left = 4
-        Top = 117
-        Width = 62
+        Top = 113
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTFIN_PAG_ADM
@@ -4046,8 +4047,8 @@ object FrmPrincipal: TFrmPrincipal
       end
       object RSBFIN_REC_BOL: TRxSpeedButton
         Left = 4
-        Top = 173
-        Width = 62
+        Top = 167
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTFIN_REC_BOL
@@ -4184,9 +4185,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBFIN_REC_DUP: TRxSpeedButton
-        Left = 69
-        Top = 173
-        Width = 62
+        Left = 66
+        Top = 167
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTFIN_REC_DUP
@@ -4343,9 +4344,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBFIN_CAD_REP_ADM: TRxSpeedButton
-        Left = 69
+        Left = 66
         Top = 5
-        Width = 62
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTCAD_REP_ADM
@@ -4459,8 +4460,8 @@ object FrmPrincipal: TFrmPrincipal
       end
       object ACTFIN_FIS_NFE_LCT: TRxSpeedButton
         Left = 4
-        Top = 285
-        Width = 62
+        Top = 275
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTFIS_NFE_LCT
@@ -4573,9 +4574,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object ACTFIN_FIS_NFE_ADM: TRxSpeedButton
-        Left = 69
-        Top = 285
-        Width = 62
+        Left = 66
+        Top = 275
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTFIS_NFE_ADM
@@ -4688,9 +4689,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object ACTFIN_TAB_CFOP: TRxSpeedButton
-        Left = 69
-        Top = 341
-        Width = 62
+        Left = 66
+        Top = 329
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTTAB_CFOP
@@ -4796,8 +4797,8 @@ object FrmPrincipal: TFrmPrincipal
       end
       object ACTFIN_FIS_NFE_EDI_TER: TRxSpeedButton
         Left = 4
-        Top = 341
-        Width = 62
+        Top = 329
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTFIS_NFE_EDI_TER
@@ -4885,7 +4886,7 @@ object FrmPrincipal: TFrmPrincipal
     object PNLPCP: TPanel
       Left = 5
       Top = 21
-      Width = 133
+      Width = 128
       Height = 883
       Cursor = crHandPoint
       Hint = 'Menu Principal'
@@ -4897,9 +4898,9 @@ object FrmPrincipal: TFrmPrincipal
       TabOrder = 3
       OnMouseMove = FormMouseMove
       object RSBPCP_CAD_PRO_EST_EXP_COL: TRxSpeedButton
-        Left = 69
-        Top = 117
-        Width = 62
+        Left = 66
+        Top = 113
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTCAD_PRO_EST_EXP_COL
@@ -4978,8 +4979,8 @@ object FrmPrincipal: TFrmPrincipal
       end
       object RSBPCP_CAD_PRO_EST_EXP_MAN: TRxSpeedButton
         Left = 4
-        Top = 117
-        Width = 62
+        Top = 113
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTCAD_PRO_EST_EXP_MAN
@@ -5109,9 +5110,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBPCP_CAD_PRO_EST_ETQ: TRxSpeedButton
-        Left = 69
+        Left = 66
         Top = 5
-        Width = 62
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTCAD_PRO_EST_ETQ
@@ -5250,7 +5251,7 @@ object FrmPrincipal: TFrmPrincipal
       object RSBPCP_CAD_PRO_ADM: TRxSpeedButton
         Left = 4
         Top = 5
-        Width = 62
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTCAD_PRO_ADM
@@ -5364,8 +5365,8 @@ object FrmPrincipal: TFrmPrincipal
       end
       object RSBPCP_CAD_PRO_EST_LCT: TRxSpeedButton
         Left = 4
-        Top = 61
-        Width = 62
+        Top = 59
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTCAD_PRO_EST_LCT
@@ -5466,9 +5467,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBPCP_CAD_PRO_EST_ADM: TRxSpeedButton
-        Left = 69
-        Top = 61
-        Width = 62
+        Left = 66
+        Top = 59
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTCAD_PRO_EST_ADM
@@ -5578,8 +5579,8 @@ object FrmPrincipal: TFrmPrincipal
       end
       object RSBPCP_PED_PDV_ADM: TRxSpeedButton
         Left = 4
-        Top = 173
-        Width = 62
+        Top = 167
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTPED_PDV_ADM
@@ -5676,9 +5677,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBPCP_PED_RDV_ADM: TRxSpeedButton
-        Left = 69
-        Top = 173
-        Width = 62
+        Left = 66
+        Top = 167
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTPED_RDV_ADM
@@ -5826,7 +5827,7 @@ object FrmPrincipal: TFrmPrincipal
     object PNLADM: TPanel
       Left = 5
       Top = 21
-      Width = 133
+      Width = 128
       Height = 883
       Cursor = crHandPoint
       Hint = 'Menu Principal'
@@ -5840,7 +5841,7 @@ object FrmPrincipal: TFrmPrincipal
       object RSBCliente: TRxSpeedButton
         Left = 4
         Top = 5
-        Width = 62
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTCAD_CLI_ADM
@@ -5986,8 +5987,8 @@ object FrmPrincipal: TFrmPrincipal
       end
       object RSBProdutos: TRxSpeedButton
         Left = 4
-        Top = 117
-        Width = 62
+        Top = 113
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTCAD_PRO_ADM
@@ -6101,9 +6102,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBRomaneios: TRxSpeedButton
-        Left = 69
-        Top = 285
-        Width = 62
+        Left = 66
+        Top = 275
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTPED_RDV_ADM
@@ -6249,8 +6250,8 @@ object FrmPrincipal: TFrmPrincipal
       end
       object RSBPedidos: TRxSpeedButton
         Left = 4
-        Top = 285
-        Width = 62
+        Top = 275
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTPED_PDV_ADM
@@ -6348,8 +6349,8 @@ object FrmPrincipal: TFrmPrincipal
       end
       object RSBCompras: TRxSpeedButton
         Left = 4
-        Top = 229
-        Width = 62
+        Top = 221
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTPED_PDC_ADM
@@ -6486,9 +6487,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBProgramados: TRxSpeedButton
-        Left = 69
-        Top = 229
-        Width = 62
+        Left = 66
+        Top = 221
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTPED_PDP_ADM
@@ -6649,9 +6650,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBRepresentante: TRxSpeedButton
-        Left = 69
+        Left = 66
         Top = 5
-        Width = 62
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTCAD_REP_ADM
@@ -6764,9 +6765,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBPEDEstoque: TRxSpeedButton
-        Left = 69
-        Top = 173
-        Width = 62
+        Left = 66
+        Top = 167
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTCAD_PRO_EST_ADM
@@ -6876,8 +6877,8 @@ object FrmPrincipal: TFrmPrincipal
       end
       object RSBFornecedor: TRxSpeedButton
         Left = 4
-        Top = 61
-        Width = 62
+        Top = 59
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTCAD_FOR_ADM
@@ -6990,9 +6991,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBTransportadora: TRxSpeedButton
-        Left = 69
-        Top = 61
-        Width = 62
+        Left = 66
+        Top = 59
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTCAD_TRA_ADM
@@ -7165,9 +7166,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBNFControle: TRxSpeedButton
-        Left = 69
-        Top = 341
-        Width = 62
+        Left = 66
+        Top = 329
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTFIS_NFE_ADM
@@ -7282,8 +7283,8 @@ object FrmPrincipal: TFrmPrincipal
       end
       object RSBNFTerceiros: TRxSpeedButton
         Left = 4
-        Top = 397
-        Width = 62
+        Top = 383
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTFIS_NFE_EDI_TER
@@ -7368,9 +7369,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBTAB_CFOP: TRxSpeedButton
-        Left = 69
-        Top = 397
-        Width = 62
+        Left = 66
+        Top = 383
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTTAB_CFOP
@@ -7475,9 +7476,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBCAD_PRO_GRD_COR: TRxSpeedButton
-        Left = 69
-        Top = 117
-        Width = 62
+        Left = 66
+        Top = 113
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTCAD_PRO_GRD_COR
@@ -7604,8 +7605,8 @@ object FrmPrincipal: TFrmPrincipal
       end
       object RSBCAD_PRO_EST_LCT: TRxSpeedButton
         Left = 4
-        Top = 173
-        Width = 62
+        Top = 167
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTCAD_PRO_EST_LCT
@@ -7707,8 +7708,8 @@ object FrmPrincipal: TFrmPrincipal
       end
       object RSBFIS_NFE_LCT: TRxSpeedButton
         Left = 4
-        Top = 341
-        Width = 62
+        Top = 329
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTFIS_NFE_LCT
@@ -7825,7 +7826,7 @@ object FrmPrincipal: TFrmPrincipal
     object Panel7: TPanel
       Left = 2
       Top = 2
-      Width = 136
+      Width = 131
       Height = 19
       Align = alTop
       BevelOuter = bvNone
@@ -7834,7 +7835,7 @@ object FrmPrincipal: TFrmPrincipal
       object LALegenda: TLabel
         Left = 0
         Top = 0
-        Width = 136
+        Width = 131
         Height = 19
         Align = alClient
         Alignment = taCenter
@@ -8549,7 +8550,6 @@ object FrmPrincipal: TFrmPrincipal
       Category = 'Menu Principal'
       Caption = 'Sair ...'
       Hint = 'Fechar Sistema'
-      ShortCut = 27
       OnExecute = ACTMP_SAIDAExecute
     end
     object ACTPED_PDV_ADM: TAction

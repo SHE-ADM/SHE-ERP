@@ -1,6 +1,6 @@
 inherited frmctr_ped: Tfrmctr_ped
-  Left = -7
-  Top = 107
+  Left = -6
+  Top = 3
   HelpType = htKeyword
   HelpKeyword = '0'
   AlphaBlendValue = 0
@@ -333,8 +333,8 @@ inherited frmctr_ped: Tfrmctr_ped
               Color = clWhite
               Font.Charset = ANSI_CHARSET
               Font.Color = clBlack
-              Font.Height = -12
-              Font.Name = 'Tahoma'
+              Font.Height = -11
+              Font.Name = 'Segoe UI'
               Font.Style = []
               Visible = False
               Width = 60
@@ -346,8 +346,8 @@ inherited frmctr_ped: Tfrmctr_ped
               Color = clWhite
               Font.Charset = ANSI_CHARSET
               Font.Color = clBlack
-              Font.Height = -12
-              Font.Name = 'Tahoma'
+              Font.Height = -11
+              Font.Name = 'Segoe UI'
               Font.Style = []
               MinWidth = 80
               Width = 80
@@ -360,7 +360,7 @@ inherited frmctr_ped: Tfrmctr_ped
               Font.Charset = ANSI_CHARSET
               Font.Color = clBlack
               Font.Height = -11
-              Font.Name = 'Tahoma'
+              Font.Name = 'Segoe UI'
               Font.Style = []
               MinWidth = 100
               Width = 100
@@ -373,7 +373,7 @@ inherited frmctr_ped: Tfrmctr_ped
               Font.Charset = ANSI_CHARSET
               Font.Color = clBlack
               Font.Height = -11
-              Font.Name = 'Tahoma'
+              Font.Name = 'Segoe UI'
               Font.Style = []
               MinWidth = 200
               Width = 200
@@ -385,8 +385,8 @@ inherited frmctr_ped: Tfrmctr_ped
               Color = clWhite
               Font.Charset = ANSI_CHARSET
               Font.Color = clBlack
-              Font.Height = -12
-              Font.Name = 'Tahoma'
+              Font.Height = -11
+              Font.Name = 'Segoe UI'
               Font.Style = []
               Width = 75
               BandIndex = 0
@@ -605,7 +605,7 @@ inherited frmctr_ped: Tfrmctr_ped
               Font.Charset = ANSI_CHARSET
               Font.Color = clBlack
               Font.Height = -11
-              Font.Name = 'Tahoma'
+              Font.Name = 'Segoe UI'
               Font.Style = []
               MinWidth = 100
               Width = 120
@@ -1657,7 +1657,7 @@ inherited frmctr_ped: Tfrmctr_ped
               Font.Height = -12
               Font.Name = 'Tahoma'
               Font.Style = []
-              Width = 104
+              Width = 70
               BandIndex = 0
               RowIndex = 0
               FieldName = 'DEPK'
@@ -1732,7 +1732,7 @@ inherited frmctr_ped: Tfrmctr_ped
               Font.Name = 'Tahoma'
               Font.Style = []
               Visible = False
-              Width = 65
+              Width = 75
               BandIndex = 0
               RowIndex = 0
               FieldName = 'D_DTSA'
@@ -1753,7 +1753,7 @@ inherited frmctr_ped: Tfrmctr_ped
               Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
               Font.Height = -11
-              Font.Name = 'Tahoma'
+              Font.Name = 'Segoe UI'
               Font.Style = []
               MinWidth = 0
               Width = 80
@@ -1778,10 +1778,10 @@ inherited frmctr_ped: Tfrmctr_ped
               Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
               Font.Height = -11
-              Font.Name = 'Tahoma'
+              Font.Name = 'Segoe UI'
               Font.Style = []
               MinWidth = 100
-              Width = 142
+              Width = 100
               BandIndex = 0
               RowIndex = 0
               FieldName = 'D_STCO'
@@ -1811,7 +1811,7 @@ inherited frmctr_ped: Tfrmctr_ped
               Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
               Font.Height = -11
-              Font.Name = 'Tahoma'
+              Font.Name = 'Segoe UI'
               Font.Style = []
               Width = 70
               BandIndex = 0
@@ -1822,7 +1822,7 @@ inherited frmctr_ped: Tfrmctr_ped
               Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
               Font.Height = -11
-              Font.Name = 'Tahoma'
+              Font.Name = 'Segoe UI'
               Font.Style = []
               MinWidth = 0
               Width = 200
@@ -1848,10 +1848,10 @@ inherited frmctr_ped: Tfrmctr_ped
             object DBGConsultaGPCD: TdxDBGridMaskColumn
               Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
-              Font.Height = -11
-              Font.Name = 'Tahoma'
+              Font.Height = -9
+              Font.Name = 'Segoe UI'
               Font.Style = []
-              Width = 78
+              Width = 60
               BandIndex = 1
               RowIndex = 0
               FieldName = 'GPCD'
@@ -1871,7 +1871,7 @@ inherited frmctr_ped: Tfrmctr_ped
               Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
               Font.Height = -11
-              Font.Name = 'Tahoma'
+              Font.Name = 'Segoe UI'
               Font.Style = []
               MinWidth = 80
               Width = 80
@@ -1882,10 +1882,10 @@ inherited frmctr_ped: Tfrmctr_ped
             object DBGConsultaDECR: TdxDBGridMaskColumn
               Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
-              Font.Height = -11
-              Font.Name = 'Tahoma'
+              Font.Height = -9
+              Font.Name = 'Segoe UI'
               Font.Style = []
-              Width = 129
+              Width = 105
               BandIndex = 2
               RowIndex = 0
               FieldName = 'DECR'
@@ -2153,7 +2153,7 @@ inherited frmctr_ped: Tfrmctr_ped
               Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
               Font.Height = -11
-              Font.Name = 'Tahoma'
+              Font.Name = 'Segoe UI'
               Font.Style = []
               Width = 185
               BandIndex = 8
@@ -2164,7 +2164,7 @@ inherited frmctr_ped: Tfrmctr_ped
               Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
               Font.Height = -11
-              Font.Name = 'Tahoma'
+              Font.Name = 'Segoe UI'
               Font.Style = []
               Width = 80
               BandIndex = 8
@@ -2175,7 +2175,7 @@ inherited frmctr_ped: Tfrmctr_ped
               Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
               Font.Height = -11
-              Font.Name = 'Tahoma'
+              Font.Name = 'Segoe UI'
               Font.Style = []
               Width = 40
               BandIndex = 8
@@ -2186,7 +2186,7 @@ inherited frmctr_ped: Tfrmctr_ped
               Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
               Font.Height = -11
-              Font.Name = 'Tahoma'
+              Font.Name = 'Segoe UI'
               Font.Style = []
               Width = 120
               BandIndex = 9
@@ -2543,7 +2543,7 @@ inherited frmctr_ped: Tfrmctr_ped
             Left = 0
             Top = 0
             Width = 870
-            Height = 520
+            Height = 140
             Cursor = crHandPoint
             Color = clBtnFace
             Font.Charset = ANSI_CHARSET
@@ -2566,7 +2566,7 @@ inherited frmctr_ped: Tfrmctr_ped
             object DBGREL_PED_PDV_DIA: TdxDBGrid
               Left = 0
               Top = 0
-              Width = 866
+              Width = 0
               Height = 494
               Cursor = crHandPoint
               Bands = <
@@ -2821,7 +2821,7 @@ inherited frmctr_ped: Tfrmctr_ped
             Left = 0
             Top = 0
             Width = 870
-            Height = 520
+            Height = 140
             Cursor = crHandPoint
             Font.Charset = ANSI_CHARSET
             Font.Color = clBlack
@@ -2842,7 +2842,7 @@ inherited frmctr_ped: Tfrmctr_ped
             object DBGREL_PED_PDV_MES: TdxDBGrid
               Left = 0
               Top = 0
-              Width = 866
+              Width = 0
               Height = 494
               Cursor = crHandPoint
               Bands = <
@@ -3102,7 +3102,7 @@ inherited frmctr_ped: Tfrmctr_ped
         Left = 0
         Top = 0
         Width = 870
-        Height = 520
+        Height = 140
         Visible = False
         AllowFloating = True
         AutoHide = True
