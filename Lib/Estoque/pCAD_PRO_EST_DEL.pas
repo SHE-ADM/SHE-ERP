@@ -124,6 +124,20 @@ begin
     CECDET_INI.Enabled := True;
     CECDET_FIM.Enabled := True;
   end;
+
+  if not REC_SHE_DEF.GAdmin then
+  begin
+    oErro(Application.Handle,
+          'ACESSO NEGADO !' + #13 +
+          'Usuário não Autorizado');
+
+    Self.Visible := False;
+    Self.Height  := 0;
+    Self.Width   := 0;
+
+    PostMessage(Handle, WM_CLOSE, 0, 0);
+    Exit;
+  end;
 end;
 
 procedure TFrmCAD_PRO_EST_DEL.IEEP_IDChange(Sender: TObject);

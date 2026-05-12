@@ -22,6 +22,8 @@ type
     FBaseHost: string;
     FRoleType: string;
     FCertSerial: string;
+    FChaveAcessoClientId: string;
+    FChaveAcessoClientSecret: string;
     FCert: PCCERT_CONTEXT;
     FSession: TPortalUnicoSession;
 
@@ -30,6 +32,9 @@ type
     function ReadResponseBody(ARequest: HINTERNET): string;
     function QueryRawHeaders(ARequest: HINTERNET): string;
     function QueryStatusCode(ARequest: HINTERNET): Integer;
+    function UrlEncodeForm(const S: string): string;
+    function ExtractJsonStringValue(const AJson, AName: string): string;
+    function HeadersChaveAcessoComplementar: WideString;
 
     procedure AtualizarTokens(const RawHeaders: string);
     procedure SetClientCertificate(ARequest: HINTERNET);
@@ -45,8 +50,9 @@ type
 
     procedure LoadCertificateBySerial;
     procedure Autenticar;
+    procedure SetChaveAcessoComplementar(const AClientId, AClientSecret: string);
 
-function ConsultarDuimp(
+    function ConsultarDuimp(
       const ANumeroDuimp: string;
       const AVersaoDuimp: Integer
     ): string;
@@ -54,6 +60,15 @@ function ConsultarDuimp(
     function ConsultarDuimpItens(
       const ANumeroDuimp: string;
       const AVersaoDuimp: Integer
+    ): string;
+
+    function ConsultarDuimpTributos(
+      const ANumeroDuimp: string;
+      const AVersaoDuimp: Integer
+    ): string;
+
+    function ConsultarPcceDeclaracaoIcmsAtiva(
+      const ANumeroDuimp: string
     ): string;
 
     function ConsultarDuimpItem(
@@ -74,6 +89,41 @@ function ConsultarDuimp(
     ): string;
 
     function GetJson(const AResource: string): string;
+    function TryGetJson(
+      const AResource: string;
+      var ARetorno: string;
+      var AStatusCode: Integer;
+      var AErro: string
+    ): Boolean;
+
+    function PostJson(
+      const AResource: string;
+      const ABodyJson: string
+    ): string;
+
+    function TryPostJson(
+      const AResource: string;
+      const ABodyJson: string;
+      var ARetorno: string;
+      var AStatusCode: Integer;
+      var AErro: string
+    ): Boolean;
+
+    function ConsultarTTCEImportacao(
+      const ANCM: string;
+      const ACodigoPais: Integer;
+      const ADataFatoGerador: string
+    ): string;
+
+    function TryConsultarTTCEImportacao(
+      const ANCM: string;
+      const ACodigoPais: Integer;
+      const ADataFatoGerador: string;
+      var ARetorno: string;
+      var AStatusCode: Integer;
+      var AErro: string
+    ): Boolean;
+
     function ConsultarAtributosPorNcmProducao: string;
 
     function ConsultarCatpProdutoDetalhe(
@@ -100,10 +150,10 @@ var
   LPath: string;
 begin
   if Trim(ANumeroDuimp) = '' then
-    raise Exception.Create('Número da DUIMP não informado.');
+    raise Exception.Create('Nmero da DUIMP no informado.');
 
   if AVersaoDuimp <= 0 then
-    raise Exception.Create('Versão da DUIMP inválida.');
+    raise Exception.Create('Verso da DUIMP invlida.');
 
   LPath :=
     '/duimp-api/api/ext/duimp/' +
@@ -121,16 +171,54 @@ var
   LPath: string;
 begin
   if Trim(ANumeroDuimp) = '' then
-    raise Exception.Create('Número da DUIMP não informado.');
+    raise Exception.Create('Nmero da DUIMP no informado.');
 
   if AVersaoDuimp <= 0 then
-    raise Exception.Create('Versão da DUIMP inválida.');
+    raise Exception.Create('Verso da DUIMP invlida.');
 
   LPath :=
     '/duimp-api/api/ext/duimp/' +
     Trim(ANumeroDuimp) + '/' +
     IntToStr(AVersaoDuimp) +
     '/itens';
+
+  Result := GetJson(LPath);
+end;
+
+function TPortalUnicoClientD7.ConsultarDuimpTributos(
+  const ANumeroDuimp: string;
+  const AVersaoDuimp: Integer
+): string;
+var
+  LPath: string;
+begin
+  if Trim(ANumeroDuimp) = '' then
+    raise Exception.Create('Nmero da DUIMP no informado.');
+
+  if AVersaoDuimp <= 0 then
+    raise Exception.Create('Verso da DUIMP invlida.');
+
+  LPath :=
+    '/duimp-api/api/ext/duimp/' +
+    Trim(ANumeroDuimp) + '/' +
+    IntToStr(AVersaoDuimp) +
+    '/tributos';
+
+  Result := GetJson(LPath);
+end;
+
+function TPortalUnicoClientD7.ConsultarPcceDeclaracaoIcmsAtiva(
+  const ANumeroDuimp: string
+): string;
+var
+  LPath: string;
+begin
+  if Trim(ANumeroDuimp) = '' then
+    raise Exception.Create('Nmero da DUIMP no informado.');
+
+  LPath :=
+    '/pcce/api/ext/priv/icms/' +
+    Trim(ANumeroDuimp);
 
   Result := GetJson(LPath);
 end;
@@ -144,13 +232,13 @@ var
   LPath: string;
 begin
   if Trim(ANumeroDuimp) = '' then
-    raise Exception.Create('Número da DUIMP não informado.');
+    raise Exception.Create('Nmero da DUIMP no informado.');
 
   if AVersaoDuimp <= 0 then
-    raise Exception.Create('Versão da DUIMP inválida.');
+    raise Exception.Create('Verso da DUIMP invlida.');
 
   if ANumeroItem <= 0 then
-    raise Exception.Create('Número do item inválido.');
+    raise Exception.Create('Nmero do item invlido.');
 
   LPath :=
     '/duimp-api/api/ext/duimp/' +
@@ -170,10 +258,10 @@ var
   LPath: string;
 begin
   if Trim(ANumeroDuimp) = '' then
-    raise Exception.Create('Número da DUIMP não informado.');
+    raise Exception.Create('Nmero da DUIMP no informado.');
 
   if AVersaoDuimp <= 0 then
-    raise Exception.Create('Versão da DUIMP inválida.');
+    raise Exception.Create('Verso da DUIMP invlida.');
 
   LPath :=
     '/duimp-api/api/ext/duimp/' +
@@ -193,13 +281,13 @@ var
   LPath: string;
 begin
   if Trim(ANumeroDuimp) = '' then
-    raise Exception.Create('Número da DUIMP não informado.');
+    raise Exception.Create('Nmero da DUIMP no informado.');
 
   if AVersaoDuimp <= 0 then
-    raise Exception.Create('Versão da DUIMP inválida.');
+    raise Exception.Create('Verso da DUIMP invlida.');
 
   if ANumeroItem <= 0 then
-    raise Exception.Create('Número do item inválido.');
+    raise Exception.Create('Nmero do item invlido.');
 
   LPath :=
     '/duimp-api/api/ext/duimp/' +
@@ -313,9 +401,37 @@ begin
   FBaseHost := ABaseHost;
   FRoleType := ARoleType;
   FCertSerial := ACertSerial;
+  FChaveAcessoClientId := '';
+  FChaveAcessoClientSecret := '';
   FCert := nil;
 
   FillChar(FSession, SizeOf(FSession), 0);
+end;
+
+procedure TPortalUnicoClientD7.SetChaveAcessoComplementar(
+  const AClientId, AClientSecret: string);
+begin
+  FChaveAcessoClientId := Trim(AClientId);
+  FChaveAcessoClientSecret := Trim(AClientSecret);
+end;
+
+function TPortalUnicoClientD7.HeadersChaveAcessoComplementar: WideString;
+begin
+  Result := '';
+
+  if FChaveAcessoClientId <> '' then
+  begin
+    Result := Result +
+      'Client-Id: ' + Wide(FChaveAcessoClientId) + #13#10 +
+      'X-Client-Id: ' + Wide(FChaveAcessoClientId) + #13#10;
+  end;
+
+  if FChaveAcessoClientSecret <> '' then
+  begin
+    Result := Result +
+      'Client-Secret: ' + Wide(FChaveAcessoClientSecret) + #13#10 +
+      'X-Client-Secret: ' + Wide(FChaveAcessoClientSecret) + #13#10;
+  end;
 end;
 
 destructor TPortalUnicoClientD7.Destroy;
@@ -340,7 +456,7 @@ begin
 
     if FCert = nil then
       raise Exception.Create(
-        'Certificado não encontrado pelo número de série: ' + FCertSerial
+        'Certificado no encontrado pelo nmero de srie: ' + FCertSerial
       );
   end
   else
@@ -349,7 +465,7 @@ begin
   end;
 
   if FCert = nil then
-    raise Exception.Create('Certificado não carregado.');
+    raise Exception.Create('Certificado no carregado.');
 end;
 
 procedure TPortalUnicoClientD7.SetTls12(ASession: HINTERNET);
@@ -370,7 +486,7 @@ end;
 procedure TPortalUnicoClientD7.SetClientCertificate(ARequest: HINTERNET);
 begin
   if FCert = nil then
-    raise Exception.Create('Certificado não carregado.');
+    raise Exception.Create('Certificado no carregado.');
 
   if not WinHttpSetOption(
     ARequest,
@@ -507,6 +623,75 @@ begin
   end;
 end;
 
+function TPortalUnicoClientD7.UrlEncodeForm(const S: string): string;
+var
+  I: Integer;
+  C: Char;
+begin
+  Result := '';
+
+  for I := 1 to Length(S) do
+  begin
+    C := S[I];
+
+    if C in ['A'..'Z', 'a'..'z', '0'..'9', '-', '_', '.', '~'] then
+      Result := Result + C
+    else if C = ' ' then
+      Result := Result + '+'
+    else
+      Result := Result + '%' + IntToHex(Ord(C), 2);
+  end;
+end;
+
+function TPortalUnicoClientD7.ExtractJsonStringValue(
+  const AJson, AName: string): string;
+var
+  P: Integer;
+  I: Integer;
+  Key: string;
+  S: string;
+begin
+  Result := '';
+  S := AJson;
+  Key := '"' + AName + '"';
+
+  P := Pos(Key, S);
+  if P <= 0 then
+    Exit;
+
+  P := P + Length(Key);
+
+  while (P <= Length(S)) and (S[P] in [' ', #9, #10, #13]) do
+    Inc(P);
+
+  if (P > Length(S)) or (S[P] <> ':') then
+    Exit;
+
+  Inc(P);
+  while (P <= Length(S)) and (S[P] in [' ', #9, #10, #13]) do
+    Inc(P);
+
+  if (P > Length(S)) or (S[P] <> '"') then
+    Exit;
+
+  Inc(P);
+  I := P;
+
+  while I <= Length(S) do
+  begin
+    if (S[I] = '"') and ((I = 1) or (S[I - 1] <> '\')) then
+      Break;
+    Inc(I);
+  end;
+
+  if I > Length(S) then
+    Exit;
+
+  Result := Copy(S, P, I - P);
+  Result := StringReplace(Result, '\/','/', [rfReplaceAll]);
+  Result := StringReplace(Result, '\"','"', [rfReplaceAll]);
+end;
+
 procedure TPortalUnicoClientD7.AtualizarTokens(const RawHeaders: string);
 var
   V: string;
@@ -582,6 +767,7 @@ begin
 
     Headers :=
       'Role-Type: ' + Wide(FRoleType) + #13#10 +
+      HeadersChaveAcessoComplementar +
       'Accept: application/json' + #13#10 +
       'Content-Type: application/json; charset=utf-8' + #13#10;
 
@@ -607,7 +793,7 @@ begin
 
     if not (Status in [200, 201, 204]) then
       raise Exception.Create(
-        'Erro ao autenticar no Portal Único.' + sLineBreak +
+        'Erro ao autenticar no Portal nico.' + sLineBreak +
         'HTTP: ' + IntToStr(Status) + sLineBreak +
         'Resposta: ' + Body + sLineBreak +
         'Headers: ' + RawHeaders
@@ -615,8 +801,8 @@ begin
 
     if (FSession.SetToken = '') or (FSession.CsrfToken = '') then
       raise Exception.Create(
-        'Autenticação retornou HTTP ' + IntToStr(Status) +
-        ', mas não retornou Set-Token ou X-CSRF-Token.'
+        'Autenticao retornou HTTP ' + IntToStr(Status) +
+        ', mas no retornou Set-Token ou X-CSRF-Token.'
       );
 
   finally
@@ -686,6 +872,7 @@ begin
     Headers :=
       'Authorization: ' + Wide(FSession.SetToken) + #13#10 +
       'X-CSRF-Token: ' + Wide(FSession.CsrfToken) + #13#10 +
+      'Role-Type: ' + Wide(FRoleType) + #13#10 +
       'Accept: application/json' + #13#10 +
       'Content-Type: application/json; charset=utf-8' + #13#10;
 
@@ -714,7 +901,7 @@ begin
       FSession.SetToken := '';
       FSession.CsrfToken := '';
       FSession.CsrfExpiration := '';
-      raise Exception.Create('HTTP 401: sessão expirada ou autenticação inválida. Reautentique.');
+      raise Exception.Create('HTTP 401: sesso expirada ou autenticao invlida. Reautentique.');
     end;
 
     if not (Status in [200, 201, 204]) then
@@ -728,6 +915,372 @@ begin
     if Connect <> nil then WinHttpCloseHandle(Connect);
     if Session <> nil then WinHttpCloseHandle(Session);
   end;
+end;
+
+
+function TPortalUnicoClientD7.TryGetJson(
+  const AResource: string;
+  var ARetorno: string;
+  var AStatusCode: Integer;
+  var AErro: string
+): Boolean;
+var
+  Session: HINTERNET;
+  Connect: HINTERNET;
+  Request: HINTERNET;
+  Headers: WideString;
+  RawHeaders: string;
+begin
+  Result := False;
+  ARetorno := '';
+  AStatusCode := 0;
+  AErro := '';
+
+  Session := nil;
+  Connect := nil;
+  Request := nil;
+
+  try
+    try
+      if (FSession.SetToken = '') or (FSession.CsrfToken = '') then
+        Autenticar;
+
+      Session := WinHttpOpen(
+        PWideChar(Wide('Sheild-DUIMP-D7/1.0')),
+        WINHTTP_ACCESS_TYPE_DEFAULT_PROXY,
+        WINHTTP_NO_PROXY_NAME,
+        WINHTTP_NO_PROXY_BYPASS,
+        0
+      );
+
+      if Session = nil then
+        RaiseLastOSError;
+
+      SetTls12(Session);
+
+      Connect := WinHttpConnect(
+        Session,
+        PWideChar(Wide(FBaseHost)),
+        443,
+        0
+      );
+
+      if Connect = nil then
+        RaiseLastOSError;
+
+      Request := WinHttpOpenRequest(
+        Connect,
+        PWideChar(Wide('GET')),
+        PWideChar(Wide(AResource)),
+        nil,
+        nil,
+        nil,
+        WINHTTP_FLAG_SECURE
+      );
+
+      if Request = nil then
+        RaiseLastOSError;
+
+      SetClientCertificate(Request);
+
+      Headers :=
+        'Authorization: ' + Wide(FSession.SetToken) + #13#10 +
+        'X-CSRF-Token: ' + Wide(FSession.CsrfToken) + #13#10 +
+        'Role-Type: ' + Wide(FRoleType) + #13#10 +
+        'Accept: application/json' + #13#10 +
+        'Content-Type: application/json; charset=utf-8' + #13#10;
+
+      if not WinHttpAddRequestHeaders(
+        Request,
+        PWideChar(Headers),
+        Length(Headers),
+        WINHTTP_ADDREQ_FLAG_ADD or WINHTTP_ADDREQ_FLAG_REPLACE
+      ) then
+        RaiseLastOSError;
+
+      if not WinHttpSendRequest(Request, nil, 0, nil, 0, 0, 0) then
+        RaiseLastOSError;
+
+      if not WinHttpReceiveResponse(Request, nil) then
+        RaiseLastOSError;
+
+      AStatusCode := QueryStatusCode(Request);
+      RawHeaders := QueryRawHeaders(Request);
+      ARetorno := ReadResponseBody(Request);
+
+      AtualizarTokens(RawHeaders);
+
+      if AStatusCode = 401 then
+      begin
+        FSession.SetToken := '';
+        FSession.CsrfToken := '';
+        FSession.CsrfExpiration := '';
+        AErro := 'HTTP 401: sessao expirada ou autenticacao invalida. Reautentique.';
+        Exit;
+      end;
+
+      if AStatusCode in [200, 201, 204] then
+      begin
+        Result := True;
+        Exit;
+      end;
+
+      AErro :=
+        'Erro HTTP: ' + IntToStr(AStatusCode) + sLineBreak +
+        'Resposta: ' + ARetorno;
+    finally
+      if Request <> nil then WinHttpCloseHandle(Request);
+      if Connect <> nil then WinHttpCloseHandle(Connect);
+      if Session <> nil then WinHttpCloseHandle(Session);
+    end;
+  except
+    on E: Exception do
+    begin
+      Result := False;
+      if AErro = '' then
+        AErro := E.Message;
+    end;
+  end;
+end;
+
+
+function TPortalUnicoClientD7.TryPostJson(
+  const AResource: string;
+  const ABodyJson: string;
+  var ARetorno: string;
+  var AStatusCode: Integer;
+  var AErro: string
+): Boolean;
+var
+  Session: HINTERNET;
+  Connect: HINTERNET;
+  Request: HINTERNET;
+  Headers: WideString;
+  RawHeaders: string;
+  BodyAnsi: AnsiString;
+begin
+  Result := False;
+  ARetorno := '';
+  AStatusCode := 0;
+  AErro := '';
+
+  Session := nil;
+  Connect := nil;
+  Request := nil;
+
+  try
+    try
+      if (FSession.SetToken = '') or (FSession.CsrfToken = '') then
+        Autenticar;
+
+      Session := WinHttpOpen(
+        PWideChar(Wide('Sheild-DUIMP-D7/1.0')),
+        WINHTTP_ACCESS_TYPE_DEFAULT_PROXY,
+        WINHTTP_NO_PROXY_NAME,
+        WINHTTP_NO_PROXY_BYPASS,
+        0
+      );
+
+      if Session = nil then
+        RaiseLastOSError;
+
+      SetTls12(Session);
+
+      Connect := WinHttpConnect(
+        Session,
+        PWideChar(Wide(FBaseHost)),
+        443,
+        0
+      );
+
+      if Connect = nil then
+        RaiseLastOSError;
+
+      Request := WinHttpOpenRequest(
+        Connect,
+        PWideChar(Wide('POST')),
+        PWideChar(Wide(AResource)),
+        nil,
+        nil,
+        nil,
+        WINHTTP_FLAG_SECURE
+      );
+
+      if Request = nil then
+        RaiseLastOSError;
+
+      SetClientCertificate(Request);
+
+      Headers :=
+        'Authorization: ' + Wide(FSession.SetToken) + #13#10 +
+        'X-CSRF-Token: ' + Wide(FSession.CsrfToken) + #13#10 +
+        'Role-Type: ' + Wide(FRoleType) + #13#10 +
+        'Accept: application/json' + #13#10 +
+        'Content-Type: application/json; charset=utf-8' + #13#10;
+
+      if not WinHttpAddRequestHeaders(
+        Request,
+        PWideChar(Headers),
+        Length(Headers),
+        WINHTTP_ADDREQ_FLAG_ADD or WINHTTP_ADDREQ_FLAG_REPLACE
+      ) then
+        RaiseLastOSError;
+
+      BodyAnsi := AnsiString(ABodyJson);
+
+      if Length(BodyAnsi) > 0 then
+      begin
+        if not WinHttpSendRequest(
+          Request,
+          nil,
+          0,
+          PAnsiChar(BodyAnsi),
+          Length(BodyAnsi),
+          Length(BodyAnsi),
+          0
+        ) then
+          RaiseLastOSError;
+      end
+      else
+      begin
+        if not WinHttpSendRequest(Request, nil, 0, nil, 0, 0, 0) then
+          RaiseLastOSError;
+      end;
+
+      if not WinHttpReceiveResponse(Request, nil) then
+        RaiseLastOSError;
+
+      AStatusCode := QueryStatusCode(Request);
+      RawHeaders := QueryRawHeaders(Request);
+      ARetorno := ReadResponseBody(Request);
+
+      AtualizarTokens(RawHeaders);
+
+      if AStatusCode = 401 then
+      begin
+        FSession.SetToken := '';
+        FSession.CsrfToken := '';
+        FSession.CsrfExpiration := '';
+        AErro := 'HTTP 401: sessao expirada ou autenticacao invalida. Reautentique.';
+        Exit;
+      end;
+
+      if AStatusCode in [200, 201, 204] then
+      begin
+        Result := True;
+        Exit;
+      end;
+
+      AErro :=
+        'Erro HTTP: ' + IntToStr(AStatusCode) + sLineBreak +
+        'Resposta: ' + ARetorno;
+    finally
+      if Request <> nil then WinHttpCloseHandle(Request);
+      if Connect <> nil then WinHttpCloseHandle(Connect);
+      if Session <> nil then WinHttpCloseHandle(Session);
+    end;
+  except
+    on E: Exception do
+    begin
+      Result := False;
+      if AErro = '' then
+        AErro := E.Message;
+    end;
+  end;
+end;
+
+function TPortalUnicoClientD7.PostJson(
+  const AResource: string;
+  const ABodyJson: string
+): string;
+var
+  Status: Integer;
+  Erro: string;
+begin
+  Result := '';
+  if not TryPostJson(AResource, ABodyJson, Result, Status, Erro) then
+    raise Exception.Create(Erro);
+end;
+
+function TPortalUnicoClientD7.ConsultarTTCEImportacao(
+  const ANCM: string;
+  const ACodigoPais: Integer;
+  const ADataFatoGerador: string
+): string;
+var
+  Payload: string;
+begin
+  if Trim(ANCM) = '' then
+    raise Exception.Create('NCM nao informada para consulta TTCE.');
+
+  if ACodigoPais <= 0 then
+    raise Exception.Create('Codigo do pais nao informado para consulta TTCE.');
+
+  if Trim(ADataFatoGerador) = '' then
+    raise Exception.Create('Data do fato gerador nao informada para consulta TTCE.');
+
+  Payload :=
+    '{' +
+    '"ncm":"' + Trim(ANCM) + '",' +
+    '"codigoPais":' + IntToStr(ACodigoPais) + ',' +
+    '"dataFatoGerador":"' + Trim(ADataFatoGerador) + '",' +
+    '"tipoOperacao":"I"' +
+    '}';
+
+  Result := PostJson('/ttce/api/ext/tratamentos-tributarios/importacao/', Payload);
+end;
+
+function TPortalUnicoClientD7.TryConsultarTTCEImportacao(
+  const ANCM: string;
+  const ACodigoPais: Integer;
+  const ADataFatoGerador: string;
+  var ARetorno: string;
+  var AStatusCode: Integer;
+  var AErro: string
+): Boolean;
+var
+  Payload: string;
+begin
+  ARetorno := '';
+  AStatusCode := 0;
+  AErro := '';
+
+  if Trim(ANCM) = '' then
+  begin
+    AErro := 'NCM nao informada para consulta TTCE.';
+    Result := False;
+    Exit;
+  end;
+
+  if ACodigoPais <= 0 then
+  begin
+    AErro := 'Codigo do pais nao informado para consulta TTCE.';
+    Result := False;
+    Exit;
+  end;
+
+  if Trim(ADataFatoGerador) = '' then
+  begin
+    AErro := 'Data do fato gerador nao informada para consulta TTCE.';
+    Result := False;
+    Exit;
+  end;
+
+  Payload :=
+    '{' +
+    '"ncm":"' + Trim(ANCM) + '",' +
+    '"codigoPais":' + IntToStr(ACodigoPais) + ',' +
+    '"dataFatoGerador":"' + Trim(ADataFatoGerador) + '",' +
+    '"tipoOperacao":"I"' +
+    '}';
+
+  Result := TryPostJson(
+    '/ttce/api/ext/tratamentos-tributarios/importacao/',
+    Payload,
+    ARetorno,
+    AStatusCode,
+    AErro
+  );
 end;
 
 
@@ -746,13 +1299,13 @@ var
   LPath: string;
 begin
   if Trim(ACpfCnpjRaiz) = '' then
-    raise Exception.Create('CPF/CNPJ raiz não informado para consulta CATP.');
+    raise Exception.Create('CPF/CNPJ raiz no informado para consulta CATP.');
 
   if Trim(ACodigoProduto) = '' then
-    raise Exception.Create('Código do produto não informado para consulta CATP.');
+    raise Exception.Create('Cdigo do produto no informado para consulta CATP.');
 
   if Trim(AVersaoProduto) = '' then
-    raise Exception.Create('Versão do produto não informada para consulta CATP.');
+    raise Exception.Create('Verso do produto no informada para consulta CATP.');
 
   LPath :=
     '/catp/api/ext/produto/' +
@@ -771,10 +1324,10 @@ var
   LPath: string;
 begin
   if Trim(ACpfCnpjRaiz) = '' then
-    raise Exception.Create('CPF/CNPJ raiz não informado para consulta CATP.');
+    raise Exception.Create('CPF/CNPJ raiz no informado para consulta CATP.');
 
   if Trim(ACodigoProduto) = '' then
-    raise Exception.Create('Código do produto não informado para consulta CATP.');
+    raise Exception.Create('Cdigo do produto no informado para consulta CATP.');
 
   LPath :=
     '/catp/api/ext/produto?cpfCnpjRaiz=' + Trim(ACpfCnpjRaiz) +

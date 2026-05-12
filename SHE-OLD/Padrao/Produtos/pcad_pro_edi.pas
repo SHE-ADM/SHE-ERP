@@ -525,8 +525,9 @@ begin
   REC_SHE_DEF.GAdmin      := False;
   inherited;
 
-  ACTMPost.Enabled := (REC_SHE_DEF.GAppend) or (REC_SHE_DEF.GEdit);
-  rEC_SHE_DEF.IDFK := REC_SHE_DEF.IDPK;
+  ACTMPost.Enabled   := (REC_SHE_DEF.GAppend) or (REC_SHE_DEF.GEdit);
+  ACTMCancel.Enabled := ACTMPost.Enabled;
+  rEC_SHE_DEF.IDFK   := REC_SHE_DEF.IDPK;
 
   with SQLConsulta do
   begin

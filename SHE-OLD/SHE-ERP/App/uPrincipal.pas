@@ -348,6 +348,7 @@ type
     N10: TMenuItem;
     MIREL_PRO_TAB_PRC: TMenuItem;
     ACTREL_PRO_TAB_PRC: TAction;
+    RSBNFControlePCP: TRxSpeedButton;
 
     procedure _DoneEvent(Sender: TObject);
 
@@ -2481,6 +2482,9 @@ begin
   if oEmpty(RECUsuarios.Id) then
   Exit;
 
+  if Pos(RECUsuarios.Grupo,'DIRVEN') > 0 then
+  TFrmCTR_PED._ExecForm(Application,FrmCTR_PED);
+
   _Aviso_Reserva;
 end;
 
@@ -2647,7 +2651,7 @@ procedure TFrmPrincipal.ACTADM_COMISSAOExecute(Sender: TObject);
                 SQL.Add('JOIN     CAD_REP     AS CR ON (CR.ID = PK.IDCR)');
                 SQL.Add('JOIN     TAB_PAG     AS PG ON (PG.ID = PK.CDPG)');
                // SQL.Add('WHERE    CAST(PK.DTBX AS DATE) >= DATEADD(MONTH,-1,DATEADD(1 - EXTRACT(DAY FROM CURRENT_DATE) DAY TO CURRENT_DATE))');
-                SQL.Add('WHERE    CAST(PK.DTBX AS DATE) >= ''03/01/26''');
+                SQL.Add('WHERE    CAST(PK.DTBX AS DATE) >= ''04/01/26''');
               //SQL.Add('AND      PK.DEPD = ''109506''');
                 SQL.Add('ORDER BY PK.DTBX');
                 ExecQuery;
@@ -2792,7 +2796,7 @@ procedure TFrmPrincipal.ACTADM_COMISSAOExecute(Sender: TObject);
                 SQL.Add('JOIN     CAD_REP         AS CR ON (CR.ID = PK.IDCR)');
                 SQL.Add('JOIN     TAB_PAG         AS PG ON (PG.ID = PK.CDPG)');
                 //SQL.Add('WHERE    CAST(PK.DTBX AS DATE) >= DATEADD(MONTH,-1,DATEADD(1 - EXTRACT(DAY FROM CURRENT_DATE) DAY TO CURRENT_DATE))');
-                SQL.Add('WHERE    CAST(PK.DTBX AS DATE) >= ''03/01/26''');
+                SQL.Add('WHERE    CAST(PK.DTBX AS DATE) >= ''04/01/26''');
               //SQL.Add('AND      PK.DEPD = ''99669''');
                 SQL.Add('ORDER BY PK.DTBX');
                 ExecQuery;
@@ -3581,7 +3585,8 @@ end;
 
 procedure TFrmPrincipal.ACTMU_FIS_NFE_SAIExecute(Sender: TObject);
 begin
-  AREC_SHE_DEF.GDescricao := 'Logística'; AREC_SHE_DEF.GReferencia := 'Saídas'; AREC_SHE_DEF.GRegra := 'Controle'; oUSER(AREC_SHE_DEF);
+  AREC_SHE_DEF.GDescricao := 'Logística'; AREC_SHE_DEF.GReferencia := 'Saídas'; AREC_SHE_DEF.GRegra := 'Permissões Gerais';
+  oUSER(AREC_SHE_DEF);
 
   if AREC_SHE_DEF.GAppend then
   TFrmNFeSaida._ExecForm(Application,FrmNFeSaida) else

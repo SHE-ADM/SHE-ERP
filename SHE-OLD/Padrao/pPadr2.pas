@@ -753,7 +753,7 @@ procedure TFrmPadr2.ACTSaidaExecute(Sender: TObject);
 begin
   if Cadastro.State in [dsInsert,dsEdit] then
   ACTMECancel.Execute else
-  Close;
+  Self.Close;
 end;
 
 procedure TFrmPadr2.ACTConsultaExecute(Sender: TObject);
