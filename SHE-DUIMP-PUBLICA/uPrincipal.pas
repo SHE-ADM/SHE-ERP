@@ -150,6 +150,20 @@ type
     LabelNumeroDuimp: TLabel;
     LabelVersaoDuimp: TLabel;
     EditVersaoDuimp: TdxEdit;
+    CEQVOL: TdxCurrencyEdit;
+    LAVFRETE: TLabel;
+    EditDestCNPJ: TdxEdit;
+    Label1: TLabel;
+    EditESP: TdxEdit;
+    LabelESP: TLabel;
+    CEPESOB: TdxCurrencyEdit;
+    LabelPESOB: TLabel;
+    CEPESOL: TdxCurrencyEdit;
+    LabelPESOL: TLabel;
+    CEVFRETE: TdxCurrencyEdit;
+    LabelQVOL: TLabel;
+    EditMarca: TdxEdit;
+    LabelMarca: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure BTNAutenticaClick(Sender: TObject);
@@ -159,9 +173,11 @@ type
     FClient: TPortalUnicoClientD7;
 
     procedure AddStatus(const AMsg: string);
+    procedure ScrollMemoToTop;
     function TextoEdit(AEdit: TdxEdit): string;
     function TextoEditPorNome(const ANomeComponente: string): string;
     function TextoEditAnyPorNome(const ANomesComponentes: array of string): string;
+    procedure TrySetEditTextAny(const ANomesComponentes: array of string; const AValor: string);
     function ClientIdComplementarInformado: string;
     function ClientSecretComplementarInformado: string;
     function CertificadoNoSerieInformado: string;
@@ -208,6 +224,16 @@ begin
     MemoRetorno.Lines.Add(AMsg);
 end;
 
+procedure TForm1.ScrollMemoToTop;
+begin
+  if Assigned(MemoRetorno) then
+  begin
+    MemoRetorno.SelStart := 0;
+    MemoRetorno.SelLength := 0;
+    SendMessage(MemoRetorno.Handle, EM_SCROLLCARET, 0, 0);
+  end;
+end;
+
 function TForm1.TextoEdit(AEdit: TdxEdit): string;
 begin
   Result := '';
@@ -238,6 +264,23 @@ begin
     Result := TextoEditPorNome(ANomesComponentes[I]);
     if Trim(Result) <> '' then
       Exit;
+  end;
+end;
+
+procedure TForm1.TrySetEditTextAny(const ANomesComponentes: array of string; const AValor: string);
+var
+  I: Integer;
+  C: TComponent;
+begin
+  for I := Low(ANomesComponentes) to High(ANomesComponentes) do
+  begin
+    C := FindComponent(ANomesComponentes[I]);
+    if Assigned(C) then
+    begin
+      if C is TdxEdit then TdxEdit(C).Text := AValor
+      else if C is TEdit then TEdit(C).Text := AValor;
+      Exit; // Sai após preencher o primeiro que encontrar
+    end;
   end;
 end;
 
@@ -418,12 +461,15 @@ begin
     else
       AddStatus('Certificado........: numero de serie vazio; selecao manual aberta.');
     AddStatus('DUIMP CSRF expira..: ' + FClient.Session.CsrfExpiration);
+    
+    ScrollMemoToTop;
   except
     on E: Exception do
     begin
       if Assigned(FClient) then FreeAndNil(FClient);
       AddStatus('Erro ao autenticar no Portal Unico/DUIMP.');
       AddStatus(E.Message);
+      ScrollMemoToTop;
       MessageDlg('Erro ao autenticar no Portal Unico/DUIMP:' + sLineBreak + E.Message, mtError, [mbOK], 0);
     end;
   end;
@@ -444,6 +490,24 @@ var
   ArrBusca: TSuperArray;
   ItemBusca: ISuperObject;
   J: Integer;
+
+  // Variáveis CCT e Varredura
+  CargaId: string;
+  CctStatus: Integer;
+  CctErro, CctRetorno: string;
+  CctRoot, ItemCct: ISuperObject;
+  
+  // Variáveis para Varredura de Itens (Peso Líquido)
+  RetornoItensStr: string;
+  RootItens: ISuperObject;
+  ArrBuscaItens: TSuperArray;
+  SomaPesoL: Double;
+  
+  // Variáveis para Varredura de Texto Livre
+  InfoCompl, UpperLinha, AuxStr, NumStr, EspStr, EspecieResidual: string;
+  SLInfo: TStringList;
+  I_str, J_str: Integer;
+
 begin
   if Assigned(MemoRetorno) then MemoRetorno.Clear;
 
@@ -469,6 +533,12 @@ begin
     LRoot := SO(LRetorno);
 
     if not Assigned(LRoot) then raise Exception.Create('Retorno da DUIMP nao e um JSON valido.');
+
+    // Zera os componentes de volume para evitar lixo de notas anteriores
+    if Assigned(CEQVOL) then CEQVOL.Value := 0;
+    if Assigned(EditESP) then EditESP.Text := '';
+    if Assigned(EditMarca) then EditMarca.Text := '';
+    // Os campos CEPESOL e CEPESOB não são mais zerados aqui para respeitar valores manuais
 
     // -------------------------------------------------------------------------
     // TAXA SISCOMEX E PREENCHIMENTO DO MemoinfCpl
@@ -508,7 +578,7 @@ begin
     end;
 
     if Assigned(CEVTAXASISCOMEX) then
-    CEVTAXASISCOMEX.Value := ValorSiscomex;
+      CEVTAXASISCOMEX.Value := ValorSiscomex;
 
     if Assigned(MemoinfCpl) then
     begin
@@ -519,7 +589,7 @@ begin
       ValorAFRMM := CEVAFRMM.Value;
 
       if ValorAFRMM > 0 then
-      TextoInfCpl := TextoInfCpl + 'Afrmm: ' + FormatFloat('0.00', ValorAFRMM) + '. ';
+        TextoInfCpl := TextoInfCpl + 'Afrmm: ' + FormatFloat('0.00', ValorAFRMM) + '. ';
 
       MemoinfCpl.Text := Trim(TextoInfCpl);
     end;
@@ -586,14 +656,251 @@ begin
     AddJsonFloat(LRoot, 'tributos.mercadoria.valorTotalLocalEmbarqueBRL');
     AddStatus('');
 
+    // =========================================================================
+    // CAMADA 1: CONSULTA SILENCIOSA AO CCT PARA BUSCAR VOLUMES, ESPÉCIE, MARCA E PESO BRUTO
+    // =========================================================================
+    CargaId := JsonStr(LRoot, 'carga.identificacao');
+    if Trim(CargaId) <> '' then
+    begin
+      AddStatus('Iniciando busca estruturada no CCT para a carga: ' + CargaId);
+
+      // 1. Tenta buscar no Modal Aquaviário (CCT-IMP)
+      CctRetorno := ''; CctStatus := 0; CctErro := '';
+      if FClient.TryGetJson('/cct/api/ext/imp/estoque/pos-acd?numeros=' + Trim(CargaId), CctRetorno, CctStatus, CctErro) then
+      begin
+        if CctStatus = 200 then
+        begin
+          CctRoot := SO(CctRetorno);
+          if Assigned(CctRoot) and Assigned(CctRoot.A['lista']) and (CctRoot.A['lista'].Length > 0) then
+          begin
+            ItemCct := CctRoot.A['lista'].O[0];
+            if Assigned(CEPESOB) then CEPESOB.Value := JsonFloat(ItemCct, 'pesoBrutoEstoque'); 
+            
+            if Assigned(ItemCct.A['cargas']) and (ItemCct.A['cargas'].Length > 0) then
+            begin
+              if Assigned(CEQVOL) then CEQVOL.Value := JsonInt(ItemCct.A['cargas'].O[0], 'quantidade');
+              if Assigned(EditESP) then EditESP.Text := JsonStr(ItemCct.A['cargas'].O[0], 'descricao');
+            end;
+          end;
+        end;
+      end;
+
+      // 2. Se não encontrou no marítimo, tenta no Modal Aéreo/Rodoviário (CCTA)
+      if ((not Assigned(CEQVOL)) or (CEQVOL.Value = 0)) and 
+         ((not Assigned(CEPESOB)) or (CEPESOB.Value = 0)) then
+      begin
+        CctRetorno := ''; CctStatus := 0; CctErro := '';
+        if FClient.TryGetJson('/ccta/api/ext/conhecimentos?numeroConhecimento=' + Trim(CargaId), CctRetorno, CctStatus, CctErro) then
+        begin
+          if CctStatus = 200 then
+          begin
+            CctRoot := SO(CctRetorno);
+            if Assigned(CctRoot) and (CctRoot.DataType = stArray) and (CctRoot.AsArray.Length > 0) then
+            begin
+              ItemCct := CctRoot.AsArray.O[0];
+              if Assigned(CEQVOL) then CEQVOL.Value := JsonInt(ItemCct, 'quantidadeVolumesConhecimento');
+              if Assigned(CEPESOB) then CEPESOB.Value := JsonFloat(ItemCct, 'pesoBrutoConhecimento');
+
+              if Assigned(ItemCct.A['itensCarga']) and (ItemCct.A['itensCarga'].Length > 0) then
+              begin
+                if Assigned(EditESP) then 
+                begin
+                  EditESP.Text := JsonStr(ItemCct.A['itensCarga'].O[0], 'tipoEmbalagem.descricao');
+                  if Trim(EditESP.Text) = '' then EditESP.Text := JsonStr(ItemCct.A['itensCarga'].O[0], 'descricao');
+                end;
+
+                if Assigned(EditMarca) then
+                begin
+                  EditMarca.Text := JsonStr(ItemCct.A['itensCarga'].O[0], 'marca');
+                  if Trim(EditMarca.Text) = '' then EditMarca.Text := JsonStr(ItemCct.A['itensCarga'].O[0], 'contramarca');
+                end;
+              end;
+            end;
+          end;
+        end;
+      end;
+      AddStatus('Busca no CCT finalizada.');
+    end;
+
+    // =========================================================================
+    // CAMADA 2: VARREDURA DE ITENS PARA SOMAR O PESO LÍQUIDO
+    // =========================================================================
+    AddStatus('Iniciando varredura em /itens para somar Peso Liquido...');
+    try
+      RetornoItensStr := FClient.ConsultarDuimpItens(LNumeroDuimp, LVersaoDuimp);
+      RootItens := SO(RetornoItensStr);
+      if Assigned(RootItens) then
+      begin
+        SomaPesoL := 0;
+        ArrBuscaItens := nil;
+
+        if Assigned(RootItens.A['itens']) then ArrBuscaItens := RootItens.A['itens']
+        else if Assigned(RootItens.O['resultado']) and Assigned(RootItens.O['resultado'].A['itens']) then ArrBuscaItens := RootItens.O['resultado'].A['itens']
+        else if Assigned(RootItens.O['duimp']) and Assigned(RootItens.O['duimp'].A['itens']) then ArrBuscaItens := RootItens.O['duimp'].A['itens'];
+
+        if Assigned(ArrBuscaItens) then
+        begin
+          for J_str := 0 to ArrBuscaItens.Length - 1 do
+          begin
+            ItemBusca := ArrBuscaItens.O[J_str];
+            SomaPesoL := SomaPesoL + JsonFloat(ItemBusca, 'mercadoria.pesoLiquido');
+          end;
+        end;
+
+        if (SomaPesoL > 0) and Assigned(CEPESOL) then 
+        begin
+          CEPESOL.Value := SomaPesoL;
+          AddStatus('-> Peso Liquido somado e preenchido com sucesso: ' + FloatToStr(SomaPesoL));
+        end;
+      end;
+    except
+      AddStatus('-> Nao foi possivel extrair o peso liquido dos itens.');
+    end;
+
+    // =========================================================================
+    // CAMADA 3: VARREDURA DE TEXTO LIVRE COMO FALLBACK
+    // =========================================================================
+    AddStatus('Iniciando varredura no texto livre (Informacoes Complementares) como fallback...');
+    InfoCompl := JsonStr(LRoot, 'identificacao.informacaoComplementar');
+    EspecieResidual := '';
+    
+    if Trim(InfoCompl) <> '' then
+    begin
+      SLInfo := TStringList.Create;
+      try
+        // Normaliza as quebras de linha
+        SLInfo.Text := StringReplace(StringReplace(InfoCompl, #13#10, #10, [rfReplaceAll]), #13, #10, [rfReplaceAll]);
+        
+        for I_str := 0 to SLInfo.Count - 1 do
+        begin
+          UpperLinha := UpperCase(Trim(SLInfo[I_str]));
+          
+          // ----------------- EXPORTADOR -----------------
+          if Pos('EXPORTADOR:', UpperLinha) > 0 then
+          begin
+            AuxStr := Trim(Copy(UpperLinha, Pos(':', UpperLinha) + 1, Length(UpperLinha)));
+            if (AuxStr <> '') and Assigned(EditDestxNome) and (Trim(EditDestxNome.Text) = '') then
+              EditDestxNome.Text := Copy(AuxStr, 1, 60);
+          end;
+
+          // ----------------- TRANSPORTADORA -----------------
+          if Pos('TRANSPORTADORA:', UpperLinha) > 0 then
+          begin
+            AuxStr := Trim(Copy(UpperLinha, Pos(':', UpperLinha) + 1, Length(UpperLinha)));
+            if (AuxStr <> '') and Assigned(EditTranspxNome) and (Trim(EditTranspxNome.Text) = '') then
+              EditTranspxNome.Text := Copy(AuxStr, 1, 60);
+          end;
+
+          // ----------------- QUANTIDADE DE VOLUME -----------------
+          if (Pos('QUANTIDADE DE VOLUME:', UpperLinha) > 0) or 
+             (Pos('QUANTIDADE:', UpperLinha) > 0) or 
+             (Pos('QTD:', UpperLinha) > 0) or 
+             (Pos('QTDE:', UpperLinha) > 0) then
+          begin
+            AuxStr := Trim(Copy(UpperLinha, Pos(':', UpperLinha) + 1, Length(UpperLinha)));
+            NumStr := '';
+            
+            // Extrai a parte numérica
+            for J_str := 1 to Length(AuxStr) do
+            begin
+              if AuxStr[J_str] in ['0'..'9', '.', ','] then NumStr := NumStr + AuxStr[J_str]
+              else if NumStr <> '' then Break;
+            end;
+            
+            if (NumStr <> '') and Assigned(CEQVOL) and (CEQVOL.Value = 0) then
+            begin
+              NumStr := StringReplace(NumStr, '.', '', [rfReplaceAll]);
+              CEQVOL.Value := StrToFloatDef(NumStr, 0);
+            end;
+
+            // Extrai a espécie residual na mesma linha (ex: "QUANTIDADE: 1500 CAIXAS")
+            EspStr := Trim(Copy(AuxStr, Length(NumStr) + 1, Length(AuxStr)));
+            if (Length(EspStr) > 0) and (EspStr[1] = '-') then 
+              EspStr := Trim(Copy(EspStr, 2, Length(EspStr)));
+            
+            if Trim(EspStr) <> '' then
+              EspecieResidual := Copy(EspStr, 1, 60);
+          end;
+
+          // ----------------- ESPECIE -----------------
+          if Pos('ESPECIE:', UpperLinha) > 0 then
+          begin
+            AuxStr := Trim(Copy(UpperLinha, Pos(':', UpperLinha) + 1, Length(UpperLinha)));
+            if (AuxStr <> '') and Assigned(EditESP) and (Trim(EditESP.Text) = '') then
+              EditESP.Text := Copy(AuxStr, 1, 60);
+          end;
+
+          // ----------------- MARCA DO VOLUME -----------------
+          if (Pos('MARCA DO VOLUME:', UpperLinha) > 0) or (Pos('MARCA:', UpperLinha) > 0) then
+          begin
+            AuxStr := Trim(Copy(UpperLinha, Pos(':', UpperLinha) + 1, Length(UpperLinha)));
+            if (AuxStr <> '') and Assigned(EditMarca) and (Trim(EditMarca.Text) = '') then
+              EditMarca.Text := Copy(AuxStr, 1, 60);
+          end;
+
+          // ----------------- PESO BRUTO -----------------
+          if Pos('PESO BRUTO:', UpperLinha) > 0 then
+          begin
+            AuxStr := Trim(Copy(UpperLinha, Pos(':', UpperLinha) + 1, Length(UpperLinha)));
+            NumStr := '';
+            
+            for J_str := 1 to Length(AuxStr) do
+            begin
+              if AuxStr[J_str] in ['0'..'9', '.', ','] then NumStr := NumStr + AuxStr[J_str]
+              else if NumStr <> '' then Break;
+            end;
+            
+            if (NumStr <> '') and Assigned(CEPESOB) and (CEPESOB.Value = 0) then
+            begin
+              NumStr := StringReplace(NumStr, '.', '', [rfReplaceAll]);
+              CEPESOB.Value := StrToFloatDef(NumStr, 0);
+            end;
+          end;
+
+          // ----------------- PESO LIQUIDO -----------------
+          if (Pos('PESO LIQUIDO:', UpperLinha) > 0) or (Pos('PESO LÍQUIDO:', UpperLinha) > 0) then
+          begin
+            AuxStr := Trim(Copy(UpperLinha, Pos(':', UpperLinha) + 1, Length(UpperLinha)));
+            NumStr := '';
+            
+            for J_str := 1 to Length(AuxStr) do
+            begin
+              if AuxStr[J_str] in ['0'..'9', '.', ','] then NumStr := NumStr + AuxStr[J_str]
+              else if NumStr <> '' then Break;
+            end;
+            
+            if (NumStr <> '') and Assigned(CEPESOL) and (CEPESOL.Value = 0) then
+            begin
+              NumStr := StringReplace(NumStr, '.', '', [rfReplaceAll]);
+              CEPESOL.Value := StrToFloatDef(NumStr, 0);
+            end;
+          end;
+
+        end;
+        
+        // Aplica o fallback da espécie residual caso não tenha encontrado a tag explícita "ESPECIE:"
+        if Assigned(EditESP) and (Trim(EditESP.Text) = '') and (Trim(EspecieResidual) <> '') then
+          EditESP.Text := EspecieResidual;
+          
+        AddStatus('-> Varredura de texto livre concluida.');
+      finally
+        SLInfo.Free;
+      end;
+    end;
+    // =========================================================================
+
+    AddStatus('');
     AddStatus('RETORNO JSON ORIGINAL');
     AddStatus('------------------------------------------------------------');
     AddStatus(LRetorno);
+
+    ScrollMemoToTop;
   except
     on E: Exception do
     begin
       AddStatus('Erro ao consultar DUIMP.');
       AddStatus(E.Message);
+      ScrollMemoToTop;
       MessageDlg('Erro ao consultar DUIMP:' + sLineBreak + E.Message, mtError, [mbOK], 0);
     end;
   end;
@@ -623,6 +930,8 @@ var
   ICMSPICMSERP: string;
   ICMSPICMSValor: Double;
   ICMSTemPICMSERP: Boolean;
+  SomaOutrasDespesasRateio: Double;
+  SomaAfrmmRateio: Double;
   QtdItensVBCICMSPendente: Integer;
   VBCExaustivoResultado: Double;
   VBCExaustivoFonte: string;
@@ -630,17 +939,16 @@ var
   ICMSModBCERP: string;
   ICMSModBCValor: Integer;
   ICMSModBCInvalido: Boolean;
-  ValorAfrmmERPTexto: string;
   ValorAfrmmERP: Double;
-  VAfrmmERPAplicado: Boolean;
-  LValSiscomex, LValAfrmm, LTotalDespesas, LTotalvProdItem: Double;
+  LValSiscomex, LValAfrmm, LTotalvProdItem: Double;
+  LTotalLocalEmbarque, LValFrete, NovoFrete, SomaFreteRateio: Double;
+  PrecisaCalcularAduaneiro: Boolean;
   LViaTransp: Integer;
   ConfigNFe: TDuimpNFeConfig;
   EmitenteNFe: TDuimpNFeEmitente;
   DestinatarioNFe: TDuimpNFeDestinatario;
   XmlNFe, ArquivoXml, PastaXml, ValidacaoNFe, InfCplNFe: string;
 
-  // -- Funcoes locais auxiliares --
   function PrimeiroTextoLocal(const APreferencial, AFallback: string): string;
   begin Result := Trim(APreferencial); if Result = '' then Result := Trim(AFallback); end;
 
@@ -687,7 +995,7 @@ var
       if P > 0 then begin Part := Copy(Rest, 1, P - 1); Delete(Rest, 1, P); end
       else begin Part := Rest; Rest := ''; end;
       if Part = '' then Exit;
-      Node := Node.O[Part];
+      try Node := Node.O[Part]; except Node := nil; end;
       if not Assigned(Node) then Exit;
     end;
     Result := Node;
@@ -697,7 +1005,7 @@ var
   var Node: ISuperObject;
   begin
     Result := ''; Node := JsonPathLocal(AObj, APath);
-    if Assigned(Node) then try Result := Trim(Node.AsString); if SameText(Result, 'null') then Result := ''; except Result := ''; end;
+    if Assigned(Node) then try if Node.DataType <> stNull then Result := Trim(Node.AsString); except Result := ''; end;
   end;
 
   function JsonTextAnyLocal(AObj: ISuperObject; const APaths: array of string): string;
@@ -725,27 +1033,16 @@ var
   function TextoContem(const ATexto, ATermo: string): Boolean;
   begin Result := Pos(UpperCase(ATermo), UpperCase(ATexto)) > 0; end;
 
-  // Extrai a via de transporte (tpViaTransp) a partir do Conhecimento de Carga da DUIMP (independe de AFRMM)
   function ExtrairViaTransporteLocal(ARoot: ISuperObject): Integer;
-  var
-    TipoCarga, ViaStr: string;
+  var TipoCarga, ViaStr: string;
   begin
-    Result := 1; // Default 1-Maritima
-    if not Assigned(ARoot) then Exit;
-
+    Result := 1; if not Assigned(ARoot) then Exit;
     ViaStr := JsonTextAnyLocal(ARoot, ['carga.viaDeTransporte', 'carga.viaTransporte', 'carga.viaTransporte.codigo']);
-    if Trim(ViaStr) <> '' then
-    begin
-      Result := StrToIntDef(ViaStr, 1);
-      Exit;
-    end;
-
+    if Trim(ViaStr) <> '' then begin Result := StrToIntDef(ViaStr, 1); Exit; end;
     TipoCarga := UpperCase(Trim(JsonTextLocal(ARoot, 'carga.tipoIdentificacaoCarga')));
-    if TipoCarga = 'CE' then Result := 1 // Maritima (Conhecimento Eletronico)
-    else if Pos('AWB', TipoCarga) > 0 then Result := 4 // Aerea
-    else if Pos('CRT', TipoCarga) > 0 then Result := 7 // Rodoviaria
-    else if Pos('TIF', TipoCarga) > 0 then Result := 6 // Ferroviaria
-    else if TipoCarga = 'CP' then Result := 5;         // Postal
+    if TipoCarga = 'CE' then Result := 1 else if Pos('AWB', TipoCarga) > 0 then Result := 4
+    else if Pos('CRT', TipoCarga) > 0 then Result := 7 else if Pos('TIF', TipoCarga) > 0 then Result := 6
+    else if TipoCarga = 'CP' then Result := 5;
   end;
 
   function TTCETributoEh(AObj: ISuperObject; const ACodigoOuNome: string): Boolean;
@@ -755,7 +1052,6 @@ var
     Cod := JsonTextAnyLocal(AObj, ['tributo.codigo', 'codigoTributo', 'codigo']);
     Nome := JsonTextAnyLocal(AObj, ['tributo.nome', 'nomeTributo', 'nome']);
     Fund := JsonTextAnyLocal(AObj, ['fundamentoLegal.nome', 'fundamento.nome']);
-
     if SameText(ACodigoOuNome, 'IPI') then Result := (Cod = '2') or TextoContem(Nome, 'IPI') or TextoContem(Nome, 'INDUSTRIALIZADOS') or TextoContem(Fund, 'IPI')
     else if SameText(ACodigoOuNome, 'II') then Result := TextoContem(Nome, 'IMPOSTO DE IMPORT') or TextoContem(Nome, 'IMPOSTO SOBRE IMPORT') or TextoContem(Fund, 'TEC')
     else if SameText(ACodigoOuNome, 'PIS') then Result := TextoContem(Nome, 'PIS') or TextoContem(Fund, 'PIS')
@@ -763,9 +1059,7 @@ var
   end;
 
   function TTCEAliquota(AObj: ISuperObject): Double;
-  begin
-    Result := FloatTextLocal(JsonTextAnyLocal(AObj, ['aliquota.valor', 'aliquota.percentual', 'valorAliquota', 'percentual']));
-  end;
+  begin Result := FloatTextLocal(JsonTextAnyLocal(AObj, ['aliquota.valor', 'aliquota.percentual', 'valorAliquota', 'percentual'])); end;
 
   function ItemTemICMSPendenteLocal(const AItem: TDuimpNFeItemCompleto): Boolean;
   begin Result := (AItem.ICMS.vBC = 0) or (AItem.ICMS.pICMS = 0) or (AItem.ICMS.vICMS = 0); end;
@@ -778,8 +1072,7 @@ var
   var K: Integer;
   begin
     if not ICMSTemPICMSERP then Exit;
-    for K := 0 to High(ItensNFe) do
-    begin
+    for K := 0 to High(ItensNFe) do begin
       ItensNFe[K].ICMS.pICMS := ICMSPICMSValor;
       if (ItensNFe[K].ICMS.vICMS = 0) and (ItensNFe[K].ICMS.vBC > 0) and (ItensNFe[K].ICMS.pICMS > 0) then
         ItensNFe[K].ICMS.vICMS := Round((ItensNFe[K].ICMS.vBC * ItensNFe[K].ICMS.pICMS / 100) * 100) / 100;
@@ -818,24 +1111,19 @@ var
     Result := 0; if not Assigned(AObj) then Exit;
     case AObj.DataType of
       stObject:
-        begin
-          FilhoContextoICMS := AContextoICMS or ObjetoEhICMSLocal(AObj);
-          if ObjectFindFirst(AObj, Iter) then
-          begin
-            try
-              repeat
-                Valor := Iter.val;
-                if Assigned(Valor) then
-                begin
-                  if ChaveEhVBCICMSLocal(Iter.key) or ((APermiteGenerico or FilhoContextoICMS) and ChaveEhVBCGenericaLocal(Iter.key)) then
-                  begin Result := ValorFloatObjetoLocal(Valor); if Result > 0 then Exit; end;
-                  if Valor.DataType in [stObject, stArray] then
-                  begin Result := BuscarVBCICMSRecursivoLocal(Valor, FilhoContextoICMS or (Pos('ICMS', UpperCase(Iter.key)) > 0), APermiteGenerico); if Result > 0 then Exit; end;
-                end;
-              until not ObjectFindNext(Iter);
-            finally ObjectFindClose(Iter); end;
-          end;
-        end;
+        if ObjectFindFirst(AObj, Iter) then
+        try
+          repeat
+            FilhoContextoICMS := AContextoICMS or ObjetoEhICMSLocal(AObj);
+            Valor := Iter.val;
+            if Assigned(Valor) then begin
+              if ChaveEhVBCICMSLocal(Iter.key) or ((APermiteGenerico or FilhoContextoICMS) and ChaveEhVBCGenericaLocal(Iter.key)) then
+              begin Result := ValorFloatObjetoLocal(Valor); if Result > 0 then Exit; end;
+              if Valor.DataType in [stObject, stArray] then
+              begin Result := BuscarVBCICMSRecursivoLocal(Valor, FilhoContextoICMS or (Pos('ICMS', UpperCase(Iter.key)) > 0), APermiteGenerico); if Result > 0 then Exit; end;
+            end;
+          until not ObjectFindNext(Iter);
+        finally ObjectFindClose(Iter); end;
       stArray:
         for K := 0 to AObj.AsArray.Length - 1 do
         begin Result := BuscarVBCICMSRecursivoLocal(AObj.AsArray.O[K], AContextoICMS, APermiteGenerico); if Result > 0 then Exit; end;
@@ -868,23 +1156,6 @@ var
         ItensNFe[K].ICMS.vICMS := Round((ItensNFe[K].ICMS.vBC * ItensNFe[K].ICMS.pICMS / 100) * 100) / 100;
   end;
 
-  function ExisteVAfrmmNosItensLocal: Boolean;
-  var K: Integer;
-  begin
-    Result := False;
-    for K := 0 to High(ItensNFe) do
-      if ItensNFe[K].DI.vAFRMM > 0 then begin Result := True; Exit; end;
-  end;
-
-  procedure AplicarVAfrmmERPLocal;
-  begin
-    VAfrmmERPAplicado := False;
-    if ValorAfrmmERP <= 0 then Exit;
-    if ExisteVAfrmmNosItensLocal then Exit;
-    AplicarVAfrmmTotalNosItensNFe(ValorAfrmmERP, ItensNFe);
-    VAfrmmERPAplicado := True;
-  end;
-
   procedure AplicarModBCERPLocal;
   var K: Integer;
   begin
@@ -894,11 +1165,9 @@ var
   end;
 
   procedure AplicarFallbackICMSPorDentroLocal;
-  var
-    K: Integer; Aliq, BaseAduaneira, SomaComponentes, BaseICMS: Double;
+  var K: Integer; Aliq, BaseAduaneira, SomaComponentes, BaseICMS: Double;
   begin
-    for K := 0 to High(ItensNFe) do
-    begin
+    for K := 0 to High(ItensNFe) do begin
       if (ItensNFe[K].ICMS.vBC <> 0) or (ItensNFe[K].ICMS.pICMS <= 0) then Continue;
       Aliq := ItensNFe[K].ICMS.pICMS / 100;
       if (Aliq <= 0) or (Aliq >= 1) then Continue;
@@ -908,7 +1177,8 @@ var
         BaseAduaneira := ItensNFe[K].vProd + ItensNFe[K].vFrete + ItensNFe[K].vSeg;
       if BaseAduaneira <= 0 then Continue;
 
-      SomaComponentes := BaseAduaneira + ItensNFe[K].II.vImp + ItensNFe[K].IPI.vIPI + ItensNFe[K].PIS.vImp + ItensNFe[K].COFINS.vImp + ItensNFe[K].vOutro;
+      // ATENÇÃO À FORMULA: AFRMM foi incluído no Numerador!
+      SomaComponentes := BaseAduaneira + ItensNFe[K].II.vImp + ItensNFe[K].IPI.vIPI + ItensNFe[K].PIS.vImp + ItensNFe[K].COFINS.vImp + ItensNFe[K].vOutro + ItensNFe[K].DI.vAFRMM;
       if SomaComponentes <= 0 then Continue;
 
       BaseICMS := Round((SomaComponentes / (1 - Aliq)) * 100) / 100;
@@ -923,8 +1193,7 @@ var
   begin
     VBCExaustivoAplicado := False;
     if AVBC <= 0 then Exit;
-    if Length(ItensNFe) = 1 then
-    begin
+    if Length(ItensNFe) = 1 then begin
       if ItensNFe[0].ICMS.vBC = 0 then ItensNFe[0].ICMS.vBC := AVBC;
       VBCExaustivoAplicado := True;
       RecalcularICMSComVBCAtualLocal;
@@ -944,15 +1213,13 @@ var
     if V > 0 then begin Result := V; VBCExaustivoFonte := 'PCCE ICMS ja consultado'; Exit; end;
 
     Ret := ''; St := 0; Err := '';
-    if FClient.TryGetJson('/pcce/api/ext/sefaz/icms/consulta/' + NumeroDuimp, Ret, St, Err) then
-    begin
+    if FClient.TryGetJson('/pcce/api/ext/sefaz/icms/consulta/' + NumeroDuimp, Ret, St, Err) then begin
       V := ExtrairVBCICMSJsonLocal(Ret, True);
       if V > 0 then begin Result := V; VBCExaustivoFonte := 'historico SEFAZ/PCCE'; Exit; end;
     end;
 
     Ret := ''; St := 0; Err := '';
-    if FClient.TryGetJson('/duimp-api/api/ext/duimp/' + NumeroDuimp + '/' + IntToStr(VersaoDuimp) + '/tributos', Ret, St, Err) then
-    begin
+    if FClient.TryGetJson('/duimp-api/api/ext/duimp/' + NumeroDuimp + '/' + IntToStr(VersaoDuimp) + '/tributos', Ret, St, Err) then begin
       AplicarValoresCalculadosDuimpNosItensNFe(Ret, Params, ItensNFe);
       RecalcularICMSComVBCAtualLocal;
       if ContarItensVBCICMSPendenteLocal = 0 then begin VBCExaustivoFonte := 'modulo tributos da DUIMP por item'; VBCExaustivoAplicado := True; Result := 1; Exit; end;
@@ -970,10 +1237,8 @@ var
     function DetectarTributoTTCE(AObj: ISuperObject; const ATributoAtual: string): string;
     begin
       Result := ATributoAtual; if not Assigned(AObj) then Exit;
-      if TTCETributoEh(AObj, 'II') then Result := 'II'
-      else if TTCETributoEh(AObj, 'IPI') then Result := 'IPI'
-      else if TTCETributoEh(AObj, 'PIS') then Result := 'PIS'
-      else if TTCETributoEh(AObj, 'COFINS') then Result := 'COFINS';
+      if TTCETributoEh(AObj, 'II') then Result := 'II' else if TTCETributoEh(AObj, 'IPI') then Result := 'IPI'
+      else if TTCETributoEh(AObj, 'PIS') then Result := 'PIS' else if TTCETributoEh(AObj, 'COFINS') then Result := 'COFINS';
     end;
     procedure AplicarAliquotaDetectada(const ATributo: string; const AAliquota: Double);
     begin
@@ -993,35 +1258,36 @@ var
       case AObj.DataType of
         stObject:
           if ObjectFindFirst(AObj, Iter) then
-          begin
-            try repeat Filho := Iter.val; if Assigned(Filho) and (Filho.DataType in [stObject, stArray]) then VisitarTTCE(Filho, TributoDetectado);
-            until not ObjectFindNext(Iter); finally ObjectFindClose(Iter); end;
-          end;
+          try repeat Filho := Iter.val; if Assigned(Filho) and (Filho.DataType in [stObject, stArray]) then VisitarTTCE(Filho, TributoDetectado);
+          until not ObjectFindNext(Iter); finally ObjectFindClose(Iter); end;
         stArray:
-          for J := 0 to AObj.AsArray.Length - 1 do
-          begin Filho := AObj.AsArray.O[J]; if Assigned(Filho) then VisitarTTCE(Filho, TributoDetectado); end;
+          for J := 0 to AObj.AsArray.Length - 1 do begin Filho := AObj.AsArray.O[J]; if Assigned(Filho) then VisitarTTCE(Filho, TributoDetectado); end;
       end;
     end;
   begin
-    Root := SO(AJsonTTCE);
-    if not Assigned(Root) then Exit;
-    VisitarTTCE(Root, '');
+    Root := SO(AJsonTTCE); if not Assigned(Root) then Exit; VisitarTTCE(Root, '');
   end;
 
   procedure ComplementarDescricoesCatp;
-  var K: Integer; JsonCatp: string; RootCatp: ISuperObject; Desc: string;
+  var K: Integer; JsonCatp: string; RootCatp: ISuperObject; Desc, Denom: string;
   begin
     for K := 0 to High(ItensNFe) do
     begin
-      if (Trim(ItensNFe[K].xProd) = '') and (Trim(ItensNFe[K].CpfCnpjRaiz) <> '') and (Trim(ItensNFe[K].CodigoProduto) <> '') and (Trim(ItensNFe[K].VersaoProduto) <> '') then
+      if (Trim(ItensNFe[K].CpfCnpjRaiz) <> '') and (Trim(ItensNFe[K].CodigoProduto) <> '') and (Trim(ItensNFe[K].VersaoProduto) <> '') then
       begin
         try
           JsonCatp := FClient.ConsultarCatpProdutoDetalhe(ItensNFe[K].CpfCnpjRaiz, ItensNFe[K].CodigoProduto, ItensNFe[K].VersaoProduto);
           RootCatp := SO(JsonCatp);
-          Desc := JsonTextAnyLocal(RootCatp, ['denominacao', 'descricao', 'produto.denominacao', 'resultado.descricao']);
-          if Trim(Desc) <> '' then
+          if Assigned(RootCatp) then
           begin
-            ItensNFe[K].xProd := Desc;
+            Desc := JsonTextAnyLocal(RootCatp, ['descricao', 'resultado.descricao']);
+            Denom := JsonTextAnyLocal(RootCatp, ['denominacao', 'produto.denominacao', 'resultado.denominacao']);
+
+            if Trim(Desc) <> '' then
+              ItensNFe[K].xProd := Trim(Desc)
+            else if Trim(Denom) <> '' then
+              ItensNFe[K].xProd := Trim(Denom);
+
             RemoverStatusTokenLocal(ItensNFe[K].StatusValidacao, 'xProd vazio');
             if (Trim(ItensNFe[K].StatusValidacao) <> '') and (not SameText(Trim(ItensNFe[K].StatusValidacao), 'OK')) then ItensNFe[K].StatusValidacao := ItensNFe[K].StatusValidacao + '; ';
             if SameText(Trim(ItensNFe[K].StatusValidacao), 'OK') then ItensNFe[K].StatusValidacao := '';
@@ -1038,27 +1304,19 @@ var
   var K: Integer; RawItem: ISuperObject; DeveConsultar: Boolean;
   begin
     if not Assigned(ArrItens) then Exit;
-    
-    // Extrai Codigo do Pais direto do componente EditDestenderDestcPais
     CodigoPais := StrToIntDef(OnlyDigitsLocal(TextoEditAnyPorNome(['EditDestenderDestcPais'])), 0);
-
-    for K := 0 to High(ItensNFe) do
-    begin
-      RawItem := nil;
-      if K < ArrItens.Length then RawItem := ArrItens.O[K];
+    for K := 0 to High(ItensNFe) do begin
+      RawItem := nil; if K < ArrItens.Length then RawItem := ArrItens.O[K];
       DeveConsultar :=
         ((ItensNFe[K].II.pAliq = 0) and (ItensNFe[K].II.vBC = 0) and (ItensNFe[K].II.vImp = 0)) or
         ((ItensNFe[K].IPI.pIPI = 0) and (ItensNFe[K].IPI.vBC = 0) and (ItensNFe[K].IPI.vIPI = 0)) or
         ((ItensNFe[K].PIS.pAliq = 0) and (ItensNFe[K].PIS.vBC = 0) and (ItensNFe[K].PIS.vImp = 0)) or
         ((ItensNFe[K].COFINS.pAliq = 0) and (ItensNFe[K].COFINS.vBC = 0) and (ItensNFe[K].COFINS.vImp = 0));
 
-      if DeveConsultar and Assigned(RawItem) then
-      begin
-        if (Trim(ItensNFe[K].NCM) <> '') and (CodigoPais > 0) and (Trim(DataFatoGerador) <> '') then
-        begin
+      if DeveConsultar and Assigned(RawItem) then begin
+        if (Trim(ItensNFe[K].NCM) <> '') and (CodigoPais > 0) and (Trim(DataFatoGerador) <> '') then begin
           RetornoTTCE := ''; ErroHTTP := ''; StatusHTTP := 0;
-          if FClient.TryConsultarTTCEImportacao(ItensNFe[K].NCM, CodigoPais, DataFatoGerador, RetornoTTCE, StatusHTTP, ErroHTTP) then
-          begin
+          if FClient.TryConsultarTTCEImportacao(ItensNFe[K].NCM, CodigoPais, DataFatoGerador, RetornoTTCE, StatusHTTP, ErroHTTP) then begin
             AplicarTTCEAoItem(RetornoTTCE, ItensNFe[K]);
             if Trim(ItensNFe[K].StatusValidacao) <> '' then ItensNFe[K].StatusValidacao := ItensNFe[K].StatusValidacao + '; ';
             ItensNFe[K].StatusValidacao := ItensNFe[K].StatusValidacao + 'TTCE consultada como complemento.';
@@ -1136,34 +1394,110 @@ begin
       except ICMSModBCInvalido := True; end;
     end;
 
-    ValorAfrmmERPTexto := TextoEditAnyPorNome(['CEVAFRMM']);
-    ValorAfrmmERP := FloatTextLocal(ValorAfrmmERPTexto);
-    VAfrmmERPAplicado := False;
+    // --- CORREÇÃO DO AFRMM DA TELA ---
+    ValorAfrmmERP := 0;
+    if Assigned(CEVAFRMM) then 
+    begin
+      ValorAfrmmERP := CEVAFRMM.Value;
+      if ValorAfrmmERP = 0 then ValorAfrmmERP := FloatTextLocal(CEVAFRMM.Text);
+    end;
+    // ---------------------------------
 
     UFDesembERP := UpperCase(TextoEditAnyPorNome(['EditdetprodUFDesemb']));
 
     MontarDuimpItensNFeCompleto(RetornoGeral, RetornoItens, NumeroDuimp, VersaoDuimp, Params, ItensNFe);
 
+    LTotalvProdItem := 0;
+    for I := Low(ItensNFe) to High(ItensNFe) do
+      LTotalvProdItem := LTotalvProdItem + ItensNFe[I].vProd;
+
     // =========================================================================
-    // LÓGICA DE RATEIO DO VOUTRO (Siscomex + AFRMM)
+    // LÓGICA DE RATEIO DO FRETE EXCLUSIVO PARA BASE DO ADUANEIRO E EXCLUÍDO DO XML
     // =========================================================================
-    LValSiscomex := FloatTextLocal(TextoEditAnyPorNome(['CEVTAXASISCOMEX']));
-    LValAfrmm    := FloatTextLocal(TextoEditAnyPorNome(['CEVAFRMM']));
-    LTotalDespesas := LValSiscomex + LValAfrmm;
+    LTotalLocalEmbarque := 0;
+    for I := Low(ItensNFe) to High(ItensNFe) do
+      LTotalLocalEmbarque := LTotalLocalEmbarque + ItensNFe[I].ValorLocalEmbarqueBRL;
+
+    LValFrete := 0;
+    if Assigned(CEVFRETE) then 
+    begin
+      LValFrete := CEVFRETE.Value;
+      if LValFrete = 0 then LValFrete := FloatTextLocal(CEVFRETE.Text);
+    end;
+
+    if (LTotalLocalEmbarque > 0) and (LValFrete > 0) then
+    begin
+      SomaFreteRateio := 0;
+      for I := Low(ItensNFe) to High(ItensNFe) do
+      begin
+        PrecisaCalcularAduaneiro := Abs(ItensNFe[I].ValorAduaneiroBRL - (ItensNFe[I].ValorLocalEmbarqueBRL + ItensNFe[I].vFrete + ItensNFe[I].vSeg)) < 0.01;
+
+        if I = High(ItensNFe) then
+          NovoFrete := Round((LValFrete - SomaFreteRateio) * 100) / 100
+        else
+          NovoFrete := Round(((ItensNFe[I].ValorLocalEmbarqueBRL / LTotalLocalEmbarque) * LValFrete) * 100) / 100;
+
+        SomaFreteRateio := SomaFreteRateio + NovoFrete;
+        ItensNFe[I].vFrete := NovoFrete;
+
+        if PrecisaCalcularAduaneiro then
+        begin
+          ItensNFe[I].ValorAduaneiroBRL := ItensNFe[I].ValorLocalEmbarqueBRL + ItensNFe[I].vFrete + ItensNFe[I].vSeg;
+          ItensNFe[I].vProd := ItensNFe[I].ValorAduaneiroBRL;
+        end;
+      end;
+    end;
 
     LTotalvProdItem := 0;
     for I := Low(ItensNFe) to High(ItensNFe) do
       LTotalvProdItem := LTotalvProdItem + ItensNFe[I].vProd;
 
-    if (LTotalvProdItem > 0) and (LTotalDespesas > 0) then
-    begin
-      for I := Low(ItensNFe) to High(ItensNFe) do
-        ItensNFe[I].vOutro := Round(((ItensNFe[I].vProd / LTotalvProdItem) * LTotalDespesas) * 100) / 100;
-    end;
-    
-    // Obtém a Via de Transporte correta do JSON raiz da DUIMP
-    LViaTransp := ExtrairViaTransporteLocal(RootGeral);
     // =========================================================================
+    // LÓGICA DE RATEIO DO SISCOMEX E AFRMM COM AJUSTE DE CENTAVOS PELO ALGORITMO EXATO
+    // =========================================================================
+    LValSiscomex := 0;
+    if Assigned(CEVTAXASISCOMEX) then 
+    begin
+      LValSiscomex := CEVTAXASISCOMEX.Value;
+      if LValSiscomex = 0 then LValSiscomex := FloatTextLocal(CEVTAXASISCOMEX.Text);
+    end;
+
+    LValAfrmm := ValorAfrmmERP; 
+
+    if LTotalvProdItem > 0 then
+    begin
+      SomaOutrasDespesasRateio := 0; 
+      SomaAfrmmRateio := 0;
+      
+      for I := Low(ItensNFe) to High(ItensNFe) do
+      begin
+        if I = High(ItensNFe) then
+        begin
+          if LValSiscomex > 0 then
+            ItensNFe[I].vOutro := Round((LValSiscomex - SomaOutrasDespesasRateio) * 100) / 100;
+            
+          if LValAfrmm > 0 then
+            ItensNFe[I].DI.vAFRMM := Round((LValAfrmm - SomaAfrmmRateio) * 100) / 100;
+        end
+        else
+        begin
+          if LValSiscomex > 0 then
+          begin
+            ItensNFe[I].vOutro := Round(((ItensNFe[I].vProd / LTotalvProdItem) * LValSiscomex) * 100) / 100;
+            SomaOutrasDespesasRateio := SomaOutrasDespesasRateio + ItensNFe[I].vOutro;
+          end;
+
+          if LValAfrmm > 0 then
+          begin
+            ItensNFe[I].DI.vAFRMM := Round(((ItensNFe[I].vProd / LTotalvProdItem) * LValAfrmm) * 100) / 100;
+            SomaAfrmmRateio := SomaAfrmmRateio + ItensNFe[I].DI.vAFRMM;
+          end;
+        end;
+      end;
+    end;
+    // =========================================================================
+    
+    LViaTransp := ExtrairViaTransporteLocal(RootGeral);
 
     for I := 0 to High(ItensNFe) do
     begin
@@ -1171,16 +1505,14 @@ begin
       if (Trim(ItensNFe[I].DI.UFDesemb) = '') and (Trim(UFDesembERP) <> '') then ItensNFe[I].DI.UFDesemb := UFDesembERP;
       if (ItensNFe[I].ICMS.Orig = 0) and (Params.OrigemMercadoria > 0) then ItensNFe[I].ICMS.Orig := Params.OrigemMercadoria;
       
-      // Defaults basicos obrigatorios
       if ItensNFe[I].ICMS.Orig = 0 then ItensNFe[I].ICMS.Orig := 1;
       if Trim(ItensNFe[I].ICMS.CST) = '' then ItensNFe[I].ICMS.CST := '00';
       if Trim(ItensNFe[I].PIS.CST) = '' then ItensNFe[I].PIS.CST := '01';
       if Trim(ItensNFe[I].COFINS.CST) = '' then ItensNFe[I].COFINS.CST := '01';
       if ItensNFe[I].IPI.vIPI > 0 then ItensNFe[I].IPI.CST := '00' else ItensNFe[I].IPI.CST := '49';
       
-      // Ajuste Inteligente do Grupo DI
-      ItensNFe[I].DI.tpViaTransp := LViaTransp; // Valor extraido via ExtrairViaTransporteLocal
-      ItensNFe[I].DI.tpIntermedio := 1;         // Valor Fixo Padrao (1 = Importacao por conta propria)
+      ItensNFe[I].DI.tpViaTransp := LViaTransp;
+      ItensNFe[I].DI.tpIntermedio := 1;         
 
       AtualizarStatusCamposPreenchidosLocal(ItensNFe[I]);
     end;
@@ -1190,12 +1522,13 @@ begin
     if Trim(RetornoPcce) <> '' then
     begin
       ValorAfrmmPcce := ExtrairVAfrmmTotalDuimpJson(RetornoPcce);
-      if ValorAfrmmPcce > 0 then AplicarVAfrmmTotalNosItensNFe(ValorAfrmmPcce, ItensNFe);
+      if (ValorAfrmmPcce > 0) and (LValAfrmm <= 0) then 
+        AplicarVAfrmmTotalNosItensNFe(ValorAfrmmPcce, ItensNFe);
+        
       PercentualIcmsPcce := ExtrairPercentualICMSDuimpJson(RetornoPcce);
       if PercentualIcmsPcce > 0 then AplicarPercentualICMSNosItensNFe(PercentualIcmsPcce, ItensNFe);
     end;
 
-    AplicarVAfrmmERPLocal;
     DataFatoGerador := ExtrairDataFatoGeradorLocal(RootGeral);
     ComplementarDescricoesCatp;
     ComplementarComTTCE;
@@ -1216,7 +1549,7 @@ begin
     RecalcularICMSComVBCAtualLocal;
     
     // =========================================================================
-    // RE-CALCULAR BASE DE CÁLCULO ICMS POR DENTRO APÓS RATEIO DO VOUTRO
+    // RE-CALCULAR BASE DE CÁLCULO ICMS POR DENTRO APÓS RATEIOS
     // =========================================================================
     AplicarFallbackICMSPorDentroLocal;
     RecalcularICMSComVBCAtualLocal;
@@ -1225,6 +1558,26 @@ begin
       AtualizarStatusCamposPreenchidosLocal(ItensNFe[I]);
 
     DuimpERPPreencherConfigNFe(Self, NumeroDuimp, TranspCNPJ, TranspNome, TranspIE, TranspEnder, TranspMun, TranspUF, ConfigNFe);
+    
+    // =========================================================================
+    // FORÇAR VALORES DE TELA PARA A TAG <vol> NA GERAÇÃO DO XML
+    // =========================================================================
+    if Assigned(CEQVOL) and (CEQVOL.Value > 0) then
+      ConfigNFe.TranspQVol := Trunc(CEQVOL.Value);
+
+    if Assigned(EditESP) and (Trim(EditESP.Text) <> '') then
+      ConfigNFe.TranspEsp := Trim(EditESP.Text);
+
+    if Assigned(EditMarca) and (Trim(EditMarca.Text) <> '') then
+      ConfigNFe.TranspMarca := Trim(EditMarca.Text);
+
+    if Assigned(CEPESOL) and (CEPESOL.Value > 0) then
+      ConfigNFe.TranspPesoL := CEPESOL.Value;
+
+    if Assigned(CEPESOB) and (CEPESOB.Value > 0) then
+      ConfigNFe.TranspPesoB := CEPESOB.Value;
+    // =========================================================================
+
     DuimpERPPreencherEmitenteNFe(Self, EmitenteNFe);
     DuimpERPPreencherDestinatarioNFe(Self, EmitenteNFe, DestinatarioNFe);
 
@@ -1233,6 +1586,15 @@ begin
       raise Exception.Create('Pendencias na configuracao <ide> da NF-e:' + sLineBreak + ValidacaoNFe);
 
     ValidacaoNFe := Trim(DuimpValidarDadosNFeCompleta(ItensNFe, EmitenteNFe, DestinatarioNFe));
+    
+    // =========================================================================
+    // CORREÇÃO: IGNORAR A OBRIGATORIEDADE DO CNPJ DO DESTINATÁRIO
+    // =========================================================================
+    ValidacaoNFe := StringReplace(ValidacaoNFe, '- Destinatario sem CNPJ.', '', [rfReplaceAll, rfIgnoreCase]);
+    ValidacaoNFe := Trim(ValidacaoNFe);
+    while Pos(#13#10#13#10, ValidacaoNFe) > 0 do
+      ValidacaoNFe := StringReplace(ValidacaoNFe, #13#10#13#10, #13#10, [rfReplaceAll]);
+
     if (ValidacaoNFe <> '') and (not SameText(ValidacaoNFe, 'OK')) then
       raise Exception.Create('Pendencias para gerar XML NF-e valido:' + sLineBreak + ValidacaoNFe);
 
@@ -1259,6 +1621,7 @@ begin
 
     AddStatus('XML NF-e completo gerado com sucesso.');
     AddStatus('Arquivo salvo em: ' + ArquivoXml);
+    ScrollMemoToTop;
 
     MessageDlg(
       'XML NF-e gerado com sucesso:' + sLineBreak + ArquivoXml,
@@ -1272,6 +1635,7 @@ begin
       AddStatus('');
       AddStatus('Erro ao gerar XML da DUIMP:');
       AddStatus(E.Message);
+      ScrollMemoToTop;
       MessageDlg('Erro ao gerar XML da DUIMP:' + sLineBreak + E.Message, mtError, [mbOK], 0);
     end;
   end;

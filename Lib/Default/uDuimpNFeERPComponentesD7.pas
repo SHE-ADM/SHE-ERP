@@ -1,5 +1,5 @@
 unit uDuimpNFeERPComponentesD7;
-
+
 interface
 
 uses
@@ -101,6 +101,11 @@ begin
   Result := StrToIntDef(DuimpERPOnlyDigits(T), 0);
 end;
 
+function CampoEditIntLocal(AOwner: TComponent; const ANomes: array of string): Integer;
+begin
+  Result := StrToIntDef(DuimpERPOnlyDigits(DuimpERPTextoEditAny(AOwner, ANomes)), -9999);
+end;
+
 function DuimpERPValorCNF(const ANumeroDuimp: string; const ANNF: Integer): Integer;
 var
   Dig: string;
@@ -125,7 +130,6 @@ procedure DuimpERPPreencherConfigNFe(
 begin
   FillChar(AConfig, SizeOf(AConfig), 0);
 
-  // Mapeamento atualizado para aceitar o sufixo "1" do DevExpress
   AConfig.CUF := InTdxEditLocal(AOwner, ['EditIdecUF1', 'EditIdecUF']);
   AConfig.CNF := DuimpERPValorCNF(ANumeroDuimp, InTdxEditLocal(AOwner, ['EditIdenNF1', 'EditIdenNF']));
   AConfig.NatOp := DuimpERPTextoEditAny(AOwner, ['EditIdenatOp1', 'EditIdenatOp']);
@@ -151,6 +155,14 @@ begin
   AConfig.TranspXEnder := Trim(ATranspEnder);
   AConfig.TranspXMun := Trim(ATranspMun);
   AConfig.TranspUF := UpperCase(Trim(ATranspUF));
+  
+  // Lê os campos de volumes, se os TdxEdit tiverem sido adicionados na tela
+  AConfig.TranspQVol := CampoEditIntLocal(AOwner, ['EditTranspqVol', 'EditqVol', 'EditQVol']);
+  if AConfig.TranspQVol < 0 then
+    AConfig.TranspQVol := 0; // -9999 é o fallback, então zera
+    
+  AConfig.TranspEsp := DuimpERPTextoEditAny(AOwner, ['EditTranspEsp', 'EditEspecie']);
+  AConfig.TranspMarca := DuimpERPTextoEditAny(AOwner, ['EditTranspMarca', 'EditMarca']);
 
   AConfig.ProcEmi := 0;
   AConfig.VerProc := 'SHE-DUIMP-D7';
@@ -189,24 +201,23 @@ procedure DuimpERPPreencherDestinatarioNFe(
 begin
   FillChar(ADestinatario, SizeOf(ADestinatario), 0);
 
-  ADestinatario.CNPJ := DuimpERPOnlyDigits(DuimpERPTextoEditAny(AOwner, ['EditDestCNPJ', 'EditlDestCNPJ', 'EditDestCPF', 'EditDestCPFouCNPJ']));
-  if ADestinatario.CNPJ = '' then
-    ADestinatario.CNPJ := AEmitente.CNPJ;
+  ADestinatario.CNPJ := DuimpERPOnlyDigits(DuimpERPTextoEditAny(AOwner, ['EditDestCNPJ']));
+  ADestinatario.XNome := DuimpERPTextoEditAny(AOwner, ['EditDestxNome']);
+  ADestinatario.XLgr := DuimpERPTextoEditAny(AOwner, ['EditDestenderDestxLgr']);
+  ADestinatario.Nro := DuimpERPTextoEditAny(AOwner, ['EditDestenderDestnro']);
+  ADestinatario.XCpl := DuimpERPTextoEditAny(AOwner, ['EditDestenderDestxCpl']);
+  ADestinatario.XBairro := DuimpERPTextoEditAny(AOwner, ['EditDestenderDestxBairro']);
+  ADestinatario.CMun := DuimpERPOnlyDigits(DuimpERPTextoEditAny(AOwner, ['EditDestenderDestcMun']));
+  ADestinatario.XMun := DuimpERPTextoEditAny(AOwner, ['EditDestenderDestxMun']);
+  ADestinatario.UF := UpperCase(DuimpERPTextoEditAny(AOwner, ['EditDestenderDestUF']));
+  ADestinatario.CEP := DuimpERPOnlyDigits(DuimpERPTextoEditAny(AOwner, ['EditDestenderDestCEP']));
+  ADestinatario.CPais := DuimpERPOnlyDigits(DuimpERPTextoEditAny(AOwner, ['EditDestenderDestcPais']));
+  ADestinatario.XPais := DuimpERPTextoEditAny(AOwner, ['EditDestenderDestxPais']);
+  ADestinatario.Fone := DuimpERPOnlyDigits(DuimpERPTextoEditAny(AOwner, ['EditDestenderDestFone']));
+  ADestinatario.IndIEDest := DuimpERPOnlyDigits(DuimpERPTextoEditAny(AOwner, ['EditDestindIEDest']));
 
   ADestinatario.IE := DuimpERPOnlyDigits(DuimpERPTextoEditAny(AOwner, ['EditDestIE']));
-  ADestinatario.XNome := TextoOuFallbackLocal(DuimpERPTextoEditAny(AOwner, ['EditDestxNome']), AEmitente.XNome);
-  ADestinatario.XLgr := TextoOuFallbackLocal(DuimpERPTextoEditAny(AOwner, ['EditDestenderDestxLgr']), AEmitente.XLgr);
-  ADestinatario.Nro := TextoOuFallbackLocal(DuimpERPTextoEditAny(AOwner, ['EditDestenderDestnro']), AEmitente.Nro);
-  ADestinatario.XCpl := DuimpERPTextoEditAny(AOwner, ['EditDestenderDestxCpl']);
-  ADestinatario.XBairro := TextoOuFallbackLocal(DuimpERPTextoEditAny(AOwner, ['EditDestenderDestxBairro']), AEmitente.XBairro);
-  ADestinatario.CMun := DuimpERPOnlyDigits(TextoOuFallbackLocal(DuimpERPTextoEditAny(AOwner, ['EditDestenderDestcMun']), AEmitente.CMun));
-  ADestinatario.XMun := TextoOuFallbackLocal(DuimpERPTextoEditAny(AOwner, ['EditDestenderDestxMun']), AEmitente.XMun);
-  ADestinatario.UF := UpperCase(TextoOuFallbackLocal(DuimpERPTextoEditAny(AOwner, ['EditDestenderDestUF']), AEmitente.UF));
-  ADestinatario.CEP := DuimpERPOnlyDigits(TextoOuFallbackLocal(DuimpERPTextoEditAny(AOwner, ['EditDestenderDestCEP']), AEmitente.CEP));
-  ADestinatario.CPais := DuimpERPOnlyDigits(TextoOuFallbackLocal(DuimpERPTextoEditAny(AOwner, ['EditDestenderDestcPais']), AEmitente.CPais));
-  ADestinatario.XPais := TextoOuFallbackLocal(DuimpERPTextoEditAny(AOwner, ['EditDestenderDestxPais']), AEmitente.XPais);
-  ADestinatario.Fone := DuimpERPOnlyDigits(TextoOuFallbackLocal(DuimpERPTextoEditAny(AOwner, ['EditDestenderDestFone']), AEmitente.Fone));
-  ADestinatario.IndIEDest := DuimpERPOnlyDigits(DuimpERPTextoEditAny(AOwner, ['EditDestindIEDest']));
+
   if ADestinatario.IndIEDest = '' then
     ADestinatario.IndIEDest := '9';
 end;
@@ -214,11 +225,6 @@ end;
 function CampoEditInformadoLocal(AOwner: TComponent; const ANomes: array of string): Boolean;
 begin
   Result := Trim(DuimpERPTextoEditAny(AOwner, ANomes)) <> '';
-end;
-
-function CampoEditIntLocal(AOwner: TComponent; const ANomes: array of string): Integer;
-begin
-  Result := StrToIntDef(DuimpERPOnlyDigits(DuimpERPTextoEditAny(AOwner, ANomes)), -9999);
 end;
 
 function DuimpERPValidarConfigNFe(
@@ -331,3 +337,4 @@ begin
 end;
 
 end.
+

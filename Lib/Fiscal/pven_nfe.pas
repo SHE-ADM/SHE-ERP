@@ -8246,15 +8246,15 @@ begin
     begin
       ANodePai := ANodePai.ChildNodes.FindNode('infNFe');
       
-      { EMITENTE }
-      ANodePai := ANodePai.ChildNodes['emit'];
-      ANodeEnd := ANodePai.ChildNodes['enderEmit'];
-
-      if (TRIM(ANodePai.ChildNodes['CNPJ'].Text)) = RECParametros.CNPJ then
+      { Quando NF própria pegar destinatário }
+      if AXMLDoc.ChildNodes['nfeProc'].ChildNodes['NFe'].ChildNodes['infNFe'].ChildNodes['emit'].ChildNodes['CNPJ'].NodeValue = RECParametros.CNPJ then
       begin
-        { DESTINATÁRIO }
         ANodePai := ANodePai.ChildNodes['dest'];
         ANodeEnd := ANodePai.ChildNodes['enderDest'];
+      end else
+      begin
+        ANodePai := ANodePai.ChildNodes['emit'];
+        ANodeEnd := ANodePai.ChildNodes['enderEmit'];
       end;
     end else
     begin

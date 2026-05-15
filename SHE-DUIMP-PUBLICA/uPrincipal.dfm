@@ -1,8 +1,8 @@
 object Form1: TForm1
-  Left = 614
-  Top = 98
+  Left = 80
+  Top = 110
   Width = 743
-  Height = 776
+  Height = 768
   Caption = 'Form1'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -250,9 +250,9 @@ object Form1: TForm1
   TextHeight = 13
   object MemoRetorno: TMemo
     Left = 0
-    Top = 264
+    Top = 304
     Width = 727
-    Height = 473
+    Height = 425
     Align = alBottom
     ScrollBars = ssBoth
     TabOrder = 0
@@ -261,7 +261,7 @@ object Form1: TForm1
     Left = 176
     Top = 0
     Width = 545
-    Height = 255
+    Height = 301
     TabOrder = 1
     object PCPrincipal: TdxPageControl
       Left = 0
@@ -283,19 +283,18 @@ object Form1: TForm1
         Caption = 'Nota Fiscal'
         object LabelTaxaSiscomex: TLabel
           Left = 13
-          Top = 133
+          Top = 205
           Width = 72
           Height = 13
           Alignment = taRightJustify
           Caption = 'Taxa Siscomex'
         end
         object LabelvAFRMM: TLabel
-          Left = 17
-          Top = 109
-          Width = 68
+          Left = 173
+          Top = 181
+          Width = 123
           Height = 13
-          Alignment = taRightJustify
-          Caption = 'Frete Mar'#237'timo'
+          Caption = 'Frete Mar'#237'timo (VAFRMM)'
         end
         object LabelTRANSPORTADORA: TLabel
           Left = 13
@@ -329,17 +328,62 @@ object Form1: TForm1
           Alignment = taRightJustify
           Caption = 'Vers'#227'o'
         end
+        object LAVFRETE: TLabel
+          Left = 24
+          Top = 181
+          Width = 61
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Frete Padr'#227'o'
+        end
+        object LabelESP: TLabel
+          Left = 173
+          Top = 109
+          Width = 38
+          Height = 13
+          Caption = 'Esp'#233'cie'
+        end
+        object LabelPESOB: TLabel
+          Left = 33
+          Top = 157
+          Width = 52
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Peso Bruto'
+        end
+        object LabelPESOL: TLabel
+          Left = 173
+          Top = 157
+          Width = 63
+          Height = 13
+          Caption = 'Peso L'#237'quido'
+        end
+        object LabelQVOL: TLabel
+          Left = 21
+          Top = 109
+          Width = 64
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Qtde. Volume'
+        end
+        object LabelMarca: TLabel
+          Left = 55
+          Top = 133
+          Width = 30
+          Height = 13
+          Caption = 'Marca'
+        end
         object MemoinfCpl: TMemo
           Left = 3
-          Top = 160
+          Top = 240
           Width = 516
-          Height = 63
-          TabOrder = 0
+          Height = 28
+          TabOrder = 12
         end
         object PEREMETENTE: TdxPickEdit
           Left = 100
           Top = 56
-          Width = 400
+          Width = 370
           Color = clHighlightText
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -353,12 +397,12 @@ object Form1: TForm1
           Style.BorderStyle = xbsSingle
           Style.ButtonStyle = btsFlat
           Style.Shadow = False
-          TabOrder = 1
+          TabOrder = 2
         end
         object CEVAFRMM: TdxCurrencyEdit
-          Left = 100
-          Top = 104
-          Width = 85
+          Left = 308
+          Top = 176
+          Width = 65
           Color = clHighlightText
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -370,17 +414,17 @@ object Form1: TForm1
           Style.BorderStyle = xbsSingle
           Style.ButtonStyle = btsFlat
           Style.Shadow = False
-          TabOrder = 2
+          TabOrder = 10
           Alignment = taRightJustify
           DisplayFormat = '0.00'
           UseThousandSeparator = True
-          Value = 13940.220000000000000000
+          Value = 1219.210000000000000000
           StoredValues = 1
         end
         object PETRANSPORTADORA: TdxPickEdit
           Left = 100
           Top = 80
-          Width = 400
+          Width = 370
           Color = clHighlightText
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -398,8 +442,8 @@ object Form1: TForm1
         end
         object CEVTAXASISCOMEX: TdxCurrencyEdit
           Left = 100
-          Top = 128
-          Width = 85
+          Top = 200
+          Width = 65
           Color = clBtnFace
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -411,7 +455,7 @@ object Form1: TForm1
           Style.BorderStyle = xbsSingle
           Style.ButtonStyle = btsFlat
           Style.Shadow = False
-          TabOrder = 4
+          TabOrder = 11
           Alignment = taRightJustify
           DisplayFormat = '0.00'
           UseThousandSeparator = True
@@ -432,7 +476,7 @@ object Form1: TForm1
           Style.BorderStyle = xbsSingle
           Style.ButtonStyle = btsFlat
           Style.Shadow = False
-          TabOrder = 5
+          TabOrder = 0
           Text = '26BR00004954417'
           CharCase = ecUpperCase
         end
@@ -451,8 +495,130 @@ object Form1: TForm1
           Style.BorderStyle = xbsSingle
           Style.ButtonStyle = btsFlat
           Style.Shadow = False
-          TabOrder = 6
+          TabOrder = 1
           Text = '0001'
+          CharCase = ecUpperCase
+        end
+        object CEQVOL: TdxCurrencyEdit
+          Left = 100
+          Top = 104
+          Width = 65
+          Color = clHighlightText
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          Style.BorderColor = 16644596
+          Style.BorderStyle = xbsSingle
+          Style.ButtonStyle = btsFlat
+          Style.Shadow = False
+          TabOrder = 4
+          Alignment = taRightJustify
+          DecimalPlaces = 0
+          DisplayFormat = '0'
+          UseThousandSeparator = True
+          StoredValues = 1
+        end
+        object EditESP: TdxEdit
+          Left = 220
+          Top = 104
+          Width = 249
+          Color = clHighlightText
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          Style.BorderColor = 16644596
+          Style.BorderStyle = xbsSingle
+          Style.ButtonStyle = btsFlat
+          Style.Shadow = False
+          TabOrder = 5
+          CharCase = ecUpperCase
+        end
+        object CEPESOB: TdxCurrencyEdit
+          Left = 100
+          Top = 152
+          Width = 65
+          Color = clHighlightText
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          Style.BorderColor = 16644596
+          Style.BorderStyle = xbsSingle
+          Style.ButtonStyle = btsFlat
+          Style.Shadow = False
+          TabOrder = 7
+          Alignment = taRightJustify
+          DisplayFormat = '0.00'
+          UseThousandSeparator = True
+          StoredValues = 1
+        end
+        object CEPESOL: TdxCurrencyEdit
+          Left = 244
+          Top = 152
+          Width = 65
+          Color = clHighlightText
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          Style.BorderColor = 16644596
+          Style.BorderStyle = xbsSingle
+          Style.ButtonStyle = btsFlat
+          Style.Shadow = False
+          TabOrder = 8
+          Alignment = taRightJustify
+          DisplayFormat = '0.00'
+          UseThousandSeparator = True
+          StoredValues = 1
+        end
+        object CEVFRETE: TdxCurrencyEdit
+          Left = 100
+          Top = 176
+          Width = 65
+          Color = clHighlightText
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          Style.BorderColor = 16644596
+          Style.BorderStyle = xbsSingle
+          Style.ButtonStyle = btsFlat
+          Style.Shadow = False
+          TabOrder = 9
+          Alignment = taRightJustify
+          DecimalPlaces = 0
+          DisplayFormat = '0'
+          UseThousandSeparator = True
+          StoredValues = 1
+        end
+        object EditMarca: TdxEdit
+          Left = 100
+          Top = 128
+          Width = 370
+          Color = clHighlightText
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          Style.BorderColor = 16644596
+          Style.BorderStyle = xbsSingle
+          Style.ButtonStyle = btsFlat
+          Style.Shadow = False
+          TabOrder = 6
           CharCase = ecUpperCase
         end
       end
@@ -1274,115 +1440,103 @@ object Form1: TForm1
         Caption = 'Remetente'
         object LabelDestNome: TLabel
           Left = 10
-          Top = 13
+          Top = 37
           Width = 63
           Height = 13
           Caption = 'Raz'#227'o Social'
         end
         object LabelDestenderDestxLgr: TLabel
           Left = 10
-          Top = 37
+          Top = 61
           Width = 46
           Height = 13
           Caption = 'Endere'#231'o'
         end
         object LabelDestenderDestnro: TLabel
           Left = 10
-          Top = 61
+          Top = 85
           Width = 37
           Height = 13
           Caption = 'N'#250'mero'
         end
         object LabelDestenderDestxBairro: TLabel
           Left = 10
-          Top = 109
+          Top = 157
           Width = 27
           Height = 13
           Caption = 'Bairro'
         end
         object LabelDestenderDestcMun: TLabel
           Left = 10
-          Top = 133
+          Top = 181
           Width = 81
           Height = 13
           Caption = 'C'#243'digo Municipal'
         end
         object LabelDestenderDestxMun: TLabel
           Left = 10
-          Top = 157
+          Top = 205
           Width = 47
           Height = 13
           Caption = 'Munic'#237'pio'
         end
         object LabelDestenderDestUF: TLabel
           Left = 10
-          Top = 181
+          Top = 229
           Width = 14
           Height = 13
           Caption = 'UF'
         end
         object LabelDestenderDestCEP: TLabel
           Left = 10
-          Top = 205
+          Top = 133
           Width = 21
           Height = 13
           Caption = 'CEP'
         end
         object LabelDestenderDestcPais: TLabel
           Left = 10
-          Top = 229
+          Top = 253
           Width = 73
           Height = 13
           Caption = 'C'#243'digo do Pa'#237's'
         end
         object LabelDestenderDestxPais: TLabel
           Left = 10
-          Top = 253
+          Top = 277
           Width = 68
           Height = 13
           Caption = 'Nome do Pa'#237's'
         end
         object LabelDestenderDestFone: TLabel
           Left = 10
-          Top = 277
+          Top = 301
           Width = 24
           Height = 13
           Caption = 'Fone'
         end
         object LabelDestindIEDest: TLabel
           Left = 10
-          Top = 301
+          Top = 325
           Width = 59
           Height = 13
           Caption = 'Indicativo IE'
         end
         object LabelDestenderDestxCpl: TLabel
           Left = 10
-          Top = 85
+          Top = 109
           Width = 64
           Height = 13
           Caption = 'Complemento'
         end
-        object EditDestxNome: TdxEdit
-          Left = 105
-          Top = 8
-          Width = 400
-          Color = clHighlightText
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -12
-          Font.Name = 'Tahoma'
-          Font.Style = []
-          ParentFont = False
-          Style.BorderColor = 16644596
-          Style.BorderStyle = xbsSingle
-          Style.ButtonStyle = btsFlat
-          Style.Shadow = False
-          TabOrder = 0
-          Text = 'SUPER FLOW HOLDINGS LIMITED'
-          CharCase = ecUpperCase
+        object Label1: TLabel
+          Left = 10
+          Top = 13
+          Width = 27
+          Height = 13
+          Caption = 'CNPJ'
         end
-        object EditDestenderDestxLgr: TdxEdit
+        object EditDestxNome: TdxEdit
           Left = 105
           Top = 32
           Width = 400
@@ -1398,10 +1552,10 @@ object Form1: TForm1
           Style.ButtonStyle = btsFlat
           Style.Shadow = False
           TabOrder = 1
-          Text = '. FLAT C 7F LOCKHART CENTRE'
+          Text = 'SUPER FLOW HOLDINGS LIMITED'
           CharCase = ecUpperCase
         end
-        object EditDestenderDestnro: TdxEdit
+        object EditDestenderDestxLgr: TdxEdit
           Left = 105
           Top = 56
           Width = 400
@@ -1417,10 +1571,10 @@ object Form1: TForm1
           Style.ButtonStyle = btsFlat
           Style.Shadow = False
           TabOrder = 2
-          Text = '301'
+          Text = '. FLAT C 7F LOCKHART CENTRE'
           CharCase = ecUpperCase
         end
-        object EditDestenderDestxCpl: TdxEdit
+        object EditDestenderDestnro: TdxEdit
           Left = 105
           Top = 80
           Width = 400
@@ -1436,10 +1590,10 @@ object Form1: TForm1
           Style.ButtonStyle = btsFlat
           Style.Shadow = False
           TabOrder = 3
-          Text = '.'
+          Text = '301'
           CharCase = ecUpperCase
         end
-        object EditDestenderDestxBairro: TdxEdit
+        object EditDestenderDestxCpl: TdxEdit
           Left = 105
           Top = 104
           Width = 400
@@ -1455,29 +1609,10 @@ object Form1: TForm1
           Style.ButtonStyle = btsFlat
           Style.Shadow = False
           TabOrder = 4
-          Text = 'LOCKHART ROAD'
+          Text = '.'
           CharCase = ecUpperCase
         end
-        object EditDestenderDestcMun: TdxEdit
-          Left = 105
-          Top = 128
-          Width = 400
-          Color = clHighlightText
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -12
-          Font.Name = 'Tahoma'
-          Font.Style = []
-          ParentFont = False
-          Style.BorderColor = 16644596
-          Style.BorderStyle = xbsSingle
-          Style.ButtonStyle = btsFlat
-          Style.Shadow = False
-          TabOrder = 5
-          Text = '9999999'
-          CharCase = ecUpperCase
-        end
-        object EditDestenderDestxMun: TdxEdit
+        object EditDestenderDestxBairro: TdxEdit
           Left = 105
           Top = 152
           Width = 400
@@ -1493,10 +1628,10 @@ object Form1: TForm1
           Style.ButtonStyle = btsFlat
           Style.Shadow = False
           TabOrder = 6
-          Text = 'WANCHAI'
+          Text = 'LOCKHART ROAD'
           CharCase = ecUpperCase
         end
-        object EditDestenderDestUF: TdxEdit
+        object EditDestenderDestcMun: TdxEdit
           Left = 105
           Top = 176
           Width = 400
@@ -1512,10 +1647,10 @@ object Form1: TForm1
           Style.ButtonStyle = btsFlat
           Style.Shadow = False
           TabOrder = 7
-          Text = 'EX'
+          Text = '9999999'
           CharCase = ecUpperCase
         end
-        object EditDestenderDestCEP: TdxEdit
+        object EditDestenderDestxMun: TdxEdit
           Left = 105
           Top = 200
           Width = 400
@@ -1531,10 +1666,10 @@ object Form1: TForm1
           Style.ButtonStyle = btsFlat
           Style.Shadow = False
           TabOrder = 8
-          Text = '00000000'
+          Text = 'WANCHAI'
           CharCase = ecUpperCase
         end
-        object EditDestenderDestcPais: TdxEdit
+        object EditDestenderDestUF: TdxEdit
           Left = 105
           Top = 224
           Width = 400
@@ -1550,10 +1685,29 @@ object Form1: TForm1
           Style.ButtonStyle = btsFlat
           Style.Shadow = False
           TabOrder = 9
-          Text = '1600'
+          Text = 'EX'
           CharCase = ecUpperCase
         end
-        object EditDestenderDestxPais: TdxEdit
+        object EditDestenderDestCEP: TdxEdit
+          Left = 105
+          Top = 128
+          Width = 400
+          Color = clHighlightText
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          Style.BorderColor = 16644596
+          Style.BorderStyle = xbsSingle
+          Style.ButtonStyle = btsFlat
+          Style.Shadow = False
+          TabOrder = 5
+          Text = '00000000'
+          CharCase = ecUpperCase
+        end
+        object EditDestenderDestcPais: TdxEdit
           Left = 105
           Top = 248
           Width = 400
@@ -1569,10 +1723,10 @@ object Form1: TForm1
           Style.ButtonStyle = btsFlat
           Style.Shadow = False
           TabOrder = 10
-          Text = 'CHINA, REPUBLICA POPULAR'
+          Text = '1600'
           CharCase = ecUpperCase
         end
-        object EditDestenderDestFone: TdxEdit
+        object EditDestenderDestxPais: TdxEdit
           Left = 105
           Top = 272
           Width = 400
@@ -1588,10 +1742,10 @@ object Form1: TForm1
           Style.ButtonStyle = btsFlat
           Style.Shadow = False
           TabOrder = 11
-          Text = '1100000000'
+          Text = 'CHINA, REPUBLICA POPULAR'
           CharCase = ecUpperCase
         end
-        object EditDestindIEDest: TdxEdit
+        object EditDestenderDestFone: TdxEdit
           Left = 105
           Top = 296
           Width = 400
@@ -1607,7 +1761,44 @@ object Form1: TForm1
           Style.ButtonStyle = btsFlat
           Style.Shadow = False
           TabOrder = 12
+          Text = '1100000000'
+          CharCase = ecUpperCase
+        end
+        object EditDestindIEDest: TdxEdit
+          Left = 105
+          Top = 320
+          Width = 400
+          Color = clHighlightText
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          Style.BorderColor = 16644596
+          Style.BorderStyle = xbsSingle
+          Style.ButtonStyle = btsFlat
+          Style.Shadow = False
+          TabOrder = 13
           Text = '9'
+          CharCase = ecUpperCase
+        end
+        object EditDestCNPJ: TdxEdit
+          Left = 105
+          Top = 8
+          Width = 400
+          Color = clHighlightText
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          Style.BorderColor = 16644596
+          Style.BorderStyle = xbsSingle
+          Style.ButtonStyle = btsFlat
+          Style.Shadow = False
+          TabOrder = 0
           CharCase = ecUpperCase
         end
       end

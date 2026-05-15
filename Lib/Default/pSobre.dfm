@@ -2470,7 +2470,7 @@ object FrmSobre: TFrmSobre
       Top = 4
       Width = 106
       Height = 17
-      Caption = 'SHE-ERP-OLD-GDI'
+      Caption = 'SHE-ERP-OLD-REL'
       Color = clInfoBk
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -2485,7 +2485,7 @@ object FrmSobre: TFrmSobre
       Top = 20
       Width = 101
       Height = 17
-      Caption = '12/05/2026 07:21'
+      Caption = '15/05/2026 08:29'
       Color = clInfoBk
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -2584,8 +2584,7 @@ object FrmSobre: TFrmSobre
       Font.Name = 'Segoe UI Semibold'
       Font.Style = [fsBold, fsItalic]
       Lines.Strings = (
-        'Inclus'#227'o do grupo diretoria no grupo de usu'#225'rios'
-        'Abertura autom'#225'tica do controle de vendas')
+        'Relat'#243'rio gerencial por tipo de cr'#233'dito')
       ParentFont = False
       TabOrder = 0
     end

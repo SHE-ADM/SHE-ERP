@@ -1,5 +1,5 @@
 unit uDuimpNFeXmlCompletoD7;
-
+
 interface
 
 uses
@@ -52,6 +52,13 @@ type
     TranspXEnder: string;
     TranspXMun: string;
     TranspUF: string;
+    
+    // Novos campos de Volume e Peso
+    TranspQVol: Integer;
+    TranspEsp: string;
+    TranspMarca: string;
+    TranspPesoL: Double;
+    TranspPesoB: Double;
   end;
 
   TDuimpNFeItem = record
@@ -65,6 +72,9 @@ type
     ValorUnitario: Double;
     ValorTotal: Double;
     ValorAduaneiro: Double;
+
+    PesoLiquido: Double;
+    PesoBruto: Double;
 
     NumeroDI: string;
     DataDI: TDateTime;
@@ -85,6 +95,7 @@ type
     ValorFrete: Double;
     ValorSeguro: Double;
     ValorOutrasDespesas: Double;
+    ValorSiscomex: Double;
     ValorII: Double;
     ValorIPI: Double;
     ValorPIS: Double;
@@ -170,7 +181,6 @@ begin
   end;
 end;
 
-
 function PadLeftZerosLocal(const S: string; const ALen: Integer): string;
 begin
   Result := Trim(S);
@@ -255,15 +265,26 @@ begin
   Result := StringReplace(Result, ',', '.', [rfReplaceAll]);
 end;
 
+function ValorXml3(const V: Double): string;
+begin
+  Result := FormatFloat('0.000', V);
+  Result := StringReplace(Result, ',', '.', [rfReplaceAll]);
+end;
+
 function ValorXml4(const V: Double): string;
 begin
   Result := FormatFloat('0.0000', V);
   Result := StringReplace(Result, ',', '.', [rfReplaceAll]);
 end;
 
+function ValorXml10(const V: Double): string;
+begin
+  Result := FormatFloat('0.0000000000', V);
+  Result := StringReplace(Result, ',', '.', [rfReplaceAll]);
+end;
+
 function DataXml(const D: TDateTime): string;
 begin
-  { Nao inventar data quando o endpoint/ERP nao informar. }
   if D <= 0 then
     Result := ''
   else
@@ -285,21 +306,16 @@ end;
 
 function DuimpNFeEmitentePadraoSheild: TDuimpNFePessoa;
 begin
-  { Compatibilidade: nao preenche dados fixos.
-    Preencha emitente no ERP antes de gerar/transmitir a NF-e. }
   FillChar(Result, SizeOf(Result), 0);
 end;
 
 function DuimpNFeDestinatarioPadraoMesmoEmitente: TDuimpNFePessoa;
 begin
-  { Compatibilidade: nao replica emitente nem preenche destinatario fixo. }
   FillChar(Result, SizeOf(Result), 0);
 end;
 
 function DuimpNFeConfigPadraoSP(const ANumeroDuimp: string): TDuimpNFeConfig;
 begin
-  { Compatibilidade: nao preenche configuracao fixa de SP/homologacao.
-    Preencha CUF, natOp, serie, numero, ambiente, municipio e demais dados no ERP. }
   FillChar(Result, SizeOf(Result), 0);
 end;
 
@@ -335,7 +351,7 @@ begin
   SL.Add('    <dest>');
   if Length(OnlyDigitsLocal(ADestinatario.CNPJ)) = 11 then
     SL.Add('      <CPF>' + OnlyDigitsLocal(ADestinatario.CNPJ) + '</CPF>')
-  else
+  else if Length(OnlyDigitsLocal(ADestinatario.CNPJ)) = 14 then
     SL.Add('      <CNPJ>' + OnlyDigitsLocal(ADestinatario.CNPJ) + '</CNPJ>');
   SL.Add('      <xNome>' + XmlEscapeLocal(ADestinatario.XNome) + '</xNome>');
   SL.Add('      <enderDest>');
@@ -359,10 +375,8 @@ begin
   SL.Add('    </dest>');
 end;
 
-
 function ValorOuPadraoLocal(const AValor: Double; const APadrao: Double): Double;
 begin
-  { Sem fallback generico para bases/valores. Usa somente o valor recebido. }
   Result := AValor;
 end;
 
@@ -374,12 +388,10 @@ begin
     Result := -Int(Abs(AValor) * 100 + 0.5) / 100;
 end;
 
-function BasePISCOFINSXmlLocal(const ABase: Double; const AValorAduaneiro: Double): Double;
+function BaseAduaneiraXmlLocal(const ABase: Double; const AValorAduaneiro: Double): Double;
 begin
   Result := ABase;
-
-  { Fallback especifico para PIS/COFINS-Importacao: somente valor aduaneiro real. }
-  if (Result = 0) and (AValorAduaneiro > 0) then
+  if (Result <= 0) and (AValorAduaneiro > 0) then
     Result := AValorAduaneiro;
 end;
 
@@ -398,9 +410,6 @@ var
 begin
   Result := AValorAtual;
 
-  { Protecao final do XML: calcula somente se o valor estiver zerado
-    ou se o valor recebido for igual ao percentual, sinal classico de
-    mapeamento indevido do campo de aliquota no campo de valor. }
   if (ABase <= 0) or (APercentual <= 0) then
     Exit;
 
@@ -412,26 +421,27 @@ begin
     Result := ValorCalculado;
 end;
 
-function ValorPISCOFINSXmlLocal(
-  const AValorAtual: Double;
-  const ABase: Double;
-  const APercentual: Double
-): Double;
-begin
-  Result := ValorTributoXmlLocal(AValorAtual, ABase, APercentual);
-end;
-
 procedure AddImpostoBasicoXml(SL: TStringList; const AItem: TDuimpNFeItem);
 var
+  BaseIIXml: Double;
   BasePISXml: Double;
   BaseCOFINSXml: Double;
   ValorPISXml: Double;
   ValorCOFINSXml: Double;
+  BaseICMSXml: Double;
+  ValorICMSXml: Double;
 begin
-  BasePISXml := BasePISCOFINSXmlLocal(AItem.BasePIS, AItem.ValorAduaneiro);
-  BaseCOFINSXml := BasePISCOFINSXmlLocal(AItem.BaseCOFINS, AItem.ValorAduaneiro);
-  ValorPISXml := ValorPISCOFINSXmlLocal(AItem.ValorPIS, BasePISXml, AItem.PercentualPIS);
-  ValorCOFINSXml := ValorPISCOFINSXmlLocal(AItem.ValorCOFINS, BaseCOFINSXml, AItem.PercentualCOFINS);
+  BaseIIXml := BaseAduaneiraXmlLocal(AItem.BaseII, AItem.ValorAduaneiro);
+  BasePISXml := BaseAduaneiraXmlLocal(AItem.BasePIS, AItem.ValorAduaneiro);
+  BaseCOFINSXml := BaseAduaneiraXmlLocal(AItem.BaseCOFINS, AItem.ValorAduaneiro);
+  ValorPISXml := ValorTributoXmlLocal(AItem.ValorPIS, BasePISXml, AItem.PercentualPIS);
+  ValorCOFINSXml := ValorTributoXmlLocal(AItem.ValorCOFINS, BaseCOFINSXml, AItem.PercentualCOFINS);
+
+  BaseICMSXml := AItem.BaseICMS;
+  if (BaseICMSXml <= 0) and (AItem.ValorAduaneiro > 0) and (AItem.PercentualICMS > 0) and (AItem.PercentualICMS < 100) then
+    BaseICMSXml := ArredondarMoedaXmlLocal((AItem.ValorAduaneiro + AItem.ValorII + AItem.ValorIPI + AItem.ValorPIS + AItem.ValorCOFINS + AItem.ValorSiscomex + AItem.ValorAFRMM) / (1 - (AItem.PercentualICMS / 100)));
+  
+  ValorICMSXml := ValorTributoXmlLocal(AItem.ValorICMS, BaseICMSXml, AItem.PercentualICMS);
 
   SL.Add('      <imposto>');
 
@@ -442,10 +452,10 @@ begin
   if Trim(AItem.ModBCICMS) <> '' then
     SL.Add('            <modBC>' + XmlEscapeLocal(AItem.ModBCICMS) + '</modBC>')
   else
-    SL.Add('            <modBC></modBC>'); { preencher modBC real via ERP }
-  SL.Add('            <vBC>' + ValorXml2(ValorOuPadraoLocal(AItem.BaseICMS, AItem.ValorTotal)) + '</vBC>');
+    SL.Add('            <modBC></modBC>');
+  SL.Add('            <vBC>' + ValorXml2(BaseICMSXml) + '</vBC>');
   SL.Add('            <pICMS>' + ValorXml2(AItem.PercentualICMS) + '</pICMS>');
-  SL.Add('            <vICMS>' + ValorXml2(AItem.ValorICMS) + '</vICMS>');
+  SL.Add('            <vICMS>' + ValorXml2(ValorICMSXml) + '</vICMS>');
   SL.Add('          </ICMS00>');
   SL.Add('        </ICMS>');
 
@@ -460,8 +470,8 @@ begin
   SL.Add('        </IPI>');
 
   SL.Add('        <II>');
-  SL.Add('          <vBC>' + ValorXml2(ValorOuPadraoLocal(AItem.BaseII, AItem.ValorTotal)) + '</vBC>');
-  SL.Add('          <vDespAdu>' + ValorXml2(AItem.ValorOutrasDespesas) + '</vDespAdu>');
+  SL.Add('          <vBC>' + ValorXml2(BaseIIXml) + '</vBC>');
+  SL.Add('          <vDespAdu>' + ValorXml2(AItem.ValorSiscomex) + '</vDespAdu>');
   SL.Add('          <vII>' + ValorXml2(AItem.ValorII) + '</vII>');
   SL.Add('          <vIOF>0.00</vIOF>');
   SL.Add('        </II>');
@@ -507,6 +517,8 @@ var
   TotalICMS: Double;
   TotalICMSBase: Double;
   TotalNF: Double;
+  TotalPesoL: Double;
+  TotalPesoB: Double;
   DataEmissao: TDateTime;
   ChaveAcesso: string;
   CNFLocal: Integer;
@@ -523,6 +535,8 @@ begin
     TotalCOFINS := 0;
     TotalICMS := 0;
     TotalICMSBase := 0;
+    TotalPesoL := 0;
+    TotalPesoB := 0;
 
     for I := Low(AItens) to High(AItens) do
     begin
@@ -532,23 +546,36 @@ begin
       TotalOutras := TotalOutras + AItens[I].ValorOutrasDespesas;
       TotalII := TotalII + AItens[I].ValorII;
       TotalIPI := TotalIPI + AItens[I].ValorIPI;
-      TotalPIS := TotalPIS + ValorPISCOFINSXmlLocal(
+      TotalPIS := TotalPIS + ValorTributoXmlLocal(
         AItens[I].ValorPIS,
-        BasePISCOFINSXmlLocal(AItens[I].BasePIS, AItens[I].ValorAduaneiro),
+        BaseAduaneiraXmlLocal(AItens[I].BasePIS, AItens[I].ValorAduaneiro),
         AItens[I].PercentualPIS
       );
-      TotalCOFINS := TotalCOFINS + ValorPISCOFINSXmlLocal(
+      TotalCOFINS := TotalCOFINS + ValorTributoXmlLocal(
         AItens[I].ValorCOFINS,
-        BasePISCOFINSXmlLocal(AItens[I].BaseCOFINS, AItens[I].ValorAduaneiro),
+        BaseAduaneiraXmlLocal(AItens[I].BaseCOFINS, AItens[I].ValorAduaneiro),
         AItens[I].PercentualCOFINS
       );
-      TotalICMS := TotalICMS + AItens[I].ValorICMS;
+      TotalICMS := TotalICMS + ValorTributoXmlLocal(
+        AItens[I].ValorICMS,
+        AItens[I].BaseICMS,
+        AItens[I].PercentualICMS
+      );
       TotalICMSBase := TotalICMSBase + AItens[I].BaseICMS;
+
+      TotalPesoL := TotalPesoL + AItens[I].PesoLiquido;
+      TotalPesoB := TotalPesoB + AItens[I].PesoBruto;
     end;
 
-    { Regra NF-e: vNF nao soma vICMS nem PIS/COFINS. }
-    TotalNF := TotalProdutos + TotalFrete + TotalSeguro + TotalOutras +
-      TotalII + TotalIPI;
+    // APLICAR OS VALORES DA CONFIG (OVERRIDE DA SOMA SE INFORMADOS)
+    if AConfig.TranspPesoL > 0 then
+      TotalPesoL := AConfig.TranspPesoL;
+    if AConfig.TranspPesoB > 0 then
+      TotalPesoB := AConfig.TranspPesoB;
+
+    // Nova exigência para fechamento exato da nota:
+    // <vNF> = (valor aduaneiro + vII + vIPI + vOutro) / 0.82
+    TotalNF := ArredondarMoedaXmlLocal((TotalProdutos + TotalII + TotalIPI + TotalOutras) / 0.82);
 
     DataEmissao := Now;
     ChaveAcesso := GerarChaveAcessoNFeLocal(AConfig, AEmitente, DataEmissao);
@@ -603,14 +630,16 @@ begin
       SL.Add('        <CFOP>' + XmlEscapeLocal(AItens[I].CFOP) + '</CFOP>');
       SL.Add('        <uCom>' + XmlEscapeLocal(AItens[I].Unidade) + '</uCom>');
       SL.Add('        <qCom>' + ValorXml4(AItens[I].Quantidade) + '</qCom>');
-      SL.Add('        <vUnCom>' + ValorXml2(AItens[I].ValorUnitario) + '</vUnCom>');
+      SL.Add('        <vUnCom>' + ValorXml10(AItens[I].ValorUnitario) + '</vUnCom>');
       SL.Add('        <vProd>' + ValorXml2(AItens[I].ValorTotal) + '</vProd>');
       SL.Add('        <cEANTrib>SEM GTIN</cEANTrib>');
       SL.Add('        <uTrib>' + XmlEscapeLocal(AItens[I].Unidade) + '</uTrib>');
       SL.Add('        <qTrib>' + ValorXml4(AItens[I].Quantidade) + '</qTrib>');
-      SL.Add('        <vUnTrib>' + ValorXml2(AItens[I].ValorUnitario) + '</vUnTrib>');
-      if AItens[I].ValorFrete > 0 then
-        SL.Add('        <vFrete>' + ValorXml2(AItens[I].ValorFrete) + '</vFrete>');
+      SL.Add('        <vUnTrib>' + ValorXml10(AItens[I].ValorUnitario) + '</vUnTrib>');
+      
+      if AItens[I].ValorFrete >= 0 then
+        SL.Add('        <vFrete>0.00</vFrete>'); // Força 0.00 conforme exigido
+      
       if AItens[I].ValorSeguro > 0 then
         SL.Add('        <vSeg>' + ValorXml2(AItens[I].ValorSeguro) + '</vSeg>');
       if AItens[I].ValorOutrasDespesas > 0 then
@@ -624,11 +653,6 @@ begin
       SL.Add('          <UFDesemb>' + XmlEscapeLocal(AItens[I].UFDesembaraco) + '</UFDesemb>');
       SL.Add('          <dDesemb>' + DataXml(AItens[I].DataDesembaraco) + '</dDesemb>');
       SL.Add('          <tpViaTransp>' + IntToStr(AItens[I].ViaTransporte) + '</tpViaTransp>');
-      { vAFRMM deve ser sempre gerado.
-        Regra atual:
-        - primeiro item recebe AFRMM/TUM pago quando manual > 0 ou API retornar valor;
-        - demais itens recebem 0.00;
-        - se nada for encontrado, todos recebem 0.00. }
       SL.Add('          <vAFRMM>' + ValorXml2(AItens[I].ValorAFRMM) + '</vAFRMM>');
       SL.Add('          <tpIntermedio>' + IntToStr(AItens[I].FormaIntermediacao) + '</tpIntermedio>');
       if Trim(AItens[I].CNPJAdquirente) <> '' then
@@ -661,7 +685,8 @@ begin
     SL.Add('        <vFCPST>0.00</vFCPST>');
     SL.Add('        <vFCPSTRet>0.00</vFCPSTRet>');
     SL.Add('        <vProd>' + ValorXml2(TotalProdutos) + '</vProd>');
-    SL.Add('        <vFrete>' + ValorXml2(TotalFrete) + '</vFrete>');
+    
+    SL.Add('        <vFrete>0.00</vFrete>');
     SL.Add('        <vSeg>' + ValorXml2(TotalSeguro) + '</vSeg>');
     SL.Add('        <vDesc>0.00</vDesc>');
     SL.Add('        <vII>' + ValorXml2(TotalII) + '</vII>');
@@ -695,6 +720,24 @@ begin
         SL.Add('        <UF>' + XmlEscapeLocal(AConfig.TranspUF) + '</UF>');
       SL.Add('      </transporta>');
     end;
+
+    // --- BLOCO DOS VOLUMES ---
+    if (AConfig.TranspQVol > 0) or (Trim(AConfig.TranspEsp) <> '') or (Trim(AConfig.TranspMarca) <> '') or (TotalPesoL > 0) or (TotalPesoB > 0) then
+    begin
+      SL.Add('      <vol>');
+      if AConfig.TranspQVol > 0 then
+        SL.Add('        <qVol>' + IntToStr(AConfig.TranspQVol) + '</qVol>');
+      if Trim(AConfig.TranspEsp) <> '' then
+        SL.Add('        <esp>' + XmlEscapeLocal(AConfig.TranspEsp) + '</esp>');
+      if Trim(AConfig.TranspMarca) <> '' then
+        SL.Add('        <marca>' + XmlEscapeLocal(AConfig.TranspMarca) + '</marca>');
+      if TotalPesoL > 0 then
+        SL.Add('        <pesoL>' + ValorXml3(TotalPesoL) + '</pesoL>');
+      if TotalPesoB > 0 then
+        SL.Add('        <pesoB>' + ValorXml3(TotalPesoB) + '</pesoB>');
+      SL.Add('      </vol>');
+    end;
+
     SL.Add('    </transp>');
 
     SL.Add('    <pag>');
@@ -731,7 +774,6 @@ begin
     SL.Free;
   end;
 end;
-
 
 function DateFromNFeStrSafe(const S: string): TDateTime;
 var
@@ -788,7 +830,6 @@ begin
   Result.Quantidade := AItem.qCom;
   if Result.Quantidade <= 0 then
     Result.Quantidade := AItem.qTrib;
-  { Sem quantidade fixa por fallback. }
 
   Result.ValorUnitario := AItem.vUnCom;
   if Result.ValorUnitario <= 0 then
@@ -798,25 +839,24 @@ begin
   if (Result.ValorTotal <= 0) and (Result.Quantidade > 0) and (Result.ValorUnitario > 0) then
     Result.ValorTotal := Result.Quantidade * Result.ValorUnitario;
 
+  Result.PesoLiquido := AItem.PesoLiquido;
+  Result.PesoBruto := AItem.PesoBruto;
+
   Result.NumeroDI := StrOrDefault(AItem.DI.nDI, ANumeroDuimp);
   Result.DataDI := DateFromNFeStrSafe(AItem.DI.dDI);
   Result.LocalDesembaraco := AItem.DI.xLocDesemb;
   Result.UFDesembaraco := AItem.DI.UFDesemb;
   Result.DataDesembaraco := DateFromNFeStrSafe(AItem.DI.dDesemb);
   Result.ViaTransporte := AItem.DI.tpViaTransp;
-  { Sem via de transporte fixa por fallback. }
 
   Result.ValorAFRMM := AItem.DI.vAFRMM;
   Result.FormaIntermediacao := AItem.DI.tpIntermedio;
-  { Sem forma de intermediacao fixa por fallback. }
 
   Result.CNPJAdquirente := AItem.DI.CNPJ;
   Result.UFAdquirente := AItem.DI.UFTerceiro;
   Result.CodigoExportador := AItem.DI.cExportador;
   Result.NumeroAdicao := AItem.DI.nAdicao;
-  { Sem numero de adicao fixo por fallback. }
   Result.NumeroSequencialItem := AItem.DI.nSeqAdic;
-  { Sem sequencial de adicao fixo por fallback. }
   Result.CodigoFabricante := AItem.DI.cFabricante;
   Result.ValorDescontoDI := AItem.DI.vDescDI;
 
@@ -825,30 +865,56 @@ begin
      ((AItem.vProd > 0) or (AItem.vFrete > 0) or (AItem.vSeg > 0)) then
     Result.ValorAduaneiro := AItem.vProd + AItem.vFrete + AItem.vSeg;
 
-  Result.ValorFrete := AItem.vFrete;
+  Result.ValorFrete := 0;
   Result.ValorSeguro := AItem.vSeg;
-  Result.ValorOutrasDespesas := AItem.vOutro;
+  Result.ValorSiscomex := AItem.vOutro; 
+  
+  Result.ValorOutrasDespesas := AItem.PIS.vImp + AItem.COFINS.vImp + AItem.vOutro;
+  if AItem.DI.vAFRMM > 0 then
+    Result.ValorOutrasDespesas := Result.ValorOutrasDespesas + AItem.DI.vAFRMM;
+
   Result.ValorII := AItem.II.vImp;
   Result.ValorIPI := AItem.IPI.vIPI;
   Result.ValorPIS := AItem.PIS.vImp;
   Result.ValorCOFINS := AItem.COFINS.vImp;
   Result.ValorICMS := AItem.ICMS.vICMS;
 
-  Result.BaseII := AItem.II.vBC;
+  Result.BaseII := BaseAduaneiraXmlLocal(AItem.II.vBC, Result.ValorAduaneiro);
   Result.PercentualII := AItem.II.pAliq;
+  
   Result.BaseIPI := AItem.IPI.vBC;
+  if (Result.BaseIPI <= 0) and (Result.ValorAduaneiro > 0) then
+    Result.BaseIPI := Result.ValorAduaneiro + Result.ValorII;
   Result.PercentualIPI := AItem.IPI.pIPI;
-  Result.BasePIS := BasePISCOFINSXmlLocal(AItem.PIS.vBC, Result.ValorAduaneiro);
+  
+  Result.BasePIS := BaseAduaneiraXmlLocal(AItem.PIS.vBC, Result.ValorAduaneiro);
   Result.PercentualPIS := AItem.PIS.pAliq;
-  Result.BaseCOFINS := BasePISCOFINSXmlLocal(AItem.COFINS.vBC, Result.ValorAduaneiro);
+  
+  Result.BaseCOFINS := BaseAduaneiraXmlLocal(AItem.COFINS.vBC, Result.ValorAduaneiro);
   Result.PercentualCOFINS := AItem.COFINS.pAliq;
 
   Result.ValorII := ValorTributoXmlLocal(Result.ValorII, Result.BaseII, Result.PercentualII);
   Result.ValorIPI := ValorTributoXmlLocal(Result.ValorIPI, Result.BaseIPI, Result.PercentualIPI);
-  Result.ValorPIS := ValorPISCOFINSXmlLocal(Result.ValorPIS, Result.BasePIS, Result.PercentualPIS);
-  Result.ValorCOFINS := ValorPISCOFINSXmlLocal(Result.ValorCOFINS, Result.BaseCOFINS, Result.PercentualCOFINS);
+  Result.ValorPIS := ValorTributoXmlLocal(Result.ValorPIS, Result.BasePIS, Result.PercentualPIS);
+  Result.ValorCOFINS := ValorTributoXmlLocal(Result.ValorCOFINS, Result.BaseCOFINS, Result.PercentualCOFINS);
+  
   Result.BaseICMS := AItem.ICMS.vBC;
   Result.PercentualICMS := AItem.ICMS.pICMS;
+
+  if Result.PercentualICMS > 0 then
+  begin
+    Result.BaseICMS := ArredondarMoedaXmlLocal(
+      (Result.ValorAduaneiro + Result.ValorII + Result.ValorPIS + Result.ValorCOFINS + Result.ValorIPI + Result.ValorSiscomex + AItem.DI.vAFRMM) 
+      / (1 - (Result.PercentualICMS / 100))
+    );
+    Result.ValorICMS := ArredondarMoedaXmlLocal(Result.BaseICMS * (Result.PercentualICMS / 100));
+  end
+  else
+  begin
+    Result.BaseICMS := AItem.ICMS.vBC;
+    Result.ValorICMS := AItem.ICMS.vICMS;
+  end;
+
   if AItem.ICMS.modBC >= 0 then
     Result.ModBCICMS := IntToStr(AItem.ICMS.modBC)
   else
@@ -929,10 +995,6 @@ begin
         SL.Add('- Item ' + IntToStr(I + 1) + ' sem PIS.CST.');
       if Trim(AItens[I].COFINS.CST) = '' then
         SL.Add('- Item ' + IntToStr(I + 1) + ' sem COFINS.CST.');
-      { IPI.CST e IPI.cEnq nao bloqueiam esta validacao porque a rotina de consulta
-        pode montar preview/diagnostico sem inventar esses campos. Quando existirem
-        no endpoint ou em campo ERP especifico, serao propagados para o XML. Use
-        DuimpItensNFeAvisosIPI para listar avisos sem impedir a geracao. }
     end;
 
     if SL.Count = 0 then
@@ -1028,9 +1090,8 @@ begin
   if Nome = '' then
     Nome := FormatDateTime('yyyymmddhhnnss', Now);
 
-  { Regra solicitada: salvar com o mesmo numero informado em EditNumeroDuimp. }
   Result := Dir + Nome + '.xml';
 end;
 
-
 end.
+
