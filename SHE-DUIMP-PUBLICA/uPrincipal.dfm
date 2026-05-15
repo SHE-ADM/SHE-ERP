@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 80
-  Top = 110
+  Left = 233
+  Top = 121
   Width = 743
   Height = 768
   Caption = 'Form1'
@@ -418,7 +418,6 @@ object Form1: TForm1
           Alignment = taRightJustify
           DisplayFormat = '0.00'
           UseThousandSeparator = True
-          Value = 1219.210000000000000000
           StoredValues = 1
         end
         object PETRANSPORTADORA: TdxPickEdit
@@ -477,7 +476,7 @@ object Form1: TForm1
           Style.ButtonStyle = btsFlat
           Style.Shadow = False
           TabOrder = 0
-          Text = '26BR00004954417'
+          Text = '26BR00004863403'
           CharCase = ecUpperCase
         end
         object EditVersaoDuimp: TdxEdit

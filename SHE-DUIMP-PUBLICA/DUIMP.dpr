@@ -1,16 +1,16 @@
-program SHE_DUIMPPUBLICA;
+program DUIMP;
 
 uses
   Forms,
   uPrincipal in 'uPrincipal.pas' {Form1},
-  uPortalUnicoClientD7 in '..\Lib\Default\uPortalUnicoClientD7.pas',
   CryptUID7 in '..\Lib\Default\CryptUID7.pas',
   WinHttpApi in '..\Lib\Default\WinHttpApi.pas',
   WinCrypt in '..\Lib\Default\WinCrypt.pas',
   superobject in '..\Lib\Default\superobject.pas',
-  uDuimpNFeItensCompletoD7 in '..\Lib\Default\uDuimpNFeItensCompletoD7.pas',
-  uDuimpNFeXmlCompletoD7 in '..\Lib\Default\uDuimpNFeXmlCompletoD7.pas',
-  uDuimpNFeERPComponentesD7 in '..\Lib\Default\uDuimpNFeERPComponentesD7.pas';
+  uDuimpNFeERPComponentesD7 in 'uDuimpNFeERPComponentesD7.pas',
+  uDuimpNFeItensCompletoD7 in 'uDuimpNFeItensCompletoD7.pas',
+  uDuimpNFeXmlCompletoD7 in 'uDuimpNFeXmlCompletoD7.pas',
+  uPortalUnicoClientD7 in 'uPortalUnicoClientD7.pas';
 
 {$R *.res}
 

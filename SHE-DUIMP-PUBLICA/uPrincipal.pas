@@ -279,7 +279,7 @@ begin
     begin
       if C is TdxEdit then TdxEdit(C).Text := AValor
       else if C is TEdit then TEdit(C).Text := AValor;
-      Exit; // Sai após preencher o primeiro que encontrar
+      Exit; 
     end;
   end;
 end;
@@ -538,7 +538,6 @@ begin
     if Assigned(CEQVOL) then CEQVOL.Value := 0;
     if Assigned(EditESP) then EditESP.Text := '';
     if Assigned(EditMarca) then EditMarca.Text := '';
-    // Os campos CEPESOL e CEPESOB não são mais zerados aqui para respeitar valores manuais
 
     // -------------------------------------------------------------------------
     // TAXA SISCOMEX E PREENCHIMENTO DO MemoinfCpl
@@ -779,16 +778,16 @@ begin
           if Pos('EXPORTADOR:', UpperLinha) > 0 then
           begin
             AuxStr := Trim(Copy(UpperLinha, Pos(':', UpperLinha) + 1, Length(UpperLinha)));
-            if (AuxStr <> '') and Assigned(EditDestxNome) and (Trim(EditDestxNome.Text) = '') then
-              EditDestxNome.Text := Copy(AuxStr, 1, 60);
+            if (AuxStr <> '') and Assigned(PEREMETENTE) then
+              PEREMETENTE.Text := Copy(AuxStr, 1, 60);
           end;
 
           // ----------------- TRANSPORTADORA -----------------
           if Pos('TRANSPORTADORA:', UpperLinha) > 0 then
           begin
             AuxStr := Trim(Copy(UpperLinha, Pos(':', UpperLinha) + 1, Length(UpperLinha)));
-            if (AuxStr <> '') and Assigned(EditTranspxNome) and (Trim(EditTranspxNome.Text) = '') then
-              EditTranspxNome.Text := Copy(AuxStr, 1, 60);
+            if (AuxStr <> '') and Assigned(PETRANSPORTADORA) then
+              PETRANSPORTADORA.Text := Copy(AuxStr, 1, 60);
           end;
 
           // ----------------- QUANTIDADE DE VOLUME -----------------
@@ -850,7 +849,7 @@ begin
               else if NumStr <> '' then Break;
             end;
             
-            if (NumStr <> '') and Assigned(CEPESOB) and (CEPESOB.Value = 0) then
+            if (NumStr <> '') and Assigned(CEPESOB) then
             begin
               NumStr := StringReplace(NumStr, '.', '', [rfReplaceAll]);
               CEPESOB.Value := StrToFloatDef(NumStr, 0);
@@ -869,7 +868,7 @@ begin
               else if NumStr <> '' then Break;
             end;
             
-            if (NumStr <> '') and Assigned(CEPESOL) and (CEPESOL.Value = 0) then
+            if (NumStr <> '') and Assigned(CEPESOL) then
             begin
               NumStr := StringReplace(NumStr, '.', '', [rfReplaceAll]);
               CEPESOL.Value := StrToFloatDef(NumStr, 0);
