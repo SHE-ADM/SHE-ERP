@@ -1,6 +1,7 @@
 inherited FrmPSQCAD: TFrmPSQCAD
   Left = 510
   Top = 434
+  ActiveControl = DBGConsulta
   Caption = 'Pesquisa Cadastros'
   ClientHeight = 427
   ClientWidth = 1149
@@ -52,6 +53,7 @@ inherited FrmPSQCAD: TFrmPSQCAD
               ShowSummaryFooter = True
               Color = 15987957
               OnDblClick = DBGConsultaDblClick
+              OnKeyDown = DBGConsultaKeyDown
               Filter.Active = True
               Filter.Criteria = {00000000}
               HideFocusRect = True

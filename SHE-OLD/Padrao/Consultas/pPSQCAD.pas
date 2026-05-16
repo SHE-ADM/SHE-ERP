@@ -311,7 +311,7 @@ procedure TFrmPSQCAD.DBGConsultaDblClick(Sender: TObject);
 begin
   inherited;
   if ConsultaREST.AsString <> 'A' then
-     oException(DBGConsulta,'Consulta '+ConsultaDEST.AsString+' !');
+  oException(DBGConsulta,'Consulta '+ConsultaDEST.AsString+' !');
 
   REC_SHE_DEF.Selected := (ConsultaIDCD.AsInteger > 0);
   Close;
@@ -321,9 +321,10 @@ procedure TFrmPSQCAD.DBGConsultaKeyDown(Sender: TObject;
   var Key: Word; Shift: TShiftState);
 begin
   if key = vk_escape then
-     Close else
+  Close else
+
   if key = vk_return then
-     DBGConsultaDblClick(Self);
+  DBGConsultaDblClick(Self);
 end;
 
 procedure TFrmPSQCAD.ConsultaAfterOpen(DataSet: TDataSet);

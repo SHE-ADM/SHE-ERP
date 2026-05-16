@@ -29,7 +29,7 @@ inherited FrmCAD_PRO_EDI: TFrmCAD_PRO_EDI
         Top = 0
         Width = 1011
         Height = 405
-        ActivePage = TSComposicoes
+        ActivePage = TSGrade
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText

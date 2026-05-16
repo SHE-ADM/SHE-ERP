@@ -577,7 +577,7 @@ begin
 
        { Focused }
        if (BEPSQ_CAD.Visible <> ivNever) and (_FormPesquisa) then
-           BEPSQ_CAD.SetFocus(False);
+       BEPSQ_CAD.SetFocus(False);
 
        { Pesquisa }
        //ACTPesquisa.Execute;
@@ -1518,11 +1518,7 @@ procedure TFrmSHE_DEF_PSQ.DBGConsultaKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if key = vk_return then
-  if Consulta.RecNo > 0 then
-  begin
-    REC_SHE_PSQ.PSQ_OK := True;
-    Close;
-  end;
+  DBGConsultaDblClick(Self);
 end;
 
 end.

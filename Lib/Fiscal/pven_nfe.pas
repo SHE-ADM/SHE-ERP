@@ -1183,6 +1183,8 @@ Type
     DBGEdicaoNFE_CBENEF: TdxDBGridColumn;
     TAB_CFOPCBENEF: TIBStringField;
     TAB_CFOPCBENEF_RBC: TIBStringField;
+    FIS_NFE_SUMNFE_PSBR: TIBBCDField;
+    FIS_NFE_SUMNFE_PSLQ: TIBBCDField;
 
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -1389,6 +1391,7 @@ Type
     procedure LAIDCDClick(Sender: TObject);
     procedure PECFOPValidate(Sender: TObject; var ErrorText: String;
       var Accept: Boolean);
+    procedure FIS_NFE_SUMAfterOpen(DataSet: TDataSet);
   private
     { Private declarations }
     FCurrentEvent,
@@ -2644,6 +2647,21 @@ begin
         SQL.Add('WHERE  PK.CDNF_REM = ''' + REC_SHE_DEF.DEPK + '''');
         ExecQuery;
         CECDNF.Value := Current.Vars[0].AsInteger;
+
+        if CECDNF.Value = 0 then
+        begin
+          Close;
+          SQL.Clear;
+          SQL.Add('SELECT RCDNF,TCDNF FROM SP_NFE_EMI (   ');
+          SQL.Add(''''  + RECParametros.EP_ID        + ''',');
+          SQL.Add(''''  + RECUsuarios.ID             + ''',');
+          SQL.Add(''''  + RECParametros.EP_GP_NO     + ''',');
+          SQL.Add(''''  + ACTPSQ_NFE_NUM.HelpKeyword + ''',');
+          SQL.Add(''''  + RECParametros.IP           + ''',');
+          SQL.Add(''''  + RECParametros.HOST         + ''')');
+          ExecQuery;
+          CECDNF.Value := Current.Vars[0].AsInteger; { Normal }
+        end;
       end else
       begin
         Close;
@@ -2866,6 +2884,9 @@ begin
       EdicaoNFE_QCOM.Value   := Current.ByName('UQTDE').AsCurrency;
       EdicaoNFE_RCOM.Value   := 1;
 
+      EdicaoCP_UPSBR.Value := Current.ByName('UPSBR').AsCurrency;
+      EdicaoCP_UPSLQ.Value := Current.ByName('UPSLQ').AsCurrency;
+
       EdicaoNFE_VUNPAD.Value := Current.ByName('VPRC_PAD').AsCurrency;
       EdicaoNFE_VUNCOM.Value := Current.ByName('VPRC_PAD').AsCurrency;
 
@@ -2989,7 +3010,7 @@ begin
     Close;
     SQL.Clear;
     SQL.Add('SELECT PK.ID   ,PK.IDEV,');
-    SQL.Add('PK.NFE_NITEMPED,PK.NFE_QCOM,PK.NFE_RCOM,');
+    SQL.Add('PK.NFE_NITEMPED,PK.NFE_QCOM,PK.NFE_RCOM,PK.NFE_PSBR,PK.NFE_PSLQ,');
 
     SQL.Add('CAST(''Produtos''                      AS VARCHAR(50)) AS LBL_VPROD         ,PK.NFE_VPROD,');
     SQL.Add('CAST(''Descontos''                     AS VARCHAR(50)) AS LBL_VDESC         ,PK.NFE_VDESC,');
@@ -4215,20 +4236,20 @@ begin
   SBRodape.Panels[0].Text := 'Consulta';
 
   { CABEÇALHO }
-  if FIS_NFE_ADM.State = dsInactive then
-     FIS_NFE_ADM.Open;
+  FIS_NFE_ADM.Close;
+  FIS_NFE_ADM.Open;
 
   { SUMÁRIO }
-  if FIS_NFE_SUM.State = dsInactive then
-     FIS_NFE_SUM.Open;
+  FIS_NFE_SUM.Close;
+  FIS_NFE_SUM.Open;
 
   { DUPLICATAS }
-  if FIS_NFE_DUP.State = dsInactive then
-     FIS_NFE_DUP.Open;
+  FIS_NFE_DUP.Close;
+  FIS_NFE_DUP.Open;
 
   { MÃO OBRA }
-  if FIS_NFE_MAO.State = dsInactive then
-     FIS_NFE_MAO.Open;
+  FIS_NFE_MAO.Close;
+  FIS_NFE_MAO.Open;
 end;
 
 procedure TFrmVEN_NFE.EdicaoBeforeClose(DataSet: TDataSet);
@@ -4321,6 +4342,9 @@ begin
   EdicaoNFE_UF.Value     := IEUF.Text;
   EdicaoNFE_INDTOT.Value := 1;
 
+  EdicaoCP_UPSBR.Value := 0;
+  EdicaoCP_UPSLQ.Value := 0;
+
   EdicaoIP.Value   := RECParametros.IP;
   EdicaoHOST.Value := RECParametros.HOST;
 end;
@@ -4378,6 +4402,10 @@ begin
 
   { Limpa CEST Incorreto ! }
   if EdicaoNFE_CEST.Value  = '0' then EdicaoNFE_CEST.Value := EmptyStr;
+
+  { Peso Unitário }
+  EdicaoNFE_PSBR.Value := EdicaoNFE_QCOM.Value * EdicaoCP_UPSBR.Value;
+  EdicaoNFE_PSLQ.Value := EdicaoNFE_QCOM.Value * EdicaoCP_UPSLQ.Value;
 end;
 
 procedure TFrmVEN_NFE.EdicaoAfterPost(DataSet: TDataSet);
@@ -9914,6 +9942,15 @@ begin
      (LeftStr(PECFOP.Text,1) = '3') then { NFe Importação }
 
   ACTEDI_CAD_PRO.Execute;
+end;
+
+procedure TFrmVEN_NFE.FIS_NFE_SUMAfterOpen(DataSet: TDataSet);
+begin
+  if (CECDRO.Value = 0) and (REC_SHE_DEF.TPEV = 1) then
+  begin
+    CEPSBR.Value := FIS_NFE_SUMNFE_PSBR.AsCurrency;
+    CEPSLQ.Value := FIS_NFE_SUMNFE_PSLQ.AsCurrency;
+  end;
 end;
 
 end.
