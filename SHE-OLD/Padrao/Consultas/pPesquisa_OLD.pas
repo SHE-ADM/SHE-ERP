@@ -231,6 +231,8 @@ begin
          cbdata.Items.Add('Data de Emissão do Pedido');
          cbdata.Items.Add('Data de Emissão do Romaneio');
          cbdata.Items.Add('Data de Emissão da Nota Fiscal');
+
+         cbdata.Items.Add('Data de Separação');
          cbdata.Items.Add('Data de Faturamento');
          cbdata.Items.Add('');
 
@@ -683,6 +685,8 @@ begin
             cData := 'PK.DTRO' else
          if cbDATA.Text = 'Data de Emissão da Nota Fiscal' then
             cData := 'PK.DTNF' else
+         if cbDATA.Text = 'Data de Separação' then
+            cData := 'PK.DTSP' else
          if cbDATA.Text = 'Data de Faturamento' then
             cData := 'PK.DTBX' else
          if cbDATA.Text = 'Data de Devolução' then

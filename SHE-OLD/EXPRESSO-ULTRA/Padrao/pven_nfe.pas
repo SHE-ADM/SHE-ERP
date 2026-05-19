@@ -11,7 +11,7 @@ uses
   DBCtrls, Grids, DBGrids, math, dateutils, IBStoredProc, ComCtrls,
   Registry, jpeg, rxSpeedbar, IBEvents,
   StrInt, StrIntImp, XMLDom, XMLIntf, MSXMLDom, XMLDoc, XMLXForm,
-  IDGlobal, IBSQL {Unit do componente Indy para usar Fetch() };
+  IDGlobal, IBSQL, cxGraphics, cxControls, dxStatusBar {Unit do componente Indy para usar Fetch() };
 
 type
   Tfrmven_nfe = class(TForm)
@@ -165,7 +165,6 @@ type
     dup_001NFE_STCO: TIBStringField;
     dup_001NFE_STFI: TIBStringField;
     ibSP: TIBStoredProc;
-    sbMAIN: TStatusBar;
     nfe_001NFE_METR: TIBBCDField;
     nfe_001NFE_PESO: TIBBCDField;
     nfe_001NFE_REND: TIBBCDField;
@@ -918,6 +917,7 @@ type
     IEIDEP: TdxImageEdit;
     LAIDEP: TLabel;
     SQLSEdicao: TIBSQL;
+    SBRodape: TdxStatusBar;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
@@ -1100,7 +1100,7 @@ type
 
 var
   frmven_nfe: Tfrmven_nfe;
-  pathRet,chave,protocolo: ShortString;
+  pathRet: ShortString;
   BCalc: boolean;
 
 implementation
@@ -1779,6 +1779,49 @@ begin
     oException(edcdnf,'Novo Número Selecionado !'+#13+
                       'Nota Fiscal: '+IntToStr(bRETNotaFiscal));
   end;
+
+  Protocolo := EmptyStr;
+  SBRodape.Panels[1].Text := NFeAutorizacao(PChar('C:\Sheild\NotaFiscal\NFe\lotes\' + oStrZero(strtoint(edcdnf.Text),12) + '-env-lot.xml'));
+  SBRodape.Update;
+
+  if Pos('DUP',UpperCase(SBRodape.Panels[2].Text)) > 0 then
+  begin
+    SBRodape.Panels[1].Text := '';
+    SBRodape.Panels[6].Text := 'DUP';
+    SBRodape.Update;
+    Break;
+  end else
+
+  if Pos('DEN',UpperCase(SBRodape.Panels[2].Text)) > 0 then
+  begin
+    SBRodape.Panels[1].Text := 'Autorização Negada';
+    SBRodape.Panels[6].Text := 'DEN';
+    SBRodape.Update;
+    Break;
+  end else
+
+  if Pos('CONSUMO',UpperCase(SBRodape.Panels[2].Text)) > 0 then
+  begin
+    SBRodape.Panels[1].Text := 'Consumo Indevido';
+    SBRodape.Panels[6].Text := 'CONSUMO';
+    SBRodape.Update;
+    Break;
+  end else
+
+  if (Pos('AUTORIZADO',UpperCase(SBRodape.Panels[2].Text)) > 0) or
+     (Pos('100-'      ,UpperCase(SBRodape.Panels[2].Text)) > 0) then //LeftStr(SBRodape.Panels[2].Text,3) = '103' then { Lote recebido com sucesso }
+  begin
+    SBRodape.Panels[1].Text := 'Autorizado uso de NFe';
+    SBRodape.Panels[4].Text := Trim(RightStr(SBRodape.Panels[2].Text,Length(SBRodape.Panels[2].Text) - Pos('#',SBRodape.Panels[2].Text)));
+    SBRodape.Panels[5].Text := '100';
+    SBRodape.Panels[6].Text := 'AUTO';
+    SBRodape.Update;
+    Break;
+  end;
+
+
+
+
 
   sbMAIN.Panels[1].Text := NFeAutorizacao(PChar('C:\Sheild\NotaFiscal\NFe\lotes\'+oStrZero(strtoint(edcdnf.Text),12)+'-env-lot.xml'));
 

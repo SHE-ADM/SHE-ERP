@@ -378,6 +378,7 @@ type
     Panel1: TPanel;
     GroupBox2: TGroupBox;
     EMINFADETQ: TdxMemo;
+    DBGGradeGRD_PSBR: TdxDBGridMaskColumn;
     procedure FormCreate(Sender: TObject);
     procedure SBIMG_ARTClick(Sender: TObject);
     procedure IMG_ARTDblClick(Sender: TObject);
@@ -963,6 +964,8 @@ begin
         CAD_PRO_GRDGRD_CDST.Value := Current.ByName('CDST').AsInteger;
         CAD_PRO_GRDGRD_REST.Value := Current.ByName('REST').AsString;
         CAD_PRO_GRDGRD_DEST.Value := Current.ByName('DEST').AsString;
+
+        CAD_PRO_GRDGRD_PSBR.Value := Current.ByName('MPESO').AsCurrency;
 
         { Imagem do Produto }
         Consulta.Close;
@@ -1850,6 +1853,8 @@ begin
   CAD_PRO_GRDGRD_CDST.Value := StrToInt(IECDST.Text);
   CAD_PRO_GRDGRD_REST.Value := LeftStr(IECDST.Descriptions[IECDST.Values.IndexOf(IECDST.Text)],1);
   CAD_PRO_GRDGRD_DEST.Value := IECDST.Descriptions[IECDST.Values.IndexOf(IECDST.Text)];
+
+  CAD_PRO_GRDGRD_PSBR.Value := CEPESO.Value;
 end;
 
 procedure TFrmCAD_PRO_EDI.siSAIRClick(Sender: TObject);
@@ -2070,6 +2075,16 @@ begin
     CEUQTDE.Font.Color := clWhite;
     CEUQTDE.Refresh;
   end;
+
+  with SQLSEdicao do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add('UPDATE CAD_PRO_GRD');
+    SQL.Add('SET    GRD_PSBR = ''' + oStrTran(CEPESO.Text,',','.') + '''');
+    ExecQuery;
+  end;
+  oRTransact(TSEdicao);
 end;
 
 procedure TFrmCAD_PRO_EDI.CEMetrosValidate(Sender: TObject;
@@ -2657,7 +2672,7 @@ begin
         SPEdicao.ParamByName('UQTDE_VEN_MIN').Value := CEUQTDE_VEN_MIN.Value;
         SPEdicao.ParamByName('UQTDE_EST_MIN').Value := CEUQTDE_EST_MIN.Value;
 
-        SPEdicao.ParamByName('PESO').Value := CEPESO.Value;
+        SPEdicao.ParamByName('PESO').Value := CAD_PRO_GRDGRD_PSBR.Value;
         SPEdicao.ParamByName('PSCN').Value := CEPSCN.Value;
 
         SPEdicao.ParamByName('METRO'     ).Value := CEMetros.Value;

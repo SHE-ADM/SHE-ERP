@@ -2470,7 +2470,7 @@ object FrmSobre: TFrmSobre
       Top = 4
       Width = 108
       Height = 17
-      Caption = 'SHE-ERP-OLD-PSU'
+      Caption = 'SHE-ERP-OLD-NFE'
       Color = clInfoBk
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -2485,7 +2485,7 @@ object FrmSobre: TFrmSobre
       Top = 20
       Width = 101
       Height = 17
-      Caption = '16/05/2026 09:45'
+      Caption = '19/05/2026 07:19'
       Color = clInfoBk
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -2584,7 +2584,7 @@ object FrmSobre: TFrmSobre
       Font.Name = 'Segoe UI Semibold'
       Font.Style = [fsBold, fsItalic]
       Lines.Strings = (
-        'Gatilho de c'#225'lculo do peso unit'#225'rio')
+        'NFe - Transmiss'#227'o ass'#237'ncrona de arquivo xml')
       ParentFont = False
       TabOrder = 0
     end

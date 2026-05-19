@@ -3588,9 +3588,9 @@ end;
 procedure TFrmVEN_NFE.ACTMPValidateExecute(Sender: TObject);
 begin
   if oYesNo(handle,'Salvar Nota Fiscal ?') = mrYes then
-  if SBRodape.Panels[6].Text <> 'DUP' then { TIPO RETORNO }
+  if (SBRodape.Panels[6].Text <> 'DUP') and (SBRodape.Panels[6].Text <> 'CONSUMO') then { TIPO RETORNO }
   oException(Nil,'Falha ao tentar salvar nota fiscal !' + #13 +
-                 'Nota fiscal sem duplicidade de emissão confirmada.') else
+                 'Permitido apenas para nfs com duplicidade ou consumo indevido.') else
   begin
     SBRodape.Panels[5].Text := '100';
     ACTMPPost.Execute;
@@ -7968,6 +7968,7 @@ begin
     SBRodape.Panels[2].Text := EmptyStr;
     SBRodape.Panels[4].Text := EmptyStr; { Protocolo }
     SBRodape.Panels[5].Text := EmptyStr; { CSTAT     }
+    SBRodape.Panels[6].Text := EmptyStr; { Retorno   }
     SBRodape.Update;
 
     repeat
@@ -7978,51 +7979,81 @@ begin
       Break;
 
       Application.ProcessMessages;
-      SleepEx(1000,False);
-    until y = 5;
+      SleepEx(2000,False);
+    until y = 2;
 
     if x = 1 then
     begin
-      SBRodape.Panels[1].Text := 'Lote gerado com sucesso ! Aguardando autorização do sefaz ...';
+      SBRodape.Panels[2].Text := 'Lote gerado com sucesso ! Aguardando autorização do sefaz ...';
       SBRodape.Update;
 
       y := 0;
       repeat
         inc(y);
-        SBRodape.Panels[1].Text :=  NFeAutorizacao(PChar('C:\Sheild\NotaFiscal\NFe\lotes\'+oStrZero(Trunc(CECDNF.Value),12) + '-env-lot.xml'));
+        SBRodape.Panels[2].Text :=  NFeAutorizacao(PChar('C:\Sheild\NotaFiscal\NFe\lotes\'+oStrZero(Trunc(CECDNF.Value),12) + '-env-lot.xml'));
         SBRodape.Update;
 
-        if LeftStr(SBRodape.Panels[1].Text,3) = '103' then { Lote recebido com sucesso }
+        if Pos('DUP',UpperCase(SBRodape.Panels[2].Text)) > 0 then
         begin
-          SBRodape.Panels[4].Text := Trim(RightStr(SBRodape.Panels[1].Text,Length(SBRodape.Panels[1].Text) - Pos('#',SBRodape.Panels[1].Text)));
+          SBRodape.Panels[1].Text := '';
+          SBRodape.Panels[6].Text := 'DUP';
+          SBRodape.Update;
+          Break;
+        end else
+
+        if Pos('DEN',UpperCase(SBRodape.Panels[2].Text)) > 0 then
+        begin
+          SBRodape.Panels[1].Text := 'Autorização Negada';
+          SBRodape.Panels[6].Text := 'DEN';
+          SBRodape.Update;
+          Break;
+        end else
+
+        if Pos('CONSUMO',UpperCase(SBRodape.Panels[2].Text)) > 0 then
+        begin
+          SBRodape.Panels[1].Text := 'Consumo Indevido';
+          SBRodape.Panels[6].Text := 'CONSUMO';
+          SBRodape.Update;
+          Break;
+        end else
+
+        if (Pos('AUTORIZADO',UpperCase(SBRodape.Panels[2].Text)) > 0) or
+           (Pos('100-'      ,UpperCase(SBRodape.Panels[2].Text)) > 0) then //LeftStr(SBRodape.Panels[2].Text,3) = '103' then { Lote recebido com sucesso }
+        begin
+          SBRodape.Panels[1].Text := 'Autorizado uso de NFe';
+          SBRodape.Panels[4].Text := Trim(RightStr(SBRodape.Panels[2].Text,Length(SBRodape.Panels[2].Text) - Pos('#',SBRodape.Panels[2].Text)));
+          SBRodape.Panels[5].Text := '100';
+          SBRodape.Panels[6].Text := 'AUTO';
           SBRodape.Update;
           Break;
         end;
 
         Application.ProcessMessages;
-        SleepEx(1000,False);
-      until y = 5;
+        SleepEx(2000,False);
+      until y = 2;
     end else
 
     if x = -1 then
-    SBRodape.Panels[1].Text := 'Falha na geração do lote' else
+    oException(Nil,'Falha na geração do lote') else
 
     if x = 0 then
-    SBRodape.Panels[1].Text := 'Operação Cancelada' else
+    oException(Nil,'Operação Cancelada') else
 
     if x = 2 then
-    SBRodape.Panels[1].Text := 'Não existe(m) arquivo(s) assinado(s)';
+    oException(Nil,'Não existe(m) arquivo(s) assinado(s)');
 
     if SBRodape.Panels[4].Text = EmptyStr then { PROTOCOLO }
     begin
       ACTNFeEdicao.Execute;
+
+      if (SBRodape.Panels[6].Text <> 'AUTO') and (SBRodape.Panels[6].Text <> 'DEN') then
       oException(Nil,'Falha na autorização do lote enviado !' + #13 +
-                     'Tente novamente clicando no botão validar.');
+                      SBRodape.Panels[2].Text) else
+
     end;
 
   finally
     Screen.cursor := crDefault;
-    Application.ProcessMessages;
   end;
 end;
 
@@ -8108,8 +8139,8 @@ begin
 
         SBRodape.Panels[2].Text := 'Tentativa(s): ' + INTTOSTR(Y);
         Application.ProcessMessages;
-        SleepEx(1000,False);
-      until y = 5;
+        SleepEx(2000,False);
+      until y = 2;
 
     finally
       if (SBRodape.Panels[2].Text <> EmptyStr) and (Pos(SBRodape.Panels[5].Text,'100110150') = 0) then
@@ -8151,6 +8182,10 @@ procedure TFrmVEN_NFE.ACTXMLSendExecute(Sender: TObject);
 var
   y: Word;
 begin
+  { VER NOTA FISCAL EXISTE }
+  if uPSQ_NFE_REG(RECParametros.EP_GP_NO,CECDNF.Text) then
+  oException(Nil,'Número da nota fiscal já emitida !');
+
   { CHECK }
   ACTCheckConstraints.Execute;
   ACTCheckErrors.Execute;
@@ -8163,11 +8198,7 @@ begin
   y := 0;
 
   ACTXMLLoteCreate.Execute;  { Gera e Envia Lote }
-  ACTXMLLoteRetorno.Execute; { Pesquisa Lote Retornado }
-
-  { VER NOTA FISCAL EXISTE }
-  if uPSQ_NFE_REG(RECParametros.EP_GP_NO,CECDNF.Text) then
-  oException(Nil,'Número da nota fiscal já emitida !');
+  //ACTXMLLoteRetorno.Execute; { Pesquisa Lote Retornado }
 
   { Consulta Protocolo }
   repeat
@@ -8182,8 +8213,8 @@ begin
     Break;
 
     Application.ProcessMessages;
-    SleepEx(1000,False);
-  until y = 5;
+    SleepEx(2000,False);
+  until y = 2;
 
   SBRodape.Panels[1].Text := EmptyStr;
   SBRodape.Update;
@@ -9378,10 +9409,10 @@ begin
           end;
 
           Application.ProcessMessages;
-          SleepEx(1000,False);
+          SleepEx(2000,False);
 
           inc(i);
-        until i = 5;
+        until i = 2;
       end;
 
       if not FileExists(EDXML.Text) then
@@ -9407,10 +9438,10 @@ begin
         end;
 
         Application.ProcessMessages;
-        SleepEx(1000,False);
+        SleepEx(2000,False);
 
         inc(i);
-      until i = 5;
+      until i = 2;
 
       if (FileExists(EDXML.Text)) and (RECParametros.SHE_PATH_LAN <> EmptyStr) then
       begin
