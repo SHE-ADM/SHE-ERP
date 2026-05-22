@@ -463,6 +463,7 @@ begin
     AddStatus('DUIMP CSRF expira..: ' + FClient.Session.CsrfExpiration);
     
     ScrollMemoToTop;
+    BTNAutentica.Enabled := False;
   except
     on E: Exception do
     begin
@@ -520,6 +521,16 @@ begin
     if LNumeroDuimp = '' then raise Exception.Create('Informe o numero da DUIMP em EditNumeroDuimp.');
     if LVersaoDuimp <= 0 then raise Exception.Create('Informe a versao da DUIMP em EditVersaoDuimp.');
 
+    // CORREÇÃO 1: Zera os componentes de volume e valores no início para evitar lixo de notas anteriores
+    if Assigned(CEQVOL) then CEQVOL.Value := 0;
+    if Assigned(EditESP) then EditESP.Text := '';
+    if Assigned(EditMarca) then EditMarca.Text := '';
+    if Assigned(CEPESOL) then CEPESOL.Value := 0;
+    if Assigned(CEPESOB) then CEPESOB.Value := 0;
+    if Assigned(CEVAFRMM) then CEVAFRMM.Value := 0;
+    if Assigned(CEVTAXASISCOMEX) then CEVTAXASISCOMEX.Value := 0;
+    if Assigned(MemoinfCpl) then MemoinfCpl.Clear;
+
     LEndpoint := 'https://portalunico.siscomex.gov.br/duimp-api/api/ext/duimp/' + LNumeroDuimp + '/' + IntToStr(LVersaoDuimp);
 
     AddStatus('DUIMP - CONSULTA GERAL');
@@ -534,13 +545,8 @@ begin
 
     if not Assigned(LRoot) then raise Exception.Create('Retorno da DUIMP nao e um JSON valido.');
 
-    // Zera os componentes de volume para evitar lixo de notas anteriores
-    if Assigned(CEQVOL) then CEQVOL.Value := 0;
-    if Assigned(EditESP) then EditESP.Text := '';
-    if Assigned(EditMarca) then EditMarca.Text := '';
-
     // -------------------------------------------------------------------------
-    // TAXA SISCOMEX E PREENCHIMENTO DO MemoinfCpl
+    // TAXA SISCOMEX
     // -------------------------------------------------------------------------
     ValorSiscomex := 0;
 
@@ -578,20 +584,6 @@ begin
 
     if Assigned(CEVTAXASISCOMEX) then
       CEVTAXASISCOMEX.Value := ValorSiscomex;
-
-    if Assigned(MemoinfCpl) then
-    begin
-      TextoInfCpl := 'Duimp: ' + LNumeroDuimp + '. ';
-      if ValorSiscomex > 0 then
-        TextoInfCpl := TextoInfCpl + 'Taxa Siscomex: ' + FormatFloat('0.00', ValorSiscomex) + '. ';
-
-      ValorAFRMM := CEVAFRMM.Value;
-
-      if ValorAFRMM > 0 then
-        TextoInfCpl := TextoInfCpl + 'Afrmm: ' + FormatFloat('0.00', ValorAFRMM) + '. ';
-
-      MemoinfCpl.Text := Trim(TextoInfCpl);
-    end;
 
     // Output das informacoes lidas
     AddStatus('identificacao');
@@ -875,6 +867,27 @@ begin
             end;
           end;
 
+          // ----------------- AFRMM CORREÇÃO 1 -----------------
+          if Pos('AFRMM:', UpperLinha) > 0 then
+          begin
+            AuxStr := Trim(Copy(UpperLinha, Pos(':', UpperLinha) + 1, Length(UpperLinha)));
+            AuxStr := StringReplace(AuxStr, 'R$', '', [rfReplaceAll, rfIgnoreCase]);
+            NumStr := '';
+            
+            for J_str := 1 to Length(AuxStr) do
+            begin
+              if AuxStr[J_str] in ['0'..'9', '.', ','] then NumStr := NumStr + AuxStr[J_str]
+              else if NumStr <> '' then Break;
+            end;
+            
+            if (NumStr <> '') and Assigned(CEVAFRMM) and (CEVAFRMM.Value = 0) then
+            begin
+              NumStr := StringReplace(NumStr, '.', '', [rfReplaceAll]);
+              NumStr := StringReplace(NumStr, ',', DecimalSeparator, [rfReplaceAll]);
+              CEVAFRMM.Value := StrToFloatDef(NumStr, 0);
+            end;
+          end;
+
         end;
         
         // Aplica o fallback da espécie residual caso não tenha encontrado a tag explícita "ESPECIE:"
@@ -887,6 +900,22 @@ begin
       end;
     end;
     // =========================================================================
+
+    // CORREÇÃO 2: MONTAGEM DO MemoinfCpl MOVIDA PARA O FINAL (Após todas as varreduras preencherem os componentes)
+    if Assigned(MemoinfCpl) then
+    begin
+      TextoInfCpl := 'Duimp: ' + LNumeroDuimp + '. ';
+      
+      if Assigned(CEVTAXASISCOMEX) then ValorSiscomex := CEVTAXASISCOMEX.Value else ValorSiscomex := 0;
+      if ValorSiscomex > 0 then
+        TextoInfCpl := TextoInfCpl + 'Taxa Siscomex: ' + FormatFloat('0.00', ValorSiscomex) + '. ';
+
+      if Assigned(CEVAFRMM) then ValorAFRMM := CEVAFRMM.Value else ValorAFRMM := 0;
+      if ValorAFRMM > 0 then
+        TextoInfCpl := TextoInfCpl + 'Afrmm: ' + FormatFloat('0.00', ValorAFRMM) + '. ';
+
+      MemoinfCpl.Text := Trim(TextoInfCpl);
+    end;
 
     AddStatus('');
     AddStatus('RETORNO JSON ORIGINAL');
@@ -975,12 +1004,35 @@ var
   var T: string;
   begin T := Trim(S); if Length(T) >= 10 then Result := Copy(T, 1, 10) else Result := T; end;
 
+  // Modificado de forma robusta e similar a rotina oficial de itens
   function FloatTextLocal(const S: string): Double;
-  var T: string;
+  var T: string; I, PontoCount, VirgCount, PosUltPonto, PosUltVirg: Integer; DecSep: Char;
   begin
-    T := Trim(S);
-    T := StringReplace(T, '.', DecimalSeparator, [rfReplaceAll]);
-    T := StringReplace(T, ',', DecimalSeparator, [rfReplaceAll]);
+    Result := 0; T := Trim(S); if T = '' then Exit;
+    T := StringReplace(T, 'R$', '', [rfReplaceAll, rfIgnoreCase]);
+    T := StringReplace(T, ' ', '', [rfReplaceAll]);
+    PontoCount := 0; VirgCount := 0; PosUltPonto := 0; PosUltVirg := 0;
+    for I := 1 to Length(T) do begin
+      if T[I] = '.' then begin Inc(PontoCount); PosUltPonto := I; end
+      else if T[I] = ',' then begin Inc(VirgCount); PosUltVirg := I; end;
+    end;
+    if (PontoCount > 0) and (VirgCount > 0) then begin
+      if PosUltVirg > PosUltPonto then begin
+        T := StringReplace(T, '.', '', [rfReplaceAll]);
+        T := StringReplace(T, ',', DecimalSeparator, [rfReplaceAll]);
+      end else begin
+        T := StringReplace(T, ',', '', [rfReplaceAll]);
+        T := StringReplace(T, '.', DecimalSeparator, [rfReplaceAll]);
+      end;
+    end else if VirgCount > 0 then T := StringReplace(T, ',', DecimalSeparator, [rfReplaceAll])
+    else if PontoCount > 0 then begin
+      if PontoCount = 1 then T := StringReplace(T, '.', DecimalSeparator, [rfReplaceAll])
+      else begin
+        DecSep := DecimalSeparator;
+        for I := Length(T) downto 1 do if T[I] = '.' then begin T[I] := DecSep; Break; end;
+        T := StringReplace(T, '.', '', [rfReplaceAll]);
+      end;
+    end;
     Result := StrToFloatDef(T, 0);
   end;
 
@@ -1559,10 +1611,13 @@ begin
     DuimpERPPreencherConfigNFe(Self, NumeroDuimp, TranspCNPJ, TranspNome, TranspIE, TranspEnder, TranspMun, TranspUF, ConfigNFe);
     
     // =========================================================================
-    // FORÇAR VALORES DE TELA PARA A TAG <vol> NA GERAÇÃO DO XML
+    // FORÇAR VALORES DE TELA PARA A TAG <vol> NA GERAÇÃO DO XML COM TRATATIVA (CORREÇÃO 2)
     // =========================================================================
-    if Assigned(CEQVOL) and (CEQVOL.Value > 0) then
-      ConfigNFe.TranspQVol := Trunc(CEQVOL.Value);
+    if Assigned(CEQVOL) then
+    begin
+      if CEQVOL.Value > 0 then ConfigNFe.TranspQVol := Trunc(CEQVOL.Value)
+      else ConfigNFe.TranspQVol := Trunc(FloatTextLocal(CEQVOL.Text));
+    end;
 
     if Assigned(EditESP) and (Trim(EditESP.Text) <> '') then
       ConfigNFe.TranspEsp := Trim(EditESP.Text);
@@ -1570,11 +1625,17 @@ begin
     if Assigned(EditMarca) and (Trim(EditMarca.Text) <> '') then
       ConfigNFe.TranspMarca := Trim(EditMarca.Text);
 
-    if Assigned(CEPESOL) and (CEPESOL.Value > 0) then
-      ConfigNFe.TranspPesoL := CEPESOL.Value;
+    if Assigned(CEPESOL) then
+    begin
+      if CEPESOL.Value > 0 then ConfigNFe.TranspPesoL := CEPESOL.Value
+      else ConfigNFe.TranspPesoL := FloatTextLocal(CEPESOL.Text);
+    end;
 
-    if Assigned(CEPESOB) and (CEPESOB.Value > 0) then
-      ConfigNFe.TranspPesoB := CEPESOB.Value;
+    if Assigned(CEPESOB) then
+    begin
+      if CEPESOB.Value > 0 then ConfigNFe.TranspPesoB := CEPESOB.Value
+      else ConfigNFe.TranspPesoB := FloatTextLocal(CEPESOB.Text);
+    end;
     // =========================================================================
 
     DuimpERPPreencherEmitenteNFe(Self, EmitenteNFe);

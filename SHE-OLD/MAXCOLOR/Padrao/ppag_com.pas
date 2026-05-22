@@ -404,9 +404,6 @@ begin
   begin
    self.Height := screen.Height;
    self.Width  :=  screen.Width;
-
-   if frmprincipal.pnbot.Visible then
-      self.Height := self.Height - frmprincipal.pnbot.Height;
   end;
 end;
 

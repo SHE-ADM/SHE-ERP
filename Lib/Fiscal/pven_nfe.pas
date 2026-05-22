@@ -7806,7 +7806,7 @@ begin
     tTotal[47] := ''; //vICMSMonoRet
 
     { NRT - NOVA REFORMA TRIBUTÁRIA }
- //   if EdicaoNFE_IBSCBS_CSTIS.AsString = '000' then
+    if EdicaoNFE_IBSCBS_CSTIS.AsString <> '' then
     begin
       //<ISTot> Grupo total do imposto seletivo
       tTotal[48] := ''; //<vIS> Total do Imposto Seletivo

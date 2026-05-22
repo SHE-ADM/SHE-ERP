@@ -377,7 +377,7 @@ object frmrelatorio_geral: Tfrmrelatorio_geral
         CalColors.TitleBackColor = clTeal
         CalColors.TitleTextColor = clBlack
         CalColors.TrailingTextColor = clSilver
-        Date = 0.458780254630255500
+        Date = 0.640868969909206500
         FirstDayOfWeek = dowSunday
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
@@ -415,7 +415,7 @@ object frmrelatorio_geral: Tfrmrelatorio_geral
         CalColors.TitleBackColor = clTeal
         CalColors.TitleTextColor = clBlack
         CalColors.TrailingTextColor = clSilver
-        Date = 0.458780254630255500
+        Date = 0.640868969909206500
         FirstDayOfWeek = dowSunday
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText

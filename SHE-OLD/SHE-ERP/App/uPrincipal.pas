@@ -462,7 +462,7 @@ procedure uCAD_PRO_EST_LAN_UPD(ATHR_TB_PK: String;
                                FTHR_PK_ID,
                                FTHR_CP_ID: String); STDCALL;
 
-procedure uSP_CAD_PRO_EST_LAN(ASPEdicao: TIBStoredProc; AEP_ID: Variant; ACP_ID: Variant);
+procedure uSP_CAD_PRO_EST_LAN(ASPEdicao: TIBStoredProc; AEP_ID: Variant; ACP_ID: Variant; AEvento: word = 0);
 
 { OLD PROCEDURE }
 procedure uConstrucao(ACaption: String = ''); STDCall;
@@ -767,14 +767,14 @@ begin
   end;
 end;
 
-procedure uSP_CAD_PRO_EST_LAN(ASPEdicao: TIBStoredProc; AEP_ID: Variant; ACP_ID: Variant);
+procedure uSP_CAD_PRO_EST_LAN(ASPEdicao: TIBStoredProc; AEP_ID: Variant; ACP_ID: Variant; AEvento: word = 0);
 begin
   ASPEdicao.StoredProcName := 'SP_CAD_PRO_EST_LAN';
   ASPEdicao.Prepare;
 
   ASPEdicao.ParamByName('AEP_ID').Value := AEP_ID;
   ASPEdicao.ParamByName('ACP_ID').Value := ACP_ID;
-  ASPEdicao.ParamByName('AIDEV' ).Value := 0;
+  ASPEdicao.ParamByName('AIDEV' ).Value := AEvento;
 
   ASPEdicao.ExecProc;
   ASPEdicao.UnPrepare;

@@ -1161,4 +1161,9 @@ object FrmLogin: TFrmLogin
     Left = 312
     Top = 8
   end
+  object SQLEdicao: TIBSQL
+    Database = dmDADOS.ibDB
+    Left = 176
+    Top = 8
+  end
 end

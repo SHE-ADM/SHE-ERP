@@ -153,6 +153,9 @@ type
     QRLabel5: TQRLabel;
     SQLEdicao: TIBSQL;
     romanCLI_ESTA: TIBStringField;
+    romanROM_VDSC: TIBBCDField;
+    QRLabel7: TQRLabel;
+    QRDBText1: TQRDBText;
     procedure QuickRepAfterPrint(Sender: TObject);
     procedure ItemVendaBeforePrint(Sender: TQRCustomBand;
       var PrintBand: Boolean);

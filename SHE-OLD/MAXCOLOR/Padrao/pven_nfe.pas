@@ -1201,16 +1201,6 @@ uses uPrincipal, bDados,
 
 procedure Tfrmven_nfe.FormCreate(Sender: TObject);
 begin
-  if Screen.Width <= 1366 then
-  begin
-    FrmPrincipal.pnCustomize.Visible := False;
-    if FrmPrincipal.pnbot.Visible then
-    begin
-      FrmPrincipal.pnbot.Visible := False;
-      FrmPrincipal.pnbot.Tag     := 1;
-    end;
-  end;
-
   Screen.Cursor  := crAppStart;
   InfAd := TStringList.Create;
 
@@ -1419,7 +1409,6 @@ begin
   if (Showing) and ((HelpContext = 0) or (HelpContext = 1)) then
   begin
     { Definição sobre o Painel de utilitários do form principal }
-    FrmPrincipal.PNBot.Visible := (Screen.Height > 768);
     HelpContext := IFThen((Screen.Width > 1280),0,1);
 
     { Ajusta o Form para o tamanho da area livre do MainForm }
@@ -1756,8 +1745,6 @@ begin
 end;
 
 procedure Tfrmven_nfe.BTraClick(Sender: TObject);
-var
-  x: word;
 begin
   ActiveControl := Nil;
   if not uPSQNotaFiscal(edcdnf.Text) then
@@ -1768,28 +1755,14 @@ begin
   end;
 
   sbMAIN.Panels[1].Text := NFeAutorizacao(PChar('C:\Sheild\NotaFiscal\NFe\lotes\'+oStrZero(strtoint(edcdnf.Text),12)+'-env-lot.xml'));
+  sbMAIN.Update;
+  SleepEx(1000,False);
 
-  for x := 1 to length(sbMAIN.Panels[1].Text) do
-  begin
-    if copy(sbMAIN.Panels[1].Text,x,1) = '#' then
-    break;
-  end;
-  inc(x);
-  protocolo := TRIM(copy(sbMAIN.Panels[1].Text,x,length(sbMAIN.Panels[1].Text)));
-
-  if (copy(sbMAIN.Panels[1].Text,1,3) <> '103') or (protocolo = '') then
-  begin
-    EDITAR;
-    oException(Nil,'Falha no recebimento do lote !'+#13+
-                   'Tente Novamente.');
-  end;
-
-  SleepEx(500,False);
   frmven_npr                 := Tfrmven_npr.Create(self);
   frmven_npr.Caption         := 'Transmissão de NFe';
   frmven_npr.edchv.Text      := copy(chave,4,100);
   frmven_npr.edpro.Text      := TRIM(protocolo);
-  frmven_npr.edConsulta.Text := NfeRetAutorizacao(PChar(frmven_npr.edpro.Text));
+  frmven_npr.edConsulta.Text := copy(chave,4,100);
 
   try
     frmven_npr.ShowModal;

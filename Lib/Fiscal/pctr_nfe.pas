@@ -943,6 +943,28 @@ begin
 
          SQL.Add('WHERE  ID = ''' + CadastroId.AsString + '''');
          ExecQuery;
+
+         if CadastroCSTAT.AsInteger = 217 then
+         begin
+           { USUÁRIO }
+           Close;
+           SQL.Clear;
+           SQL.Add('UPDATE NFE_ITE');
+           SQL.Add('SET    CDNF = ''' + CadastroNFE_CDNF.AsString + '''');
+           SQL.Add('WHERE  IDCA = ''' + RECUsuarios.ID            + '''');
+           ExecQuery;
+
+           { EMISSOR }
+           if CadastroNFE_CVEN.AsInteger > 0 then
+           begin
+             Close;
+             SQL.Clear;
+             SQL.Add('UPDATE NFE_ITE');
+             SQL.Add('SET    CDNF = ''' + CadastroNFE_CDNF.AsString + '''');
+             SQL.Add('WHERE  IDCA = ''' + CadastroNFE_CVEN.AsString + '''');
+             ExecQuery;
+           end;  
+         end;
        end;
 
        oCTransact(TEdicao);

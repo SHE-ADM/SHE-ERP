@@ -1126,7 +1126,6 @@ begin
   if (Showing) and ((HelpContext = 0) or (HelpContext = 1)) then
   begin
     { Definição sobre o Painel de utilitários do form principal }
-    FrmPrincipal.PNBot.Visible := (Screen.Height > 768);
     HelpContext := IFThen((Screen.Height > 768),0,1);
 
     { Ajusta o Form para o tamanho da area livre do MainForm }

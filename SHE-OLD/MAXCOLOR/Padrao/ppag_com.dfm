@@ -250,6 +250,7 @@ object frmpag_com: Tfrmpag_com
     0000000000000000000000000000}
   KeyPreview = True
   OldCreateOrder = False
+  Position = poDefault
   Visible = True
   OnClose = FormClose
   OnCreate = FormCreate

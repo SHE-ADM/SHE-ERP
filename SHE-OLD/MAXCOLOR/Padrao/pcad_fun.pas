@@ -261,9 +261,6 @@ begin
     Top     := 50;
     Width   := Screen.Width-15;
 
-    if frmprincipal.pnbot.Visible then
-       Top := frmprincipal.ToolBar1.Height+53;
-
     if Top <= 50 then
        Height := frmprincipal.pnCustomize.Height+3
     else

@@ -1510,16 +1510,6 @@ begin
     cad_usu.ParamByName('USU_CUSU').AsString := frmlogin.cad_usuUSU_CUSU.AsString;
     cad_usu.Open;
 
-    WITH CONSULTA DO
-    BEGIN
-      Close;
-      SQL.Clear;
-      SQL.Add('UPDATE CAD_USU');
-      SQL.Add('SET    USU_DULT = ''' + FormatDateTime('mm/dd/yy hh:mm',Now) + '''');
-      SQL.Add('WHERE  ID       = ''' + Frmlogin.CAD_USUID.AsString          + '''');
-      ExecSQL;
-    end;
-
     frmlogin.TCadastro.Commit;
   end;
 end;
@@ -2100,6 +2090,17 @@ begin
 
     Aweek_start_date := Fields[0].AsDateTime;
     Aweek_end_date   := Fields[1].AsDateTime;
+
+    Close;
+    SQL.Clear;
+    SQL.Add('UPDATE CAD_USU');
+    SQL.Add('SET    USU_DULT     = ''' + FormatDateTime('mm/dd/yy hh:mm',Now) + ''',');
+    SQL.Add('       USU_IDFILIAL = ''' + ParametrosID.AsString                + ''',');
+    SQL.Add('       USU_DEFILIAL = ''' + ParametrosPAR_FANT.AsString          + '''' );
+    SQL.Add('WHERE  ID           = ''' + CAD_USUID.AsString                   + '''' );
+    ExecSQL;
+
+    IBTra.CommitRetaining;
   end;
 
   with par_pri do
@@ -2220,7 +2221,10 @@ begin
   end;
 
   SBRodape.Panels[0].Text := ParametrosPAR_FANT.AsString;
-  carregaFoto(parametrosPAR_FOTO.BlobSize,parametrosPAR_FOTO,parametros)
+  carregaFoto(parametrosPAR_FOTO.BlobSize,parametrosPAR_FOTO,parametros);
+
+  RECParametros.IP   := IP.LocalIP;
+  RECParametros.Host := oGetPCNome;
 end;
 
 procedure TFrmPrincipal.actlog_usuExecute(Sender: TObject);

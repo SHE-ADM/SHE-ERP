@@ -8,7 +8,7 @@ uses
   Dialogs,  ExtCtrls, ImgList, StdCtrls, dxCntner, dxTL, dxDBCtrl,
   dxDBGrid, IBStoredProc, DB, IBCustomDataSet,
   IBQuery, IBDatabase, dxDBTLCl, dxGrClms, dxEdLib, dxExEdtr, Menus,
-  rxSpeedbar;
+  rxSpeedbar, math, StrUtils;
 
 type
   Tfrmcai_mov = class(TForm)
@@ -111,8 +111,15 @@ type
     procedure siBANClick(Sender: TObject);
     procedure AcertodeCaixa1Click(Sender: TObject);
     procedure siREFClick(Sender: TObject);
+    procedure FormPaint(Sender: TObject);
+    procedure FormResize(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
+    FrmStyle   : TFormStyle;
+    FrmPosition: TPosition;
+
     procedure AJUSTAFORM;
   public
     { Public declarations }
@@ -139,9 +146,6 @@ begin
     Left    := 7;
     Top     := 50;
     Width   := Screen.Width-15;
-
-    if frmprincipal.pnbot.Visible then
-       Top := frmprincipal.ToolBar1.Height+53;
 
     if Top <= 50 then
        Height := frmprincipal.pnCustomize.Height+3
@@ -838,6 +842,67 @@ begin
   if (wRec = Nil) or (cai_laf.Fields[0].IsNull) then cai_laf.last
   else cai_laf.GotoBookmark(wRec);
        cai_laf.FreeBookmark(wRec);
+end;
+
+procedure Tfrmcai_mov.FormPaint(Sender: TObject);
+var
+  R: TRect;
+begin
+  if (Showing) and ((HelpContext = 0) or (HelpContext = 1)) then
+  begin
+    { Definição sobre o Painel de utilitários do form principal }
+    HelpContext := IFThen((Screen.Height > 768),0,1);
+
+    { Ajusta o Form para o tamanho da area livre do MainForm }
+    GetWindowRect(FrmPrincipal.ClientHandle,R);
+
+    if FrmPosition = poDefault then
+    begin
+      if (AlphaBlendValue = 0) and (HelpContext = 0) then
+      begin
+        { Width padrão acima de 768 = 1032 }
+        Height := Trunc((R.Bottom - R.Top) * 0.9);
+        Top    := ((R.Bottom - R.Top ) - Height) div 2;
+        Left   := ((R.Right  - R.Left) - Width ) div 2;
+      end else
+      begin
+        Top    := IFThen(FrmStyle    = fsNormal ,R.Top ,0);
+        Left   := IFThen(FrmStyle    = fsNormal ,R.Left,0);
+        Width  := IFThen(FrmPosition = poDefault,R.Right -R.Left-5,0);
+        Height := IFThen(FrmPosition = poDefault,R.Bottom-R.Top -5,0);
+      end;
+    end else
+    begin
+      if FrmStyle = fsNormal then
+      begin
+        Top  := R.Top + ((R.Bottom - R.Top ) - Height) div 2;
+        Left :=         ((R.Right  + R.Left) - Width ) div 2;
+      end else
+      begin
+        Top  := ((R.Bottom - R.Top ) - Height) div 2;
+        Left := ((R.Right  - R.Left) - Width ) div 2;
+      end;
+    end;
+  end;
+end;
+
+procedure Tfrmcai_mov.FormResize(Sender: TObject);
+begin
+  if Self <> Nil then
+  Paint;
+end;
+
+procedure Tfrmcai_mov.FormDestroy(Sender: TObject);
+begin
+  oFTransact(IBTRA);
+end;
+
+procedure Tfrmcai_mov.FormShow(Sender: TObject);
+begin
+  OnShow := Nil;
+  { Herança }
+  FrmStyle    := FormStyle;
+  FrmPosition := Position;
 end;
 
 end.

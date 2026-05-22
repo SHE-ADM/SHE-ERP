@@ -476,7 +476,7 @@ object Form1: TForm1
           Style.ButtonStyle = btsFlat
           Style.Shadow = False
           TabOrder = 0
-          Text = '26BR00004863403'
+          Text = '26BR00005029644'
           CharCase = ecUpperCase
         end
         object EditVersaoDuimp: TdxEdit

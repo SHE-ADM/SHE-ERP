@@ -134,6 +134,7 @@ type
     ven_efeC_QTDE: TStringField;
     QRLabel5: TQRLabel;
     SQLEdicao: TIBSQL;
+    romanROM_VDSC: TIBBCDField;
     procedure QuickRepAfterPrint(Sender: TObject);
     procedure ItemVendaBeforePrint(Sender: TQRCustomBand;
       var PrintBand: Boolean);

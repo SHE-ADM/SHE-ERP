@@ -479,6 +479,16 @@ begin
       end;
 
       oCTransact(TEdicao);
+
+      { ATUALIZA ESTOQUE }
+      uCAD_PRO_EST_LAN_UPD(oREPZero('PED_PRG_ITE','_',RECParametros.EP_ID,3),
+                           RECParametros.EP_ID   ,
+                           CadastroIDPK.AsString ,
+
+                           'EP_ID',
+                           'IDPK' ,
+                           'CP_ID');
+
       oAviso(handle,'Programação Cancelada com Sucesso !');
       oRefresh(Cadastro);
     except
@@ -521,6 +531,16 @@ begin
 
       oCTransact(TEdicao);
       oAviso(handle,'Programação re-aberta com sucesso !');
+
+      { ATUALIZA ESTOQUE }
+      uCAD_PRO_EST_LAN_UPD(oREPZero('PED_PRG_ITE','_',RECParametros.EP_ID,3),
+                           RECParametros.EP_ID   ,
+                           CadastroIDPK.AsString ,
+
+                           'EP_ID',
+                           'IDPK' ,
+                           'CP_ID');
+
       oRefresh(Cadastro);
     except
       on E: Exception do
@@ -565,8 +585,8 @@ begin
 
       { ATUALIZA ESTOQUE }
       uCAD_PRO_EST_LAN_UPD(oREPZero('PED_PRG_ITE','_',RECParametros.EP_ID,3),
-                           RECParametros.EP_ID ,
-                           CadastroIDPK.AsString,
+                           RECParametros.EP_ID   ,
+                           CadastroIDPK.AsString ,
 
                            'EP_ID',
                            'IDPK' ,
