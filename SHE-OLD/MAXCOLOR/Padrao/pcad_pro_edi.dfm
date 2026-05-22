@@ -355,7 +355,7 @@ inherited frmcad_pro_edi: Tfrmcad_pro_edi
       TabOrder = 10
       object edcbar: TACBrBarCode
         Left = 17
-        Top = 24
+        Top = 32
         Width = 192
         Height = 81
         Modul = 2
@@ -383,7 +383,7 @@ inherited frmcad_pro_edi: Tfrmcad_pro_edi
         Top = 1
         Width = 608
         Height = 397
-        ActivePage = TSMedidas
+        ActivePage = TSGrade
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -401,6 +401,202 @@ inherited frmcad_pro_edi: Tfrmcad_pro_edi
         TabOrder = 1
         TabPosition = dxtpTop
         TabWidth = 0
+        object TSGrade: TdxTabSheet
+          Caption = 'Grade'
+          object SpeedBar4: TSpeedBar
+            Left = 0
+            Top = 0
+            Width = 43
+            Height = 373
+            Cursor = crHandPoint
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            BoundLines = [blTop, blBottom, blLeft, blRight]
+            Align = alLeft
+            Options = [sbAllowDrag, sbFlatBtns, sbGrayedBtns]
+            BtnOffsetHorz = 2
+            BtnOffsetVert = 2
+            BtnWidth = 40
+            BtnHeight = 40
+            Images = ILMenuEdicao
+            BevelOuter = bvNone
+            TabOrder = 0
+            InternalVer = 1
+            object SpeedbarSection13: TSpeedbarSection
+              Caption = 'Movimento'
+            end
+            object SpeedbarSection14: TSpeedbarSection
+              Caption = 'Edicao'
+            end
+            object SpeedbarSection15: TSpeedbarSection
+              Caption = 'Confirmacao'
+            end
+            object SpeedbarSection16: TSpeedbarSection
+              Caption = 'Utilitarios'
+            end
+            object tecI: TSpeedItem
+              Caption = 'Incluir'
+              Hint = '[Ins] - Inclui'
+              ImageIndex = 0
+              Spacing = 1
+              Left = 2
+              Top = 2
+              Visible = True
+              OnClick = tecIClick
+              SectionName = 'Movimento'
+            end
+            object tecA: TSpeedItem
+              Caption = 'Alterar'
+              Enabled = False
+              Hint = '[Enter] - Altera'
+              ImageIndex = 1
+              Spacing = 1
+              Left = 2
+              Top = 42
+              Visible = True
+              OnClick = tecAClick
+              SectionName = 'Movimento'
+            end
+            object tecE: TSpeedItem
+              Caption = 'Excluir'
+              Enabled = False
+              Hint = '[Del] - Exclui'
+              ImageIndex = 2
+              Spacing = 1
+              Left = 2
+              Top = 82
+              Visible = True
+              OnClick = tecEClick
+              SectionName = 'Movimento'
+            end
+            object tecS: TSpeedItem
+              Caption = 'Salvar'
+              Enabled = False
+              Hint = '[Ctrl+S] - Salva'
+              ImageIndex = 3
+              Spacing = 1
+              Left = 2
+              Top = 122
+              Visible = True
+              OnClick = tecSClick
+              SectionName = 'Movimento'
+            end
+            object tecC: TSpeedItem
+              Caption = 'Cancelar'
+              Enabled = False
+              Hint = '[Esc] - Cancela'
+              ImageIndex = 4
+              Spacing = 1
+              Left = 2
+              Top = 162
+              Visible = True
+              OnClick = tecCClick
+              SectionName = 'Movimento'
+            end
+          end
+          object dbgtec: TdxDBGrid
+            Left = 43
+            Top = 0
+            Width = 565
+            Height = 373
+            Bands = <
+              item
+              end>
+            DefaultLayout = True
+            HeaderMinRowCount = 2
+            HeaderPanelRowCount = 1
+            KeyField = 'ID'
+            ShowSummaryFooter = True
+            SummaryGroups = <>
+            SummarySeparator = ', '
+            Align = alClient
+            BorderStyle = bsNone
+            Color = clWhite
+            Ctl3D = True
+            ParentCtl3D = False
+            TabOrder = 1
+            OnKeyDown = dbgtecKeyDown
+            AutoSearchColor = 9395
+            AutoSearchTextColor = clWhite
+            DataSource = dtscad_pro_grd
+            Filter.Criteria = {00000000}
+            GridLineColor = clSilver
+            LookAndFeel = lfUltraFlat
+            OptionsBehavior = [edgoCaseInsensitive, edgoCollapsedReload, edgoDragCollapse, edgoDragExpand, edgoDragScroll, edgoEditing, edgoEnterShowEditor, edgoImmediateEditor, edgoSeekDetail, edgoShowHourGlass, edgoTabThrough, edgoVertThrough]
+            OptionsCustomize = [edgoBandMoving, edgoBandSizing, edgoColumnMoving, edgoColumnSizing, edgoNotHideColumn]
+            OptionsDB = [edgoCancelOnExit, edgoCanNavigation, edgoConfirmDelete, edgoLoadAllRecords, edgoSyncSelection, edgoUseBookmarks]
+            OptionsView = [edgoAutoCalcPreviewLines, edgoBandHeaderWidth, edgoHotTrack, edgoPreview, edgoUseBitmap]
+            object dbgtecGRD_CPRO: TdxDBGridMaskColumn
+              Color = clBtnFace
+              DisableEditor = True
+              Width = 100
+              BandIndex = 0
+              RowIndex = 0
+              FieldName = 'GRD_CPRO'
+              SummaryFooterType = cstCount
+              SummaryFooterField = 'ID'
+              SummaryFooterFormat = '0'
+            end
+            object dbgtecGRD_DCOR: TdxDBGridPickColumn
+              CharCase = ecUpperCase
+              Width = 180
+              BandIndex = 0
+              RowIndex = 0
+              FieldName = 'GRD_DCOR'
+            end
+            object dbgtecGRD_PCOR: TdxDBGridMaskColumn
+              Width = 70
+              BandIndex = 0
+              RowIndex = 0
+              FieldName = 'GRD_PCOR'
+            end
+            object dbgtecGRD_PREC: TdxDBGridMaskColumn
+              HeaderAlignment = taRightJustify
+              Width = 55
+              BandIndex = 0
+              RowIndex = 0
+              OnValidate = dbgtecGRD_PRECValidate
+              FieldName = 'GRD_PREC'
+            end
+            object dbgtecGRD_PPRO: TdxDBGridMaskColumn
+              HeaderAlignment = taRightJustify
+              Width = 60
+              BandIndex = 0
+              RowIndex = 0
+              OnValidate = dbgtecGRD_PPROValidate
+              FieldName = 'GRD_PPRO'
+            end
+            object dbgtecGRD_VPRC: TdxDBGridMaskColumn
+              HeaderAlignment = taRightJustify
+              Width = 50
+              BandIndex = 0
+              RowIndex = 0
+              OnValidate = dbgtecGRD_VPRCValidate
+              FieldName = 'GRD_VPRC'
+            end
+            object dbgtecGRD_RPRC: TdxDBGridMaskColumn
+              HeaderAlignment = taRightJustify
+              Width = 90
+              BandIndex = 0
+              RowIndex = 0
+              OnValidate = dbgtecGRD_RPRCValidate
+              FieldName = 'GRD_RPRC'
+            end
+            object dbgtecGRD_STAV: TdxDBGridPickColumn
+              Width = 100
+              BandIndex = 0
+              RowIndex = 0
+              FieldName = 'GRD_STAV'
+              Items.Strings = (
+                'ATIVO'
+                'INATIVO'
+                'PR'#201'-CADASTRO')
+            end
+          end
+        end
         object TSMedidas: TdxTabSheet
           Caption = 'Medidas'
           object Bevel2: TBevel
@@ -1521,196 +1717,6 @@ inherited frmcad_pro_edi: Tfrmcad_pro_edi
             end
           end
         end
-        object TSGrade: TdxTabSheet
-          Caption = 'Grade'
-          object SpeedBar4: TSpeedBar
-            Left = 0
-            Top = 0
-            Width = 43
-            Height = 373
-            Cursor = crHandPoint
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            BoundLines = [blTop, blBottom, blLeft, blRight]
-            Align = alLeft
-            Options = [sbAllowDrag, sbFlatBtns, sbGrayedBtns]
-            BtnOffsetHorz = 2
-            BtnOffsetVert = 2
-            BtnWidth = 40
-            BtnHeight = 40
-            BevelOuter = bvNone
-            TabOrder = 0
-            InternalVer = 1
-            object SpeedbarSection13: TSpeedbarSection
-              Caption = 'Movimento'
-            end
-            object SpeedbarSection14: TSpeedbarSection
-              Caption = 'Edicao'
-            end
-            object SpeedbarSection15: TSpeedbarSection
-              Caption = 'Confirmacao'
-            end
-            object SpeedbarSection16: TSpeedbarSection
-              Caption = 'Utilitarios'
-            end
-            object tecI: TSpeedItem
-              Caption = 'Incluir'
-              Hint = '[Ins] - Inclui'
-              ImageIndex = 2
-              Spacing = 1
-              Left = 2
-              Top = 2
-              Visible = True
-              SectionName = 'Movimento'
-            end
-            object tecA: TSpeedItem
-              Caption = 'Alterar'
-              Enabled = False
-              Hint = '[Enter] - Altera'
-              ImageIndex = 0
-              Spacing = 1
-              Left = 2
-              Top = 42
-              Visible = True
-              SectionName = 'Movimento'
-            end
-            object tecE: TSpeedItem
-              Caption = 'Excluir'
-              Enabled = False
-              Hint = '[Del] - Exclui'
-              ImageIndex = 3
-              Spacing = 1
-              Left = 2
-              Top = 82
-              Visible = True
-              SectionName = 'Movimento'
-            end
-            object tecS: TSpeedItem
-              Caption = 'Salvar'
-              Enabled = False
-              Hint = '[Ctrl+S] - Salva'
-              ImageIndex = 1
-              Spacing = 1
-              Left = 2
-              Top = 122
-              Visible = True
-              SectionName = 'Movimento'
-            end
-            object tecC: TSpeedItem
-              Caption = 'Cancelar'
-              Enabled = False
-              Hint = '[Esc] - Cancela'
-              ImageIndex = 4
-              Spacing = 1
-              Left = 2
-              Top = 162
-              Visible = True
-              SectionName = 'Movimento'
-            end
-          end
-          object dbgtec: TdxDBGrid
-            Left = 43
-            Top = 0
-            Width = 565
-            Height = 373
-            Bands = <
-              item
-              end>
-            DefaultLayout = True
-            HeaderMinRowCount = 2
-            HeaderPanelRowCount = 1
-            KeyField = 'ID'
-            ShowSummaryFooter = True
-            SummaryGroups = <>
-            SummarySeparator = ', '
-            Align = alClient
-            BorderStyle = bsNone
-            Color = clWhite
-            Ctl3D = True
-            ParentCtl3D = False
-            TabOrder = 1
-            OnKeyDown = dbgtecKeyDown
-            AutoSearchColor = 9395
-            AutoSearchTextColor = clWhite
-            DataSource = dtscad_pro_grd
-            Filter.Criteria = {00000000}
-            GridLineColor = clSilver
-            LookAndFeel = lfUltraFlat
-            OptionsBehavior = [edgoCaseInsensitive, edgoCollapsedReload, edgoDragCollapse, edgoDragExpand, edgoDragScroll, edgoEditing, edgoEnterShowEditor, edgoImmediateEditor, edgoSeekDetail, edgoShowHourGlass, edgoTabThrough, edgoVertThrough]
-            OptionsCustomize = [edgoBandMoving, edgoBandSizing, edgoColumnMoving, edgoColumnSizing, edgoNotHideColumn]
-            OptionsDB = [edgoCancelOnExit, edgoCanNavigation, edgoConfirmDelete, edgoLoadAllRecords, edgoSyncSelection, edgoUseBookmarks]
-            OptionsView = [edgoAutoCalcPreviewLines, edgoBandHeaderWidth, edgoHotTrack, edgoPreview, edgoUseBitmap]
-            object dbgtecGRD_CPRO: TdxDBGridMaskColumn
-              Color = clBtnFace
-              DisableEditor = True
-              Width = 100
-              BandIndex = 0
-              RowIndex = 0
-              FieldName = 'GRD_CPRO'
-              SummaryFooterType = cstCount
-              SummaryFooterField = 'ID'
-              SummaryFooterFormat = '0'
-            end
-            object dbgtecGRD_DCOR: TdxDBGridPickColumn
-              CharCase = ecUpperCase
-              Width = 180
-              BandIndex = 0
-              RowIndex = 0
-              FieldName = 'GRD_DCOR'
-            end
-            object dbgtecGRD_PCOR: TdxDBGridMaskColumn
-              Width = 70
-              BandIndex = 0
-              RowIndex = 0
-              FieldName = 'GRD_PCOR'
-            end
-            object dbgtecGRD_PREC: TdxDBGridMaskColumn
-              HeaderAlignment = taRightJustify
-              Width = 55
-              BandIndex = 0
-              RowIndex = 0
-              OnValidate = dbgtecGRD_PRECValidate
-              FieldName = 'GRD_PREC'
-            end
-            object dbgtecGRD_PPRO: TdxDBGridMaskColumn
-              HeaderAlignment = taRightJustify
-              Width = 60
-              BandIndex = 0
-              RowIndex = 0
-              OnValidate = dbgtecGRD_PPROValidate
-              FieldName = 'GRD_PPRO'
-            end
-            object dbgtecGRD_VPRC: TdxDBGridMaskColumn
-              HeaderAlignment = taRightJustify
-              Width = 50
-              BandIndex = 0
-              RowIndex = 0
-              OnValidate = dbgtecGRD_VPRCValidate
-              FieldName = 'GRD_VPRC'
-            end
-            object dbgtecGRD_RPRC: TdxDBGridMaskColumn
-              HeaderAlignment = taRightJustify
-              Width = 90
-              BandIndex = 0
-              RowIndex = 0
-              OnValidate = dbgtecGRD_RPRCValidate
-              FieldName = 'GRD_RPRC'
-            end
-            object dbgtecGRD_STAV: TdxDBGridPickColumn
-              Width = 100
-              BandIndex = 0
-              RowIndex = 0
-              FieldName = 'GRD_STAV'
-              Items.Strings = (
-                'ATIVO'
-                'INATIVO'
-                'PR'#201'-CADASTRO')
-            end
-          end
-        end
         object TSComposicao: TdxTabSheet
           Caption = 'Composi'#231#227'o'
           object Panel1: TPanel
@@ -1795,6 +1801,7 @@ inherited frmcad_pro_edi: Tfrmcad_pro_edi
               BtnOffsetVert = 2
               BtnWidth = 40
               BtnHeight = 40
+              Images = ILMenuEdicao
               BevelOuter = bvNone
               TabOrder = 1
               InternalVer = 1
@@ -1813,7 +1820,7 @@ inherited frmcad_pro_edi: Tfrmcad_pro_edi
               object siINC: TSpeedItem
                 Caption = 'Incluir'
                 Hint = '[Ins] - Inclui'
-                ImageIndex = 2
+                ImageIndex = 0
                 Spacing = 1
                 Left = 2
                 Top = 2
@@ -1824,7 +1831,7 @@ inherited frmcad_pro_edi: Tfrmcad_pro_edi
               object siALT: TSpeedItem
                 Caption = 'Alterar'
                 Hint = '[Enter] - Altera'
-                ImageIndex = 0
+                ImageIndex = 1
                 Spacing = 1
                 Left = 2
                 Top = 42
@@ -1835,7 +1842,7 @@ inherited frmcad_pro_edi: Tfrmcad_pro_edi
               object siDEL: TSpeedItem
                 Caption = 'Excluir'
                 Hint = '[Del] - Exclui'
-                ImageIndex = 3
+                ImageIndex = 2
                 Spacing = 1
                 Left = 2
                 Top = 82
@@ -1847,7 +1854,7 @@ inherited frmcad_pro_edi: Tfrmcad_pro_edi
                 Caption = 'Salvar'
                 Enabled = False
                 Hint = '[Ctrl+S] - Salva'
-                ImageIndex = 1
+                ImageIndex = 3
                 Spacing = 1
                 Left = 2
                 Top = 122

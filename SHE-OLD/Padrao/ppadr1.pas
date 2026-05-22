@@ -386,6 +386,7 @@ procedure TFrmPadr1.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   case key of
+       vk_escape: ACTSaida.Execute;
        vk_return: if (not (ActiveControl is TdxDBGrid)    and
                       not (ActiveControl is TdxDBMemo)    and
                       not (ActiveControl is TdxMemo)      and
@@ -750,7 +751,7 @@ procedure TFrmPadr1.ACTSaidaExecute(Sender: TObject);
 begin
   if Cadastro.State in [dsInsert,dsEdit] then
   ACTMECancel.Execute else
-  Close;
+  ACTSaida.Execute;
 end;
 
 procedure TFrmPadr1.ACTMEAppendExecute(Sender: TObject);

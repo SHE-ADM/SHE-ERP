@@ -1424,7 +1424,7 @@ inherited frmctr_prc: Tfrmctr_prc
     end
   end
   inherited imageOPC: TImageList
-    Left = 456
+    Left = 488
     Bitmap = {
       494C010109000E0004003E002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000F800000080000000010020000000000000F0
@@ -5851,8 +5851,17 @@ inherited frmctr_prc: Tfrmctr_prc
       Origin = '"VW_PSQ_PED_PDC_ADM"."CDCX"'
     end
   end
+  inherited SPEdicao: TIBStoredProc
+    Left = 264
+  end
+  inherited TEvent: TIBTransaction
+    Left = 296
+  end
+  inherited SPEvent: TIBStoredProc
+    Left = 360
+  end
   inherited ILDockIcons: TImageList
-    Left = 488
+    Left = 520
   end
   inherited BMMain: TdxBarManager
     Categories.ItemsVisibles = (
@@ -5864,6 +5873,15 @@ inherited frmctr_prc: Tfrmctr_prc
       0
       0
       0)
+  end
+  inherited SQLEvent: TIBSQL
+    Left = 328
+  end
+  inherited EEvent: TIBEvents
+    Left = 392
+  end
+  inherited ALPrincipal: TActionList
+    Left = 424
   end
   object FKCadastro: TIBQuery
     Database = FBird.DBERP
@@ -6147,7 +6165,7 @@ inherited frmctr_prc: Tfrmctr_prc
     Top = 256
   end
   object PPSheild: TPopupMenu
-    Left = 424
+    Left = 456
     Top = 193
     object AtualizarEstoque1: TMenuItem
       Caption = 'Atualizar Estoque'
@@ -6366,5 +6384,11 @@ inherited frmctr_prc: Tfrmctr_prc
     OnDataChange = DTSCAD_PRO_IMGDataChange
     Left = 136
     Top = 288
+  end
+  object SQLFKEdicao: TIBSQL
+    Database = FBird.DBERP
+    Transaction = TEdicao
+    Left = 232
+    Top = 192
   end
 end

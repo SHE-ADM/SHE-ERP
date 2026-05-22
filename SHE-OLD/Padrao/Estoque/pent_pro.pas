@@ -2605,10 +2605,10 @@ begin
                              'Produto '     + IFThen(Current.ByName('SKU').AsString <> EmptyStr,Current.ByName('SKU').AsString + ' ' + Current.ByName('DGCP').AsString,'não Encontrado') + #13 + #13 + #13 +
                              'Etiqueta Cancelada. ' + FormatDateTime('dd/mm/yy hh:mm',Current.ByName('DTED').AsDateTime));
 
-          if Current.ByName('IDPK').AsInteger = 0 then
-          oException(PETexto,'Etiqueta Nº ' + PETexto.Text + ' Inválida !' + #13 +
-                             'Produto '     + IFThen(Current.ByName('SKU').AsString <> EmptyStr,Current.ByName('SKU').AsString + ' ' + Current.ByName('DGCP').AsString,'não Encontrado') + #13 + #13 + #13 +
-                             'Etiqueta sem registro de saída.');
+          //if Current.ByName('IDPK').AsInteger = 0 then
+          //oException(PETexto,'Etiqueta Nº ' + PETexto.Text + ' Inválida !' + #13 +
+          //                   'Produto '     + IFThen(Current.ByName('SKU').AsString <> EmptyStr,Current.ByName('SKU').AsString + ' ' + Current.ByName('DGCP').AsString,'não Encontrado') + #13 + #13 + #13 +
+          //                   'Etiqueta sem registro de saída.');
 
           if CECDNF.Value > 0 then
           begin

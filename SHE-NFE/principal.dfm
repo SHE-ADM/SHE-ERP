@@ -428,7 +428,7 @@ object FrmPrincipal: TFrmPrincipal
     Top = 68
     Width = 799
     Height = 287
-    ActivePage = tbsImprimirDanfe
+    ActivePage = tsWSautorizacao
     Align = alClient
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText

@@ -214,6 +214,7 @@ type
     DBILA_BMP7: TDBImage;
     DBILA_BMP8: TDBImage;
     CadastroCDCX: TLargeintField;
+    SQLFKEdicao: TIBSQL;
     procedure FormCreate(Sender: TObject);
     procedure siAROClick(Sender: TObject);
     procedure cadastroBeforeEdit(DataSet: TDataSet);
@@ -585,8 +586,20 @@ begin
     Cadastro.First;
     while not Cadastro.Eof do
     begin
+      with SQLConsulta do
+      begin
+        Close;
+        SQL.Clear;
+        SQL.Add('SELECT IDPK FROM CAD_PRO_PRC');
+        SQL.Add('WHERE  IDEP = ''' + CadastroEP_ID.AsString + '''');
+        SQL.Add('AND    IDPK = ''' + CadastroIDPK.AsString  + '''');
+        ExecQuery;
+      end;
+
+      if not SQLConsulta.Eof then
       try
         oOTransact(TEdicao);
+
         with SQLEdicao do
         begin
           Close;
@@ -603,7 +616,7 @@ begin
           while not FKCadastro.Eof do
           begin
             SBRodape.Panels[1].Text := 'Pedido ' + CadastroDEPK.AsString + ' item ' + FKCadastroITEM.AsString;
-            SBRodape.Update;
+            Application.ProcessMessages;
 
             if (FKCadastroROM_STAV.AsString <> 'CANCELADO') and (FKCadastroROM_STAV.AsString <> 'FINALIZADO') then
             begin
@@ -631,16 +644,16 @@ begin
               SPEdicao.UnPrepare;
             end;
 
+            uSP_CAD_PRO_EST_LAN(SPEdicao,RECParametros.EP_ID,FKCadastroIDCP.AsInteger,1);
             FKCadastro.Next;
-            uSP_CAD_PRO_EST_LAN(SPEdicao,RECParametros.EP_ID,FKCadastroIDCP.AsInteger);
           end;
-        end;
 
-        oCTransact(TEdicao);
+          oCTransact(TEdicao);
+        end;
       except
         oCTransact(TEdicao,ltRollback);
       end;
-      
+
       Cadastro.Next;
     end;
   finally
@@ -873,6 +886,16 @@ begin
     end;
 
     oCTransact(TEdicao);
+
+    { ATUALIZA ESTOQUE }
+    uCAD_PRO_EST_LAN_UPD(oREPZero('PED_COM_ITE','_',RECParametros.EP_ID,3),
+                         RECParametros.EP_ID ,
+                         CadastroIDPK.AsString,
+
+                         'EP_ID',
+                         'IDPK' ,
+                         'CP_ID');
+
     oAviso(Application.Handle,'Pedido re-aberto com sucesso !');
   except
     on E: Exception do

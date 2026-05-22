@@ -295,6 +295,8 @@ type
       AColumn: TdxTreeListColumn; ASelected, AFocused,
       ANewItemRow: Boolean; var AText: String; var AColor: TColor;
       AFont: TFont; var AAlignment: TAlignment; var ADone: Boolean);
+    procedure DBGConsultaKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
   private
     { Private declarations }
     FDockControl: TdxCustomDockControl;
@@ -894,6 +896,7 @@ procedure TFrmSHE_DEF_PED.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   case key of
+       vk_escape: ACTSaida.Execute;
        vk_return: if (not (ActiveControl is TdxDBGrid)    and
                       not (ActiveControl is TdxDBMemo)    and
                       not (ActiveControl is TdxMemo)      and
@@ -1795,6 +1798,18 @@ begin
     AColor      := $00750000; //$00E1AD40;
     AFont.Color := clHighlightText;
     AFont.Style := [];
+  end;
+end;
+
+procedure TFrmSHE_DEF_PED.DBGConsultaKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+  case key of
+       VK_insert: ACTMPAppend.Execute;
+       vk_return: if Consulta.State = dsBrowse then
+                  ACTMPEdit.Execute;
+       VK_delete: ACTMPDelete.Execute;
+       vk_escape: ACTSaida.Execute;
   end;
 end;
 

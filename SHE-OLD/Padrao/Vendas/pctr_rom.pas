@@ -828,6 +828,16 @@ begin
     end;
 
     oCTransact(TEdicao);
+
+    { ATUALIZA ESTOQUE }
+    uCAD_PRO_EST_LAN_UPD(oREPZero('ROM_ITE'  ,'_',RECParametros.EP_ID,3),
+                         RECParametros.EP_ID ,
+                         CadastroID.AsString ,
+
+                         'EP_ID',
+                         'CDRO' ,
+                         'CP_ID');
+
     oAviso(Self.Handle,'Romaneio Cancelado com Sucesso !');
   except
     on E: Exception do

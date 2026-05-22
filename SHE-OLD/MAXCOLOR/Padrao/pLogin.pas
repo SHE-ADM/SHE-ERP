@@ -56,6 +56,7 @@ type
     CAD_USUUSU_DEFILIAL: TIBStringField;
     CAD_USUUSU_DEEP: TIBStringField;
     CAD_USUUSU_IDEP: TIntegerField;
+    SQLEdicao: TIBSQL;
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -109,10 +110,14 @@ begin
     Open;
     while not eof do
     begin
+      IEEmpresa.Text := Fields[0].AsString;
+
       IEEmpresa.Values.Add(fields[0].AsString);
       IEEmpresa.Descriptions.Add(fields[0].AsString);
       Next;
     end;
+
+    IEEmpresa.Text := Fields[0].AsString;
   end;
 end;
 
@@ -125,6 +130,7 @@ begin
   EDUsuario.Text := RECLogin.Login;
 
   _PSQUsuarios;
+  IEEmpresa.Text := CAD_USUUSU_IDFILIAL.AsString + ' - ' + CAD_USUUSU_DEFILIAL.AsString;
 end;
 
 procedure TFrmLogin.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -170,13 +176,13 @@ begin
     begin
       EDSenha.Text := '';
       oException(EDSenha,PChar(_PSQSenha.SRet));
-    end;  
+    end;
   end;
 
   RECLogin.Id    := IFThen(RECLogin.Selected,CAD_USUId.AsString             ,'');
   RECLogin.IDEP  := IFThen(RECLogin.Selected,Trim(Copy(IEEmpresa.Text,01,02)),'');
   RECLogin.DEEP  := IFThen(RECLogin.Selected,Trim(Copy(IEEmpresa.Text,05,60)),'');
-  RECLogin.Login := IFThen(RECLogin.Selected,CAD_USUUSU_DUSU.AsString          ,'');
+  RECLogin.Login := IFThen(RECLogin.Selected,CAD_USUUSU_DUSU.AsString        ,'');
 end;
 
 procedure TFrmLogin.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -249,8 +255,9 @@ begin
 
   EDNome.Text := CAD_USUUSU_NOME.AsString;
 
-  IEEmpresa.Enabled := (CAD_USUUSU_CDEP.AsString = '99');
+  if CAD_USUUSU_IDEP.AsInteger > 0 then
   IEEmpresa.Text    :=  CAD_USUUSU_IDEP.AsString + ' - ' + CAD_USUUSU_DEEP.AsString;
+  IEEmpresa.Enabled := (CAD_USUUSU_CDEP.AsString = '99');
 
   EDSenha.MaxLength := Length(CAD_USUUSU_PASS.AsString);
   EDSenha.Enabled   := True;
@@ -297,7 +304,7 @@ begin
     SQL.Clear;
     SQL.Add('SELECT PK.*,EP.ID AS USU_IDEP,EP.PAR_FANT AS USU_DEEP');
     SQL.Add('FROM   CAD_USU AS PK');
-    SQL.Add('JOIN   PAR_SIS AS EP ON (EP.ID = PK.USU_CDEP)');
+    SQL.Add('LEFT JOIN   PAR_SIS AS EP ON (EP.ID = PK.USU_CDEP)');
     SQL.Add('WHERE  PK.USU_DUSU = ''' + EDUsuario.Text + '''');
     Open;
   end;

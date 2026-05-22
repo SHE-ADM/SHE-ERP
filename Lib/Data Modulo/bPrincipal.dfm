@@ -4,7 +4,7 @@ object FBird: TFBird
   OnDestroy = DataModuleDestroy
   Left = 365
   Top = 191
-  Height = 565
+  Height = 558
   Width = 1079
   object DBERP: TIBDatabase
     DatabaseName = 'C:\Sheild\FBird\Otimotex.FDB'
@@ -27,7 +27,7 @@ object FBird: TFBird
       'password=ri1903')
     LoginPrompt = False
     Left = 352
-    Top = 8
+    Top = 64
   end
   object TFBEEdicao: TIBTransaction
     AllowAutoStart = False
@@ -39,7 +39,7 @@ object FBird: TFBird
       'nowait')
     AutoStopAction = saRollback
     Left = 352
-    Top = 64
+    Top = 120
   end
   object DBEvent: TIBEvents
     AutoRegister = False
@@ -88,7 +88,7 @@ object FBird: TFBird
     Database = DBEDI
     Transaction = TFBEEdicao
     Left = 352
-    Top = 112
+    Top = 168
   end
   object DTSFBBAI_FINANCEIRO: TDataSource
     AutoEdit = False
@@ -2042,8 +2042,8 @@ object FBird: TFBird
       'lc_ctype=WIN1252'
       'password=ri1903')
     LoginPrompt = False
-    Left = 464
-    Top = 152
+    Left = 352
+    Top = 8
   end
   object TFBEdicao: TIBTransaction
     DefaultDatabase = DBERP
@@ -2084,6 +2084,6 @@ object FBird: TFBird
     Database = DBEDI
     Transaction = TFBEEdicao
     Left = 352
-    Top = 160
+    Top = 216
   end
 end

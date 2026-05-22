@@ -867,9 +867,8 @@ function Tfrmcad_cli_inf.ACESSO(cusu,campo,func,roti,nome: string;proc: boolean)
 var
   BRet: boolean;
 begin
-  BRet := true;
-  if (RECUsuarios.Id <> '0') and
-     (not oEmpty(cusu)) and (not oEmpty(campo)) and (not oEmpty(func)) and (not oEmpty(roti)) and (not oEmpty(nome)) then
+  BRet := False;
+  if (not oEmpty(cusu)) and (not oEmpty(campo)) and (not oEmpty(func)) and (not oEmpty(roti)) and (not oEmpty(nome)) then
   begin
     ibSP.StoredProcName := 'SP_GRANT';
     ibSP.Prepare;
@@ -1430,9 +1429,12 @@ begin
     begin
       BRet := (Acesso(FrmLogin.RECLogin.Id,'USU_AUTO','Vendas','Pedidos',Texto,false));
 
-      AUTORIZACAO    := FrmLogin.RECLogin.Login;
-      ID_AUTORIZACAO := FrmLogin.RECLogin.Id;
-      TP_AUTORIZACAO := texto;
+      if BRet then
+      begin
+        AUTORIZACAO    := FrmLogin.RECLogin.Login;
+        ID_AUTORIZACAO := FrmLogin.RECLogin.Id;
+        TP_AUTORIZACAO := texto;
+      end;  
     end;
     FreeAndNil(FrmLogin);
   end;

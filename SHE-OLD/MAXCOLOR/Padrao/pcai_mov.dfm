@@ -1,6 +1,6 @@
 object frmcai_mov: Tfrmcai_mov
-  Left = 142
-  Top = 129
+  Left = 361
+  Top = 157
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Movimenta'#231#227'o de Caixa'
@@ -252,7 +252,11 @@ object frmcai_mov: Tfrmcai_mov
   Visible = True
   OnClose = FormClose
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
+  OnPaint = FormPaint
+  OnResize = FormResize
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 14
   object SpeedBar2: TSpeedBar
@@ -378,14 +382,14 @@ object frmcai_mov: Tfrmcai_mov
     Left = 0
     Top = 114
     Width = 1107
-    Height = 205
+    Height = 260
     Align = alTop
     TabOrder = 1
     object GroupBox1: TGroupBox
       Left = 1
       Top = 1
       Width = 1105
-      Height = 203
+      Height = 258
       Align = alClient
       Caption = 'Rela'#231#227'o de Caixas'
       TabOrder = 0
@@ -393,7 +397,7 @@ object frmcai_mov: Tfrmcai_mov
         Left = 2
         Top = 16
         Width = 1101
-        Height = 185
+        Height = 240
         Bands = <
           item
           end>
@@ -587,16 +591,16 @@ object frmcai_mov: Tfrmcai_mov
   end
   object pnlbot: TPanel
     Left = 0
-    Top = 319
+    Top = 374
     Width = 1107
-    Height = 328
+    Height = 273
     Align = alClient
     TabOrder = 2
     object GroupBox2: TGroupBox
       Left = 1
       Top = 1
       Width = 1105
-      Height = 326
+      Height = 271
       Align = alClient
       Caption = 'Movimentos'
       TabOrder = 0
@@ -604,7 +608,7 @@ object frmcai_mov: Tfrmcai_mov
         Left = 2
         Top = 16
         Width = 1101
-        Height = 308
+        Height = 253
         Bands = <
           item
           end>

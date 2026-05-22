@@ -1,9 +1,9 @@
 object FrmPrincipal: TFrmPrincipal
-  Left = -20
+  Left = 0
   Top = 1
   Width = 1940
   Height = 1031
-  Caption = 'Sheild Erp'
+  Caption = 'Sistemas S.H.E.I.L.D.'
   Color = clBtnFace
   Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
@@ -252,6 +252,7 @@ object FrmPrincipal: TFrmPrincipal
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
   OnMouseMove = FormMouseMove
   OnPaint = FormPaint
   OnResize = FormResize
@@ -259,9 +260,9 @@ object FrmPrincipal: TFrmPrincipal
   PixelsPerInch = 96
   TextHeight = 14
   object IPrincipal: TImage
-    Left = 140
+    Left = 132
     Top = 40
-    Width = 1784
+    Width = 1792
     Height = 906
     Align = alClient
     Center = True
@@ -3156,7 +3157,7 @@ object FrmPrincipal: TFrmPrincipal
   object PNLPrincipal: TPanel
     Left = 0
     Top = 40
-    Width = 140
+    Width = 132
     Height = 906
     Cursor = crHandPoint
     Align = alLeft
@@ -3181,7 +3182,7 @@ object FrmPrincipal: TFrmPrincipal
     object PNLFIN: TPanel
       Left = 5
       Top = 21
-      Width = 133
+      Width = 125
       Height = 883
       Cursor = crHandPoint
       Hint = 'Menu Principal'
@@ -3193,9 +3194,9 @@ object FrmPrincipal: TFrmPrincipal
       TabOrder = 2
       OnMouseMove = FormMouseMove
       object RSBFIN_CAD_CLI_ADM: TRxSpeedButton
-        Left = 4
+        Left = 2
         Top = 5
-        Width = 62
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTCAD_CLI_ADM
@@ -3340,9 +3341,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBFIN_REC_BAN: TRxSpeedButton
-        Left = 4
-        Top = 61
-        Width = 62
+        Left = 2
+        Top = 59
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTFIN_REC_BAN
@@ -3456,9 +3457,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBFIN_PED_RDV_ADM: TRxSpeedButton
-        Left = 69
-        Top = 229
-        Width = 62
+        Left = 64
+        Top = 221
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTPED_RDV_ADM
@@ -3603,9 +3604,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBFIN_PED_PDV_ADM: TRxSpeedButton
-        Left = 4
-        Top = 229
-        Width = 62
+        Left = 2
+        Top = 221
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTPED_PDV_ADM
@@ -3702,9 +3703,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBFIN_PAG_CMV: TRxSpeedButton
-        Left = 69
-        Top = 117
-        Width = 62
+        Left = 64
+        Top = 113
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTFIN_PAG_CMV
@@ -3814,9 +3815,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBFIN_REC_CRT: TRxSpeedButton
-        Left = 69
-        Top = 61
-        Width = 62
+        Left = 64
+        Top = 59
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTFIN_REC_CRT
@@ -3930,9 +3931,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBFIN_PAG_ADM: TRxSpeedButton
-        Left = 4
-        Top = 117
-        Width = 62
+        Left = 2
+        Top = 113
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTFIN_PAG_ADM
@@ -4045,9 +4046,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBFIN_REC_BOL: TRxSpeedButton
-        Left = 4
-        Top = 173
-        Width = 62
+        Left = 2
+        Top = 167
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTFIN_REC_BOL
@@ -4184,9 +4185,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBFIN_REC_DUP: TRxSpeedButton
-        Left = 69
-        Top = 173
-        Width = 62
+        Left = 64
+        Top = 167
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTFIN_REC_DUP
@@ -4343,9 +4344,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBFIN_CAD_REP_ADM: TRxSpeedButton
-        Left = 69
+        Left = 64
         Top = 5
-        Width = 62
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTCAD_REP_ADM
@@ -4458,9 +4459,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object ACTFIN_FIS_NFE_LCT: TRxSpeedButton
-        Left = 4
-        Top = 285
-        Width = 62
+        Left = 2
+        Top = 275
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTFIS_NFE_LCT
@@ -4573,9 +4574,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object ACTFIN_FIS_NFE_ADM: TRxSpeedButton
-        Left = 69
-        Top = 285
-        Width = 62
+        Left = 64
+        Top = 275
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTFIS_NFE_ADM
@@ -4688,9 +4689,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object ACTFIN_TAB_CFOP: TRxSpeedButton
-        Left = 69
-        Top = 341
-        Width = 62
+        Left = 64
+        Top = 329
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTTAB_CFOP
@@ -4795,9 +4796,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object ACTFIN_FIS_NFE_EDI_TER: TRxSpeedButton
-        Left = 4
-        Top = 341
-        Width = 62
+        Left = 2
+        Top = 329
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTFIS_NFE_EDI_TER
@@ -4885,7 +4886,7 @@ object FrmPrincipal: TFrmPrincipal
     object PNLPCP: TPanel
       Left = 5
       Top = 21
-      Width = 133
+      Width = 125
       Height = 883
       Cursor = crHandPoint
       Hint = 'Menu Principal'
@@ -4897,9 +4898,9 @@ object FrmPrincipal: TFrmPrincipal
       TabOrder = 3
       OnMouseMove = FormMouseMove
       object RSBPCP_CAD_PRO_EST_EXP_COL: TRxSpeedButton
-        Left = 69
-        Top = 117
-        Width = 62
+        Left = 64
+        Top = 113
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTCAD_PRO_EST_EXP_COL
@@ -4977,9 +4978,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBPCP_CAD_PRO_EST_EXP_MAN: TRxSpeedButton
-        Left = 4
-        Top = 117
-        Width = 62
+        Left = 2
+        Top = 113
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTCAD_PRO_EST_EXP_MAN
@@ -5109,9 +5110,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBPCP_CAD_PRO_EST_ETQ: TRxSpeedButton
-        Left = 69
+        Left = 64
         Top = 5
-        Width = 62
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTCAD_PRO_EST_ETQ
@@ -5248,12 +5249,13 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBPCP_CAD_PRO_ADM: TRxSpeedButton
-        Left = 4
+        Left = 2
         Top = 5
-        Width = 62
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTCAD_PRO_ADM
+        Caption = 'Produtos'
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
@@ -5363,9 +5365,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBPCP_CAD_PRO_EST_LCT: TRxSpeedButton
-        Left = 4
-        Top = 61
-        Width = 62
+        Left = 2
+        Top = 59
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTCAD_PRO_EST_LCT
@@ -5466,9 +5468,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBPCP_CAD_PRO_EST_ADM: TRxSpeedButton
-        Left = 69
-        Top = 61
-        Width = 62
+        Left = 64
+        Top = 59
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTCAD_PRO_EST_ADM
@@ -5577,9 +5579,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBPCP_PED_PDV_ADM: TRxSpeedButton
-        Left = 4
-        Top = 173
-        Width = 62
+        Left = 2
+        Top = 167
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTPED_PDV_ADM
@@ -5676,9 +5678,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBPCP_PED_RDV_ADM: TRxSpeedButton
-        Left = 69
-        Top = 173
-        Width = 62
+        Left = 64
+        Top = 167
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTPED_RDV_ADM
@@ -5822,11 +5824,126 @@ object FrmPrincipal: TFrmPrincipal
         Spacing = 0
         OnMouseMove = FormMouseMove
       end
+      object RSBNFControlePCP: TRxSpeedButton
+        Left = 2
+        Top = 221
+        Width = 60
+        Height = 52
+        Cursor = crHandPoint
+        Action = ACTFIS_NFE_ADM
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        Glyph.Data = {
+          360C0000424D360C00000000000036000000280000001F000000200000000100
+          180000000000000C0000C30E0000C30E00000000000000000000F0F0F0F0F0F0
+          F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0
+          F0F0F0F0EFEEEEF1F1F2F3F4F5EFF0F0F0F0F0EEEEEEDEDBD9D9D5D0D9D6D1D9
+          D6D1D9D6D1DAD6D2D9D6D1DAD7D2D9D5D1D9D4D0E4E1E0000000F0F0F0F0F0F0
+          F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0
+          F0EFEFEFF2F2F3EAE9E5DFDBD6F1F1F2F1F1F2EBEBE9E8E6E1EEECE6EFEFEAEF
+          EDE7F0EFEAEDEBE6F0EEE9EEECE7F1EEEAECEAE4EBE8E3000000F0F0F0F0F0F0
+          F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0EEF0
+          F0F2F3F5F4F7FAD5C9B5A7947ADBD5CFF7F9FBF2F1F0F4F3EECFC9C4D8D4CFD1
+          CCC7E1DDD8C9C4BFD9D6D1CFC9C4DED9D5D2CEC8FAFAF6000000F0F0F0F0F0F0
+          F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0EFF0EFF2F2
+          F4E7E5E3CEBFA9E4CC9DB6A07B9D8A73DFD9D3F8F9FAF2F0ECE1DDD9E8E4DEE2
+          DFDAEBE9E3DFDBD7E8E5DFE2DED9E9E6E1E2DFDAF7F6F2000000F0F0F0F0F0F0
+          F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F1F2F3EEEB
+          E9DBC9A7E2C899EBD5A8DEC99FAC9370AB9985F4F2F1F4F3F0D5D0CBDEDAD4D8
+          D3CFE4E0DBD2CDC8DFDBD5D6D1CBE0DDD9D8D4CEF8F8F3000000F0F0F0F0F0F0
+          F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F1F2EEEC
+          EBE7D5AFE7CD9AE5CEA3EAD3A4E6D2ABA59075CBC1B7FAF9F7DCD8D4E3E0DBDE
+          DAD6E8E5E1D9D6D1E4E1DCDDD8D4E5E3DFDEDAD5F7F6F2000000F0F0F0F0F0F0
+          F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0EFF0F0EEEFEFF2F3
+          F5F0F1F0E9DBBDE5D0A4E7D4ADEEDAB1DAC396BBAE9DFBFCF6D8D2C7E1DAD0D8
+          D3C9E7E3D9D2CCC2E1DCD2D7D0C7E3DFD5DAD5C9FDFBF3000000F0F0F0F0F0F0
+          F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0EFEFEFF1F0F0FEF3F0FEEC
+          E9FCECEDF8F0F4E6D9BDE5D6B3E8D4AEDFC99EBCAE9CEFEFF0EDEDEAEEECE9EC
+          ECE9E8E8EAE7E7E8EBEAE9ECEBE8EEEEEAEBEBE7F4F5F0000000F0F0F0F0F0F0
+          F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0EFEFEFF9F7F8FDFBFFBDE1EA7ECC
+          DB78CCDDA1C6C5ECD3A7E8D1A4E5CFA5EBD8ACBDB1AF6B77E85E6EF25F6DEC77
+          83EBA1A9F08993EE7782EC6672EA6472EE5A68ED868FEB000000F0F0F0F0F0F0
+          F0F0F0F0F0F0F0F0F0F0F0F0EFEFEFF0F0F0FEFAFDE3E2DB62A3A0328D8C689A
+          9A72A3A5849C8EE4CBA0F1D6A7E8D3A9F3E1B0CDC5BF3648EA192BD31F32DC4F
+          5DEA8D97F07983ED707BED404FEA2234D51629D55B67ED000000F0F0F0F0F0F0
+          F0F0F0F0F0F0F0F0F0F0F0F0EFEFEFFCFAFFD8DACD3D78514F7F4D92A570778A
+          5164743663723D7A7F60C5B298E7D4B5F6DEA4CCC5C03045E6908FB45E67C71A
+          2EEA1B2EE52032E72032E42235EA797DB96E74B95462ED000000F0F0F0F0F0F0
+          F0F0F0F0F0F0F0F0F0F0F0EFF9F7FAD2DCCD6C835837B6B3E9E8F0FFFFFFF1D8
+          B4DFCC9BBEBE87768F554F6B3B978A69E3C898E9D7B78089E8BEBBC08C91D547
+          58F45766ED5666EF5665EF4656EDA7A6C7A4A4C499A1F0000000F0F0F0F0F0F0
+          F0F0F0F0F0F0F0F0F0F0F0F1FAFAFCA1B08C78A18869D6E9F9DDDEF0F1EAE7CF
+          A1EED4A8F6D8B0F2D8A9AAB47A426B2F838168DFC7A8F4E4C4CAC6C6D6CFC7E1
+          D1B9DDD1B9AD9C8CD1CDD2E6E8FCCAC7C9CFCACAF6F6F4000000F0F0F0F0F0F0
+          F0F0F0F0F0F0F0F0F0F4F2F5EAEEEA82936596C2B971CBDDF6DCDAF6FCFFE6D2
+          ABE5D0A2EAD5A8F0DAB5FFEBCCDFE2B9537D3E696E46D1B88FF1E0C3EEDCB3EC
+          D196F1DFB6C4AB7DCBBEABFEFDF7F2F1EFEFEEECF3F4F0000000F0F0F0F0F0F0
+          F0F0F0F0F0F0F0F0F0F4F2F5E9EEE97E946AB0C4BA63D3E5E3C9C9DFDDD9E7D3
+          AFE5D0A6CDBB97C0B69FBBA87ED1B78EE2D9A7668A4B6F744DD4B890EFD6A6E6
+          CFA2E8D4ACCCB99BB9A894EEEDEDF1F2F5F1F1F2F0F0F0000000F0F0F0F0F0F0
+          F0F0F0F0F0F0F0F0F0F4F2F4EEF0ED77966CB7BCAF64E5F7BDADA0D9C29BE2CA
+          9BC6B696CFCBC0DAD9D6D5D3CEB0A99D978565D3D3A2598046857D5CE6CCA3EB
+          D3A4EBD7AFDCCCADBAA88FE9E6E6F1F3F4F0F0EFF0F0F0000000F0F0F0F0F0F0
+          F0F0F0EFEFEFEFEFEFF1F0F1FBF9FB96B49197978394D5DCAEC4A5F9D49ED7C6
+          A1EDECEBFFFFFFF9F9F9FDFDFCFBFCFED4D3D0988976C6CAA04A7436A19176E9
+          D5B6ECDAB3D9C293BCAA95ECEAECF2F3F4F0F0EFF0F0F0000000F0F0F0F0F0EF
+          EFF0F0F4F5F6F4F5F7F2F1F3FCF9FFA6BDA15A6A44AFA38DD4D1ABEACB98E5DC
+          C9FFFFFFE9E8E8DCCCADF8E6BEFFFFF7FFFFFFD2CCC1DECAB0AFBF844B6736C4
+          AE8EEFD8A8DCC69BA58F78D1C8C2F7F9FBEFEFEFF0F0F0000000EFF0F0F3F5F8
+          F3F6F7D7D0CADAD4CEF4F5F4F8F0EEC6C096537135B59E7BF7E0B8DFC591F5F1
+          EBFFFFFFB3AFA788754A9F8A5B9C8F74998E75978867C1B090F9E0B76D894879
+          7C54E7CDA6ECD6AABFA680A08A71EEEDEBF5F7F9EFEFEF000000F1F2F4E0DAD9
+          D1C3AEBCA782A68F71A9988BDECBA8FDDFB0809B57777D5CE0C9A9E6CB94F1EB
+          DEFFFFFFF3F2F0ECEBE8E7E7E6E7E6E3E6E4DEDEDDD9AFA899E7CEABCFCC9A58
+          713CB19F7CF3DAABEFDDB5B29C7DAC9B8AEBE9E7F1F3F4000000ECE8E3CEB996
+          D6BE91F3DEAFE2CFA7BCA789D5C3A0F5DAB0DDD6A9436D30AC997BE9CEA1EBDF
+          C4FFFFFFFAFBFDD2CDC1FFF9E5F6EDDDFFFFFFFEFFFFBCB8AFDBC6A1F4E2BE78
+          92597E805DEAD2ABEDDBB4EAD8B2A48D6CC3B7AAF4F5F5000000ECE1CBEAD5AA
+          E9D6B0E5CFA8EDD7AAEFDAACE7D4ABE6D5B0FAE5C693A86D546A3BD5BFA8F0DE
+          B9FDFBF9FBFCFE8E8772B29A65D0B786F1EEE7FDFFFFBCB8AED6C298FCDCB1A7
+          B17764764ED7C2A3EDDBB6EADAB4D2BE96B4A28CEBEBEA000000E3D8C3D5BF8F
+          E7D1A7E5CEA1D4BE93DEC89CE2CCA0D3BF95E8CFA4EED7A9698948787E5FDFC4
+          9BF5E8CEFFFFFFECEDEDA59F93C0BAAEFEFEFDF0F1F2C1B499DBC69DEFD6B2E0
+          D29E4C7035C4B19DE6D6B5E7D6B3D9C499C4B4A2EDEDEF000000E2E1E0A8A08B
+          D0B98AE3CFA6C5C2B9AB9E83E0CEACB7B3A8BDAC88F7D9AFD1CA964E753A9589
+          68E5CA9FF2E7CCFFFDFAFFFFFFFEFFFFF8F8F8D4CFC3D5C095E9D2A3E2CFAAF8
+          E2BD577D39A89677EBD7B0E8D3ACDCC9A7DAD1C8F1F2F4000000FDFEFFD6D7D5
+          CEC2ABE7DBC4FFFFFFB0A999ECDBB9ECEDEFB9AA8EEDD4A2FFE2B6C2C48C456B
+          2F9F8E6EE5CA9FEFDCB6EDE1C6ECE0C8E2D2B3DBCAA6E6D1A6E7D2A4E4CFA3F5
+          E0BD6A8F4C9D8960E6C49AD5CBB8EFECE8F0F0F2F0F0F0000000FAF9F9E2E2E3
+          C3C4C5F6F5F3FEFEFDB2ADA3DAC69FF7F7F4B4AB98BAA882BDAD89EBCDA7B1B9
+          81456C33958968E1C39BF0D7A5E7D1A1E9CE9EECD2A7E9D5ACE5CFA0DCC69BF9
+          E7C9759150728A7491C6C8E7E7E9F5F4F7F0F0F1F0F0F0000000F7F7F6EAEAEA
+          D3D4D5EBE9E7DDD9CEC8C7C3C1AE88FFFEF2EDEFF0E2E5E9CBCCCDC3B395FEE2
+          C0BFC5954C7232767852C8AB8EC4BA98B3B38DE2D1A3ECCDA3E9C7A4EEDBD9FE
+          F8F44F754053BCD2B4EDF8FEF1EFF0EFEFF0F0F0F0F0F0000000F1F0F1FCFBFB
+          FDFDFED7D0C3D1C2A4F0EFECA2906AFFFCEDCBC9C5CCC1A7D7CBAED1BF99E8D1
+          A6F7D9B0D2C9936F8E523D5629756B53A79E8F95D2CC87CFCF8EC4CDB5DBF081
+          9982267451AEEEF7FBF4F3F2F0F0EFF0F0F0F0F0F0F0F0000000EFEFEFFEFDFE
+          F9F9FAB3A488E7D0A4F4F1EC96896DF8EED8DEDFE0BEB7A5CFCABCAFA899CFB9
+          8DEBD1A1F3D4A9EEDDB8A3AD71456D2F54673F96A8AB91BBC479B6C538867943
+          733EC3DBD0FFFAF9F3EFEFEFF0F0F0F0F0F0F0F0F0F0F0000000EEEEEEF7F7F6
+          EEEFF1D9D2C2F1EADCF3F2F1D7D9DCE7E0D0F8F2E2F5F0E7EBE6E2D1D3D4DBD5
+          C8EEDEBDE9DDC5EEDDC2F4D6A9E2CDB5AAC9A46E985C68885064864C98AE83F2
+          F3EDFDF8FAF1EFEFEFF0F0F0F0F0F0F0F0F0F0F0F0F0F0000000F0F0F0EEEEEE
+          ECECEBF5F7F9EFF1F6EFF0F2F5F4F5E7DAC1E4CC9EE0C796BDA989E0DDDBF7FB
+          FFEFF0F0EEEFF0F0F1F0E3D4B6DFD4CBFBFAFFFFFEFFF8F8F9F9F8FAFFFCFFF4
+          F3F6EFEFEFF0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0000000F0F0F0EFEFF0
+          EFEFEFEFEFEFF0F0EFEFEEF0EFEFEFEFEDEBEEEBE6EAE1CFE3D9C6EFEFF0F0F0
+          EFEFF0F0F0F0F1F0F1F0EFEEEDF2F1F3EEEFEFEFEEEFF3F1F3F3F1F3EEEEEFEF
+          F0EFF0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0000000}
+        ParentFont = False
+        Spacing = 0
+        OnMouseMove = FormMouseMove
+      end
     end
     object PNLADM: TPanel
       Left = 5
       Top = 21
-      Width = 133
+      Width = 125
       Height = 883
       Cursor = crHandPoint
       Hint = 'Menu Principal'
@@ -5838,9 +5955,9 @@ object FrmPrincipal: TFrmPrincipal
       TabOrder = 1
       OnMouseMove = FormMouseMove
       object RSBCliente: TRxSpeedButton
-        Left = 4
+        Left = 2
         Top = 5
-        Width = 62
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTCAD_CLI_ADM
@@ -5985,9 +6102,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBProdutos: TRxSpeedButton
-        Left = 4
-        Top = 117
-        Width = 62
+        Left = 2
+        Top = 113
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTCAD_PRO_ADM
@@ -6101,9 +6218,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBRomaneios: TRxSpeedButton
-        Left = 69
-        Top = 285
-        Width = 62
+        Left = 64
+        Top = 275
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTPED_RDV_ADM
@@ -6248,9 +6365,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBPedidos: TRxSpeedButton
-        Left = 4
-        Top = 285
-        Width = 62
+        Left = 2
+        Top = 275
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTPED_PDV_ADM
@@ -6347,9 +6464,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBCompras: TRxSpeedButton
-        Left = 4
-        Top = 229
-        Width = 62
+        Left = 2
+        Top = 221
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTPED_PDC_ADM
@@ -6486,9 +6603,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBProgramados: TRxSpeedButton
-        Left = 69
-        Top = 229
-        Width = 62
+        Left = 64
+        Top = 221
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTPED_PDP_ADM
@@ -6649,9 +6766,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBRepresentante: TRxSpeedButton
-        Left = 69
+        Left = 64
         Top = 5
-        Width = 62
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTCAD_REP_ADM
@@ -6764,9 +6881,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBPEDEstoque: TRxSpeedButton
-        Left = 69
-        Top = 173
-        Width = 62
+        Left = 64
+        Top = 167
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTCAD_PRO_EST_ADM
@@ -6875,9 +6992,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBFornecedor: TRxSpeedButton
-        Left = 4
-        Top = 61
-        Width = 62
+        Left = 2
+        Top = 59
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTCAD_FOR_ADM
@@ -6990,9 +7107,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBTransportadora: TRxSpeedButton
-        Left = 69
-        Top = 61
-        Width = 62
+        Left = 64
+        Top = 59
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTCAD_TRA_ADM
@@ -7165,9 +7282,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBNFControle: TRxSpeedButton
-        Left = 69
-        Top = 341
-        Width = 62
+        Left = 64
+        Top = 329
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTFIS_NFE_ADM
@@ -7281,9 +7398,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBNFTerceiros: TRxSpeedButton
-        Left = 4
-        Top = 397
-        Width = 62
+        Left = 2
+        Top = 383
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTFIS_NFE_EDI_TER
@@ -7368,9 +7485,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBTAB_CFOP: TRxSpeedButton
-        Left = 69
-        Top = 397
-        Width = 62
+        Left = 64
+        Top = 383
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTTAB_CFOP
@@ -7475,9 +7592,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBCAD_PRO_GRD_COR: TRxSpeedButton
-        Left = 69
-        Top = 117
-        Width = 62
+        Left = 64
+        Top = 113
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTCAD_PRO_GRD_COR
@@ -7603,9 +7720,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBCAD_PRO_EST_LCT: TRxSpeedButton
-        Left = 4
-        Top = 173
-        Width = 62
+        Left = 2
+        Top = 167
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTCAD_PRO_EST_LCT
@@ -7706,9 +7823,9 @@ object FrmPrincipal: TFrmPrincipal
         OnMouseMove = FormMouseMove
       end
       object RSBFIS_NFE_LCT: TRxSpeedButton
-        Left = 4
-        Top = 341
-        Width = 62
+        Left = 2
+        Top = 329
+        Width = 60
         Height = 52
         Cursor = crHandPoint
         Action = ACTFIS_NFE_LCT
@@ -7825,7 +7942,7 @@ object FrmPrincipal: TFrmPrincipal
     object Panel7: TPanel
       Left = 2
       Top = 2
-      Width = 136
+      Width = 128
       Height = 19
       Align = alTop
       BevelOuter = bvNone
@@ -7834,7 +7951,7 @@ object FrmPrincipal: TFrmPrincipal
       object LALegenda: TLabel
         Left = 0
         Top = 0
-        Width = 136
+        Width = 128
         Height = 19
         Align = alClient
         Alignment = taCenter
@@ -8549,7 +8666,6 @@ object FrmPrincipal: TFrmPrincipal
       Category = 'Menu Principal'
       Caption = 'Sair ...'
       Hint = 'Fechar Sistema'
-      ShortCut = 27
       OnExecute = ACTMP_SAIDAExecute
     end
     object ACTPED_PDV_ADM: TAction
@@ -8561,6 +8677,7 @@ object FrmPrincipal: TFrmPrincipal
     object ACTCAD_PRO_ADM: TAction
       Category = 'Produtos'
       Caption = 'Cadastro de Produtos'
+      Hint = 'Cadastro de Produtos'
       OnExecute = ACTCAD_PRO_ADMExecute
     end
     object ACTCAD_PRO_EST_ADM: TAction

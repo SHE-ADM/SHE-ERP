@@ -1010,7 +1010,7 @@ begin
   if CadastroPDSC.AsFloat > 0 then
   DBGConsultaPDSC.Visible := True;
 
-  DBGConsulta.ApplyBestFit(DBGConsultaDEPK);
+  //DBGConsulta.ApplyBestFit(DBGConsultaDEPK);
   DBGConsulta.ApplyBestFit(DBGConsultaQTRL); DBGConsultaQTRL.Width := DBGConsultaQTRL.Width + 08;
   DBGConsulta.ApplyBestFit(DBGConsultaRLSP); DBGConsultaRLSP.Width := DBGConsultaQTRL.Width;
 
@@ -1588,8 +1588,8 @@ begin
 
   { ATUALIZA ESTOQUE }
   uCAD_PRO_EST_LAN_UPD(oREPZero('PED_VEN_ITE','_',RECParametros.EP_ID,3),
-                       RECParametros.EP_ID ,
-                       CadastroIDPK.AsString,
+                       RECParametros.EP_ID   ,
+                       CadastroIDPK.AsString ,
 
                        'EP_ID',
                        'IDPK' ,
@@ -1874,6 +1874,16 @@ begin
         end;
           
         oCTransact(TEdicao);
+
+        { ATUALIZA ESTOQUE }
+        uCAD_PRO_EST_LAN_UPD(oREPZero('PED_VEN_ITE','_',RECParametros.EP_ID,3),
+                             RECParametros.EP_ID   ,
+                             CadastroIDPK.AsString ,
+
+                            'EP_ID',
+                            'IDPK' ,
+                            'CP_ID');
+
         oAviso(Self.Handle,'Pedido Cancelado com Sucesso !');
         oRefresh(Cadastro);
       except

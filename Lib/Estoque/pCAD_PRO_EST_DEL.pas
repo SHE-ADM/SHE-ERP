@@ -90,9 +90,7 @@ implementation
 
 procedure TFrmCAD_PRO_EST_DEL.FormCreate(Sender: TObject);
 begin
-  { FORM SCREEN }
   REC_SHE_DEF.FPosition := Self.Position; { Posição }
-
   REC_SHE_DEF.FMainArea := False; { Aplicativo }
   REC_SHE_DEF.FWorkArea := False; { Windows    }
 
@@ -125,6 +123,20 @@ begin
     CECDRO.Enabled     := True;
     CECDET_INI.Enabled := True;
     CECDET_FIM.Enabled := True;
+  end;
+
+  if not REC_SHE_DEF.GAdmin then
+  begin
+    oErro(Application.Handle,
+          'ACESSO NEGADO !' + #13 +
+          'Usuário não Autorizado');
+
+    Self.Visible := False;
+    Self.Height  := 0;
+    Self.Width   := 0;
+
+    PostMessage(Handle, WM_CLOSE, 0, 0);
+    Exit;
   end;
 end;
 

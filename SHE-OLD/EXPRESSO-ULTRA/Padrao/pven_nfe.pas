@@ -1781,28 +1781,14 @@ begin
   end;
 
   sbMAIN.Panels[1].Text := NFeAutorizacao(PChar('C:\Sheild\NotaFiscal\NFe\lotes\'+oStrZero(strtoint(edcdnf.Text),12)+'-env-lot.xml'));
+  sbMAIN.Refresh;
+  SleepEx(1000,False);
 
-  for x := 1 to length(sbMAIN.Panels[1].Text) do
-  begin
-    if copy(sbMAIN.Panels[1].Text,x,1) = '#' then
-    break;
-  end;
-  inc(x);
-  protocolo := TRIM(copy(sbMAIN.Panels[1].Text,x,length(sbMAIN.Panels[1].Text)));
-
-  if (copy(sbMAIN.Panels[1].Text,1,3) <> '103') or (protocolo = '') then
-  begin
-    EDITAR;
-    oException(Nil,'Falha no recebimento do lote !'+#13+
-                   'Tente Novamente.');
-  end;
-
-  SleepEx(500,False);
   frmven_npr                 := Tfrmven_npr.Create(self);
   frmven_npr.Caption         := 'Transmissão de NFe';
   frmven_npr.edchv.Text      := copy(chave,4,100);
   frmven_npr.edpro.Text      := TRIM(protocolo);
-  frmven_npr.edConsulta.Text := NfeRetAutorizacao(PChar(frmven_npr.edpro.Text));
+  //frmven_npr.edConsulta.Text := NfeRetAutorizacao(PChar(frmven_npr.edpro.Text));
 
   try
     frmven_npr.ShowModal;

@@ -2168,7 +2168,7 @@ object FrmSobre: TFrmSobre
       Height = 25
       Alignment = taCenter
       AutoSize = False
-      Caption = 'Copyright '#169' 2026 SHEILD'
+      Caption = 'Copyright '#169' 2026 S.H.E.I.LD.'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWhite
       Font.Height = -19
@@ -2256,32 +2256,32 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object laCOM: TLabel
-      Left = 342
+      Left = 326
       Top = 198
-      Width = 53
+      Width = 54
       Height = 17
       Caption = 'Compras'
       Color = clInfoBk
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
-      Font.Name = 'Segoe UI'
-      Font.Style = []
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
     end
     object laVEN: TLabel
-      Left = 342
+      Left = 326
       Top = 214
-      Width = 42
+      Width = 43
       Height = 17
       Caption = 'Vendas'
       Color = clInfoBk
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
-      Font.Name = 'Segoe UI'
-      Font.Style = []
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
     end
@@ -2301,17 +2301,17 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object laFAT: TLabel
-      Left = 342
+      Left = 326
       Top = 230
-      Width = 73
+      Width = 79
       Height = 17
       Caption = 'Faturamento'
       Color = clInfoBk
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
-      Font.Name = 'Segoe UI'
-      Font.Style = []
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
     end
@@ -2320,7 +2320,7 @@ object FrmSobre: TFrmSobre
       Top = 214
       Width = 14
       Height = 17
-      Caption = '25'
+      Caption = '07'
       Color = clInfoBk
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -2346,17 +2346,17 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object laFIN: TLabel
-      Left = 342
+      Left = 326
       Top = 246
-      Width = 59
+      Width = 62
       Height = 17
       Caption = 'Financeiro'
       Color = clInfoBk
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
-      Font.Name = 'Segoe UI'
-      Font.Style = []
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
     end
@@ -2376,17 +2376,17 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object laOCA: TLabel
-      Left = 342
+      Left = 326
       Top = 182
-      Width = 71
+      Width = 74
       Height = 17
       Caption = 'Or'#231'amentos'
       Color = clInfoBk
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
-      Font.Name = 'Segoe UI'
-      Font.Style = []
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
     end
@@ -2395,7 +2395,7 @@ object FrmSobre: TFrmSobre
       Top = 182
       Width = 14
       Height = 17
-      Caption = '25'
+      Caption = '07'
       Color = clInfoBk
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -2406,17 +2406,17 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object laPCP: TLabel
-      Left = 342
+      Left = 326
       Top = 150
-      Width = 22
+      Width = 24
       Height = 17
       Caption = 'PCP'
       Color = clInfoBk
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
-      Font.Name = 'Segoe UI'
-      Font.Style = []
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
     end
@@ -2425,7 +2425,7 @@ object FrmSobre: TFrmSobre
       Top = 150
       Width = 14
       Height = 17
-      Caption = '17'
+      Caption = '40'
       Color = clInfoBk
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -2436,17 +2436,17 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object laETI: TLabel
-      Left = 342
+      Left = 326
       Top = 166
-      Width = 53
+      Width = 56
       Height = 17
       Caption = 'Etiquetas'
       Color = clInfoBk
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
-      Font.Name = 'Segoe UI'
-      Font.Style = []
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
     end
@@ -2468,9 +2468,9 @@ object FrmSobre: TFrmSobre
     object LANVersao: TLabel
       Left = 100
       Top = 4
-      Width = 112
+      Width = 106
       Height = 17
-      Caption = 'SHE-ERP-OLD-CMP'
+      Caption = 'SHE-ERP-OLD-EST'
       Color = clInfoBk
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -2485,7 +2485,7 @@ object FrmSobre: TFrmSobre
       Top = 20
       Width = 101
       Height = 17
-      Caption = '28/04/2026 08:10'
+      Caption = '22/05/2026 05:27'
       Color = clInfoBk
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -2496,7 +2496,7 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object lbLICE: TLabel
-      Left = 78
+      Left = 102
       Top = 230
       Width = 42
       Height = 17
@@ -2511,7 +2511,7 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object lbQUSU: TLabel
-      Left = 78
+      Left = 102
       Top = 246
       Width = 21
       Height = 17
@@ -2540,17 +2540,17 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object LABOL: TLabel
-      Left = 342
+      Left = 326
       Top = 262
-      Width = 43
+      Width = 45
       Height = 17
       Caption = 'Boletos'
       Color = clInfoBk
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
-      Font.Name = 'Segoe UI'
-      Font.Style = []
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
     end
@@ -2559,7 +2559,7 @@ object FrmSobre: TFrmSobre
       Top = 262
       Width = 14
       Height = 17
-      Caption = '03'
+      Caption = '07'
       Color = clInfoBk
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -2584,8 +2584,7 @@ object FrmSobre: TFrmSobre
       Font.Name = 'Segoe UI Semibold'
       Font.Style = [fsBold, fsItalic]
       Lines.Strings = (
-        'Composi'#231#227'o t'#234'xtil - ajustes para novos artigos'
-        'Tabela de pre'#231'os - Listagem de pre'#231'os de produtos')
+        'Estoque - Revis'#227'o nas baixas de estoque de compras')
       ParentFont = False
       TabOrder = 0
     end

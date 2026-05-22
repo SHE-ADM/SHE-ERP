@@ -118,9 +118,6 @@ begin
   FrmLogin.ShowModal;
 
   Application.CreateForm(TFrmPrincipal, FrmPrincipal);
-  Application.CreateForm(Tfrmcad_usu, frmcad_usu);
-  Application.CreateForm(Tfrmcad_usu_clo, frmcad_usu_clo);
-  Application.CreateForm(Tfrmcad_usu_edi, frmcad_usu_edi);
   Application.Initialize;
 
   FreeAndNil(FrmLogin);

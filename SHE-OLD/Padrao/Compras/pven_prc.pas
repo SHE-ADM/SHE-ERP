@@ -1664,7 +1664,6 @@ begin
         ibSP.ParamByName('DGCP' ).Value := EdicaoROM_DCO2.AsString;
         ibSP.ExecProc;
         IBSP.UnPrepare;
-        IBTRA.CommitRetaining;
       end;
 
       uSP_CAD_PRO_EST_LAN(IBSP,RECParametros.EP_ID,EdicaoROM_IPRO.AsInteger);

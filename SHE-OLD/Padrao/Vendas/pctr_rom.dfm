@@ -388,6 +388,9 @@ inherited frmctr_rom: Tfrmctr_rom
             BandIndex = 3
             RowIndex = 0
             FieldName = 'ROM_PSBR'
+            SummaryFooterType = cstSum
+            SummaryFooterField = 'ROM_PSBR'
+            SummaryFooterFormat = '#,0.00'
             DisableFilter = True
           end
           object DBGItemROM_PSLQ: TdxDBGridMaskColumn
@@ -401,6 +404,9 @@ inherited frmctr_rom: Tfrmctr_rom
             BandIndex = 3
             RowIndex = 0
             FieldName = 'ROM_PSLQ'
+            SummaryFooterType = cstSum
+            SummaryFooterField = 'ROM_PSLQ'
+            SummaryFooterFormat = '#,0.00'
             DisableFilter = True
           end
         end

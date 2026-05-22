@@ -348,6 +348,7 @@ type
     N10: TMenuItem;
     MIREL_PRO_TAB_PRC: TMenuItem;
     ACTREL_PRO_TAB_PRC: TAction;
+    RSBNFControlePCP: TRxSpeedButton;
 
     procedure _DoneEvent(Sender: TObject);
 
@@ -434,6 +435,8 @@ type
     procedure ACTREL_GER_PDV_TPOExecute(Sender: TObject);
     procedure ACTCAD_PRO_GRD_TAMExecute(Sender: TObject);
     procedure ACTFIN_PAGExecute(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
 
   private
     { Private declarations }
@@ -459,7 +462,7 @@ procedure uCAD_PRO_EST_LAN_UPD(ATHR_TB_PK: String;
                                FTHR_PK_ID,
                                FTHR_CP_ID: String); STDCALL;
 
-procedure uSP_CAD_PRO_EST_LAN(ASPEdicao: TIBStoredProc; AEP_ID: Variant; ACP_ID: Variant);
+procedure uSP_CAD_PRO_EST_LAN(ASPEdicao: TIBStoredProc; AEP_ID: Variant; ACP_ID: Variant; AEvento: word = 0);
 
 { OLD PROCEDURE }
 procedure uConstrucao(ACaption: String = ''); STDCall;
@@ -764,14 +767,14 @@ begin
   end;
 end;
 
-procedure uSP_CAD_PRO_EST_LAN(ASPEdicao: TIBStoredProc; AEP_ID: Variant; ACP_ID: Variant);
+procedure uSP_CAD_PRO_EST_LAN(ASPEdicao: TIBStoredProc; AEP_ID: Variant; ACP_ID: Variant; AEvento: word = 0);
 begin
   ASPEdicao.StoredProcName := 'SP_CAD_PRO_EST_LAN';
   ASPEdicao.Prepare;
 
   ASPEdicao.ParamByName('AEP_ID').Value := AEP_ID;
   ASPEdicao.ParamByName('ACP_ID').Value := ACP_ID;
-  ASPEdicao.ParamByName('AIDEV' ).Value := 0;
+  ASPEdicao.ParamByName('AIDEV' ).Value := AEvento;
 
   ASPEdicao.ExecProc;
   ASPEdicao.UnPrepare;
@@ -2160,66 +2163,78 @@ begin
     oOTransact(FBird.TFBConsulta);
     with FBird.SQLFBConsulta do
     begin
-      { Carteira Logada }
+      { VER FUNCIONÁRIOS / REPRESENTANTES }
       Close;
       SQL.Clear;
-      SQL.Add('SELECT   ''AGUARDANDO LIBERAÇÃO'' AS STFI FROM ' + oREPZero('VW_FIN_REC_CAR','_',RECParametros.EP_ID,3) + ' AS PK');
-      SQL.Add('WHERE    PK.IDCD    = :IDCD');
-      SQL.Add('AND      PK.FIN_BLQ = 1');
-      SQL.Add('GROUP BY 1');
-
-      { Bancários }
-      SQL.Add('UNION');
-      SQL.Add('SELECT   ''AGUARDANDO LIBERAÇÃO'' AS STFI FROM VW_FIN_REC_BAN AS PK');
-      SQL.Add('WHERE    PK.IDCD    = :IDCD');
-      SQL.Add('AND      PK.FIN_BLQ = 1');
-      SQL.Add('GROUP BY 1');
-      SQL.Add('UNION');
-      SQL.Add('SELECT   ''AGUARDANDO LIBERAÇÃO'' AS STFI FROM VW_FIN_REC_BAN_002 AS PK');
-      SQL.Add('WHERE    PK.IDCD    = :IDCD');
-      SQL.Add('AND      PK.FIN_BLQ = 1');
-      SQL.Add('GROUP BY 1');
-      SQL.Add('UNION');
-      SQL.Add('SELECT   ''AGUARDANDO LIBERAÇÃO'' AS STFI FROM VW_FIN_REC_BAN_003 AS PK');
-      SQL.Add('WHERE    PK.IDCD    = :IDCD');
-      SQL.Add('AND      PK.FIN_BLQ = 1');
-      SQL.Add('GROUP BY 1');
-      SQL.Add('UNION');
-      SQL.Add('SELECT   ''AGUARDANDO LIBERAÇÃO'' AS STFI FROM VW_FIN_REC_BAN_004 AS PK');
-      SQL.Add('WHERE    PK.IDCD    = :IDCD');
-      SQL.Add('AND      PK.FIN_BLQ = 1');
-      SQL.Add('GROUP BY 1');
-      SQL.Add('UNION');
-      SQL.Add('SELECT   ''AGUARDANDO LIBERAÇÃO'' AS STFI FROM VW_FIN_REC_BAN_005 AS PK');
-      SQL.Add('WHERE    PK.IDCD    = :IDCD');
-      SQL.Add('AND      PK.FIN_BLQ = 1');
-      SQL.Add('GROUP BY 1');
-      SQL.Add('UNION');
-      SQL.Add('SELECT   ''AGUARDANDO LIBERAÇÃO'' AS STFI FROM VW_FIN_REC_BAN_006 AS PK');
-      SQL.Add('WHERE    PK.IDCD    = :IDCD');
-      SQL.Add('AND      PK.FIN_BLQ = 1');
-      SQL.Add('GROUP BY 1');
-      SQL.Add('UNION');
-      SQL.Add('SELECT   ''AGUARDANDO LIBERAÇÃO'' AS STFI FROM VW_FIN_REC_BAN_007 AS PK');
-      SQL.Add('WHERE    PK.IDCD    = :IDCD');
-      SQL.Add('AND      PK.FIN_BLQ = 1');
-      SQL.Add('GROUP BY 1');
-      SQL.Add('UNION');
-      SQL.Add('SELECT   ''AGUARDANDO LIBERAÇÃO'' AS STFI FROM VW_FIN_REC_BAN_008 AS PK');
-      SQL.Add('WHERE    PK.IDCD    = :IDCD');
-      SQL.Add('AND      PK.FIN_BLQ = 1');
-      SQL.Add('GROUP BY 1');
-      SQL.Add('UNION');
-      SQL.Add('SELECT   ''AGUARDANDO LIBERAÇÃO'' AS STFI FROM VW_FIN_REC_BAN_009 AS PK');
-      SQL.Add('WHERE    PK.IDCD    = :IDCD');
-      SQL.Add('AND      PK.FIN_BLQ = 1');
-      SQL.Add('GROUP BY 1');
-
-      ParamByName('IDCD').Value := AIDCliente;
-      Prepare;
+      SQL.Add('SELECT 1 FROM CAD_CLI');
+      SQL.Add('WHERE  CD_ID = ''' + AIDCLIENTE + '''');
+      SQL.Add('AND (FANTASIA CONTAINING ''FUNCION''' );
+      SQL.Add('OR   FANTASIA CONTAINING ''REPRESE'')');
       ExecQuery;
 
-      result := Trim(Current.Vars[0].AsString);
+      if Eof then
+      begin
+        { Carteira Logada }
+        Close;
+        SQL.Clear;
+        SQL.Add('SELECT   ''AGUARDANDO LIBERAÇÃO'' AS STFI FROM ' + oREPZero('VW_FIN_REC_CAR','_',RECParametros.EP_ID,3) + ' AS PK');
+        SQL.Add('WHERE    PK.IDCD    = :IDCD');
+        SQL.Add('AND      PK.FIN_BLQ = 1');
+        SQL.Add('GROUP BY 1');
+
+        { Bancários }
+        SQL.Add('UNION');
+        SQL.Add('SELECT   ''AGUARDANDO LIBERAÇÃO'' AS STFI FROM VW_FIN_REC_BAN AS PK');
+        SQL.Add('WHERE    PK.IDCD    = :IDCD');
+        SQL.Add('AND      PK.FIN_BLQ = 1');
+        SQL.Add('GROUP BY 1');
+        SQL.Add('UNION');
+        SQL.Add('SELECT   ''AGUARDANDO LIBERAÇÃO'' AS STFI FROM VW_FIN_REC_BAN_002 AS PK');
+        SQL.Add('WHERE    PK.IDCD    = :IDCD');
+        SQL.Add('AND      PK.FIN_BLQ = 1');
+        SQL.Add('GROUP BY 1');
+        SQL.Add('UNION');
+        SQL.Add('SELECT   ''AGUARDANDO LIBERAÇÃO'' AS STFI FROM VW_FIN_REC_BAN_003 AS PK');
+        SQL.Add('WHERE    PK.IDCD    = :IDCD');
+        SQL.Add('AND      PK.FIN_BLQ = 1');
+        SQL.Add('GROUP BY 1');
+        SQL.Add('UNION');
+        SQL.Add('SELECT   ''AGUARDANDO LIBERAÇÃO'' AS STFI FROM VW_FIN_REC_BAN_004 AS PK');
+        SQL.Add('WHERE    PK.IDCD    = :IDCD');
+        SQL.Add('AND      PK.FIN_BLQ = 1');
+        SQL.Add('GROUP BY 1');
+        SQL.Add('UNION');
+        SQL.Add('SELECT   ''AGUARDANDO LIBERAÇÃO'' AS STFI FROM VW_FIN_REC_BAN_005 AS PK');
+        SQL.Add('WHERE    PK.IDCD    = :IDCD');
+        SQL.Add('AND      PK.FIN_BLQ = 1');
+        SQL.Add('GROUP BY 1');
+        SQL.Add('UNION');
+        SQL.Add('SELECT   ''AGUARDANDO LIBERAÇÃO'' AS STFI FROM VW_FIN_REC_BAN_006 AS PK');
+        SQL.Add('WHERE    PK.IDCD    = :IDCD');
+        SQL.Add('AND      PK.FIN_BLQ = 1');
+        SQL.Add('GROUP BY 1');
+        SQL.Add('UNION');
+        SQL.Add('SELECT   ''AGUARDANDO LIBERAÇÃO'' AS STFI FROM VW_FIN_REC_BAN_007 AS PK');
+        SQL.Add('WHERE    PK.IDCD    = :IDCD');
+        SQL.Add('AND      PK.FIN_BLQ = 1');
+        SQL.Add('GROUP BY 1');
+        SQL.Add('UNION');
+        SQL.Add('SELECT   ''AGUARDANDO LIBERAÇÃO'' AS STFI FROM VW_FIN_REC_BAN_008 AS PK');
+        SQL.Add('WHERE    PK.IDCD    = :IDCD');
+        SQL.Add('AND      PK.FIN_BLQ = 1');
+        SQL.Add('GROUP BY 1');
+        SQL.Add('UNION');
+        SQL.Add('SELECT   ''AGUARDANDO LIBERAÇÃO'' AS STFI FROM VW_FIN_REC_BAN_009 AS PK');
+        SQL.Add('WHERE    PK.IDCD    = :IDCD');
+        SQL.Add('AND      PK.FIN_BLQ = 1');
+        SQL.Add('GROUP BY 1');
+
+        ParamByName('IDCD').Value := AIDCliente;
+        Prepare;
+        ExecQuery;
+
+        result := Trim(Current.Vars[0].AsString);
+      end;  
     end;
   finally
     oCTransact(FBird.TFBConsulta);
@@ -2237,57 +2252,69 @@ begin
     oRTransact(FBird.TFBConsulta);
     with FBird.SQLFBConsulta do
     begin
+      { VER FUNCIONÁRIOS / REPRESENTANTES }
       Close;
       SQL.Clear;
-      SQL.Add('SELECT VCRD FROM CAD_CLI_CRD');
-      SQL.Add('WHERE  IDEP = ''' + RECParametros.EP_ID + '''');
-      SQL.Add('AND    IDCD = ''' + AIDCLIENTE       + '''');
+      SQL.Add('SELECT 1 FROM CAD_CLI');
+      SQL.Add('WHERE  CD_ID = ''' + AIDCLIENTE + '''');
+      SQL.Add('AND (FANTASIA CONTAINING ''FUNCION''' );
+      SQL.Add('OR   FANTASIA CONTAINING ''REPRESE'')');
       ExecQuery;
-      AVCRD := Current.Vars[0].AsCurrency;
 
-      Close;
-      SQL.Clear;
-      SQL.Add('SELECT SUM(FIN_VPEN),COUNT(*) FROM '+SLPrincipal.Values['fin_rec_ban_bai']);
-      SQL.Add('WHERE  FIN_CCLI = '''+AIDCliente+'''');
-      SQL.Add('AND    FIN_STFI NOT CONTAINING ''CANCELADO''');
-      SQL.Add('AND    FIN_STFI NOT CONTAINING ''BAIXADO''');
-      SQL.Add('AND    FIN_STFI NOT LIKE ''PAGO%''');
-      ExecQuery;
-      VALOR_BANCARIO := Current.Vars[0].AsFloat;
-      ITENS_BANCARIO := Current.Vars[1].AsInteger;
+      if Eof then
+      begin
+        Close;
+        SQL.Clear;
+        SQL.Add('SELECT VCRD FROM CAD_CLI_CRD');
+        SQL.Add('WHERE  IDEP = ''' + RECParametros.EP_ID + '''');
+        SQL.Add('AND    IDCD = ''' + AIDCLIENTE       + '''');
+        ExecQuery;
+        AVCRD := Current.Vars[0].AsCurrency;
 
-      Close;
-      SQL.Clear;
-      SQL.Add('SELECT SUM(FIN_VPEN*IIF(FIN_CONC > 0,FIN_CONC,1)),COUNT(*) FROM '+SLPrincipal.Values['fin_rec_car_bai']);
-      SQL.Add('WHERE  FIN_CCLI = '''+AIDCliente+'''');
-      SQL.Add('AND    FIN_STFI NOT CONTAINING ''CANCELADO''');
-      SQL.Add('AND    FIN_STFI NOT CONTAINING ''BAIXADO''');
-      SQL.Add('AND    FIN_STFI NOT LIKE ''PAGO%''');
-      ExecQuery;
-      VALOR_CARTEIRA := Current.Vars[0].AsFloat;
-      ITENS_CARTEIRA := Current.Vars[1].AsInteger;
+        Close;
+        SQL.Clear;
+        SQL.Add('SELECT SUM(FIN_VPEN),COUNT(*) FROM '+SLPrincipal.Values['fin_rec_ban_bai']);
+        SQL.Add('WHERE  FIN_CCLI = '''+AIDCliente+'''');
+        SQL.Add('AND    FIN_STFI NOT CONTAINING ''CANCELADO''');
+        SQL.Add('AND    FIN_STFI NOT CONTAINING ''BAIXADO''');
+        SQL.Add('AND    FIN_STFI NOT LIKE ''PAGO%''');
+        ExecQuery;
+        VALOR_BANCARIO := Current.Vars[0].AsFloat;
+        ITENS_BANCARIO := Current.Vars[1].AsInteger;
 
-      Close;
-      SQL.Clear;
-      SQL.Add('SELECT SUM(PK.TCDE),COUNT(*)');
-      SQL.Add('FROM '+oREPZero('VW_PED_VEN_CAB','_',RECParametros.EP_ID,3)+' AS PK');
-      SQL.Add('WHERE  PK.IDEP = '''+RECParametros.EP_ID+'''');
-      SQL.Add('AND    PK.IDCD = '''+AIDCliente      +'''');
-      SQL.Add('AND    PK.FAPD = 1'); // Tipo   Faturamento
-      SQL.Add('AND    PK.BQPD = 1'); // Tipo   Bloqueável Financeiramente
-      SQL.Add('AND    PK.APST = 1'); // Status Pendente
-      SQL.Add('AND    PK.CSCD = 0'); // Status Pendente
-      ExecQuery;
-      VALOR_PEDIDO := Current.Vars[0].AsFloat;
-      ITENS_PEDIDO := Current.Vars[1].AsInteger;
+        Close;
+        SQL.Clear;
+        SQL.Add('SELECT SUM(FIN_VPEN*IIF(FIN_CONC > 0,FIN_CONC,1)),COUNT(*) FROM '+SLPrincipal.Values['fin_rec_car_bai']);
+        SQL.Add('WHERE  FIN_CCLI = '''+AIDCliente+'''');
+        SQL.Add('AND    FIN_STFI NOT CONTAINING ''CANCELADO''');
+        SQL.Add('AND    FIN_STFI NOT CONTAINING ''BAIXADO''');
+        SQL.Add('AND    FIN_STFI NOT LIKE ''PAGO%''');
+        ExecQuery;
+        VALOR_CARTEIRA := Current.Vars[0].AsFloat;
+        ITENS_CARTEIRA := Current.Vars[1].AsInteger;
+
+        Close;
+        SQL.Clear;
+        SQL.Add('SELECT SUM(PK.TCDE),COUNT(*)');
+        SQL.Add('FROM '+oREPZero('VW_PED_VEN_CAB','_',RECParametros.EP_ID,3)+' AS PK');
+        SQL.Add('WHERE  PK.IDEP = '''+RECParametros.EP_ID+'''');
+        SQL.Add('AND    PK.IDCD = '''+AIDCliente      +'''');
+        SQL.Add('AND    PK.FAPD = 1'); // Tipo   Faturamento
+        SQL.Add('AND    PK.BQPD = 1'); // Tipo   Bloqueável Financeiramente
+        SQL.Add('AND    PK.APST = 1'); // Status Pendente
+        SQL.Add('AND    PK.CSCD = 0'); // Status Pendente
+        ExecQuery;
+        VALOR_PEDIDO := Current.Vars[0].AsFloat;
+        ITENS_PEDIDO := Current.Vars[1].AsInteger;
+
+        VALOR_SALDO := AVCRD - (VALOR_BANCARIO+VALOR_CARTEIRA);
+        if VALOR_SALDO < 0 then
+        VALOR_SALDO := 0;
+
+        if ATotal > VALOR_SALDO then
+        result := 'AGUARDANDO CRÉDITO';
+      end;
     end;
-
-    VALOR_SALDO := AVCRD - (VALOR_BANCARIO+VALOR_CARTEIRA);
-    if VALOR_SALDO < 0 then
-    VALOR_SALDO := 0;
-
-    if ATotal > VALOR_SALDO then
-    result := 'AGUARDANDO CRÉDITO';
   finally
     if not oEmpty(result) then
     with FBird.SQLFBConsulta do
@@ -2455,6 +2482,9 @@ begin
   if oEmpty(RECUsuarios.Id) then
   Exit;
 
+  if Pos(RECUsuarios.Grupo,'DIRVEN') > 0 then
+  TFrmCTR_PED._ExecForm(Application,FrmCTR_PED);
+
   _Aviso_Reserva;
 end;
 
@@ -2621,7 +2651,7 @@ procedure TFrmPrincipal.ACTADM_COMISSAOExecute(Sender: TObject);
                 SQL.Add('JOIN     CAD_REP     AS CR ON (CR.ID = PK.IDCR)');
                 SQL.Add('JOIN     TAB_PAG     AS PG ON (PG.ID = PK.CDPG)');
                // SQL.Add('WHERE    CAST(PK.DTBX AS DATE) >= DATEADD(MONTH,-1,DATEADD(1 - EXTRACT(DAY FROM CURRENT_DATE) DAY TO CURRENT_DATE))');
-                SQL.Add('WHERE    CAST(PK.DTBX AS DATE) >= ''03/01/26''');
+                SQL.Add('WHERE    CAST(PK.DTBX AS DATE) >= ''04/01/26''');
               //SQL.Add('AND      PK.DEPD = ''109506''');
                 SQL.Add('ORDER BY PK.DTBX');
                 ExecQuery;
@@ -2766,7 +2796,7 @@ procedure TFrmPrincipal.ACTADM_COMISSAOExecute(Sender: TObject);
                 SQL.Add('JOIN     CAD_REP         AS CR ON (CR.ID = PK.IDCR)');
                 SQL.Add('JOIN     TAB_PAG         AS PG ON (PG.ID = PK.CDPG)');
                 //SQL.Add('WHERE    CAST(PK.DTBX AS DATE) >= DATEADD(MONTH,-1,DATEADD(1 - EXTRACT(DAY FROM CURRENT_DATE) DAY TO CURRENT_DATE))');
-                SQL.Add('WHERE    CAST(PK.DTBX AS DATE) >= ''03/01/26''');
+                SQL.Add('WHERE    CAST(PK.DTBX AS DATE) >= ''04/01/26''');
               //SQL.Add('AND      PK.DEPD = ''99669''');
                 SQL.Add('ORDER BY PK.DTBX');
                 ExecQuery;
@@ -3555,7 +3585,8 @@ end;
 
 procedure TFrmPrincipal.ACTMU_FIS_NFE_SAIExecute(Sender: TObject);
 begin
-  AREC_SHE_DEF.GDescricao := 'Logística'; AREC_SHE_DEF.GReferencia := 'Saídas'; AREC_SHE_DEF.GRegra := 'Controle'; oUSER(AREC_SHE_DEF);
+  AREC_SHE_DEF.GDescricao := 'Logística'; AREC_SHE_DEF.GReferencia := 'Saídas'; AREC_SHE_DEF.GRegra := 'Permissões Gerais';
+  oUSER(AREC_SHE_DEF);
 
   if AREC_SHE_DEF.GAppend then
   TFrmNFeSaida._ExecForm(Application,FrmNFeSaida) else
@@ -3941,15 +3972,15 @@ begin
   False,       { Pesquisa }
   fsMDIChild,  { Tipo     }
 
-  0,  { Código Principal }
-  '', { Descrição Principal }
+  0,  { IDPK - Código Principal }
+  '', { DEPK - Descrição Principal }
 
-  0, { Evento Principal }
-  2, { Tipo   Evento - 0: Copiado    1: Vazio  2: Romaneado }
-  1, { Código Evento - 0: Triangular 1: Normal 2: Complementar 3: Ajustes 4:Devolução }
+  0,  { IDEV - Evento Principal }
+  1,  { CDEV - Código Evento - 0: Triangular 1: Normal 2: Complementar 3: Ajustes 4:Devolução }
+  1,  { TPEV - Tipo   Evento - 0: Copiado    1: Vazio  2: Romaneado }
 
-  '', { Tabela }
-  ''  { Get }
+  '', { AFB_SQL_TAB - Tabela }
+  ''  { AFB_SQL_GET - Get }
   );
 end;
 
@@ -4040,6 +4071,13 @@ end;
 procedure TFrmPrincipal.ACTREL_GER_PDV_TPOExecute(Sender: TObject);
 begin
   uConstrucao('Em desenvolvimento ...');
+end;
+
+procedure TFrmPrincipal.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if key = vk_escape then
+  Close;
 end;
 
 end.

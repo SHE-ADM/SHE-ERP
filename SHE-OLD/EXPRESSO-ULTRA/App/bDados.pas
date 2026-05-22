@@ -186,10 +186,10 @@ begin
   }
 
  //IP  := '192.168.0.200:'; // trims21
-// IP  := '192.168.2.113:'; // expresso
+ IP  := '192.168.2.113:'; // expresso
 // IP  := '10.15.7.60:';    // abc
 //   IP  := '10.15.7.60:';
-   LAN := 'REDE LOCAL';
+//   LAN := 'REDE LOCAL';
 
   ibDB.Connected    := false;
   bSHEILD.Connected := false;

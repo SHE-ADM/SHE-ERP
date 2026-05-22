@@ -1183,6 +1183,8 @@ Type
     DBGEdicaoNFE_CBENEF: TdxDBGridColumn;
     TAB_CFOPCBENEF: TIBStringField;
     TAB_CFOPCBENEF_RBC: TIBStringField;
+    FIS_NFE_SUMNFE_PSBR: TIBBCDField;
+    FIS_NFE_SUMNFE_PSLQ: TIBBCDField;
 
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -1389,6 +1391,7 @@ Type
     procedure LAIDCDClick(Sender: TObject);
     procedure PECFOPValidate(Sender: TObject; var ErrorText: String;
       var Accept: Boolean);
+    procedure FIS_NFE_SUMAfterOpen(DataSet: TDataSet);
   private
     { Private declarations }
     FCurrentEvent,
@@ -1731,52 +1734,18 @@ begin
   try
     if TForm(Self).Name <> EmptyStr then
     if Assigned(_Form) and _Form.Find(ClassName,idxForm) and (_Form.Objects[idxForm] <> Nil) then
-
     try
-      { Eventos }
+      { record e afins }
       try
-        try
-          EEvent.UnRegisterEvents;
-        except
-          on E: Exception do
-          begin
-            oErro(Application.Handle,'Falha ao tentar fechar eventos !'+#13+#13+
-                                     'Error Code: '+E.Message+'.'      +#13+
-                                      Caption+'.');
-          end;
+        oFREC_SHE_DEF(REC_SHE_DEF);
+      except
+        on E: Exception do
+        begin
+         oErro(Application.Handle,'Falha ao tentar esvaziar memória !'+#13+#13+
+                                  'Error Code: '+E.Message+'.'        +#13+
+                                   Caption+'.');
         end;
-
-      finally
-        try
-          { Transação Principal }
-          try
-            oFTransact(TConsulta); { Consultas }
-            oFTransact(TEvent   ); { Eventos }
-            oFTransact(TSEdicao ); { Edições Temporárias }
-          except
-            on E: Exception do
-            begin
-              oErro(Application.Handle,'Falha ao tentar fechar tabelas !'+#13+#13+
-                                       'Error Code: '+E.Message+'.'      +#13+
-                                        Caption+'.');
-            end;
-          end;
-
-        finally
-          { record e afins }
-          try
-            oFREC_SHE_DEF(REC_SHE_DEF);
-          except
-            on E: Exception do
-            begin
-             oErro(Application.Handle,'Falha ao tentar esvaziar memória !'+#13+#13+
-                                      'Error Code: '+E.Message+'.'        +#13+
-                                       Caption+'.');
-            end;
-          end;
-
-        end;
-      end;
+      end;  
 
     finally
       PtrForm(_Form.Objects[idxForm])^ := Nil;
@@ -1918,31 +1887,31 @@ end;
 
 procedure TFrmVEN_NFE.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-{ try
-    oOTransact(TEdicao);
-    with SQLEdicao do
-    begin
-      Close;
-      SQL.Clear;
-      SQL.Add('UPDATE NFE_EMI ');
-      SQL.Add('SET    FLAG = 1');
-      SQL.Add('WHERE  CDNF = ''' + CECDNF.Text + '''');
-      SQL.Add('AND    CDNF_REM = 0');
-      SQL.Add('AND    TIPO = ''NORMAL''');
-      ExecQuery;
-    end;
-    oCTransact(TEdicao);
+  { Eventos }
+  try
+    EEvent.UnRegisterEvents;
   except
     on E: Exception do
     begin
-      oCTransact(TEdicao,ltRollback);
-
-      oErro(Application.Handle,
-      'Falha ao tentar registrar disponibilidade de numerações !' + #13 +
-      'Favor entrar em contato com o administrador do sistema.'   + #13 + #13 +
-      'Error Code: ' + E.Message + '.');
+      oErro(Application.Handle,'Falha ao tentar fechar eventos !'+#13+#13+
+                               'Error Code: '+E.Message+'.'      +#13+
+                                Caption+'.');
     end;
-  end; }
+  end;
+
+  { Transação Principal }
+  try
+    oFTransact(TConsulta); { Consultas }
+    oFTransact(TEvent   ); { Eventos }
+    oFTransact(TSEdicao ); { Edições Temporárias }
+  except
+    on E: Exception do
+    begin
+      oErro(Application.Handle,'Falha ao tentar fechar tabelas !'+#13+#13+
+                               'Error Code: '+E.Message+'.'      +#13+
+                                Caption+'.');
+    end;
+  end;
 
   Action := caFree;
 end;
@@ -1951,6 +1920,7 @@ procedure TFrmVEN_NFE.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   case key of
+       vk_escape: ACTSaida.Execute;
        vk_return: if (not (ActiveControl is TdxDBGrid)    and
                       not (ActiveControl is TdxDBMemo)    and
                       not (ActiveControl is TdxMemo)      and
@@ -2677,6 +2647,21 @@ begin
         SQL.Add('WHERE  PK.CDNF_REM = ''' + REC_SHE_DEF.DEPK + '''');
         ExecQuery;
         CECDNF.Value := Current.Vars[0].AsInteger;
+
+        if CECDNF.Value = 0 then
+        begin
+          Close;
+          SQL.Clear;
+          SQL.Add('SELECT RCDNF,TCDNF FROM SP_NFE_EMI (   ');
+          SQL.Add(''''  + RECParametros.EP_ID        + ''',');
+          SQL.Add(''''  + RECUsuarios.ID             + ''',');
+          SQL.Add(''''  + RECParametros.EP_GP_NO     + ''',');
+          SQL.Add(''''  + ACTPSQ_NFE_NUM.HelpKeyword + ''',');
+          SQL.Add(''''  + RECParametros.IP           + ''',');
+          SQL.Add(''''  + RECParametros.HOST         + ''')');
+          ExecQuery;
+          CECDNF.Value := Current.Vars[0].AsInteger; { Normal }
+        end;
       end else
       begin
         Close;
@@ -2899,6 +2884,9 @@ begin
       EdicaoNFE_QCOM.Value   := Current.ByName('UQTDE').AsCurrency;
       EdicaoNFE_RCOM.Value   := 1;
 
+      EdicaoCP_UPSBR.Value := Current.ByName('UPSBR').AsCurrency;
+      EdicaoCP_UPSLQ.Value := Current.ByName('UPSLQ').AsCurrency;
+
       EdicaoNFE_VUNPAD.Value := Current.ByName('VPRC_PAD').AsCurrency;
       EdicaoNFE_VUNCOM.Value := Current.ByName('VPRC_PAD').AsCurrency;
 
@@ -3022,7 +3010,7 @@ begin
     Close;
     SQL.Clear;
     SQL.Add('SELECT PK.ID   ,PK.IDEV,');
-    SQL.Add('PK.NFE_NITEMPED,PK.NFE_QCOM,PK.NFE_RCOM,');
+    SQL.Add('PK.NFE_NITEMPED,PK.NFE_QCOM,PK.NFE_RCOM,PK.NFE_PSBR,PK.NFE_PSLQ,');
 
     SQL.Add('CAST(''Produtos''                      AS VARCHAR(50)) AS LBL_VPROD         ,PK.NFE_VPROD,');
     SQL.Add('CAST(''Descontos''                     AS VARCHAR(50)) AS LBL_VDESC         ,PK.NFE_VDESC,');
@@ -3600,9 +3588,9 @@ end;
 procedure TFrmVEN_NFE.ACTMPValidateExecute(Sender: TObject);
 begin
   if oYesNo(handle,'Salvar Nota Fiscal ?') = mrYes then
-  if SBRodape.Panels[6].Text <> 'DUP' then { TIPO RETORNO }
+  if (SBRodape.Panels[6].Text <> 'DUP') and (SBRodape.Panels[6].Text <> 'CONSUMO') then { TIPO RETORNO }
   oException(Nil,'Falha ao tentar salvar nota fiscal !' + #13 +
-                 'Nota fiscal sem duplicidade de emissão confirmada.') else
+                 'Permitido apenas para nfs com duplicidade ou consumo indevido.') else
   begin
     SBRodape.Panels[5].Text := '100';
     ACTMPPost.Execute;
@@ -3631,64 +3619,59 @@ var
   Html,
   Msg: String;
 begin
-  try
-    if PEEmail.Text = EmptyStr then
-    oErro(Handle,'Email do destinatário não informado !');
+  if PEEmail.Text = EmptyStr then
+  oErro(Handle,'Email do destinatário não informado !');
 
-    Ok := False;
+  Ok := False;
 
-    if not FileExists(EDPDF.Text) then
-    Err := 'Arquivo PDF da danfe não localizado !' else
+  if not FileExists(EDPDF.Text) then
+  Err := 'Arquivo PDF da danfe não localizado !' else
 
-    if not FileExists(EDPDF.Text) then
-    Err := 'Arquivo XML não localizado !';
+  if not FileExists(EDPDF.Text) then
+  Err := 'Arquivo XML não localizado !';
 
-    Msg :=
+  Msg :=
 
-    'Segue em anexo ...' +
-    'Nota Fiscal Eletrônica ' + IFThen(Pos('Triangular',EDFINALIDADE_ABREV.Text) > 0,'','de ') + EDFINALIDADE_ABREV.Text +
-    'Número ' + CECDNF.Text + ' emitida na data ' + FormatDateTime('dd/mm/yyyy',DEdhSaiEnt.Date);
+  'Segue em anexo ...' +
+  'Nota Fiscal Eletrônica ' + IFThen(Pos('Triangular',EDFINALIDADE_ABREV.Text) > 0,'','de ') + EDFINALIDADE_ABREV.Text +
+  'Número ' + CECDNF.Text + ' emitida na data ' + FormatDateTime('dd/mm/yyyy',DEdhSaiEnt.Date);
 
-    if (FileExists(EDPDF.Text)) and (FileExists(EDXML.Text)) then
-    begin
-      Html :=
+  if (FileExists(EDPDF.Text)) and (FileExists(EDXML.Text)) then
+  begin
+    Html :=
 
-      '<html><body style="font-family:Segoe UI, Arial; font-size:12pt">' +
+    '<html><body style="font-family:Segoe UI, Arial; font-size:12pt">' +
 
-      '<p>Prezado cliente,</p>'   +
+    '<p>Prezado cliente,</p>'   +
 
-      '<p>' + Msg + '</p>' +
+    '<p>' + Msg + '</p>' +
 
-      '<p><b>Atenciosamente,</b><br/>' + RECUsuarios.Login + '</p>' +
+    '<p><b>Atenciosamente,</b><br/>' + RECUsuarios.Login + '</p>' +
 
-      '</body></html>';
+    '</body></html>';
 
-      Ok := oSendEmailOutlook365(
+    Ok := oSendEmailOutlook365(
 
-      PEEmail.Text, {'ricardo@sheild.com.br; suporte@sheild.app.br',  Destinatário }
-      RECUsuarios.EMAIL, { CC  }
-      '', { BCC }
+    PEEmail.Text, {'ricardo@sheild.com.br; suporte@sheild.app.br',  Destinatário }
+    RECUsuarios.EMAIL, { CC  }
+    '', { BCC }
 
-      RECParametros.EP_NO + ' - Nota Fiscal', { Assunto }
+    RECParametros.EP_NO + ' - Nota Fiscal', { Assunto }
 
-      Html, { Corpo da Mensagem }
+    Html, { Corpo da Mensagem }
 
-      [EDPDF.Text, EDXML.Text], { Anexos }
+    [EDPDF.Text, EDXML.Text], { Anexos }
 
-      False   , { False = enviar; True = abrir na tela }
-      mpNormal, { Prioridade }
-      '',       { ou 'shared-mailbox@empresa.com' se for enviar em nome de }
-      Err
-      );
-    end;
+    False   , { False = enviar; True = abrir na tela }
+    mpNormal, { Prioridade }
+    '',       { ou 'shared-mailbox@empresa.com' se for enviar em nome de }
+    Err
+    );
+  end;
 
-    if not Ok then
-    oErro (Handle,'Falha: ' + Err) else
-    oAviso(Handle,'E-mail enviado com sucesso.');
-
-  finally
-    Application.ProcessMessages;
-  end;  
+  if not Ok then
+  oErro (Handle,'Falha: ' + Err) else
+  oAviso(Handle,'E-mail enviado com sucesso.');
 end;
 
 procedure TFrmVEN_NFE.ACTMEAppendExecute(Sender: TObject);
@@ -4253,20 +4236,20 @@ begin
   SBRodape.Panels[0].Text := 'Consulta';
 
   { CABEÇALHO }
-  if FIS_NFE_ADM.State = dsInactive then
-     FIS_NFE_ADM.Open;
+  FIS_NFE_ADM.Close;
+  FIS_NFE_ADM.Open;
 
   { SUMÁRIO }
-  if FIS_NFE_SUM.State = dsInactive then
-     FIS_NFE_SUM.Open;
+  FIS_NFE_SUM.Close;
+  FIS_NFE_SUM.Open;
 
   { DUPLICATAS }
-  if FIS_NFE_DUP.State = dsInactive then
-     FIS_NFE_DUP.Open;
+  FIS_NFE_DUP.Close;
+  FIS_NFE_DUP.Open;
 
   { MÃO OBRA }
-  if FIS_NFE_MAO.State = dsInactive then
-     FIS_NFE_MAO.Open;
+  FIS_NFE_MAO.Close;
+  FIS_NFE_MAO.Open;
 end;
 
 procedure TFrmVEN_NFE.EdicaoBeforeClose(DataSet: TDataSet);
@@ -4359,6 +4342,9 @@ begin
   EdicaoNFE_UF.Value     := IEUF.Text;
   EdicaoNFE_INDTOT.Value := 1;
 
+  EdicaoCP_UPSBR.Value := 0;
+  EdicaoCP_UPSLQ.Value := 0;
+
   EdicaoIP.Value   := RECParametros.IP;
   EdicaoHOST.Value := RECParametros.HOST;
 end;
@@ -4416,6 +4402,10 @@ begin
 
   { Limpa CEST Incorreto ! }
   if EdicaoNFE_CEST.Value  = '0' then EdicaoNFE_CEST.Value := EmptyStr;
+
+  { Peso Unitário }
+  EdicaoNFE_PSBR.Value := EdicaoNFE_QCOM.Value * EdicaoCP_UPSBR.Value;
+  EdicaoNFE_PSLQ.Value := EdicaoNFE_QCOM.Value * EdicaoCP_UPSLQ.Value;
 end;
 
 procedure TFrmVEN_NFE.EdicaoAfterPost(DataSet: TDataSet);
@@ -7816,7 +7806,7 @@ begin
     tTotal[47] := ''; //vICMSMonoRet
 
     { NRT - NOVA REFORMA TRIBUTÁRIA }
- //   if EdicaoNFE_IBSCBS_CSTIS.AsString = '000' then
+    if EdicaoNFE_IBSCBS_CSTIS.AsString <> '' then
     begin
       //<ISTot> Grupo total do imposto seletivo
       tTotal[48] := ''; //<vIS> Total do Imposto Seletivo
@@ -7978,6 +7968,7 @@ begin
     SBRodape.Panels[2].Text := EmptyStr;
     SBRodape.Panels[4].Text := EmptyStr; { Protocolo }
     SBRodape.Panels[5].Text := EmptyStr; { CSTAT     }
+    SBRodape.Panels[6].Text := EmptyStr; { Retorno   }
     SBRodape.Update;
 
     repeat
@@ -7988,51 +7979,81 @@ begin
       Break;
 
       Application.ProcessMessages;
-      SleepEx(1000,False);
-    until y = 5;
+      SleepEx(2000,False);
+    until y = 2;
 
     if x = 1 then
     begin
-      SBRodape.Panels[1].Text := 'Lote gerado com sucesso ! Aguardando autorização do sefaz ...';
+      SBRodape.Panels[2].Text := 'Lote gerado com sucesso ! Aguardando autorização do sefaz ...';
       SBRodape.Update;
 
       y := 0;
       repeat
         inc(y);
-        SBRodape.Panels[1].Text :=  NFeAutorizacao(PChar('C:\Sheild\NotaFiscal\NFe\lotes\'+oStrZero(Trunc(CECDNF.Value),12) + '-env-lot.xml'));
+        SBRodape.Panels[2].Text :=  NFeAutorizacao(PChar('C:\Sheild\NotaFiscal\NFe\lotes\'+oStrZero(Trunc(CECDNF.Value),12) + '-env-lot.xml'));
         SBRodape.Update;
 
-        if LeftStr(SBRodape.Panels[1].Text,3) = '103' then { Lote recebido com sucesso }
+        if Pos('DUP',UpperCase(SBRodape.Panels[2].Text)) > 0 then
         begin
-          SBRodape.Panels[4].Text := Trim(RightStr(SBRodape.Panels[1].Text,Length(SBRodape.Panels[1].Text) - Pos('#',SBRodape.Panels[1].Text)));
+          SBRodape.Panels[1].Text := '';
+          SBRodape.Panels[6].Text := 'DUP';
+          SBRodape.Update;
+          Break;
+        end else
+
+        if Pos('DEN',UpperCase(SBRodape.Panels[2].Text)) > 0 then
+        begin
+          SBRodape.Panels[1].Text := 'Autorização Negada';
+          SBRodape.Panels[6].Text := 'DEN';
+          SBRodape.Update;
+          Break;
+        end else
+
+        if Pos('CONSUMO',UpperCase(SBRodape.Panels[2].Text)) > 0 then
+        begin
+          SBRodape.Panels[1].Text := 'Consumo Indevido';
+          SBRodape.Panels[6].Text := 'CONSUMO';
+          SBRodape.Update;
+          Break;
+        end else
+
+        if (Pos('AUTORIZADO',UpperCase(SBRodape.Panels[2].Text)) > 0) or
+           (Pos('100-'      ,UpperCase(SBRodape.Panels[2].Text)) > 0) then //LeftStr(SBRodape.Panels[2].Text,3) = '103' then { Lote recebido com sucesso }
+        begin
+          SBRodape.Panels[1].Text := 'Autorizado uso de NFe';
+          SBRodape.Panels[4].Text := Trim(RightStr(SBRodape.Panels[2].Text,Length(SBRodape.Panels[2].Text) - Pos('#',SBRodape.Panels[2].Text)));
+          SBRodape.Panels[5].Text := '100';
+          SBRodape.Panels[6].Text := 'AUTO';
           SBRodape.Update;
           Break;
         end;
 
         Application.ProcessMessages;
-        SleepEx(1000,False);
-      until y = 5;
+        SleepEx(2000,False);
+      until y = 2;
     end else
 
     if x = -1 then
-    SBRodape.Panels[1].Text := 'Falha na geração do lote' else
+    oException(Nil,'Falha na geração do lote') else
 
     if x = 0 then
-    SBRodape.Panels[1].Text := 'Operação Cancelada' else
+    oException(Nil,'Operação Cancelada') else
 
     if x = 2 then
-    SBRodape.Panels[1].Text := 'Não existe(m) arquivo(s) assinado(s)';
+    oException(Nil,'Não existe(m) arquivo(s) assinado(s)');
 
     if SBRodape.Panels[4].Text = EmptyStr then { PROTOCOLO }
     begin
       ACTNFeEdicao.Execute;
+
+      if (SBRodape.Panels[6].Text <> 'AUTO') and (SBRodape.Panels[6].Text <> 'DEN') then
       oException(Nil,'Falha na autorização do lote enviado !' + #13 +
-                     'Tente novamente clicando no botão validar.');
+                      SBRodape.Panels[2].Text) else
+
     end;
 
   finally
     Screen.cursor := crDefault;
-    Application.ProcessMessages;
   end;
 end;
 
@@ -8118,8 +8139,8 @@ begin
 
         SBRodape.Panels[2].Text := 'Tentativa(s): ' + INTTOSTR(Y);
         Application.ProcessMessages;
-        SleepEx(1000,False);
-      until y = 5;
+        SleepEx(2000,False);
+      until y = 2;
 
     finally
       if (SBRodape.Panels[2].Text <> EmptyStr) and (Pos(SBRodape.Panels[5].Text,'100110150') = 0) then
@@ -8161,6 +8182,10 @@ procedure TFrmVEN_NFE.ACTXMLSendExecute(Sender: TObject);
 var
   y: Word;
 begin
+  { VER NOTA FISCAL EXISTE }
+  if uPSQ_NFE_REG(RECParametros.EP_GP_NO,CECDNF.Text) then
+  oException(Nil,'Número da nota fiscal já emitida !');
+
   { CHECK }
   ACTCheckConstraints.Execute;
   ACTCheckErrors.Execute;
@@ -8170,70 +8195,59 @@ begin
   oException(Nil,'Arquivo XML já existente !' + #13 +
                  'Favor entrar em contato com o administrador do sistema.');
 
-  try
-    y := 0;
+  y := 0;
 
-    ACTXMLLoteCreate.Execute;  { Gera e Envia Lote }
-    ACTXMLLoteRetorno.Execute; { Pesquisa Lote Retornado }
+  ACTXMLLoteCreate.Execute;  { Gera e Envia Lote }
+  //ACTXMLLoteRetorno.Execute; { Pesquisa Lote Retornado }
 
-    { VER NOTA FISCAL EXISTE }
-    if uPSQ_NFE_REG(RECParametros.EP_GP_NO,CECDNF.Text) then
-    oException(Nil,'Número da nota fiscal já emitida !');
+  { Consulta Protocolo }
+  repeat
+    inc(y);
 
-    { Consulta Protocolo }
-    repeat
-      inc(y);
-
-      SBRodape.Panels[1].Text := NFeConsulta(SBRodape.Panels[3].Text);
-      SBRodape.Panels[4].Text := Trim(RightStr(SBRodape.Panels[1].Text,Length(SBRodape.Panels[1].Text) - Pos('#',SBRodape.Panels[1].Text)));
-      SBRodape.Panels[5].Text := LeftStr(SBRodape.Panels[1].Text,3); { CSTAT }
-      SBRodape.Update;
-
-      if Pos(SBRodape.Panels[5].Text,'100110150') > 0 then { Transmissão OK }
-      Break;
-
-      Application.ProcessMessages;
-      SleepEx(1000,False);
-    until y = 5;
-
-    SBRodape.Panels[1].Text := EmptyStr;
+    SBRodape.Panels[1].Text := NFeConsulta(SBRodape.Panels[3].Text);
+    SBRodape.Panels[4].Text := Trim(RightStr(SBRodape.Panels[1].Text,Length(SBRodape.Panels[1].Text) - Pos('#',SBRodape.Panels[1].Text)));
+    SBRodape.Panels[5].Text := LeftStr(SBRodape.Panels[1].Text,3); { CSTAT }
     SBRodape.Update;
 
-    { CONSULTA SITUAÇÃO SEFAZ
-      100,150 - Autorizada
-      101     - Cancelada
-      110     - Denegada
-    }
-
     if Pos(SBRodape.Panels[5].Text,'100110150') > 0 then { Transmissão OK }
-    begin
-      ACTMPPost.Execute ; { Salva Nota Fiscal }
+    Break;
 
-      if SBRodape.Panels[5].Text <> '110' then
-      ACTNFePDF.Execute; { Gerar e Imprimir Danfe }
-
-      ACTXMLCreate.Enabled   := False;
-      ACTXMLValidate.Enabled := False;
-      ACTXMLSend.Enabled     := False;
-
-      Application.ProcessMessages;
-    end;
-
-    try
-      FrmNFeConsultaSefaz := TFrmNFeConsultaSefaz.Create(Nil,'Transmitindo NFe ...',SBRodape.Panels[3].Text);
-      FrmNFeConsultaSefaz.EMConsulta.Lines.Add('');
-      FrmNFeConsultaSefaz.EMConsulta.Lines.Add(SBRodape.Panels[3].Text);
-      FrmNFeConsultaSefaz.ShowModal;
-    finally
-      FreeAndNil(FrmNFeConsultaSefaz);
-    end;
-
-    if (IEEnvMail.Enabled) and (IEEnvMail.Text = '1') then
-    ACTEmail.Execute;
-    
-  finally
     Application.ProcessMessages;
+    SleepEx(2000,False);
+  until y = 2;
+
+  SBRodape.Panels[1].Text := EmptyStr;
+  SBRodape.Update;
+
+  { CONSULTA SITUAÇÃO SEFAZ
+    100,150 - Autorizada
+    101     - Cancelada
+    110     - Denegada
+  }
+
+  if Pos(SBRodape.Panels[5].Text,'100110150') > 0 then { Transmissão OK }
+  begin
+    ACTMPPost.Execute ; { Salva Nota Fiscal }
+
+    if SBRodape.Panels[5].Text <> '110' then
+    ACTNFePDF.Execute; { Gerar e Imprimir Danfe }
+
+    ACTXMLCreate.Enabled   := False;
+    ACTXMLValidate.Enabled := False;
+    ACTXMLSend.Enabled     := False;
   end;
+
+  try
+    FrmNFeConsultaSefaz := TFrmNFeConsultaSefaz.Create(Nil,'Transmitindo NFe ...',SBRodape.Panels[3].Text);
+    FrmNFeConsultaSefaz.EMConsulta.Lines.Add('');
+    FrmNFeConsultaSefaz.EMConsulta.Lines.Add(SBRodape.Panels[3].Text);
+    FrmNFeConsultaSefaz.ShowModal;
+  finally
+    FreeAndNil(FrmNFeConsultaSefaz);
+  end;
+
+  if (IEEnvMail.Enabled) and (IEEnvMail.Text = '1') then
+  ACTEmail.Execute;
 end;
 
 procedure TFrmVEN_NFE.ACTXMLImportaExecute(Sender: TObject);
@@ -8291,15 +8305,15 @@ begin
     begin
       ANodePai := ANodePai.ChildNodes.FindNode('infNFe');
       
-      { EMITENTE }
-      ANodePai := ANodePai.ChildNodes['emit'];
-      ANodeEnd := ANodePai.ChildNodes['enderEmit'];
-
-      if (TRIM(ANodePai.ChildNodes['CNPJ'].Text)) = RECParametros.CNPJ then
+      { Quando NF própria pegar destinatário }
+      if AXMLDoc.ChildNodes['nfeProc'].ChildNodes['NFe'].ChildNodes['infNFe'].ChildNodes['emit'].ChildNodes['CNPJ'].NodeValue = RECParametros.CNPJ then
       begin
-        { DESTINATÁRIO }
         ANodePai := ANodePai.ChildNodes['dest'];
         ANodeEnd := ANodePai.ChildNodes['enderDest'];
+      end else
+      begin
+        ANodePai := ANodePai.ChildNodes['emit'];
+        ANodeEnd := ANodePai.ChildNodes['enderEmit'];
       end;
     end else
     begin
@@ -9395,10 +9409,10 @@ begin
           end;
 
           Application.ProcessMessages;
-          SleepEx(1000,False);
+          SleepEx(2000,False);
 
           inc(i);
-        until i = 5;
+        until i = 2;
       end;
 
       if not FileExists(EDXML.Text) then
@@ -9424,10 +9438,10 @@ begin
         end;
 
         Application.ProcessMessages;
-        SleepEx(1000,False);
+        SleepEx(2000,False);
 
         inc(i);
-      until i = 5;
+      until i = 2;
 
       if (FileExists(EDXML.Text)) and (RECParametros.SHE_PATH_LAN <> EmptyStr) then
       begin
@@ -9959,6 +9973,15 @@ begin
      (LeftStr(PECFOP.Text,1) = '3') then { NFe Importação }
 
   ACTEDI_CAD_PRO.Execute;
+end;
+
+procedure TFrmVEN_NFE.FIS_NFE_SUMAfterOpen(DataSet: TDataSet);
+begin
+  if (CECDRO.Value = 0) and (REC_SHE_DEF.TPEV = 1) then
+  begin
+    CEPSBR.Value := FIS_NFE_SUMNFE_PSBR.AsCurrency;
+    CEPSLQ.Value := FIS_NFE_SUMNFE_PSLQ.AsCurrency;
+  end;
 end;
 
 end.

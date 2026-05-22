@@ -425,26 +425,24 @@ end;
 
 procedure TFrmSHE_DEF_EDI.FormCreate(Sender: TObject);
 begin
+  { FORM SCREEN }
   Self.DoubleBuffered := True;
   Randomize;
 
-  { ADMIN MANAGER }
-  //DBGConsultaIDPK.Visible := (RECUsuarios.ID = 0); { Código Pedido }
+  { VALIDATE GRANT USER }
+  REC_SHE_DEF.GAppend   := (RECUsuarios.Grupo = 'DEV') or (REC_SHE_DEF.GAdmin);
+  REC_SHE_DEF.GEdit     := (RECUsuarios.Grupo = 'DEV') or (REC_SHE_DEF.GAdmin);
+  REC_SHE_DEF.GDelete   := (RECUsuarios.Grupo = 'DEV') or (REC_SHE_DEF.GAdmin);
 
-  { FORM SCREEN }
-  REC_SHE_DEF.FPosition := Self.Position; { Posição }
-  REC_SHE_DEF.FMainArea := False; { Aplicativo }
-  REC_SHE_DEF.FWorkArea := False; { Windows    }
+  REC_SHE_DEF.GPost     := (RECUsuarios.Grupo = 'DEV') or (REC_SHE_DEF.GAdmin);
+  REC_SHE_DEF.GValidate := (RECUsuarios.Grupo = 'DEV') or (REC_SHE_DEF.GAdmin);
+  REC_SHE_DEF.GCancel   := (RECUsuarios.Grupo = 'DEV') or (REC_SHE_DEF.GAdmin);
 
-  { EVENTOS }
-  REC_SHE_DEF.FB_Event   := ''; { Evento Principal }
-  REC_SHE_DEF.FB_EVE_EDT := ''; { Evento Edição }
+  REC_SHE_DEF.GView     := (RECUsuarios.Grupo = 'DEV') or (REC_SHE_DEF.GAdmin);
+  REC_SHE_DEF.GPrint    := (RECUsuarios.Grupo = 'DEV') or (REC_SHE_DEF.GAdmin);
 
-  { GRANT USER }
-  REC_SHE_DEF.GDescricao  := '';
-  REC_SHE_DEF.GReferencia := '';
-  REC_SHE_DEF.GRegra      := '';
-  REC_SHE_DEF.GAdmin      := False;
+  REC_SHE_DEF.GControl  := (RECUsuarios.Grupo = 'DEV') or (REC_SHE_DEF.GAdmin);
+  REC_SHE_DEF.GAdmin    := (RECUsuarios.Grupo = 'DEV') or (REC_SHE_DEF.GAdmin);
 
   if not REC_SHE_DEF.GAdmin then
   begin
@@ -560,6 +558,7 @@ procedure TFrmSHE_DEF_EDI.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   case key of
+       vk_escape: ACTSaida.Execute;
        vk_return: if (not (ActiveControl is TdxDBGrid)    and
                       not (ActiveControl is TdxDBMemo)    and
                       not (ActiveControl is TdxMemo)      and

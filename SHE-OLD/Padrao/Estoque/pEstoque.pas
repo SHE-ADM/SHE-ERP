@@ -68,15 +68,15 @@ type
     ACTEST_GER: TAction;
     ACTEST_REV: TAction;
     ACTEST_ENV: TAction;
-    ACTREL_ROM: TAction;
-    ACTETQ_REL_PAD: TAction;
-    ACTETQ_REL_RED: TAction;
+    ACTREL_ROM_EST: TAction;
+    ACTREL_ETQ_PAD: TAction;
+    ACTREL_ETQ_RED: TAction;
     BLBEST_GER: TdxBarLargeButton;
     BLBEST_REV: TdxBarLargeButton;
     BLBEST_ENV: TdxBarLargeButton;
-    BLBREL_ROM: TdxBarLargeButton;
-    BLBETQ_REL_PAD: TdxBarLargeButton;
-    BLBETQ_REL_RED: TdxBarLargeButton;
+    BLBREL_ROM_EST: TdxBarLargeButton;
+    BLBREL_ETQ_PAD: TdxBarLargeButton;
+    BLBREL_ETQ_RED: TdxBarLargeButton;
     PMRelatorios: TdxBarPopupMenu;
     ACTEtiquetas: TAction;
     BLBEST_ETQ: TdxBarLargeButton;
@@ -345,9 +345,9 @@ type
     procedure ACTEST_REVExecute(Sender: TObject);
     procedure ACTEST_ENVExecute(Sender: TObject);
     procedure ACTRelatoriosExecute(Sender: TObject);
-    procedure ACTREL_ROMExecute(Sender: TObject);
-    procedure ACTETQ_REL_PADExecute(Sender: TObject);
-    procedure ACTETQ_REL_REDExecute(Sender: TObject);
+    procedure ACTREL_ROM_ESTExecute(Sender: TObject);
+    procedure ACTREL_ETQ_PADExecute(Sender: TObject);
+    procedure ACTREL_ETQ_REDExecute(Sender: TObject);
     procedure ACTNovoExecute(Sender: TObject);
     procedure ACTEtiquetasExecute(Sender: TObject);
     procedure FKConsultaCalcFields(DataSet: TDataSet);
@@ -404,7 +404,7 @@ begin
     ACTNovo.Enabled    := False;
   end;
 
-  if not REC_SHE_DEF.GCancel then
+  if not REC_SHE_DEF.GAdmin then
   begin
     BLBCancela.Visible := ivNever;
     ACTCancela.Enabled := False;
@@ -422,14 +422,20 @@ begin
     ACTEST_ENV.Enabled := False;
   end;
 
-  if not REC_SHE_DEF.GPrint then
+  if not REC_SHE_DEF.GAppend then
   begin
-    BLBRelatorios.Visible := ivNever;
-    ACTRelatorios.Enabled := False;
-
     BLBEST_ETQ.Visible    := ivNever;
     ACTEtiquetas.Enabled  := False;
-  end;  
+  end;
+
+  if not REC_SHE_DEF.GPrint then
+  begin
+    BLBRelatorios.Visible  := ivNever;
+    ACTRelatorios.Enabled  := False;
+    ACTREL_ROM_EST.Enabled := False;
+    ACTREL_ETQ_PAD.Enabled := False;
+    ACTREL_ETQ_RED.Enabled := False;
+  end;
 
   oIRECRelatorios(RECRelatorios);
   RECRelatorios.Handle   := Self.Handle;
@@ -888,7 +894,7 @@ begin
   End;
 end;
 
-procedure TFrmEstoque.ACTREL_ROMExecute(Sender: TObject);
+procedure TFrmEstoque.ACTREL_ROM_ESTExecute(Sender: TObject);
 begin
   //RICARDObPSQUSER('IMPRIME','Estoque','Produtos','Permissões Gerais',True);
   ActiveControl := Nil;
@@ -924,7 +930,7 @@ begin
   end;
 end;
 
-procedure TFrmEstoque.ACTETQ_REL_PADExecute(Sender: TObject);
+procedure TFrmEstoque.ACTREL_ETQ_PADExecute(Sender: TObject);
 begin
   //RICARDObPSQUSER('IMPRIME','Estoque','Produtos','Permissões Gerais',True);
   ActiveControl := Nil;
@@ -954,7 +960,7 @@ begin
   end;
 end;
 
-procedure TFrmEstoque.ACTETQ_REL_REDExecute(Sender: TObject);
+procedure TFrmEstoque.ACTREL_ETQ_REDExecute(Sender: TObject);
 begin
   //RICARDObPSQUSER('IMPRIME','Estoque','Produtos','Permissões Gerais',True);
   ActiveControl := Nil;

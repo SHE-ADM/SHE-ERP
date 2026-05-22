@@ -473,11 +473,6 @@ type
     procedure cad_pro_comAfterEdit(DataSet: TDataSet);
     procedure img1Click(Sender: TObject);
     procedure cad_proBeforePost(DataSet: TDataSet);
-    procedure grdIClick(Sender: TObject);
-    procedure grdAClick(Sender: TObject);
-    procedure grdEClick(Sender: TObject);
-    procedure grdSClick(Sender: TObject);
-    procedure grdCClick(Sender: TObject);
     procedure cad_pro_grdAfterCancel(DataSet: TDataSet);
     procedure cad_pro_grdAfterInsert(DataSet: TDataSet);
     procedure cad_pro_grdBeforeCancel(DataSet: TDataSet);
@@ -565,6 +560,11 @@ type
       var ErrorText: String; var Accept: Boolean);
     procedure dbgtecGRD_SPRCValidate(Sender: TObject;
       var ErrorText: String; var Accept: Boolean);
+    procedure tecIClick(Sender: TObject);
+    procedure tecAClick(Sender: TObject);
+    procedure tecEClick(Sender: TObject);
+    procedure tecSClick(Sender: TObject);
+    procedure tecCClick(Sender: TObject);
   private
     procedure ABRE_GRADE;
     procedure MONTA_COMPOSICAO;
@@ -2610,33 +2610,6 @@ begin
      DataBaseError('Descrição da Grade não Selecionada !');
 end;
 
-procedure Tfrmcad_pro_edi.grdIClick(Sender: TObject);
-begin
-  cad_pro_grd.Append;
-end;
-
-procedure Tfrmcad_pro_edi.grdAClick(Sender: TObject);
-begin
-  cad_pro_grd.Edit;
-end;
-
-procedure Tfrmcad_pro_edi.grdEClick(Sender: TObject);
-begin
-  cad_pro_grd.Edit;
-  cad_pro_grdGRD_STA.Value := '1';
-  cad_pro_grd.Post;
-end;
-
-procedure Tfrmcad_pro_edi.grdSClick(Sender: TObject);
-begin
-  cad_pro_grd.Post;
-end;
-
-procedure Tfrmcad_pro_edi.grdCClick(Sender: TObject);
-begin
-  cad_pro_grd.Cancel;
-end;
-
 procedure Tfrmcad_pro_edi.cad_pro_grdAfterCancel(DataSet: TDataSet);
 begin
     tecI.Enabled := true;
@@ -3348,6 +3321,33 @@ procedure Tfrmcad_pro_edi.dbgtecGRD_SPRCValidate(Sender: TObject;
 begin
   cad_pro_grdGRD_SPRC.Value := oTextToValor(dbgtec.EditingText);
   tab_prc(55);
+end;
+
+procedure Tfrmcad_pro_edi.tecIClick(Sender: TObject);
+begin
+  cad_pro_grd.Append;
+end;
+
+procedure Tfrmcad_pro_edi.tecAClick(Sender: TObject);
+begin
+  cad_pro_grd.Edit;
+end;
+
+procedure Tfrmcad_pro_edi.tecEClick(Sender: TObject);
+begin
+  cad_pro_grd.Edit;
+  cad_pro_grdGRD_STA.Value := '1';
+  cad_pro_grd.Post;
+end;
+
+procedure Tfrmcad_pro_edi.tecSClick(Sender: TObject);
+begin
+  cad_pro_grd.Post;
+end;
+
+procedure Tfrmcad_pro_edi.tecCClick(Sender: TObject);
+begin
+  cad_pro_grd.Cancel;
 end;
 
 end.

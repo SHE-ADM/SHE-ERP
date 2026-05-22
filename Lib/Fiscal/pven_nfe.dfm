@@ -28201,7 +28201,6 @@ object FrmVEN_NFE: TFrmVEN_NFE
       Category = 'Sistema'
       Caption = 'Sair ...'
       Hint = 'Fechar P'#225'gina'
-      ShortCut = 27
       OnExecute = ACTSaidaExecute
     end
     object ACTEdicao: TAction
@@ -28527,9 +28526,12 @@ object FrmVEN_NFE: TFrmVEN_NFE
   object FIS_NFE_SUM: TIBQuery
     Database = FBird.DB_EDI
     Transaction = TSEdicao
+    AfterOpen = FIS_NFE_SUMAfterOpen
     BufferChunks = 4500
     SQL.Strings = (
-      'SELECT PK.ID,PK.IDEV,PK.NFE_NITEMPED,PK.NFE_QCOM,PK.NFE_RCOM,'
+      
+        'SELECT PK.ID,PK.IDEV,PK.NFE_NITEMPED,PK.NFE_QCOM,PK.NFE_RCOM,PK.' +
+        'NFE_PSBR,PK.NFE_PSLQ,'
       ''
       
         'CAST('#39'Produtos'#39'                    AS VARCHAR(50)) AS LBL_VPROD ' +
@@ -28663,6 +28665,18 @@ object FrmVEN_NFE: TFrmVEN_NFE
     object FIS_NFE_SUMNFE_RCOM: TIntegerField
       FieldName = 'NFE_RCOM'
       Origin = '"FIS_NFE_SUM"."NFE_RCOM"'
+    end
+    object FIS_NFE_SUMNFE_PSBR: TIBBCDField
+      FieldName = 'NFE_PSBR'
+      Origin = '"FIS_NFE_SUM"."NFE_PSBR"'
+      Precision = 18
+      Size = 3
+    end
+    object FIS_NFE_SUMNFE_PSLQ: TIBBCDField
+      FieldName = 'NFE_PSLQ'
+      Origin = '"FIS_NFE_SUM"."NFE_PSLQ"'
+      Precision = 18
+      Size = 3
     end
     object FIS_NFE_SUMLBL_VPROD: TIBStringField
       FieldName = 'LBL_VPROD'

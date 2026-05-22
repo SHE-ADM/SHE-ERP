@@ -29,7 +29,7 @@ inherited FrmCAD_PRO_EDI: TFrmCAD_PRO_EDI
         Top = 0
         Width = 1011
         Height = 405
-        ActivePage = TSComposicoes
+        ActivePage = TSGrade
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -185,7 +185,7 @@ inherited FrmCAD_PRO_EDI: TFrmCAD_PRO_EDI
                   Caption = 'Fornecedor'
                 end
                 item
-                  Caption = 'Categoriza'#245'es'
+                  Caption = 'Categoriza'#231#245'es'
                 end
                 item
                   Caption = 'Pre'#231'o Atacado'
@@ -358,6 +358,13 @@ inherited FrmCAD_PRO_EDI: TFrmCAD_PRO_EDI
                 RowIndex = 0
                 OnValidate = DBGGradeGRD_DSCTValidate
                 FieldName = 'GRD_DSCT'
+              end
+              object DBGGradeGRD_PSBR: TdxDBGridMaskColumn
+                HeaderAlignment = taRightJustify
+                Width = 70
+                BandIndex = 4
+                RowIndex = 0
+                FieldName = 'GRD_PSBR'
               end
               object DBGGradeGRD_PREC: TdxDBGridMaskColumn
                 HeaderAlignment = taRightJustify
@@ -5761,8 +5768,10 @@ inherited FrmCAD_PRO_EDI: TFrmCAD_PRO_EDI
       Origin = '"CAD_PRO_GRD"."GRD_SPRC"'
     end
     object CAD_PRO_GRDGRD_PSBR: TIBBCDField
+      DisplayLabel = 'Peso M'#233'dio'
       FieldName = 'GRD_PSBR'
       Origin = '"CAD_PRO_GRD"."GRD_PSBR"'
+      DisplayFormat = '0.00'
       Precision = 18
       Size = 3
     end

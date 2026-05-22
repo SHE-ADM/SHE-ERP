@@ -3607,7 +3607,7 @@ inherited FrmProduto: TFrmProduto
                         BandFont.Height = -12
                         BandFont.Name = 'Tahoma'
                         BandFont.Style = [fsBold]
-                        DataSource = DTSArtigos
+                        DataSource = DTSProdutos
                         Filter.Criteria = {00000000}
                         GridLineColor = clSilver
                         HeaderFont.Charset = ANSI_CHARSET
@@ -6655,18 +6655,11 @@ inherited FrmProduto: TFrmProduto
     SQL.Strings = (
       'SELECT MAX(CP.ID)   AS ID  ,CP.IDEP,CP.DEEP,'
       '       MIN(CP.REST) AS REST,'
-      '       CP.ARTIGO    ,CP.DECP,CP.IDAK,CP.NCM,CP.PIPI,'
+      '       CP.ARTIGO    ,CP.DECP,CP.IDAK,'
       '       CP.IDCF      ,CP.DECF,'
       
-        '       CP.UCOM      ,CP.UCOM_LJV,CP.UTRIB,CP.UCON ,CP.UVEN_MIN,C' +
-        'P.UVEN_MUL,'
-      '       CP.PESO      ,CP.PSCN    ,CP.METRO,CP.REND ,CP.GRAM    ,'
-      
-        '       CP.LARU      ,CP.LART    ,CP.ELAL ,CP.ELAC ,CP.ENCL    ,C' +
-        'P.ENCC,'
-      
-        '       CP.DECOL     ,CP.DESEG   ,CP.DEGRP,CP.DESGP,CP.DECAT   ,C' +
-        'P.D_DESCT,'
+        '       CP.DECOL     ,CP.DESEG,CP.DEGRP,CP.DESGP,CP.DECAT   ,CP.D' +
+        '_DESCT,'
       '       CP.FIN_CAD_NO,CP.FIN_EST_NO,'
       '       CP.D_ORIG || ASCII_CHAR(13) ||ASCII_CHAR(10) AS D_ORIG,'
       '       NULLIF(TRIM(CAST('
@@ -6720,19 +6713,6 @@ inherited FrmProduto: TFrmProduto
       Origin = '"VW_CAD_PRO"."ARTIGO"'
       Size = 30
     end
-    object ArtigosNCM: TIBStringField
-      FieldName = 'NCM'
-      Origin = '"VW_CAD_PRO"."NCM"'
-      Size = 8
-    end
-    object ArtigosPIPI: TIBBCDField
-      DisplayLabel = 'IPI %'
-      FieldName = 'PIPI'
-      Origin = '"VW_CAD_PRO"."PIPI"'
-      DisplayFormat = ',##,0.00'
-      Precision = 9
-      Size = 2
-    end
     object ArtigosIDCF: TSmallintField
       FieldName = 'IDCF'
       Origin = '"VW_CAD_PRO"."IDCF"'
@@ -6748,130 +6728,6 @@ inherited FrmProduto: TFrmProduto
       FieldName = 'DECF'
       Origin = '"VW_CAD_PRO"."DECF"'
       Size = 60
-    end
-    object ArtigosUCOM: TIBStringField
-      DisplayLabel = 'Nacional'
-      FieldName = 'UCOM'
-      Origin = '"VW_CAD_PRO"."UCOM"'
-      Size = 10
-    end
-    object ArtigosUCOM_LJV: TIBStringField
-      DisplayLabel = 'Loja Virtual'
-      FieldName = 'UCOM_LJV'
-      Origin = '"VW_CAD_PRO"."UCOM_LJV"'
-      Size = 10
-    end
-    object ArtigosUTRIB: TIBStringField
-      DisplayLabel = 'Exterior'
-      FieldName = 'UTRIB'
-      Origin = '"VW_CAD_PRO"."UTRIB"'
-      Size = 10
-    end
-    object ArtigosUCON: TIBStringField
-      DisplayLabel = 'Conte'#250'do'
-      FieldName = 'UCON'
-      Origin = '"VW_CAD_PRO"."UCON"'
-      Size = 45
-    end
-    object ArtigosUVEN_MIN: TSmallintField
-      DisplayLabel = 'M'#237'nimo'
-      FieldName = 'UVEN_MIN'
-      Origin = '"VW_CAD_PRO"."UVEN_MIN"'
-      DisplayFormat = ',##,0.00'
-    end
-    object ArtigosUVEN_MUL: TSmallintField
-      DisplayLabel = 'M'#250'ltiplos'
-      FieldName = 'UVEN_MUL'
-      Origin = '"VW_CAD_PRO"."UVEN_MUL"'
-      DisplayFormat = ',##,0.00'
-    end
-    object ArtigosPESO: TIBBCDField
-      DisplayLabel = 'Peso'
-      FieldName = 'PESO'
-      Origin = '"VW_CAD_PRO"."PESO"'
-      DisplayFormat = ',##,0.00'
-      Precision = 9
-      Size = 2
-    end
-    object ArtigosPSCN: TIBBCDField
-      DisplayLabel = 'Canudo'
-      FieldName = 'PSCN'
-      Origin = '"VW_CAD_PRO"."PSCN"'
-      DisplayFormat = ',##,0.00'
-      Precision = 9
-      Size = 2
-    end
-    object ArtigosMETRO: TIBBCDField
-      DisplayLabel = 'Metragem'
-      FieldName = 'METRO'
-      Origin = '"VW_CAD_PRO"."METRO"'
-      DisplayFormat = ',##,0.00'
-      Precision = 9
-      Size = 2
-    end
-    object ArtigosREND: TIBBCDField
-      DisplayLabel = 'Rendimento'
-      FieldName = 'REND'
-      Origin = '"VW_CAD_PRO"."REND"'
-      DisplayFormat = ',##,0.00'
-      Precision = 9
-      Size = 2
-    end
-    object ArtigosGRAM: TIBBCDField
-      DisplayLabel = 'Gramatura'
-      FieldName = 'GRAM'
-      Origin = '"VW_CAD_PRO"."GRAM"'
-      DisplayFormat = ',##,0.00'
-      Precision = 9
-      Size = 2
-    end
-    object ArtigosLARU: TIBBCDField
-      DisplayLabel = #218'til'
-      FieldName = 'LARU'
-      Origin = '"VW_CAD_PRO"."LARU"'
-      DisplayFormat = ',##,0.00'
-      Precision = 9
-      Size = 2
-    end
-    object ArtigosLART: TIBBCDField
-      DisplayLabel = 'Total'
-      FieldName = 'LART'
-      Origin = '"VW_CAD_PRO"."LART"'
-      DisplayFormat = ',##,0.00'
-      Precision = 9
-      Size = 2
-    end
-    object ArtigosELAL: TIBBCDField
-      DisplayLabel = 'Lateral'
-      FieldName = 'ELAL'
-      Origin = '"VW_CAD_PRO"."ELAL"'
-      DisplayFormat = ',##,0.00'
-      Precision = 9
-      Size = 2
-    end
-    object ArtigosELAC: TIBBCDField
-      DisplayLabel = 'Comprimento'
-      FieldName = 'ELAC'
-      Origin = '"VW_CAD_PRO"."ELAC"'
-      DisplayFormat = ',##,0.00'
-      Precision = 9
-      Size = 2
-    end
-    object ArtigosENCL: TIBBCDField
-      DisplayLabel = 'Lateral'
-      FieldName = 'ENCL'
-      Origin = '"VW_CAD_PRO"."ENCL"'
-      DisplayFormat = ',##,0.00'
-      Precision = 9
-      Size = 2
-    end
-    object ArtigosENCC: TIBBCDField
-      DisplayLabel = 'Comprimento'
-      FieldName = 'ENCC'
-      Origin = '"VW_CAD_PRO"."ENCC"'
-      DisplayFormat = ',##,0.00'
-      Precision = 9
-      Size = 2
     end
     object ArtigosDECOL: TIBStringField
       DisplayLabel = 'Cole'#231#227'o'
@@ -6968,8 +6824,15 @@ inherited FrmProduto: TFrmProduto
     BufferChunks = 2500
     DataSource = DTSArtigos
     SQL.Strings = (
-      'SELECT    CP.ID ,CP.IDCP,CP.CDST,CP.REST,CP.DEST,EST.DTEV,'
-      '          CP.SKU,CP.CEAN,'
+      
+        'SELECT    CP.ID ,CP.IDCP,CP.CDST,CP.REST,CP.DEST,EST.DTEV,CP.SKU' +
+        '  ,CP.CEAN,'
+      
+        '          CP.NCM,CP.PIPI,CP.UCOM,CP.UCON,CP.PESO,CP.PSCN ,CP.MET' +
+        'RO,CP.GRAM,CP.REND,'
+      
+        '          CP.LARU,CP.LART,CP.ENCL,CP.ENCC,CP.ELAL,CP.ELAC,CP.UVE' +
+        'N_MUL,CP.UVEN_MIN,'
       
         '          IIF(CP.RGCP IS NOT NULL,CP.RGCP,CP.SKU) AS RGCP,CP.DGC' +
         'P,'
@@ -7112,6 +6975,117 @@ inherited FrmProduto: TFrmProduto
       DisplayLabel = 'C'#243'digo Barras'
       FieldName = 'CEANCF'
       Origin = '"CAD_PRO"."CEANCF"'
+    end
+    object ProdutosNCM: TIBStringField
+      FieldName = 'NCM'
+      Origin = '"VW_CAD_PRO"."NCM"'
+      Size = 8
+    end
+    object ProdutosPIPI: TIBBCDField
+      DisplayLabel = 'IPI %'
+      FieldName = 'PIPI'
+      Origin = '"VW_CAD_PRO"."PIPI"'
+      Precision = 9
+      Size = 2
+    end
+    object ProdutosUCOM: TIBStringField
+      DisplayLabel = 'Unidade'
+      FieldName = 'UCOM'
+      Origin = '"VW_CAD_PRO"."UCOM"'
+      Size = 10
+    end
+    object ProdutosUCON: TIBStringField
+      DisplayLabel = 'Conte'#250'do'
+      FieldName = 'UCON'
+      Origin = '"VW_CAD_PRO"."UCON"'
+      Size = 45
+    end
+    object ProdutosPESO: TIBBCDField
+      DisplayLabel = 'Peso'
+      FieldName = 'PESO'
+      Origin = '"VW_CAD_PRO"."PESO"'
+      Precision = 9
+      Size = 2
+    end
+    object ProdutosPSCN: TIBBCDField
+      DisplayLabel = 'Canudo'
+      FieldName = 'PSCN'
+      Origin = '"VW_CAD_PRO"."PSCN"'
+      Precision = 9
+      Size = 2
+    end
+    object ProdutosMETRO: TIBBCDField
+      DisplayLabel = 'Metragem'
+      FieldName = 'METRO'
+      Origin = '"VW_CAD_PRO"."METRO"'
+      Precision = 9
+      Size = 2
+    end
+    object ProdutosGRAM: TIBBCDField
+      DisplayLabel = 'Gramatura'
+      FieldName = 'GRAM'
+      Origin = '"VW_CAD_PRO"."GRAM"'
+      Precision = 9
+      Size = 2
+    end
+    object ProdutosREND: TIBBCDField
+      DisplayLabel = 'Rendimento'
+      FieldName = 'REND'
+      Origin = '"VW_CAD_PRO"."REND"'
+      Precision = 9
+      Size = 2
+    end
+    object ProdutosLARU: TIBBCDField
+      DisplayLabel = #218'til'
+      FieldName = 'LARU'
+      Origin = '"VW_CAD_PRO"."LARU"'
+      Precision = 9
+      Size = 2
+    end
+    object ProdutosLART: TIBBCDField
+      DisplayLabel = 'Total'
+      FieldName = 'LART'
+      Origin = '"VW_CAD_PRO"."LART"'
+      Precision = 9
+      Size = 2
+    end
+    object ProdutosENCL: TIBBCDField
+      DisplayLabel = 'Lateral'
+      FieldName = 'ENCL'
+      Origin = '"VW_CAD_PRO"."ENCL"'
+      Precision = 9
+      Size = 2
+    end
+    object ProdutosENCC: TIBBCDField
+      DisplayLabel = 'Comprimento'
+      FieldName = 'ENCC'
+      Origin = '"VW_CAD_PRO"."ENCC"'
+      Precision = 9
+      Size = 2
+    end
+    object ProdutosELAL: TIBBCDField
+      DisplayLabel = 'Lateral'
+      FieldName = 'ELAL'
+      Origin = '"VW_CAD_PRO"."ELAL"'
+      Precision = 9
+      Size = 2
+    end
+    object ProdutosELAC: TIBBCDField
+      DisplayLabel = 'Comprimento'
+      FieldName = 'ELAC'
+      Origin = '"VW_CAD_PRO"."ELAC"'
+      Precision = 9
+      Size = 2
+    end
+    object ProdutosUVEN_MUL: TSmallintField
+      DisplayLabel = 'Muliplo'
+      FieldName = 'UVEN_MUL'
+      Origin = '"VW_CAD_PRO"."UVEN_MUL"'
+    end
+    object ProdutosUVEN_MIN: TSmallintField
+      DisplayLabel = 'M'#237'nimo'
+      FieldName = 'UVEN_MIN'
+      Origin = '"VW_CAD_PRO"."UVEN_MIN"'
     end
     object ProdutosVPRC_COM_NAC: TFloatField
       DisplayLabel = 'Nacional'

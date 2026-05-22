@@ -635,20 +635,20 @@ procedure Tfrmctr_nfe.SINovoClick(Sender: TObject);
 begin
   TFrmVEN_NFE._ExecForm(
 
-  Self,       { Owner    }
-  FrmVEN_NFE, { Form     }
-  False,      { Pesquisa }
-  fsMDIChild, { Tipo     }
+  Self, { Owner    }
+  FrmVEN_NFE,  { Form     }
+  False,       { Pesquisa }
+  fsMDIChild,  { Tipo     }
 
-  0,  { Código Principal }
-  '', { Descrição Principal }
+  0,  { IDPK - Código Principal }
+  '', { DEPK - Descrição Principal }
 
-  0, { Evento Principal }
-  2, { Tipo   Evento - 0: Copiado    1: Vazio  2: Romaneado }
-  1, { Código Evento - 0: Triangular 1: Normal 2: Complementar 3: Ajustes 4:Devolução }
+  0,  { IDEV - Evento Principal }
+  1,  { CDEV - Código Evento - 0: Triangular 1: Normal 2: Complementar 3: Ajustes 4:Devolução }
+  1,  { TPEV - Tipo   Evento - 0: Copiado    1: Vazio  2: Romaneado }
 
-  CadastroNFE_CLFO.AsString, { Tabela }
-  ''  { Get }
+  CadastroNFE_CLFO.AsString, { AFB_SQL_TAB - Tabela }
+  ''  { AFB_SQL_GET - Get }
   );
 end;
 
@@ -687,15 +687,15 @@ begin
     False,      { Pesquisa }
     fsMDIChild, { Tipo     }
 
-    IFThen(AEvento = 0,CadastroID.AsInteger,0),  { Código Principal }
-    IFThen(AFinalidade = 0,CadastroNFE_CDNF.AsString,''), { Descrição Principal }
+    IFThen(AEvento = 0,CadastroID.AsInteger,0),  { IDPK - Código Principal }
+    IFThen(AFinalidade = 0,CadastroNFE_CDNF.AsString,''), { DEPK - Descrição Principal }
 
-    0, { Evento Principal }
-    AFinalidade, { Código Evento - 0: Triangular 1: Normal 2: Complementar 3: Ajustes 4:Devolução }
-    AEvento    , { Tipo   Evento - 0: Copiado    1: Vazio  2: Romaneado }
+    0, { IDEV - Evento Principal }
+    AFinalidade, { CDEV - Código Evento - 0: Triangular 1: Normal 2: Complementar 3: Ajustes 4:Devolução }
+    AEvento    , { TPEV - Tipo   Evento - 0: Copiado    1: Vazio  2: Romaneado }
 
-    CadastroNFE_CLFO.AsString, { Tabela }
-    ''  { Get }
+    CadastroNFE_CLFO.AsString, { AFB_SQL_TAB - Tabela }
+    ''  { AFB_SQL_GET - Get }
     );
   end;
 end;
@@ -943,6 +943,28 @@ begin
 
          SQL.Add('WHERE  ID = ''' + CadastroId.AsString + '''');
          ExecQuery;
+
+         if CadastroCSTAT.AsInteger = 217 then
+         begin
+           { USUÁRIO }
+           Close;
+           SQL.Clear;
+           SQL.Add('UPDATE NFE_ITE');
+           SQL.Add('SET    CDNF = ''' + CadastroNFE_CDNF.AsString + '''');
+           SQL.Add('WHERE  IDCA = ''' + RECUsuarios.ID            + '''');
+           ExecQuery;
+
+           { EMISSOR }
+           if CadastroNFE_CVEN.AsInteger > 0 then
+           begin
+             Close;
+             SQL.Clear;
+             SQL.Add('UPDATE NFE_ITE');
+             SQL.Add('SET    CDNF = ''' + CadastroNFE_CDNF.AsString + '''');
+             SQL.Add('WHERE  IDCA = ''' + CadastroNFE_CVEN.AsString + '''');
+             ExecQuery;
+           end;  
+         end;
        end;
 
        oCTransact(TEdicao);
