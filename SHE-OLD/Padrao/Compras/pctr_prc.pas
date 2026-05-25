@@ -581,87 +581,83 @@ begin
   if oYesNo(handle,'Atualizar Estoque ?') = mrNo then
   Abort;
 
-  try
-    FKCadastro.DisableControls;
-    Cadastro.First;
-    while not Cadastro.Eof do
+  Cadastro.First;
+  while not Cadastro.Eof do
+  begin
+    IF CADASTROID.AsInteger = 978 THEN
+    TAG := 0;
+    with SQLConsulta do
     begin
-      with SQLConsulta do
+      Close;
+      SQL.Clear;
+      SQL.Add('SELECT IDPK FROM CAD_PRO_PRC');
+      SQL.Add('WHERE  IDEP = ''' + CadastroEP_ID.AsString + '''');
+      SQL.Add('AND    IDPK = ''' + CadastroIDPK.AsString  + '''');
+      ExecQuery;
+    end;
+
+    try
+      oOTransact(TEdicao);
+
+      with SQLEdicao do
       begin
         Close;
         SQL.Clear;
-        SQL.Add('SELECT IDPK FROM CAD_PRO_PRC');
+        SQL.Add('DELETE FROM CAD_PRO_PRC');
         SQL.Add('WHERE  IDEP = ''' + CadastroEP_ID.AsString + '''');
         SQL.Add('AND    IDPK = ''' + CadastroIDPK.AsString  + '''');
         ExecQuery;
       end;
 
-      if not SQLConsulta.Eof then
-      try
-        oOTransact(TEdicao);
-
-        with SQLEdicao do
+      if (CadastroREST.AsString <> 'C') and (CadastroREST.AsString <> 'FIM') then
+      begin
+        FKCadastro.First;
+        while not FKCadastro.Eof do
         begin
-          Close;
-          SQL.Clear;
-          SQL.Add('DELETE FROM CAD_PRO_PRC');
-          SQL.Add('WHERE  IDEP = ''' + CadastroEP_ID.AsString + '''');
-          SQL.Add('AND    IDPK = ''' + CadastroIDPK.AsString  + '''');
-          ExecQuery;
-        end;
+          SBRodape.Panels[1].Text := 'Pedido ' + CadastroDEPK.AsString + ' item ' + FKCadastroITEM.AsString;
+          Application.ProcessMessages;
 
-        if (CadastroREST.AsString <> 'C') and (CadastroREST.AsString <> 'FIM') then
-        begin
-          FKCadastro.First;
-          while not FKCadastro.Eof do
+          if (FKCadastroROM_STAV.AsString <> 'CANCELADO') and (FKCadastroROM_STAV.AsString <> 'FINALIZADO') then
           begin
-            SBRodape.Panels[1].Text := 'Pedido ' + CadastroDEPK.AsString + ' item ' + FKCadastroITEM.AsString;
-            Application.ProcessMessages;
-
-            if (FKCadastroROM_STAV.AsString <> 'CANCELADO') and (FKCadastroROM_STAV.AsString <> 'FINALIZADO') then
-            begin
-              SPEdicao.StoredProcName := 'SP_CAD_PRO_PRC';
-              SPEdicao.Prepare;
-              SPEdicao.ParamByName('AIDEP').Value := CadastroEP_ID.AsInteger;
-              SPEdicao.ParamByName('ACDFK').Value := CadastroIDPK.AsInteger;
-              SPEdicao.ParamByName('ADEFK').Value := CadastroDEPK.AsString;
-              SPEdicao.ParamByName('ADTFK').Value := FKCadastroROM_DROM.AsDateTime;
-              SPEdicao.ParamByName('ADTPC').Value := IFThen(FKCadastroROM_DBAI.AsDateTime > 0,FKCadastroROM_DBAI.AsDateTime,FKCadastroROM_DEXP.AsDateTime);
-              SPEdicao.ParamByName('ADTRD').Value := IFThen(FKCadastroROM_RDES.AsDateTime > 0,FKCadastroROM_RDES.AsDateTime,FKCadastroROM_DDES.AsDateTime);
-              SPEdicao.ParamByName('AIDCF').Value := cadastroCD_ID.AsInteger;
-              SPEdicao.ParamByName('ADECF').Value := CadastroCD_NO.AsString;
-              SPEdicao.ParamByName('AIDCO').Value := CadastroCV_ID.AsInteger;
-              SPEdicao.ParamByName('ADECO').Value := CadastroCV_NO.AsString;
-              SPEdicao.ParamByName('AIDCP').Value := FKCadastroIDCP.AsInteger;
-              SPEdicao.ParamByName('AQTDE').Value := IFThen(FKCadastroROM_QTPD.AsFloat   > 0,FKCadastroROM_QTPD.AsFloat  ,FKCadastroROM_QTDE.AsFloat);
-              SPEdicao.ParamByName('AQTRL').Value := IFThen(FKCadastroROM_RLPD.AsInteger > 0,FKCadastroROM_RLPD.AsInteger,FKCadastroROM_QTRL.AsInteger);
-              SPEdicao.ParamByName('AVUPC').Value := FKCadastroROM_UNIT.AsFloat;
-              SPEdicao.ParamByName('ACTNR').Value := FKCadastroROM_CTNR.AsString;
-              SPEdicao.ParamByName('ASTFI').Value := FKCadastroROM_STAV.AsString;
-              SPEdicao.ParamByName('DECP' ).Value := FKCadastroDECP.AsString;
-              SPEdicao.ParamByName('DGCP' ).Value := FKCadastroDGCP.AsString;
-              SPEdicao.ExecProc;
-              SPEdicao.UnPrepare;
-            end;
-
-            uSP_CAD_PRO_EST_LAN(SPEdicao,RECParametros.EP_ID,FKCadastroIDCP.AsInteger,1);
-            FKCadastro.Next;
+            SPEdicao.StoredProcName := 'SP_CAD_PRO_PRC';
+            SPEdicao.Prepare;
+            SPEdicao.ParamByName('AIDEP').Value := CadastroEP_ID.AsInteger;
+            SPEdicao.ParamByName('ACDFK').Value := CadastroIDPK.AsInteger;
+            SPEdicao.ParamByName('ADEFK').Value := CadastroDEPK.AsString;
+            SPEdicao.ParamByName('ADTFK').Value := FKCadastroROM_DROM.AsDateTime;
+            SPEdicao.ParamByName('ADTPC').Value := IFThen(FKCadastroROM_DBAI.AsDateTime > 0,FKCadastroROM_DBAI.AsDateTime,FKCadastroROM_DEXP.AsDateTime);
+            SPEdicao.ParamByName('ADTRD').Value := IFThen(FKCadastroROM_RDES.AsDateTime > 0,FKCadastroROM_RDES.AsDateTime,FKCadastroROM_DDES.AsDateTime);
+            SPEdicao.ParamByName('AIDCF').Value := cadastroCD_ID.AsInteger;
+            SPEdicao.ParamByName('ADECF').Value := CadastroCD_NO.AsString;
+            SPEdicao.ParamByName('AIDCO').Value := CadastroCV_ID.AsInteger;
+            SPEdicao.ParamByName('ADECO').Value := CadastroCV_NO.AsString;
+            SPEdicao.ParamByName('AIDCP').Value := FKCadastroIDCP.AsInteger;
+            SPEdicao.ParamByName('AQTDE').Value := IFThen(FKCadastroROM_QTPD.AsFloat   > 0,FKCadastroROM_QTPD.AsFloat  ,FKCadastroROM_QTDE.AsFloat);
+            SPEdicao.ParamByName('AQTRL').Value := IFThen(FKCadastroROM_RLPD.AsInteger > 0,FKCadastroROM_RLPD.AsInteger,FKCadastroROM_QTRL.AsInteger);
+            SPEdicao.ParamByName('AVUPC').Value := FKCadastroROM_UNIT.AsFloat;
+            SPEdicao.ParamByName('ACTNR').Value := FKCadastroROM_CTNR.AsString;
+            SPEdicao.ParamByName('ASTFI').Value := FKCadastroROM_STAV.AsString;
+            SPEdicao.ParamByName('DECP' ).Value := FKCadastroDECP.AsString;
+            SPEdicao.ParamByName('DGCP' ).Value := FKCadastroDGCP.AsString;
+            SPEdicao.ExecProc;
+            SPEdicao.UnPrepare;
           end;
 
-          oCTransact(TEdicao);
+          uSP_CAD_PRO_EST_LAN(SPEdicao,RECParametros.EP_ID,FKCadastroIDCP.AsInteger,1);
+          FKCadastro.Next;
         end;
-      except
-        oCTransact(TEdicao,ltRollback);
-      end;
 
-      Cadastro.Next;
+        oCTransact(TEdicao);
+      end;
+    except
+      oCTransact(TEdicao,ltRollback);
     end;
-  finally
-    FKCadastro.EnableControls;
-    oRTransact(TConsulta);
+
+    Cadastro.Next;
   end;
 
   oAviso(handle,'Estoque atualizado com sucesso !');
+  oRefresh(Cadastro);
 end;
 
 procedure Tfrmctr_prc.CadastroBeforeOpen(DataSet: TDataSet);

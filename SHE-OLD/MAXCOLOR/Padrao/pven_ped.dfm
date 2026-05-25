@@ -6,7 +6,7 @@ object frmven_ped: Tfrmven_ped
   BorderStyle = bsSingle
   Caption = 'Pedidos'
   ClientHeight = 643
-  ClientWidth = 1184
+  ClientWidth = 1234
   Color = clBtnFace
   Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
@@ -265,7 +265,7 @@ object frmven_ped: Tfrmven_ped
   object SBMenuPrincipal: TSpeedBar
     Left = 0
     Top = 0
-    Width = 1184
+    Width = 1234
     Height = 65
     Cursor = crHandPoint
     Font.Charset = DEFAULT_CHARSET
@@ -351,7 +351,7 @@ object frmven_ped: Tfrmven_ped
   object pnlpri: TPanel
     Left = 0
     Top = 65
-    Width = 1184
+    Width = 1234
     Height = 305
     Align = alTop
     TabOrder = 1
@@ -1810,7 +1810,7 @@ object frmven_ped: Tfrmven_ped
     object pnlfoto: TPanel
       Left = 913
       Top = 1
-      Width = 270
+      Width = 320
       Height = 303
       Align = alClient
       BevelOuter = bvNone
@@ -1825,7 +1825,7 @@ object frmven_ped: Tfrmven_ped
       object pro_foto: TImage
         Left = 0
         Top = 0
-        Width = 270
+        Width = 320
         Height = 303
         Align = alClient
         Center = True
@@ -1949,7 +1949,7 @@ object frmven_ped: Tfrmven_ped
   object GBConsulta: TGroupBox
     Left = 54
     Top = 370
-    Width = 1130
+    Width = 1180
     Height = 273
     Align = alClient
     Caption = '  Consulta  '
@@ -1963,7 +1963,7 @@ object frmven_ped: Tfrmven_ped
     object DBGEdicao: TdxDBGrid
       Left = 2
       Top = 19
-      Width = 1126
+      Width = 1176
       Height = 252
       Bands = <
         item
