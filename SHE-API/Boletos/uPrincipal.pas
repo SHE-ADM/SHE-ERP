@@ -809,6 +809,8 @@ begin
       SQL.Add('AND   PK.DEST NOT LIKE ''CANCELADO%''');
       SQL.Add('AND   PK.DEST LIKE ''' + ANossaSituacao + '%''');
 
+      //SQL.Add('AND   PK.TITULO = ''239177-A''');
+
       SQL.Add('UNION');
       SQL.Add('SELECT PK.EP_ID,PK.IDPK,PK.TITULO,CAST(PK.DTCA AS DATE) AS DTCA,PK.DTVC,PK.DTPG,PK.DTBX,PK.DEST,PK.FIN_VJUR,PK.FIN_VDES,PK.API_ID,PK.API_DTED,API_NN,API_ST,PK.API_TAXA,PK.API_MT,PK.API_INFADCAD');
       SQL.Add('FROM   FIN_REC_BAN_BAI_004 AS PK');
@@ -817,6 +819,8 @@ begin
       SQL.Add('AND   PK.DEST NOT LIKE ''PAGO%''');
       SQL.Add('AND   PK.DEST NOT LIKE ''CANCELADO%''');
       SQL.Add('AND   PK.DEST LIKE ''' + ANossaSituacao + '%''');
+
+      //SQL.Add('AND   PK.TITULO = ''239177-A''');
 
       SQL.Add('ORDER BY 5 DESC');
       ExecQuery;
@@ -992,7 +996,6 @@ begin
               SQL.Add('FLAG = 1,');
 
               if (Pos('BAI',SQLAPIConsulta.Current.ByName('DEST').AsString) = 0) and
-                 (Pos('PRO',SQLAPIConsulta.Current.ByName('DEST').AsString) = 0) and
                  (Pos('PAG',SQLAPIConsulta.Current.ByName('DEST').AsString) = 0) then
               begin
                 SQL.Add('FIN_STFI = ''' + ERP_ST + ''',');

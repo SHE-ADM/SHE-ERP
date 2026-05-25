@@ -8,61 +8,66 @@
   resources were bound to the produced executable.
 */
 
-#define IdResourceStrings_RSStackHOST_NOT_FOUND 64528
-#define IdResourceStrings_RSThreadTerminateAndWaitFor 64529
-#define dxStatusBar_cxSTextPanelStyle 64530
-#define dxStatusBar_cxSContainerPanelStyle 64531
-#define dxStatusBar_cxSKeyboardStatePanelStyle 64532
-#define dxStatusBar_cxSStateIndicatorPanelStyle 64533
-#define dxStatusBar_cxSCantDeleteAncestor 64534
-#define IdResourceStrings_RSStackENETUNREACH 64544
-#define IdResourceStrings_RSStackENETRESET 64545
-#define IdResourceStrings_RSStackECONNABORTED 64546
-#define IdResourceStrings_RSStackECONNRESET 64547
-#define IdResourceStrings_RSStackENOBUFS 64548
-#define IdResourceStrings_RSStackEISCONN 64549
-#define IdResourceStrings_RSStackENOTCONN 64550
-#define IdResourceStrings_RSStackESHUTDOWN 64551
-#define IdResourceStrings_RSStackETOOMANYREFS 64552
-#define IdResourceStrings_RSStackETIMEDOUT 64553
-#define IdResourceStrings_RSStackECONNREFUSED 64554
-#define IdResourceStrings_RSStackELOOP 64555
-#define IdResourceStrings_RSStackENAMETOOLONG 64556
-#define IdResourceStrings_RSStackEHOSTDOWN 64557
-#define IdResourceStrings_RSStackEHOSTUNREACH 64558
-#define IdResourceStrings_RSStackENOTEMPTY 64559
-#define IdResourceStrings_RSStackEWOULDBLOCK 64560
-#define IdResourceStrings_RSStackEINPROGRESS 64561
-#define IdResourceStrings_RSStackEALREADY 64562
-#define IdResourceStrings_RSStackENOTSOCK 64563
-#define IdResourceStrings_RSStackEDESTADDRREQ 64564
-#define IdResourceStrings_RSStackEMSGSIZE 64565
-#define IdResourceStrings_RSStackEPROTOTYPE 64566
-#define IdResourceStrings_RSStackENOPROTOOPT 64567
-#define IdResourceStrings_RSStackEPROTONOSUPPORT 64568
-#define IdResourceStrings_RSStackESOCKTNOSUPPORT 64569
-#define IdResourceStrings_RSStackEOPNOTSUPP 64570
-#define IdResourceStrings_RSStackEPFNOSUPPORT 64571
-#define IdResourceStrings_RSStackEAFNOSUPPORT 64572
-#define IdResourceStrings_RSStackEADDRINUSE 64573
-#define IdResourceStrings_RSStackEADDRNOTAVAIL 64574
-#define IdResourceStrings_RSStackENETDOWN 64575
-#define IdResourceStrings_RSWS2CallError 64576
-#define IdResourceStrings_RSWS2LoadError 64577
-#define IdResourceStrings_RSStatusResolving 64578
-#define IdResourceStrings_RSStatusConnecting 64579
-#define IdResourceStrings_RSStatusConnected 64580
-#define IdResourceStrings_RSStatusDisconnecting 64581
-#define IdResourceStrings_RSStatusDisconnected 64582
-#define IdResourceStrings_RSStatusText 64583
-#define IdResourceStrings_RSInvalidServiceName 64584
-#define IdResourceStrings_RSStackError 64585
-#define IdResourceStrings_RSStackEINTR 64586
-#define IdResourceStrings_RSStackEBADF 64587
-#define IdResourceStrings_RSStackEACCES 64588
-#define IdResourceStrings_RSStackEFAULT 64589
-#define IdResourceStrings_RSStackEINVAL 64590
-#define IdResourceStrings_RSStackEMFILE 64591
+#define IdResourceStrings_RSInvalidServiceName 64528
+#define IdResourceStrings_RSInvalidIPv6Address 64529
+#define IdResourceStrings_RSIPVersionUnsupported 64530
+#define IdResourceStrings_RSNotAllBytesSent 64531
+#define IdResourceStrings_RSPackageSizeTooBig 64532
+#define IdResourceStrings_RSSetSizeExceeded 64533
+#define dxStatusBar_cxSTextPanelStyle 64534
+#define dxStatusBar_cxSContainerPanelStyle 64535
+#define dxStatusBar_cxSKeyboardStatePanelStyle 64536
+#define dxStatusBar_cxSStateIndicatorPanelStyle 64537
+#define dxStatusBar_cxSCantDeleteAncestor 64538
+#define IdResourceStringsCore_RSThreadTerminateAndWaitFor 64539
+#define IdResourceStrings_RSStackECONNRESET 64544
+#define IdResourceStrings_RSStackENOBUFS 64545
+#define IdResourceStrings_RSStackEISCONN 64546
+#define IdResourceStrings_RSStackENOTCONN 64547
+#define IdResourceStrings_RSStackESHUTDOWN 64548
+#define IdResourceStrings_RSStackETOOMANYREFS 64549
+#define IdResourceStrings_RSStackETIMEDOUT 64550
+#define IdResourceStrings_RSStackECONNREFUSED 64551
+#define IdResourceStrings_RSStackELOOP 64552
+#define IdResourceStrings_RSStackENAMETOOLONG 64553
+#define IdResourceStrings_RSStackEHOSTDOWN 64554
+#define IdResourceStrings_RSStackEHOSTUNREACH 64555
+#define IdResourceStrings_RSStackENOTEMPTY 64556
+#define IdResourceStrings_RSStackHOST_NOT_FOUND 64557
+#define IdResourceStrings_RSStackClassUndefined 64558
+#define IdResourceStrings_RSStackAlreadyCreated 64559
+#define IdResourceStrings_RSStackENOTSOCK 64560
+#define IdResourceStrings_RSStackEDESTADDRREQ 64561
+#define IdResourceStrings_RSStackEMSGSIZE 64562
+#define IdResourceStrings_RSStackEPROTOTYPE 64563
+#define IdResourceStrings_RSStackENOPROTOOPT 64564
+#define IdResourceStrings_RSStackEPROTONOSUPPORT 64565
+#define IdResourceStrings_RSStackESOCKTNOSUPPORT 64566
+#define IdResourceStrings_RSStackEOPNOTSUPP 64567
+#define IdResourceStrings_RSStackEPFNOSUPPORT 64568
+#define IdResourceStrings_RSStackEAFNOSUPPORT 64569
+#define IdResourceStrings_RSStackEADDRINUSE 64570
+#define IdResourceStrings_RSStackEADDRNOTAVAIL 64571
+#define IdResourceStrings_RSStackENETDOWN 64572
+#define IdResourceStrings_RSStackENETUNREACH 64573
+#define IdResourceStrings_RSStackENETRESET 64574
+#define IdResourceStrings_RSStackECONNABORTED 64575
+#define IdResourceStrings_RSStatusResolving 64576
+#define IdResourceStrings_RSStatusConnecting 64577
+#define IdResourceStrings_RSStatusConnected 64578
+#define IdResourceStrings_RSStatusDisconnecting 64579
+#define IdResourceStrings_RSStatusDisconnected 64580
+#define IdResourceStrings_RSStatusText 64581
+#define IdResourceStrings_RSStackError 64582
+#define IdResourceStrings_RSStackEINTR 64583
+#define IdResourceStrings_RSStackEBADF 64584
+#define IdResourceStrings_RSStackEACCES 64585
+#define IdResourceStrings_RSStackEFAULT 64586
+#define IdResourceStrings_RSStackEINVAL 64587
+#define IdResourceStrings_RSStackEMFILE 64588
+#define IdResourceStrings_RSStackEWOULDBLOCK 64589
+#define IdResourceStrings_RSStackEINPROGRESS 64590
+#define IdResourceStrings_RSStackEALREADY 64591
 #define dxDockConsts_sdxInvalidFloatingDeleting 64592
 #define dxDockConsts_sdxInvalidParentAssigning 64593
 #define dxDockConsts_sdxInvalidOwner 64594
@@ -77,8 +82,8 @@
 #define XMLConst_SDOMNotSupported 64603
 #define XMLConst_SNodeExpected 64604
 #define XMLConst_SMSDOMNotInstalled 64605
-#define IdResourceStrings_RSWinsockInitializationError 64606
-#define IdResourceStrings_RSSetSizeExceeded 64607
+#define IdResourceStrings_RSWinsockCallError 64606
+#define IdResourceStrings_RSWinsockLoadError 64607
 #define dxGrFCmn_dxSFilterOperatorNotEqual 64608
 #define dxGrFCmn_dxSFilterOperatorGreater 64609
 #define dxGrFCmn_dxSFilterOperatorGreaterEqual 64610
@@ -1009,16 +1014,18 @@
 #define SysConst_SEndOfFile 65535
 STRINGTABLE
 BEGIN
-	IdResourceStrings_RSStackHOST_NOT_FOUND,	"Host not found."
-	IdResourceStrings_RSThreadTerminateAndWaitFor,	"Cannot call TerminateAndWaitFor on FreeAndTerminate threads"
+	IdResourceStrings_RSInvalidServiceName,	"%s is not a valid service."
+	IdResourceStrings_RSInvalidIPv6Address,	"%s is not a valid IPv6 address"
+	IdResourceStrings_RSIPVersionUnsupported,	"The requested IPVersion / Address family is not supported."
+	IdResourceStrings_RSNotAllBytesSent,	"Not all bytes sent."
+	IdResourceStrings_RSPackageSizeTooBig,	"Package Size Too Big."
+	IdResourceStrings_RSSetSizeExceeded,	"Set Size Exceeded."
 	dxStatusBar_cxSTextPanelStyle,	"Text Panel"
 	dxStatusBar_cxSContainerPanelStyle,	"Container Panel"
 	dxStatusBar_cxSKeyboardStatePanelStyle,	"Keyboard State Panel"
 	dxStatusBar_cxSStateIndicatorPanelStyle,	"State Indicator Panel"
 	dxStatusBar_cxSCantDeleteAncestor,	"Selection contains a component introduced in an ancestor form which cannot be deleted"
-	IdResourceStrings_RSStackENETUNREACH,	"Network is unreachable."
-	IdResourceStrings_RSStackENETRESET,	"Net dropped connection or reset."
-	IdResourceStrings_RSStackECONNABORTED,	"Software caused connection abort."
+	IdResourceStringsCore_RSThreadTerminateAndWaitFor,	"Cannot call TerminateAndWaitFor on FreeAndTerminate threads"
 	IdResourceStrings_RSStackECONNRESET,	"Connection reset by peer."
 	IdResourceStrings_RSStackENOBUFS,	"No buffer space available."
 	IdResourceStrings_RSStackEISCONN,	"Socket is already connected."
@@ -1032,9 +1039,9 @@ BEGIN
 	IdResourceStrings_RSStackEHOSTDOWN,	"Host is down."
 	IdResourceStrings_RSStackEHOSTUNREACH,	"No route to host."
 	IdResourceStrings_RSStackENOTEMPTY,	"Directory not empty"
-	IdResourceStrings_RSStackEWOULDBLOCK,	"Operation would block. "
-	IdResourceStrings_RSStackEINPROGRESS,	"Operation now in progress."
-	IdResourceStrings_RSStackEALREADY,	"Operation already in progress."
+	IdResourceStrings_RSStackHOST_NOT_FOUND,	"Host not found."
+	IdResourceStrings_RSStackClassUndefined,	"Stack Class is undefined."
+	IdResourceStrings_RSStackAlreadyCreated,	"Stack already created."
 	IdResourceStrings_RSStackENOTSOCK,	"Socket operation on non-socket."
 	IdResourceStrings_RSStackEDESTADDRREQ,	"Destination address required."
 	IdResourceStrings_RSStackEMSGSIZE,	"Message too long."
@@ -1048,22 +1055,25 @@ BEGIN
 	IdResourceStrings_RSStackEADDRINUSE,	"Address already in use."
 	IdResourceStrings_RSStackEADDRNOTAVAIL,	"Cannot assign requested address."
 	IdResourceStrings_RSStackENETDOWN,	"Network is down."
-	IdResourceStrings_RSWS2CallError,	"Error on call Winsock2 library function %s"
-	IdResourceStrings_RSWS2LoadError,	"Error on loading Winsock2 library (%s)"
+	IdResourceStrings_RSStackENETUNREACH,	"Network is unreachable."
+	IdResourceStrings_RSStackENETRESET,	"Net dropped connection or reset."
+	IdResourceStrings_RSStackECONNABORTED,	"Software caused connection abort."
 	IdResourceStrings_RSStatusResolving,	"Resolving hostname %s."
 	IdResourceStrings_RSStatusConnecting,	"Connecting to %s."
 	IdResourceStrings_RSStatusConnected,	"Connected."
 	IdResourceStrings_RSStatusDisconnecting,	"Disconnecting."
 	IdResourceStrings_RSStatusDisconnected,	"Disconnected."
 	IdResourceStrings_RSStatusText,	"%s"
-	IdResourceStrings_RSInvalidServiceName,	"%s is not a valid service."
 	IdResourceStrings_RSStackError,	"Socket Error # %d\r\n%s"
 	IdResourceStrings_RSStackEINTR,	"Interrupted system call."
 	IdResourceStrings_RSStackEBADF,	"Bad file number."
 	IdResourceStrings_RSStackEACCES,	"Access denied."
-	IdResourceStrings_RSStackEFAULT,	"Bad address."
+	IdResourceStrings_RSStackEFAULT,	"Buffer fault."
 	IdResourceStrings_RSStackEINVAL,	"Invalid argument."
 	IdResourceStrings_RSStackEMFILE,	"Too many open files."
+	IdResourceStrings_RSStackEWOULDBLOCK,	"Operation would block."
+	IdResourceStrings_RSStackEINPROGRESS,	"Operation now in progress."
+	IdResourceStrings_RSStackEALREADY,	"Operation already in progress."
 	dxDockConsts_sdxInvalidFloatingDeleting,	"You cannot delete a TdxCustomDockSite in floating mode."
 	dxDockConsts_sdxInvalidParentAssigning,	"You cannot set the parent for this component."
 	dxDockConsts_sdxInvalidOwner,	"The Owner of the TdxCustomDockControl must be TCustomForm."
@@ -1078,8 +1088,8 @@ BEGIN
 	XMLConst_SDOMNotSupported,	"Property or Method \"%s\" is not supported by DOM Vendor \"%s\""
 	XMLConst_SNodeExpected,	"Node cannot be null"
 	XMLConst_SMSDOMNotInstalled,	"Microsoft MSXML is not installed"
-	IdResourceStrings_RSWinsockInitializationError,	"Winsock Initialization Error."
-	IdResourceStrings_RSSetSizeExceeded,	"Set Size Exceeded."
+	IdResourceStrings_RSWinsockCallError,	"Error on call to Winsock2 library function %s"
+	IdResourceStrings_RSWinsockLoadError,	"Error on loading Winsock2 library (%s)"
 	dxGrFCmn_dxSFilterOperatorNotEqual,	"does not equal"
 	dxGrFCmn_dxSFilterOperatorGreater,	"is greater than"
 	dxGrFCmn_dxSFilterOperatorGreaterEqual,	"is greater than or equal to"
