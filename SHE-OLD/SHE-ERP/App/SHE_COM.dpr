@@ -165,7 +165,7 @@ uses
 
 begin
   Application.Initialize;
-  Application.Title := 'Compras S.H.E.I.L.D.';
+  Application.Title := 'Sheild Compras';
   FrmSplash := TFrmSplash.Create(Nil);
   FrmSplash.Refresh;
   FrmSplash.Show;

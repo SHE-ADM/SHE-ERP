@@ -2063,19 +2063,19 @@ begin
   mcai_sar.Enabled           := ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,'USU_VISU','Financeiro'      ,'Caixa'                     ,'Sangria \ Reforço'                  ,false);
   mcai_mov.Enabled           := ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,'USU_VISU','Financeiro'      ,'Caixa'                     ,'Movimentos'                         ,false);
 
-  muti_age.Enabled           := ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,'USU_VISU','Utilitários'     ,'Agenda'                    ,'Permissões Gerais'                  ,false);
-  muti_log.Enabled           := ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,'USU_VISU','Utilitários'     ,'Login'                     ,'Permissões Gerais'                  ,false);
-  muti_sen.Enabled           := ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,'USU_VISU','Utilitários'     ,'Senha'                     ,'Permissões Gerais'                  ,false);
-  muti_wor.Enabled           := ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,'USU_VISU','Utilitários'     ,'Estação de Trabalho'       ,'Permissões Gerais'                  ,false);
-  muti_bak.Enabled           := ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,'USU_VISU','Utilitários'     ,'Backup'                    ,'Permissões Gerais'                  ,false);
-  muti_pri.Enabled           := ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,'USU_VISU','Utilitários'     ,'Parametros de Impressão'   ,'Permissões Gerais'                  ,false);
-  muti_sis.Enabled           := ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,'USU_VISU','Utilitários'     ,'Parametros do Sistema'     ,'Permissões Gerais'                  ,false);
-  muti_usu.Enabled           := ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,'USU_VISU','Utilitários'     ,'Usuários'                   ,'Permissões Gerais'                  ,false);
+//  muti_age.Enabled           := ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,'USU_VISU','Utilitários'     ,'Agenda'                    ,'Permissões Gerais'                  ,false);
+//  muti_log.Enabled           := ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,'USU_VISU','Utilitários'     ,'Login'                     ,'Permissões Gerais'                  ,false);
+//  muti_sen.Enabled           := ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,'USU_VISU','Utilitários'     ,'Senha'                     ,'Permissões Gerais'                  ,false);
+//  muti_wor.Enabled           := ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,'USU_VISU','Utilitários'     ,'Estação de Trabalho'       ,'Permissões Gerais'                  ,false);
+//  muti_bak.Enabled           := ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,'USU_VISU','Utilitários'     ,'Backup'                    ,'Permissões Gerais'                  ,false);
+//  muti_pri.Enabled           := ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,'USU_VISU','Utilitários'     ,'Parametros de Impressão'   ,'Permissões Gerais'                  ,false);
+//  muti_sis.Enabled           := ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,'USU_VISU','Utilitários'     ,'Parametros do Sistema'     ,'Permissões Gerais'                  ,false);
+//  muti_usu.Enabled           := ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,'USU_VISU','Utilitários'     ,'Usuários'                   ,'Permissões Gerais'                  ,false);
 
-  rsbusu.Enabled             := ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,'USU_VISU','Utilitários'     ,'Usuários'                  ,'Permissões Gerais'                  ,false);
-  rsbbak.Enabled             := ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,'USU_VISU','Utilitários'     ,'Backup'                    ,'Permissões Gerais'                  ,false);
-  rsbpri.Enabled             := ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,'USU_VISU','Utilitários'     ,'Parametros de Impressão'   ,'Permissões Gerais'                  ,false);
-  rsbsis.Enabled             := ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,'USU_VISU','Utilitários'     ,'Parametros do Sistema'     ,'Permissões Gerais'                  ,false);
+//  rsbusu.Enabled             := ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,'USU_VISU','Utilitários'     ,'Usuários'                  ,'Permissões Gerais'                  ,false);
+//  rsbbak.Enabled             := ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,'USU_VISU','Utilitários'     ,'Backup'                    ,'Permissões Gerais'                  ,false);
+//  rsbpri.Enabled             := ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,'USU_VISU','Utilitários'     ,'Parametros de Impressão'   ,'Permissões Gerais'                  ,false);
+//  rsbsis.Enabled             := ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,'USU_VISU','Utilitários'     ,'Parametros do Sistema'     ,'Permissões Gerais'                  ,false);
 
   mREL.Visible               := (cad_usuUSU_RELA.AsString = '1');
 
@@ -2282,9 +2282,6 @@ procedure TFrmPrincipal.actpar_priExecute(Sender: TObject);
 begin
   if frmpar_pri = nil then
   begin
-    if not ACESSO(frmprincipal.cad_usuUSU_CUSU.AsString,'USU_VISU','Utilitários','Parametros de Impressão','Permissões Gerais',false) then
-       raise exception.Create('ACESSO NEGADO !'+#13+'Contate o admnistrador do sistema.');
-
     Application.CreateForm (TfrmPar_Pri, frmPar_Pri);
     try
       frmPar_Pri.ShowModal;

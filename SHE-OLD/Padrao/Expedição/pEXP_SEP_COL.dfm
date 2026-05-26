@@ -1,12 +1,12 @@
 inherited FrmEXP_SEP_COL: TFrmEXP_SEP_COL
-  Left = 358
+  Left = 351
   Top = 82
   HelpContext = 95
   ActiveControl = DBGEdicao
   BorderIcons = [biSystemMenu]
   Caption = 'Separa'#231#227'o de Pedidos'
   ClientHeight = 805
-  ClientWidth = 1289
+  ClientWidth = 1296
   FormStyle = fsNormal
   Position = poDesigned
   Visible = False
@@ -14,7 +14,7 @@ inherited FrmEXP_SEP_COL: TFrmEXP_SEP_COL
   TextHeight = 14
   inherited SBRodape: TdxStatusBar
     Top = 784
-    Width = 1289
+    Width = 1296
     Panels = <
       item
         PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
@@ -46,19 +46,19 @@ inherited FrmEXP_SEP_COL: TFrmEXP_SEP_COL
       end>
   end
   inherited DSMenu: TdxDockSite
-    Width = 1289
+    Width = 1296
     Height = 727
     DockType = 0
-    OriginalWidth = 1289
+    OriginalWidth = 1296
     OriginalHeight = 727
     inherited LDSMenu: TdxLayoutDockSite
-      Width = 1289
+      Width = 1296
       Height = 727
       DockType = 1
       OriginalWidth = 300
       OriginalHeight = 200
       inherited LDSEdicao: TdxLayoutDockSite
-        Width = 1189
+        Width = 1196
         Height = 727
         DockType = 1
         OriginalWidth = 300
@@ -75,18 +75,18 @@ inherited FrmEXP_SEP_COL: TFrmEXP_SEP_COL
       end
     end
     inherited DPEdicao: TdxDockPanel
-      Width = 1289
+      Width = 1296
       Height = 727
       DockType = 1
       OriginalWidth = 470
       OriginalHeight = 285
       inherited PNLPrincipal: TPanel
-        Width = 1285
+        Width = 1292
         Height = 702
         object PCEdicao: TdxPageControl
           Left = 0
           Top = 0
-          Width = 1285
+          Width = 1292
           Height = 647
           ActivePage = TSSeparados
           Align = alClient
@@ -204,7 +204,7 @@ inherited FrmEXP_SEP_COL: TFrmEXP_SEP_COL
             object DBGEdicao: TdxDBGrid
               Left = 39
               Top = 0
-              Width = 1246
+              Width = 1253
               Height = 620
               Bands = <
                 item
@@ -826,7 +826,7 @@ inherited FrmEXP_SEP_COL: TFrmEXP_SEP_COL
         object PNLRodape: TPanel
           Left = 0
           Top = 647
-          Width = 1285
+          Width = 1292
           Height = 0
           Align = alBottom
           BevelOuter = bvNone
@@ -835,7 +835,7 @@ inherited FrmEXP_SEP_COL: TFrmEXP_SEP_COL
           object PBPrincipal: TProgressBar
             Left = 0
             Top = 0
-            Width = 1285
+            Width = 1292
             Height = 0
             Align = alClient
             TabOrder = 0
@@ -844,7 +844,7 @@ inherited FrmEXP_SEP_COL: TFrmEXP_SEP_COL
         object PNLConsultaRodape: TPanel
           Left = 0
           Top = 647
-          Width = 1285
+          Width = 1292
           Height = 55
           Align = alBottom
           BevelOuter = bvNone
@@ -852,7 +852,7 @@ inherited FrmEXP_SEP_COL: TFrmEXP_SEP_COL
           object PNLDescricao: TPanel
             Left = 0
             Top = 0
-            Width = 1285
+            Width = 1292
             Height = 35
             Align = alTop
             BevelOuter = bvNone
@@ -869,7 +869,7 @@ inherited FrmEXP_SEP_COL: TFrmEXP_SEP_COL
           object DBGConsultaPedido: TdxDBGrid
             Left = 0
             Top = 35
-            Width = 1285
+            Width = 1292
             Height = 20
             Cursor = crHandPoint
             Bands = <

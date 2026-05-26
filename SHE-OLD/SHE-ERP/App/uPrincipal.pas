@@ -3168,9 +3168,9 @@ begin
     ACTCAD_PRO_EST_ADM.Enabled := AREC_SHE_DEF.GView; { Controle }
     ACTCAD_PRO_EST_LCT.Enabled := AREC_SHE_DEF.GAppend; { Entradas }
 
-    { Etiquetas }
+    { Etiquetas
     AREC_SHE_DEF.GDescricao    := 'Estoque'; AREC_SHE_DEF.GReferencia := 'Etiquetas'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);
-    ACTCAD_PRO_EST_ETQ.Enabled := AREC_SHE_DEF.GAppend;
+    ACTCAD_PRO_EST_ETQ.Enabled := AREC_SHE_DEF.GAppend; }
 
     { Qualidade }
     AREC_SHE_DEF.GDescricao    := 'Estoque'; AREC_SHE_DEF.GReferencia := 'Qualidade'; AREC_SHE_DEF.GRegra := 'Permissões Gerais'; oUSER(AREC_SHE_DEF);

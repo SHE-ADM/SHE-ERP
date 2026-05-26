@@ -165,7 +165,7 @@ uses
 
 begin
   Application.Initialize;
-  Application.Title := 'PDV S.H.E.I.L.D.';
+  Application.Title := 'Sheild PDV';
   FrmSplash := TFrmSplash.Create(Nil);
   FrmSplash.Refresh;
   FrmSplash.Show;

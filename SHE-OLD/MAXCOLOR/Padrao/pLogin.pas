@@ -130,6 +130,7 @@ begin
   EDUsuario.Text := RECLogin.Login;
 
   _PSQUsuarios;
+  if CAD_USUUSU_IDFILIAL.AsInteger > 0 then
   IEEmpresa.Text := CAD_USUUSU_IDFILIAL.AsString + ' - ' + CAD_USUUSU_DEFILIAL.AsString;
 end;
 

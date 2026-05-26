@@ -7,7 +7,7 @@ object dmDADOS: TdmDADOS
   Height = 588
   Width = 922
   object ibDB: TIBDatabase
-    DatabaseName = 'C:\Sheild\FBird\TRIMS21.FDB'
+    DatabaseName = 'C:\Sheild\FBird\SHE-ERP.FDB'
     Params.Strings = (
       'user_name=sysdba'
       'password=ri1903'

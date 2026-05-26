@@ -165,7 +165,7 @@ uses
 
 begin
   Application.Initialize;
-  Application.Title := 'S.H.E.I.L.D. PCP';
+  Application.Title := 'Sheild. PCP';
   FrmSplash := TFrmSplash.Create(Nil);
   FrmSplash.Refresh;
   FrmSplash.Show;
