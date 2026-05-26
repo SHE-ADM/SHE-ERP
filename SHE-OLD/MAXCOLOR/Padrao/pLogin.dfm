@@ -1163,6 +1163,7 @@ object FrmLogin: TFrmLogin
   end
   object SQLEdicao: TIBSQL
     Database = dmDADOS.ibDB
+    Transaction = dmDADOS.tTRA
     Left = 176
     Top = 8
   end

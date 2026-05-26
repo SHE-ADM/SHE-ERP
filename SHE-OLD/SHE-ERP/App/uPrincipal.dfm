@@ -3,7 +3,7 @@ object FrmPrincipal: TFrmPrincipal
   Top = 1
   Width = 1940
   Height = 1031
-  Caption = 'Sistemas S.H.E.I.L.D.'
+  Caption = 'Sheild Sistemas'
   Color = clBtnFace
   Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText

@@ -1,4 +1,4 @@
-program SHE_ERP;
+program SHE_FIN;
 {$I C:\Sheild\Projetos\Delphi\Fontes\Lib\FastMM\FastMM4Options.inc} // incluir arquivo de configuração
 {$SetPEFlags $20} // Permite que o aplicativo acesse até 4GB de RAM em sistemas x64
 
@@ -165,7 +165,7 @@ uses
 
 begin
   Application.Initialize;
-  Application.Title := 'Sheild ERP';
+  Application.Title := 'Sheild Financeiro';
   FrmSplash := TFrmSplash.Create(Nil);
   FrmSplash.Refresh;
   FrmSplash.Show;

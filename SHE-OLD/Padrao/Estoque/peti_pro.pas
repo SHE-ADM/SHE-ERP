@@ -192,7 +192,6 @@ type
   private
     { Private declarations }
     RECEstoque: TRECPedidos;
-    REC_SHE_EDI: TREC_SHE_EDI;
 
     procedure STATUS_ETIQUETA;
     procedure ALTERA_ETIQUETA;
@@ -235,6 +234,12 @@ begin
   REC_SHE_DEF.GReferencia := 'Etiquetas';
   REC_SHE_DEF.GRegra      := 'Permissões Gerais';
   inherited;
+
+  SIETQ_PAD.Enabled := (REC_SHE_DEF.GPrint);
+  SIETQ_PEQ.Enabled := (REC_SHE_DEF.GPrint);
+  SIALT.Enabled     := (REC_SHE_DEF.GEdit);
+  SICAN.Enabled     := (REC_SHE_DEF.GEdit);
+  SICSE.Enabled     := (REC_SHE_DEF.GEdit);
 
   oIRECPedidos(RECEstoque);
   RECEstoque.ASPEdicao := ibSP;
@@ -286,12 +291,11 @@ end;
 
 procedure Tfrmeti_pro.STATUS_ETIQUETA;
 begin
-  SIETQ_PAD.Enabled := True;
-  SIETQ_PEQ.Enabled := True;
-
-  siALT.Enabled := True;
-  siCAN.Enabled := True;
-  siCSE.Enabled := True;
+  SIETQ_PAD.Enabled := (REC_SHE_DEF.GPrint);
+  SIETQ_PEQ.Enabled := (REC_SHE_DEF.GPrint);
+  SIALT.Enabled     := (REC_SHE_DEF.GEdit);
+  SICAN.Enabled     := (REC_SHE_DEF.GEdit);
+  SICSE.Enabled     := (REC_SHE_DEF.GEdit);
 
   if laeped.Caption = 'SEPARADO' then
   begin
@@ -330,12 +334,12 @@ end;
 
 procedure Tfrmeti_pro.ALTERA_ETIQUETA;
 var
-  RECEdicao: TRECEdicao;
+  RECEdicao: TREC_SHE_EDI;
 begin
-  oIRECEdicao(RECEdicao); { Inicializa TRecord }
-
-  RECEdicao.MSGMotivo := IFThen(CEQTCO.Value > 0,'Confirma inclusão do corte manual','Confirma alteração do estoque') + ' ?';
-  if oYesNo(handle,RECEdicao.MSGMotivo) = mrno then
+  { Inicializa TRecord }
+  oIREC_SHE_EDI(RECEdicao);
+  RECEdicao.AINFADCAD := IFThen(CEQTCO.Value > 0,'Confirma inclusão do corte manual','Confirma alteração do estoque') + ' ?';
+  if oYesNo(handle,RECEdicao.AINFADCAD) = mrno then
   Abort;
 
   if laeped.Caption = 'SEPARADO' then
@@ -435,65 +439,64 @@ begin
       with RECEdicao do
       begin
         { Inicializar Parâmetros: FLAG + campos de pesquisa (IDEP,IDPK,IDFK) }
-        FLAG := 0;
-        CDET := EDCDET.Text; { Etiquetas }
+        AFLAG := 0;
+        ACDET := EDCDET.Text; { Etiquetas }
 
         { Cadastro }
-        IDEP := SQLEdicao.Current.ByName('IDEP').AsInteger;
-        IDCA := RECUsuarios.ID;
+        AIDEP := SQLEdicao.Current.ByName('IDEP').AsInteger;
+        AIDLG := RECUsuarios.ID;
 
         { Situação }
-        CDST := 30;
-        REST := 'A';
-        DEST := 'ATIVO';
+        ACDST := 30;
+        AREST := 'A';
+        ADEST := 'ATIVO';
 
         { Romaneio }
-        CDRO := SQLEdicao.Current.ByName('CDRO').AsInteger;
-        ITEM := 0;
+        ACDRO := SQLEdicao.Current.ByName('CDRO').AsInteger;
+        AITEM := 0;
 
         { Etiqueta }
-        CTNR := SQLEdicao.Current.ByName('CTNR').AsString;
-        LOTE := SQLEdicao.Current.ByName('LOTE').AsString;
-        CDI  := 0;
-        MAPA := EmptyStr;
+        ACTNR := SQLEdicao.Current.ByName('CTNR').AsString;
+        ALOTE := SQLEdicao.Current.ByName('LOTE').AsString;
+        ACDI  := 0;
+        AMAPA := EmptyStr;
 
         { Processos }
-        CDOP := SQLEdicao.Current.ByName('CDOP').AsInteger;
-        REOP := SQLEdicao.Current.ByName('REOP').AsString;
-        CDTP := SQLEdicao.Current.ByName('CDTP').AsInteger;
+        ACDOP := SQLEdicao.Current.ByName('CDOP').AsInteger;
+        AREOP := SQLEdicao.Current.ByName('REOP').AsString;
+        ACDTP := SQLEdicao.Current.ByName('CDTP').AsInteger;
 
         { Produtos }
-        IDCP    := SQLEdicao.Current.ByName('IDCP').AsInteger;
-        CP_IDEP := SQLEdicao.Current.ByName('CP_IDEP').AsInteger;
-        IDAK    := SQLEdicao.Current.ByName('IDAK').AsInteger;
-        CEAN    := SQLEdicao.Current.ByName('CEAN').AsString;
+        AIDCP    := SQLEdicao.Current.ByName('IDCP').AsInteger;
+        ACP_IDEP := SQLEdicao.Current.ByName('CP_IDEP').AsInteger;
+        AIDAK    := SQLEdicao.Current.ByName('IDAK').AsInteger;
+        ACEAN    := SQLEdicao.Current.ByName('CEAN').AsString;
 
         { Lançamento }
-        QTDE := CEQTCO.Value;
-        QTRL := 1;
+        AQTDE := CEQTCO.Value;
+        AQTRL := 1;
 
         { Custo }
-        CF_VPRC_PAD_ORI := SQLEdicao.Current.ByName('CF_VPRC_PAD_ORI').AsString;
-        CF_VPRC_PAD     := SQLEdicao.Current.ByName('CF_VPRC_PAD').AsFloat;
-        CF_VPRC_COM     := SQLEdicao.Current.ByName('CF_VPRC_COM').AsFloat;
+        ACF_VPRC_PAD_ORI := SQLEdicao.Current.ByName('CF_VPRC_PAD_ORI').AsString;
+        ACF_VPRC_PAD     := SQLEdicao.Current.ByName('CF_VPRC_PAD').AsFloat;
+        ACF_VPRC_COM     := SQLEdicao.Current.ByName('CF_VPRC_COM').AsFloat;
 
         { Classificações }
-        COL_ID := SQLEdicao.Current.ByName('COL_ID').AsInteger; { Coleção - Compras }
-        NFCI   := SQLEdicao.Current.ByName('NFCI'  ).AsString; { Ficha de Conteúdo de Importação }
+        ACOL_ID := SQLEdicao.Current.ByName('COL_ID').AsInteger; { Coleção - Compras }
+        ANFCI   := SQLEdicao.Current.ByName('NFCI'  ).AsString; { Ficha de Conteúdo de Importação }
 
         { Defeitos }
-        IDDF := 0;
-        CDDF := 0;
+        AIDDF := 0;
+        ACDDF := 0;
 
         { Informações Adicionais }
-        INFADCAD := 'Peça Cortada ' + RECUsuarios.Login + ' - ' + FormatDateTime('dd/mm/yy hh:mm',Now) + '.'  + #13 +
+        AINFADCAD := 'Peça Cortada ' + RECUsuarios.Login + ' - ' + FormatDateTime('dd/mm/yy hh:mm',Now) + '.'  + #13 +
                     'Número da Etiqueta de Origem: ' + EDCDET.Hint;
 
-        { Registros }
-        IDEV := 0;
+        RECEdicao.FB_SP      := IBSP;
+        RECEdicao.FB_SP_NAME := 'SP_CAD_PRO_EST_RFK_NEW';
 
-        ASPEdicao := IBSP; { Stored Procedure }
-        oSP_CAD_PRO_EST_RFK(REC_SHE_EDI); { Execute Procedure }
+        oSP_CAD_PRO_EST_RFK(RECEdicao); { Execute Procedure }
       end;
     end;
 
@@ -512,7 +515,7 @@ begin
 
   PESQUISA_ETIQUETA;
   if EDCDET.Enabled then
-     EDCDET.SetFocus;
+  EDCDET.SetFocus;
 end;
 
 procedure Tfrmeti_pro.CANCELA_SEPARACAO;
@@ -799,7 +802,7 @@ begin
 
   PESQUISA_ETIQUETA;
   if EDCDET.Enabled then
-     EDCDET.SetFocus;
+  EDCDET.SetFocus;
 end;
 
 procedure Tfrmeti_pro.CANCELA_ETIQUETA;

@@ -423,6 +423,7 @@ inherited frmctr_nfe: Tfrmctr_nfe
     end
     inherited GBMenuEdicao: TGroupBox
       Height = 283
+      Visible = False
       inherited SBMenuEdicao: TSpeedBar
         Height = 262
       end

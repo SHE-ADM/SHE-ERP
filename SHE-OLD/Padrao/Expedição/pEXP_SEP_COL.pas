@@ -432,115 +432,116 @@ begin
 
   _Empty;
   try
-    try
-      ACTColetor.Enabled := False;
-      ACTSaida.Enabled   := False;
+    ACTColetor.Enabled := False;
+    ACTSaida.Enabled   := False;
 
-      SBEdicaoGrade.Enabled := False;
+    SBEdicaoGrade.Enabled := False;
 
-      Edicao.DisableControls;
-      While not Eof(TFArquivo) do
-      Begin
-        PBPrincipal.Position := PBPrincipal.Position + 1;
-        Inc(PBCount);
+    Edicao.DisableControls;
+    While not Eof(TFArquivo) do
+    Begin
+      PBPrincipal.Position := PBPrincipal.Position + 1;
+      Inc(PBCount);
 
-        Readln(TFArquivo,Linha);
-        Delimitador := 0;
-        Linha       := oUTF8ToStr(Linha);
+      Readln(TFArquivo,Linha);
+      Delimitador := 0;
+      Linha       := oUTF8ToStr(Linha);
 
-        Caption := 'Lendo Linha ... ' + IntToStr(PBCount) + ' de ' + IntToStr(PBPrincipal.Max);
-        Application.ProcessMessages;
+      Caption := 'Lendo Linha ... ' + IntToStr(PBCount) + ' de ' + IntToStr(PBPrincipal.Max);
+      Application.ProcessMessages;
 
-        CEAN13 := Trim(oGetLinha(Linha,','));
-        CDET   := IFThen(Length(CEAN13) >= 13,Copy(CEAN13,5,8),CEAN13);
-        CDET   := IFThen(Length(CDET)    = 00,'0',CDET);
-        CDET   := oStrZero(StrToInt(CDET),10);
-        NewPed := Trim(oGetLinha(Linha));
-        DEPK   := IFThen(oEmpty(NewPed),DEPK,NewPed);
+      AERRO  := '';
+      CEAN13 := Trim(oGetLinha(Linha,','));
+      CDET   := IFThen(Length(CEAN13) >= 13,Copy(CEAN13,5,8),CEAN13);
+      CDET   := IFThen(Length(CDET)    = 00,'0',CDET);
+      CDET   := oStrZero(StrToInt(CDET),10);
+      NewPed := Trim(oGetLinha(Linha));
+      DEPK   := IFThen(oEmpty(NewPed),DEPK,NewPed);
 
-        if (not oEmpty(CDET)) and (not oEmpty(Linha)) then
+      if (not oEmpty(CDET)) and (not oEmpty(Linha)) then
+      begin
+        if (not oEmpty(DEPK)) and (PedidosId.Tag = 0) then
         begin
-          if (not oEmpty(DEPK)) and (PedidosId.Tag = 0) then
-          begin
-            Pedidos.Close;
-            Pedidos.Params[0].Value := DEPK;
-            Pedidos.Open;
+          Pedidos.Close;
+          Pedidos.Params[0].Value := DEPK;
+          Pedidos.Open;
 
-            if PedidosREST.AsString = 'C' then
-               oException(Nil,'Pedidos Cancelado !');
+          if PedidosREST.AsString = 'C' then
+             oException(Nil,'Pedidos Cancelado !');
 
-            if PedidosCDRO.AsInteger > 0 then
-               oException(Nil,'Pedidos já Romaneado !');
+          if PedidosCDRO.AsInteger > 0 then
+             oException(Nil,'Pedidos já Romaneado !');
 
-            if PedidosCDNF.AsInteger > 0 then
-               oException(Nil,'Pedidos já Faturado !');
+          if PedidosCDNF.AsInteger > 0 then
+             oException(Nil,'Pedidos já Faturado !');
 
-            if PedidosCDBX.AsInteger > 0 then
-               oException(Nil,'Pedidos Finalizado !');
-          end;
+          if PedidosCDBX.AsInteger > 0 then
+             oException(Nil,'Pedidos Finalizado !');
+        end;
 
-          with SQLConsulta do
-          begin
-            Close;
-            SQL.Clear;
-            SQL.Add('SELECT DISTINCT ');
-            SQL.Add('       PK.ID    ,PK.IDEP,EP.FANTASIA AS DEEP,');
-            SQL.Add('       PK.IDCA  ,PK.DTCA,TB_CA.LOGIN AS DECA,');
-            SQL.Add('       PK.CDRO  ,PK.DTRO,');
-            SQL.Add('       PK.CDET  ,PK.CTNR,PK.LOTE,');
-            SQL.Add('       PK.IDSP  ,PK.CDSP,PK.DTSP,TB_SP.LOGIN AS DESP,');
-            SQL.Add('       PK.IDPK  ,PK.DEPK,PK.DTPK,');
-            SQL.Add('       PK.IDCD  ,PK.DECD,PK.IDCV,PK.DECV,PK.IDCR,PK.DECR,');
-            SQL.Add('       PK.IDCP  ,PK.CP_IDEP,PK.IDAK,');
-            SQL.Add('       CP.ARTIGO,CP.SKU ,CP.CEAN   ,');
-            SQL.Add('       CP.DECP  ,CP.DGCP,');
-            SQL.Add('       CP.UCOM  ,CP.UCON,CP.UCDBE,CP.UQTDE   ,');
-            SQL.Add('       PK.QTDE  ,PK.QTRL,PK.REOP ,PK.VPRC_COM,');
-            SQL.Add('       PK.CDDF  ,TB_DF.LOGIN AS DEDF,PK.DTDF ,');
-            SQL.Add('       PK.NFCI  ,NULLIF(TRIM(CAST(SUBSTRING(PK.INFADCAD FROM 1 FOR 1064) AS VARCHAR(1064))),'''') AS INFADCAD,');
+        with SQLConsulta do
+        begin
+          Close;
+          SQL.Clear;
+          SQL.Add('SELECT DISTINCT ');
+          SQL.Add('       PK.ID    ,PK.IDEP,EP.FANTASIA AS DEEP,');
+          SQL.Add('       PK.IDCA  ,PK.DTCA,TB_CA.LOGIN AS DECA,');
+          SQL.Add('       PK.CDRO  ,PK.DTRO,');
+          SQL.Add('       PK.CDET  ,PK.CTNR,PK.LOTE,');
+          SQL.Add('       PK.IDSP  ,PK.CDSP,PK.DTSP,TB_SP.LOGIN AS DESP,');
+          SQL.Add('       PK.IDPK  ,PK.DEPK,PK.DTPK,');
+          SQL.Add('       PK.IDCD  ,PK.DECD,PK.IDCV,PK.DECV,PK.IDCR,PK.DECR,');
+          SQL.Add('       PK.IDCP  ,PK.CP_IDEP,PK.IDAK,');
+          SQL.Add('       CP.ARTIGO,CP.SKU ,CP.CEAN   ,');
+          SQL.Add('       CP.DECP  ,CP.DGCP,');
+          SQL.Add('       CP.UCOM  ,CP.UCON,CP.UCDBE,CP.UQTDE   ,');
+          SQL.Add('       PK.QTDE  ,PK.QTRL,PK.REOP ,PK.VPRC_COM,');
+          SQL.Add('       PK.CDDF  ,TB_DF.LOGIN AS DEDF,PK.DTDF ,');
+          SQL.Add('       PK.NFCI  ,NULLIF(TRIM(CAST(SUBSTRING(PK.INFADCAD FROM 1 FOR 1064) AS VARCHAR(1064))),'''') AS INFADCAD,');
 
-            SQL.Add('       -- Estoque Pronta Entrega');
-            SQL.Add('       CAST(SUM(EL.EPE_QTDE) OVER(PARTITION BY PK.IDCP) AS NUMERIC(12,2))  AS EPE_QTDE,CAST(SUM(EL.EPE_QTRL) OVER(PARTITION BY PK.IDCP) AS INTEGER) AS EPE_QTRL');
+          SQL.Add('       -- Estoque Pronta Entrega');
+          SQL.Add('       CAST(SUM(EL.EPE_QTDE) OVER(PARTITION BY PK.IDCP) AS NUMERIC(12,2))  AS EPE_QTDE,CAST(SUM(EL.EPE_QTRL) OVER(PARTITION BY PK.IDCP) AS INTEGER) AS EPE_QTRL');
 
-            SQL.Add('FROM   CAD_PRO_EST AS PK');
-            SQL.Add('JOIN   TAB_PAR_SIS AS EP    ON (EP.ID    = PK.IDEP   )');
-            SQL.Add('JOIN   TAB_PAR_SIS AS EP_CP ON (EP_CP.ID = PK.CP_IDEP)');
+          SQL.Add('FROM   CAD_PRO_EST AS PK');
+          SQL.Add('JOIN   TAB_PAR_SIS AS EP    ON (EP.ID    = PK.IDEP   )');
+          SQL.Add('JOIN   TAB_PAR_SIS AS EP_CP ON (EP_CP.ID = PK.CP_IDEP)');
 
-            SQL.Add('JOIN   CAD_PRO     AS CP    ON (CP.ID    = PK.IDCP   )');
+          SQL.Add('JOIN   CAD_PRO     AS CP    ON (CP.ID    = PK.IDCP   )');
 
-            SQL.Add('JOIN   TAB_USER    AS TB_CA ON (TB_CA.ID = PK.IDCA   )');
-            SQL.Add('JOIN   TAB_USER    AS TB_SP ON (TB_SP.ID = PK.IDSP   )');
-            SQL.Add('JOIN   TAB_USER    AS TB_DF ON (TB_DF.ID = PK.CDDF   )');
+          SQL.Add('JOIN   TAB_USER    AS TB_CA ON (TB_CA.ID = PK.IDCA   )');
+          SQL.Add('JOIN   TAB_USER    AS TB_SP ON (TB_SP.ID = PK.IDSP   )');
+          SQL.Add('JOIN   TAB_USER    AS TB_DF ON (TB_DF.ID = PK.CDDF   )');
 
-            SQL.Add('LEFT JOIN VW_CAD_PRO_EST_LAN_PSQ AS EL ON (EL.EL_IDEP  = ''' + RECParametros.EP_ID + ''' AND EL.IDCP = PK.IDCP) -- Estoque');
+          SQL.Add('LEFT JOIN VW_CAD_PRO_EST_LAN_PSQ AS EL ON (EL.EL_IDEP  = ''' + RECParametros.EP_ID + ''' AND EL.IDCP = PK.IDCP) -- Estoque');
 
-            SQL.Add('WHERE    PK.CDET = ''' + CDET + '''');
-            SQL.Add('AND      PK.REOP = ''E''');
-            SQL.Add('ORDER BY PK.CDET');
+          SQL.Add('WHERE    PK.CDET = ''' + CDET + '''');
+          SQL.Add('AND      PK.REOP = ''E''');
+          SQL.Add('ORDER BY PK.CDET');
 
-            Prepare;
-            ExecQuery;
+          Prepare;
+          ExecQuery;
 
-            if Current.ByName('CDET').AsInteger = 0 then
-            AERRO := 'Etiqueta não Encontrada' else
+          if Current.ByName('CDET').AsInteger = 0 then
+          AERRO := 'Etiqueta não Encontrada' else
 
-            if Current.ByName('IDPK').AsInteger > 0 then
-            AERRO := 'Etiqueta já Separada - Pedido Nº ' + Current.ByName('DEPK').AsString + ' de ' + FormatDateTime('dd/mm/yy hh:mm',Current.ByName('DTPK').AsDateTime);
-          end;
+          if Current.ByName('IDPK').AsInteger > 0 then
+          AERRO := 'Etiqueta já Separada - Pedido Nº ' + Current.ByName('DEPK').AsString + ' de ' + FormatDateTime('dd/mm/yy hh:mm',Current.ByName('DTPK').AsDateTime);
+        end;
 
-          with SQLPKConsulta do
-          begin
-            Close;
-            SQL.Clear;
-            SQL.Add('SELECT PK.ID FROM '  + oREPZero('PED_VEN_ITE','_',RECParametros.EP_ID,3) + ' AS PK');
-            SQL.Add('WHERE  PK.IDPK = ''' + PedidosIDPK.AsString + '''');
-            SQL.Add('AND    PK.IDCP = ''' + INTTOSTR(SQLConsulta.Current.ByName('IDCP').AsInteger) + '''');
-            ExecQuery;
+        with SQLPKConsulta do
+        begin
+          Close;
+          SQL.Clear;
+          SQL.Add('SELECT PK.ID FROM '  + oREPZero('PED_VEN_ITE','_',RECParametros.EP_ID,3) + ' AS PK');
+          SQL.Add('WHERE  PK.IDPK = ''' + PedidosIDPK.AsString + '''');
+          SQL.Add('AND    PK.IDCP = ''' + INTTOSTR(SQLConsulta.Current.ByName('IDCP').AsInteger) + '''');
+          ExecQuery;
 
-            if Current.ByName('ID').AsInteger = 0 then
-            AERRO := 'Produto não encontrado nesse pedido';
-          end;
+          if Current.ByName('ID').AsInteger = 0 then
+          AERRO := 'Produto não encontrado nesse pedido';
+        end;
 
+        try
           with SQLSEdicao do
           begin
             Close;
@@ -625,19 +626,20 @@ begin
 
             ExecQuery;
           end;
+
+        except
+          on E: Exception do
+          begin
+             oErro(Application.Handle,'Falha ao tentar coletar informações !'   + #13 + #13 +
+                                      'Linha Nº '    + IntToStr(PBPrincipal.Position) + #13 +
+                                      'Etiquta Nº '  + CDET                     + #13 + #13 +
+                                      'Error Code: ' + E.Message +'.'           + #13 + #13 +
+                                      'Favor entrar em contato com o administrador do sistema.');
+          end;
         end;
-        
-        Next;
       end;
-    except
-      on E: Exception do
-      begin
-         oErro(Application.Handle,'Falha ao tentar coletar informações !'   + #13 + #13 +
-                                  'Linha Nº '    + IntToStr(PBPrincipal.Position) + #13 +
-                                  'Etiquta Nº '  + CDET                     + #13 + #13 +
-                                  'Error Code: ' + E.Message +'.'           + #13 + #13 +
-                                  'Favor entrar em contato com o administrador do sistema.');
-      end;
+
+      Next;
     end;
   finally
     ACTColetor.Enabled := True;
@@ -1061,9 +1063,12 @@ var
 
   i: Word;
 
-  RECEdicao: TRECEdicao;
+//  RECEdicao: TRECEdicao;
 begin
-  oIRECEdicao(RECEdicao); { Inicializa TRecord }
+  oIREC_SHE_EDI(AREC_SHE_EDI);
+  AREC_SHE_EDI.FB_SP      := SPEdicao;
+  AREC_SHE_EDI.FB_SP_NAME := 'SP_CAD_PRO_EST_RFK_NEW';
+
   result := False;
 
   if (EdicaoPRO_CDET.AsInteger > 0) and (EdicaoPRO_QCOR.AsFloat > 0) then
@@ -1584,11 +1589,11 @@ begin
     end;
 
     if PedidosIDPK.AsInteger = 0 then
-       oException(Nil,'Falha ao tentar coletar etiquetas do estoque !' +#13+
+       oErro(Application.Handle,'Falha ao tentar coletar etiquetas do estoque !' +#13+
                       'Pedido Nº ' + Pedidos.Params[0].Value + ' não Encontrado.');
 
     if PedidosCDNF.AsInteger > 0 then
-       oException(Nil,'Falha ao tentar coletar etiquetas do estoque !' +#13+
+       oErro(Application.Handle,'Falha ao tentar coletar etiquetas do estoque !' +#13+
                       'Pedido Nº ' + Pedidos.Params[0].Value + ' já Faturado.' +#13+#13+
 
                       'Nota Fiscal Nº ' + PedidosCDNF.AsString + #13+
@@ -1598,7 +1603,7 @@ begin
                       PedidosDECD.AsString);
 
     if PedidosCDRO.AsInteger > 0 then
-       oException(Nil,'Falha ao tentar coletar etiquetas do estoque !' +#13+
+       oErro(Application.Handle,'Falha ao tentar coletar etiquetas do estoque !' +#13+
                       'Pedido Nº ' + Pedidos.Params[0].Value + ' já Romaneado.' +#13+#13+
 
                       'Romaneio Nº ' + PedidosCDRO.AsString + #13+
