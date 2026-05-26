@@ -309,6 +309,7 @@ type
     procedure DBGEdicaoPRO_RSEPValidate(Sender: TObject;
       var ErrorText: String; var Accept: Boolean);
     procedure ACTETQ_REL_REDExecute(Sender: TObject);
+    procedure ErrosAfterOpen(DataSet: TDataSet);
   private
     { Private declarations }
     AREC_SHE_EDI: TREC_SHE_EDI;
@@ -494,7 +495,7 @@ begin
           SQL.Add('       PK.IDCP  ,PK.CP_IDEP,PK.IDAK,');
           SQL.Add('       CP.ARTIGO,CP.SKU ,CP.CEAN   ,');
           SQL.Add('       CP.DECP  ,CP.DGCP,');
-          SQL.Add('       CP.UCOM  ,CP.UCON,CP.UCDBE,CP.UQTDE   ,');
+          SQL.Add('       CP.UCOM  ,CP.UCON,TRIM(CP.UCDBE) AS UCDBE,COALESCE(CP.UQTDE,0) AS UQTDE,');
           SQL.Add('       PK.QTDE  ,PK.QTRL,PK.REOP ,PK.VPRC_COM,');
           SQL.Add('       PK.CDDF  ,TB_DF.LOGIN AS DEDF,PK.DTDF ,');
           SQL.Add('       PK.NFCI  ,NULLIF(TRIM(CAST(SUBSTRING(PK.INFADCAD FROM 1 FOR 1064) AS VARCHAR(1064))),'''') AS INFADCAD,');
@@ -530,15 +531,30 @@ begin
 
         with SQLPKConsulta do
         begin
-          Close;
-          SQL.Clear;
-          SQL.Add('SELECT PK.ID FROM '  + oREPZero('PED_VEN_ITE','_',RECParametros.EP_ID,3) + ' AS PK');
-          SQL.Add('WHERE  PK.IDPK = ''' + PedidosIDPK.AsString + '''');
-          SQL.Add('AND    PK.IDCP = ''' + INTTOSTR(SQLConsulta.Current.ByName('IDCP').AsInteger) + '''');
-          ExecQuery;
+          if AERRO = EmptyStr then
+          begin
+            Close;
+            SQL.Clear;
+            SQL.Add('SELECT PK.ID FROM '  + oREPZero('PED_VEN_ITE','_',RECParametros.EP_ID,3) + ' AS PK');
+            SQL.Add('WHERE  PK.IDPK = ''' + PedidosIDPK.AsString + '''');
+            SQL.Add('AND    PK.IDCP = ''' + INTTOSTR(SQLConsulta.Current.ByName('IDCP').AsInteger) + '''');
+            ExecQuery;
 
-          if Current.ByName('ID').AsInteger = 0 then
-          AERRO := 'Produto não encontrado nesse pedido';
+            if Current.ByName('ID').AsInteger = 0 then
+            AERRO := 'Produto não encontrado nesse pedido';
+          end else
+
+          if AERRO = 'Etiqueta não Encontrada' then
+          begin
+            Close;
+            SQL.Clear;
+            SQL.Add('SELECT PK.DEST FROM CAD_PRO_ENI AS PK');
+            SQL.Add('WHERE  PK.CDET = ''' + CDET + '''');
+            ExecQuery;
+
+            if not Eof then
+            AERRO := 'Etiqueta com cancelamento de estoque';
+          end;  
         end;
 
         try
@@ -620,8 +636,7 @@ begin
 
 
             SQL.Add('''' + AERRO + ''',');
-            SQL.Add('''' + IFThen(AERRO = EmptyStr,'0','1') + '''');
-            SQL.Add(')');
+            SQL.Add('''' + IFThen(AERRO = EmptyStr,'0','1') + ''')');
             SQL.Add('MATCHING (PRO_CDET)');
 
             ExecQuery;
@@ -1318,6 +1333,7 @@ begin
   if Edicao.State = dsBrowse then
   begin
     DBGEdicao.ApplyBestFit(DBGEdicaoPRO_DERO);
+    DBGEdicao.ApplyBestFit(DBGEdicaoPRO_CART);
     DBGEdicao.ApplyBestFit(DBGEdicaoPRO_CPRO);
     DBGEdicao.ApplyBestFit(DBGEdicaoPRO_DGCP);
     DBGEdicao.ApplyBestFit(DBGEdicaoPRO_UCON);  
@@ -1657,7 +1673,16 @@ end;
 
 procedure TFrmEXP_SEP_COL.DTSErrosDataChange(Sender: TObject; Field: TField);
 begin
+  DBGErros.ApplyBestFit(DBGErrosPRO_DERO);
   DBGErros.ApplyBestFit(DBGErrosPRO_UCON);
+  DBGErros.ApplyBestFit(DBGErrosPRO_CART);
+  DBGErros.ApplyBestFit(DBGErrosPRO_CPRO);
+  DBGErros.ApplyBestFit(DBGErrosPRO_ERRO);
+end;
+
+procedure TFrmEXP_SEP_COL.ErrosAfterOpen(DataSet: TDataSet);
+begin
+  DBGErrosPRO_CDET.Field.FocusControl;
 end;
 
 end.
