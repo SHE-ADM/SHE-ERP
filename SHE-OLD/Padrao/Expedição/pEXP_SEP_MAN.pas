@@ -541,11 +541,6 @@ begin
      oException(EDDEPK,'Pedido já Romaneado !' + #13 +
                        'Romaneio Nº ' + PedidosCDRO.AsString + ' - ' + FormatDateTime('dd.mm.yy hh:mm',PedidosDTRO.AsDateTime) + '.');
 
-  if PedidosBQST.AsInteger = 1 then
-     oException(EDDEPK,'Pedido Bloqueado !' + #13 +
-                       'Situação: ' + PedidosDEST.AsString + '.' + #13 + #13 +
-                       'Favor entrar em contato com o vendedor responsável.');
-
   FKPedidos.Close;
   FKPedidos.ParamByName('IDPK').Value := PedidosIDPK.AsInteger;
   FKPedidos.Prepare;
@@ -655,14 +650,15 @@ begin
   begin
     Close;
     SQL.Clear;
-    SQL.Add('SELECT PK.IDPK,PK.DTCA AS DTPK,PK.DEPK');
+    SQL.Add('SELECT FIRST 1 PK.IDPK,PK.DTCA AS DTPK,PK.DEPK,PK.DVPD');
     SQL.Add('FROM ' + oREPZero('PED_VEN_CAB','_',RECParametros.EP_ID,3) + ' AS PK');
     SQL.Add('JOIN ' + oREPZero('ROM_ITE'    ,'_',RECParametros.EP_ID,3) + ' AS FK ON (FK.IDPK = PK.CDRO)');
-    
+
     SQL.Add('WHERE FK.CDET = ''' + CECDET.Text + '''');
+    SQL.Add('ORDER BY PK.ID DESC');
     ExecQuery;
-    
-    if Current.Vars[0].AsInteger > 0 then
+
+    if (not Eof) and (Current.Vars[3].AsInteger = 0) then
     oException(CECDET,'Etiqueta já Utilizada !' + #13 +
                       'Pedido ' + Current.ByName('DEPK').AsString + ' - ' + FormatDateTime('dd.mm.yy hh:mm',Current.ByName('DTPK').AsDateTime) + '.');
   end;

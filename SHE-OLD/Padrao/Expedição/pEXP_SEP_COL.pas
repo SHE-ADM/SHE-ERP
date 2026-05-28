@@ -459,6 +459,12 @@ begin
       NewPed := Trim(oGetLinha(Linha));
       DEPK   := IFThen(oEmpty(NewPed),DEPK,NewPed);
 
+      if Pos(RightStr(DEPK,1),'-*') > 0 then
+      begin
+        DEPK := Trim(LeftStr(DEPK,Length(DEPK) - 1)) + ')';
+        DEPK := oStrTran(DEPK,'*','(');
+      end;  
+
       if (not oEmpty(CDET)) and (not oEmpty(Linha)) then
       begin
         if (not oEmpty(DEPK)) and (PedidosId.Tag = 0) then

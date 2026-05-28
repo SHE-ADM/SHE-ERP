@@ -316,64 +316,134 @@ var
   ClickedOK: Boolean;
 begin
   inherited;
-  if oYesNo(handle,'Cancelar Pedido No ' + cadastroDEPK.AsString + ' ?') = mrNo then
-  Abort;
+  if CadastroDEST.AsString = 'CANCELADO' then
+  begin
+    if oYesNo(handle,'Estornar Pedido No ' + cadastroDEPK.AsString + ' ?') = mrNo then
+    Abort;
 
-  ClickedOK := InputQuery('Cancelamento de Pedido', 'Motivo', NewString);
-  if not ClickedOK then
-  Abort;
+    try
+      oOTransact(TEdicao);
 
-  if Length(NewString) < 5 then
-  oException(Nil,'Motivo de cancelamento inválido !' +#13 +
-                 'Mínimo de 5 dígitos.'); 
+      with SQLEdicao do
+      begin
+        { PEDIDO }
+        Close;
+        SQL.Clear;
+        SQL.Add('UPDATE ' + oREPZero('PED_COM_CAB','_',RECParametros.EP_ID,3));
+        SQL.Add('SET   ROM_STFI = ''PENDENTE''');
+        SQL.Add('WHERE IDPK = ''' + CadastroIDPK.AsString + '''');
+        ExecQuery;
 
-  try
-    oOTransact(TEdicao);
+        { ITENS }
+        Close;
+        SQL.Clear;
+        SQL.Add('UPDATE ' + oREPZero('PED_COM_ITE','_',RECParametros.EP_ID,3));
+        SQL.Add('SET   ROM_STAV = ''PENDENTE''');
+        SQL.Add('WHERE IDPK = ''' + CadastroIDPK.AsString + '''');
+        ExecQuery;
+      end;
 
-    with SQLEdicao do
-    begin
-      Close;
-      SQL.Clear;
-      SQL.Add('UPDATE ' + oREPZero('PED_COM_CAB','_',RECParametros.EP_ID,3));
-      SQL.Add('SET IDCA = ''' + RECUsuarios.ID + ''',');
+      FKCadastro.First;
+      while not FKCadastro.Eof do
+      begin
+        Application.ProcessMessages;
 
-      SQL.Add('ROM_STFI = ''CANCELADO'',');
-      SQL.Add('ROM_OBSE = ''' + CadastroINFADCAD.AsString + #13 + #13 +
-                          'Pedido Cancelado: ' + RECUsuarios.Login + ' ' + FormatDateTime('dd.mm.yy hh:mm',Now) + ' ' + RECParametros.HOST +  #13 +
-                          'Motivo: ' + NewString + '''');
+        SPEdicao.StoredProcName := 'SP_CAD_PRO_PRC';
+        SPEdicao.Prepare;
+        SPEdicao.ParamByName('AIDEP').Value := CadastroEP_ID.AsInteger;
+        SPEdicao.ParamByName('ACDFK').Value := CadastroIDPK.AsInteger;
+        SPEdicao.ParamByName('ADEFK').Value := CadastroDEPK.AsString;
+        SPEdicao.ParamByName('ADTFK').Value := FKCadastroROM_DROM.AsDateTime;
+        SPEdicao.ParamByName('ADTPC').Value := IFThen(FKCadastroROM_DBAI.AsDateTime > 0,FKCadastroROM_DBAI.AsDateTime,FKCadastroROM_DEXP.AsDateTime);
+        SPEdicao.ParamByName('ADTRD').Value := IFThen(FKCadastroROM_RDES.AsDateTime > 0,FKCadastroROM_RDES.AsDateTime,FKCadastroROM_DDES.AsDateTime);
+        SPEdicao.ParamByName('AIDCF').Value := cadastroCD_ID.AsInteger;
+        SPEdicao.ParamByName('ADECF').Value := CadastroCD_NO.AsString;
+        SPEdicao.ParamByName('AIDCO').Value := CadastroCV_ID.AsInteger;
+        SPEdicao.ParamByName('ADECO').Value := CadastroCV_NO.AsString;
+        SPEdicao.ParamByName('AIDCP').Value := FKCadastroIDCP.AsInteger;
+        SPEdicao.ParamByName('AQTDE').Value := IFThen(FKCadastroROM_QTPD.AsFloat   > 0,FKCadastroROM_QTPD.AsFloat  ,FKCadastroROM_QTDE.AsFloat);
+        SPEdicao.ParamByName('AQTRL').Value := IFThen(FKCadastroROM_RLPD.AsInteger > 0,FKCadastroROM_RLPD.AsInteger,FKCadastroROM_QTRL.AsInteger);
+        SPEdicao.ParamByName('AVUPC').Value := FKCadastroROM_UNIT.AsFloat;
+        SPEdicao.ParamByName('ACTNR').Value := FKCadastroROM_CTNR.AsString;
+        SPEdicao.ParamByName('ASTFI').Value := FKCadastroROM_STAV.AsString;
+        SPEdicao.ParamByName('DECP' ).Value := FKCadastroDECP.AsString;
+        SPEdicao.ParamByName('DGCP' ).Value := FKCadastroDGCP.AsString;
+        SPEdicao.ExecProc;
+        SPEdicao.UnPrepare;
 
-      SQL.Add('WHERE IDPK = ''' + CadastroIDPK.AsString + '''');
-      ExecQuery;
-
-      Close;
-      SQL.Clear;
-      SQL.Add('DELETE FROM CAD_PRO_PRC');
-      SQL.Add('WHERE  EP_ID = ''' + CadastroEP_ID.AsString + '''');
-      SQL.Add('AND    IDPK  = ''' + CadastroIDPK.AsString  + '''');
-      ExecQuery;
+        FKCadastro.Next;
+      end;
+      
+      oCTransact(TEdicao);
+    except
+      on E: Exception do
+      begin
+        oCTransact(TEdicao,ltRollback);
+        oException(Nil,'Falha ao tentar estornar pedido !'+#13+
+                       'Favor entrar em contato com o administrador do sistema.'+#13+#13+
+                       'Erro: ' + E.Message);
+      end;
     end;
+  end else
+  begin
+    if oYesNo(handle,'Cancelar Pedido No ' + cadastroDEPK.AsString + ' ?') = mrNo then
+    Abort;
 
-    oCTransact(TEdicao);
+    ClickedOK := InputQuery('Cancelamento de Pedido', 'Motivo', NewString);
+    if not ClickedOK then
+    Abort;
 
-    { ATUALIZA ESTOQUE }
-    uCAD_PRO_EST_LAN_UPD(oREPZero('PED_COM_ITE','_',RECParametros.EP_ID,3),
-                         RECParametros.EP_ID ,
-                         CadastroIDPK.AsString,
+    if Length(NewString) < 5 then
+    oException(Nil,'Motivo de cancelamento inválido !' +#13 +
+                   'Mínimo de 5 dígitos.');
 
-                         'EP_ID',
-                         'IDPK' ,
-                         'CP_ID');
+    try
+      oOTransact(TEdicao);
 
-    oAviso(Application.Handle,'Pedido cancelado com sucesso !');
-  except
-    on E: Exception do
-    begin
-      oCTransact(TEdicao,ltRollback);
-      oException(Nil,'Falha ao tentar cancelar pedido !'+#13+
-                     'Favor entrar em contato com o administrador do sistema.'+#13+#13+
-                     'Erro: ' + E.Message);
+      with SQLEdicao do
+      begin
+        Close;
+        SQL.Clear;
+        SQL.Add('UPDATE ' + oREPZero('PED_COM_CAB','_',RECParametros.EP_ID,3));
+        SQL.Add('SET IDCA = ''' + RECUsuarios.ID + ''',');
+
+        SQL.Add('ROM_STFI = ''CANCELADO'',');
+        SQL.Add('ROM_OBSE = ''' + CadastroINFADCAD.AsString + #13 + #13 +
+                            'Pedido Cancelado: ' + RECUsuarios.Login + ' ' + FormatDateTime('dd.mm.yy hh:mm',Now) + ' ' + RECParametros.HOST +  #13 +
+                            'Motivo: ' + NewString + '''');
+
+        SQL.Add('WHERE IDPK = ''' + CadastroIDPK.AsString + '''');
+        ExecQuery;
+
+        Close;
+        SQL.Clear;
+        SQL.Add('DELETE FROM CAD_PRO_PRC');
+        SQL.Add('WHERE  EP_ID = ''' + CadastroEP_ID.AsString + '''');
+        SQL.Add('AND    IDPK  = ''' + CadastroIDPK.AsString  + '''');
+        ExecQuery;
+      end;
+
+      oCTransact(TEdicao);
+      oAviso(Application.Handle,'Pedido cancelado com sucesso !');
+    except
+      on E: Exception do
+      begin
+        oCTransact(TEdicao,ltRollback);
+        oException(Nil,'Falha ao tentar cancelar pedido !'+#13+
+                       'Favor entrar em contato com o administrador do sistema.'+#13+#13+
+                       'Erro: ' + E.Message);
+      end;
     end;
   end;
+
+  { ATUALIZA ESTOQUE }
+  uCAD_PRO_EST_LAN_UPD(oREPZero('PED_COM_ITE','_',RECParametros.EP_ID,3),
+                       RECParametros.EP_ID ,
+                       CadastroIDPK.AsString,
+
+                       'EP_ID',
+                       'IDPK' ,
+                       'CP_ID');
 
   oRefresh(Cadastro);
 end;
@@ -428,10 +498,10 @@ procedure Tfrmctr_prc.dtscadastroDataChange(Sender: TObject;
 var
   PosCount: Word;
 begin
-  DBGConsultaVDSC.Visible := (CadastroVDSC.AsFloat   > 0);
+  DBGConsultaVDSC.Visible := (CadastroVDSC.AsFloat > 0);
 
   siARO.Enabled := (CadastroDEST.AsString <> 'CANCELADO') and (CadastroDEST.AsString <> 'FINALIZADO');
-  siCRO.Enabled := (CadastroDEST.AsString <> 'CANCELADO');
+  siCRO.Enabled := (LeftStr(CadastroDEST.AsString,1) <> 'F');
   siBRO.Enabled := (CadastroDEST.AsString <> 'CANCELADO');
 
   if (CadastroDEST.AsString  = 'PENDENTE') or (CadastroDEST.AsString  = 'EMBARCADO') then
@@ -442,6 +512,18 @@ begin
   begin
     siBRO.ImageIndex := 6;
     siBRO.BtnCaption := 'Re-abrir';
+  end;
+
+  if CadastroDEST.AsString = 'CANCELADO' then
+  begin
+    SICRO.BtnCaption := 'Estornar';
+    SICRO.Hint := 'Estorno de Pedido';
+    SICRO.ImageIndex := 9;
+  end else
+  begin
+    SICRO.BtnCaption := 'Cancelar';
+    SICRO.Hint := 'Cancelamento de Pedido';
+    SICRO.ImageIndex := 4;
   end;
 
   { Informações Adicionais }
@@ -489,6 +571,7 @@ begin
   DBGItemROM_CDNF.Visible := (FKCadastroROM_CDNF.AsInteger > 0);
   DBGItemROM_CTNR.Visible := (FKCadastroROM_CTNR.AsString <> EmptyStr);
 
+  DBGItem.ApplyBestFit(DBGItemROM_STAV);
   DBGITEM.ApplyBestFit(DBGITEMSKU  );
   DBGITEM.ApplyBestFit(DBGITEMDECP );
   DBGITEM.ApplyBestFit(DBGITEMDGCP );
@@ -562,8 +645,8 @@ begin
 
     if (AColumn = DBGItemITEM) or (AColumn = DBGItemROM_STAV) then
     begin
-      AColor      := $00F4F4F4;
-      //AFont.Color := clWindowText;
+      AColor := $00F4F4F4;
+      AFont.Color := clWindowText;
     end;
   end;
 end;
