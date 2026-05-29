@@ -4267,7 +4267,8 @@ inherited frmeti_pro: Tfrmeti_pro
       '         PK.VPRC_PAD,PK.VPRC_COM,'
       '         PK.PDSC,PK.VDSC,'
       '         PK.TSDE,PK.TCDE,'
-      '         PK.ORIG,PK.NCM ,PK.PIPI,PK.VIPI'
+      '         PK.ORIG,PK.NCM ,PK.PIPI,PK.VIPI,'
+      '         PK.IDSP'
       'FROM     PED_VEN_ITE AS PK'
       'JOIN     CAD_PRO     AS CP ON (CP.ID = PK.IDCP)'
       'WHERE    PK.IDPK = 0'
@@ -4428,6 +4429,10 @@ inherited frmeti_pro: Tfrmeti_pro
     object ped_ven_iteVIPI: TFloatField
       FieldName = 'VIPI'
       Origin = '"PED_VEN_ITE"."VIPI"'
+    end
+    object ped_ven_iteIDSP: TSmallintField
+      FieldName = 'IDSP'
+      Origin = '"PED_VEN_ITE"."IDSP"'
     end
   end
   object cli_sta: TIBQuery

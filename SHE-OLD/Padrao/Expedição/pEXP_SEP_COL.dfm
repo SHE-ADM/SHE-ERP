@@ -642,7 +642,7 @@ inherited FrmEXP_SEP_COL: TFrmEXP_SEP_COL
             object DBGErros: TdxDBGrid
               Left = 0
               Top = 0
-              Width = 1285
+              Width = 1292
               Height = 620
               Bands = <
                 item
@@ -686,10 +686,10 @@ inherited FrmEXP_SEP_COL: TFrmEXP_SEP_COL
               HideSelectionColor = 14789952
               HighlightColor = 14789952
               LookAndFeel = lfUltraFlat
-              OptionsBehavior = [edgoAutoSort, edgoCaseInsensitive, edgoCollapsedReload, edgoDragCollapse, edgoDragExpand, edgoDragScroll, edgoEditing, edgoEnterShowEditor, edgoImmediateEditor, edgoSeekDetail, edgoShowHourGlass, edgoTabThrough, edgoVertThrough]
+              OptionsBehavior = [edgoAutoSort, edgoCaseInsensitive, edgoCollapsedReload, edgoDragCollapse, edgoDragExpand, edgoDragScroll, edgoEnterShowEditor, edgoImmediateEditor, edgoSeekDetail, edgoShowHourGlass, edgoTabThrough, edgoVertThrough]
               OptionsCustomize = [edgoBandMoving, edgoBandSizing, edgoColumnMoving, edgoColumnSizing, edgoNotHideColumn]
               OptionsDB = [edgoCancelOnExit, edgoCanNavigation, edgoConfirmDelete, edgoLoadAllRecords, edgoSyncSelection, edgoUseBookmarks]
-              OptionsView = [edgoAutoCalcPreviewLines, edgoBandHeaderWidth, edgoHotTrack, edgoInvertSelect, edgoPreview, edgoUseBitmap]
+              OptionsView = [edgoAutoCalcPreviewLines, edgoBandHeaderWidth, edgoHotTrack, edgoPreview, edgoUseBitmap]
               PreviewFont.Charset = ANSI_CHARSET
               PreviewFont.Color = clBlack
               PreviewFont.Height = -12
@@ -697,8 +697,9 @@ inherited FrmEXP_SEP_COL: TFrmEXP_SEP_COL
               PreviewFont.Style = [fsItalic]
               ScrollBars = ssVertical
               object DBGErrosC_ID: TdxDBGridColumn
+                Color = clWhite
                 Font.Charset = ANSI_CHARSET
-                Font.Color = clWhite
+                Font.Color = clBlack
                 Font.Height = -12
                 Font.Name = 'Tahoma'
                 Font.Style = []
@@ -709,9 +710,9 @@ inherited FrmEXP_SEP_COL: TFrmEXP_SEP_COL
                 FieldName = 'C_ID'
               end
               object DBGErrosPRO_DERO: TdxDBGridMaskColumn
-                Color = clGray
+                Color = clWhite
                 Font.Charset = ANSI_CHARSET
-                Font.Color = clWhite
+                Font.Color = clBlack
                 Font.Height = -12
                 Font.Name = 'Tahoma'
                 Font.Style = []
@@ -724,32 +725,34 @@ inherited FrmEXP_SEP_COL: TFrmEXP_SEP_COL
                 SummaryFooterFormat = '0'
               end
               object DBGErrosPRO_CART: TdxDBGridMaskColumn
+                Color = clWhite
                 Font.Charset = ANSI_CHARSET
-                Font.Color = clWhite
+                Font.Color = clBlack
                 Font.Height = -12
                 Font.Name = 'Tahoma'
                 Font.Style = []
-                Visible = False
                 Width = 66
                 BandIndex = 0
                 RowIndex = 0
                 FieldName = 'PRO_CART'
               end
               object DBGErrosPRO_CPRO: TdxDBGridMaskColumn
+                Color = clWhite
                 Font.Charset = ANSI_CHARSET
-                Font.Color = clWhite
+                Font.Color = clBlack
                 Font.Height = -12
                 Font.Name = 'Tahoma'
                 Font.Style = []
                 MinWidth = 70
-                Width = 120
+                Width = 70
                 BandIndex = 0
                 RowIndex = 0
                 FieldName = 'PRO_CPRO'
               end
               object DBGErrosPRO_DGCP: TdxDBGridMaskColumn
+                Color = clWhite
                 Font.Charset = ANSI_CHARSET
-                Font.Color = clWhite
+                Font.Color = clBlack
                 Font.Height = -12
                 Font.Name = 'Tahoma'
                 Font.Style = []
@@ -759,8 +762,9 @@ inherited FrmEXP_SEP_COL: TFrmEXP_SEP_COL
                 FieldName = 'PRO_DGCP'
               end
               object DBGErrosPRO_DUNI: TdxDBGridMaskColumn
+                Color = clWhite
                 Font.Charset = ANSI_CHARSET
-                Font.Color = clWhite
+                Font.Color = clBlack
                 Font.Height = -12
                 Font.Name = 'Tahoma'
                 Font.Style = []
@@ -770,8 +774,9 @@ inherited FrmEXP_SEP_COL: TFrmEXP_SEP_COL
                 FieldName = 'PRO_DUNI'
               end
               object DBGErrosPRO_UCON: TdxDBGridMaskColumn
+                Color = clWhite
                 Font.Charset = ANSI_CHARSET
-                Font.Color = clWhite
+                Font.Color = clBlack
                 Font.Height = -12
                 Font.Name = 'Tahoma'
                 Font.Style = []
@@ -780,27 +785,15 @@ inherited FrmEXP_SEP_COL: TFrmEXP_SEP_COL
                 RowIndex = 0
                 FieldName = 'PRO_UCON'
               end
-              object DBGErrosPRO_CDET: TdxDBGridColumn
-                Color = clGray
-                Font.Charset = ANSI_CHARSET
-                Font.Color = clWhite
-                Font.Height = -12
-                Font.Name = 'Tahoma'
-                Font.Style = []
-                Width = 70
-                BandIndex = 0
-                RowIndex = 0
-                FieldName = 'PRO_CDET'
-              end
               object DBGErrosPRO_QTDE: TdxDBGridMaskColumn
-                Color = clBtnFace
+                Color = clWhite
                 Font.Charset = ANSI_CHARSET
                 Font.Color = clBlack
                 Font.Height = -12
                 Font.Name = 'Tahoma'
                 Font.Style = []
                 HeaderAlignment = taRightJustify
-                Width = 75
+                Width = 80
                 BandIndex = 0
                 RowIndex = 0
                 FieldName = 'PRO_QTDE'
@@ -809,12 +802,25 @@ inherited FrmEXP_SEP_COL: TFrmEXP_SEP_COL
                 SummaryFooterFormat = ',##,0.00'
                 DisableFilter = True
               end
-              object DBGErrosPRO_ERRO: TdxDBGridMaskColumn
+              object DBGErrosPRO_CDET: TdxDBGridColumn
+                Color = clWhite
                 Font.Charset = ANSI_CHARSET
-                Font.Color = clWhite
+                Font.Color = clBlack
                 Font.Height = -12
                 Font.Name = 'Tahoma'
-                Font.Style = [fsBold]
+                Font.Style = []
+                Width = 80
+                BandIndex = 0
+                RowIndex = 0
+                FieldName = 'PRO_CDET'
+              end
+              object DBGErrosPRO_ERRO: TdxDBGridMaskColumn
+                Color = clInfoBk
+                Font.Charset = ANSI_CHARSET
+                Font.Color = clBlack
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = []
                 Width = 440
                 BandIndex = 0
                 RowIndex = 0
@@ -4425,6 +4431,7 @@ inherited FrmEXP_SEP_COL: TFrmEXP_SEP_COL
     Tag = 1
     Database = FBird.DBEDI
     Transaction = TSEdicao
+    AfterOpen = ErrosAfterOpen
     BufferChunks = 2500
     SQL.Strings = (
       'SELECT   PK.ID,PK.PRO_CDEP,'

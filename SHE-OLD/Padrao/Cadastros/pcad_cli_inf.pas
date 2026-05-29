@@ -420,6 +420,7 @@ type
     procedure FBBeforeOpen(DataSet: TDataSet);
     procedure FCBeforeOpen(DataSet: TDataSet);
     procedure PedidosAfterClose(DataSet: TDataSet);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
     FACadastro,
@@ -428,6 +429,7 @@ type
     TP_AUTORIZACAO,
     ID_AUTORIZACAO: String;
 
+    QTD_BLQ: word;
     function _Retorna_STFI(AId: String): String;
     function ACESSO(cusu,campo,func,roti,nome: string;proc: boolean): boolean;
     function RETORNA_LOGIN(texto: string): boolean;
@@ -453,6 +455,17 @@ uses uPrincipal, pLogin, bPrincipal;
 procedure Tfrmcad_cli_inf.WmAfterCreate(var Msg: TMessage);
 begin
   _Pedidos(REC_SHE_DEF.IDPK,REC_SHE_DEF.DEPK);
+  with SQLConsulta do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add('SELECT COUNT(*) FROM ' + oREPZero('PED_VEN_CAB','_',RECParametros.EP_ID,3) + ' AS PK');
+    SQL.Add('WHERE  PK.CD_ID = '''  + INTTOSTR(PedidosIDCD.AsInteger) + '''');
+    SQL.Add('AND    PK.BQST  = 1');
+    ExecQuery;
+
+    QTD_BLQ := Current.Vars[0].AsInteger;
+  end;
 end;
 
 procedure Tfrmcad_cli_inf.WmAfterShow(var Msg: TMessage);
@@ -593,7 +606,8 @@ begin
     oRTransact(IBTra);
     oAviso(frmcad_cli_inf.handle,'Pedido No '+REC_SHE_DEF.DEPK+' liberado com sucesso.');
 
-    ACTExecEvent.Execute;
+    TAG := 1;
+    if QTD_BLQ = 1 then
     Close;
   except
     on E: Exception do
@@ -701,7 +715,8 @@ begin
     oRTransact(IBTra);
     oAviso(frmcad_cli_inf.handle,'Pedido No '+REC_SHE_DEF.DEPK+' liberado com sucesso.');
 
-    ACTExecEvent.Execute;
+    TAG := 1;
+    if QTD_BLQ = 1 then
     Close;
   except
     on E: Exception do
@@ -1494,6 +1509,14 @@ begin
   finally
     Screen.Cursor := crDefault;
   end;
+end;
+
+procedure Tfrmcad_cli_inf.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  if Tag = 1 then
+  ACTExecEvent.Execute;  
+  inherited;
 end;
 
 end.

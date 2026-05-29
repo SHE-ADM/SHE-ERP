@@ -3,6 +3,7 @@ inherited frmcad_cli_inf: Tfrmcad_cli_inf
   Top = 1
   HelpType = htKeyword
   HelpKeyword = '0'
+  ActiveControl = DBGPedidos
   AlphaBlend = True
   AlphaBlendValue = 0
   Caption = 'Informa'#231#245'es Comerciais'

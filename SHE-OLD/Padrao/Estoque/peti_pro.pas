@@ -175,6 +175,7 @@ type
     CEQTCO: TdxCurrencyEdit;
     Label14: TLabel;
     SIETQ_PEQ: TSpeedItem;
+    ped_ven_iteIDSP: TSmallintField;
     procedure siCSEClick(Sender: TObject);
     procedure siALTClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -200,7 +201,6 @@ type
     procedure LIMPA_ETIQUETA;
     procedure PESQUISA_ETIQUETA;
     procedure _CAD_PRO_EST_LAN_UPD;
-    function  RETORNA_STFI: string;
   public
     { Public declarations }
   end;
@@ -303,7 +303,7 @@ begin
     siCAN.Enabled := False;
   end;
 
-  if laolan.Caption = 'FATURADO' then
+  if (laolan.Caption = 'FATURADO') or (laolan.Caption = 'ROMANEADO') then
   begin
     SIETQ_PAD.Enabled := False;
     SIETQ_PEQ.Enabled := False;
@@ -780,8 +780,7 @@ begin
       SQL.Add('       ROM_RLVE = '''+oStrTran(FloatToStr(SQLEdicao.Current.Vars[1].AsInteger),',','.')+''',');
       SQL.Add('       ROM_QTPD = '''+oStrTran(FloatToStr(SQLEdicao.Current.Vars[2].AsCurrency),',','.')+''',');
       SQL.Add('       ROM_RLPD = '''+oStrTran(FloatToStr(SQLEdicao.Current.Vars[3].AsInteger),',','.')+''',');
-      SQL.Add('       VTSP     = '''+oStrTran(FloatToStr(SQLEdicao.Current.Vars[4].AsCurrency),',','.')+''',');
-      SQL.Add('       ROM_STFI = '''+RETORNA_STFI                +'''');
+      SQL.Add('       VTSP     = '''+oStrTran(FloatToStr(SQLEdicao.Current.Vars[4].AsCurrency),',','.')+'''');
       SQL.Add('WHERE  IDEP     = '''+RECParametros.EP_ID            +'''');
       SQL.Add('AND    ID       = '''+ped_ven_iteIDPK.AsString+'''');
       ExecQuery;
@@ -846,20 +845,20 @@ begin
   LANPED.Tag := 0;
   LACPRO.Tag := 0;
 
-  lacpro.Caption := 'NADA CONSTA';
-  ladpro.Caption := 'NADA CONSTA';
-  ladcor.Caption := 'NADA CONSTA';
-  lanlan.Caption := 'NADA CONSTA';
-  ladlan.Caption := 'NADA CONSTA';
-  laelan.Caption := 'NADA CONSTA';
+  lacpro.Caption := '';
+  ladpro.Caption := '';
+  ladcor.Caption := '';
+  lanlan.Caption := '';
+  ladlan.Caption := '';
+  laelan.Caption := '';
 
-  laolan.Caption := 'NADA CONSTA';
-  larlan.Caption := 'NADA CONSTA';
-  lanped.Caption := 'NADA CONSTA';
-  ladven.Caption := 'NADA CONSTA';
-  ladcli.Caption := 'NADA CONSTA';
-  laeped.Caption := 'NADA CONSTA';
-  ladsep.Caption := 'NADA CONSTA';
+  laolan.Caption := '';
+  larlan.Caption := '';
+  lanped.Caption := '';
+  ladven.Caption := '';
+  ladcli.Caption := '';
+  laeped.Caption := '';
+  ladsep.Caption := '';
 
   CEQTDE.Value := 0;
   CEQTCO.Value := 0;
@@ -925,7 +924,7 @@ begin
       if Current.ByName('REOP').AsString = 'E' then
       begin
         laolan.Caption := 'ENTRADA';
-        laeped.Caption := 'NADA CONSTA';
+        laeped.Caption := '';
       end else
 
       if Current.ByName('REOP').AsString = 'S' then
@@ -938,7 +937,7 @@ begin
       if Current.ByName('IDPK').AsInteger > 0 then
       begin
         laolan.Caption := 'ENTRADA';
-        laeped.Caption := 'NADA CONSTA';
+        laeped.Caption := '';
         laeped.Caption := 'SEPARADO';
       end;
 
@@ -955,7 +954,7 @@ begin
     with consulta do
     begin
       SQL.Clear;
-      SQL.Add('SELECT PED_VEN_CAB.ID,ROM_DERO,ROM_DROM,CLI_FANT,LOGIN,REP_FANT,ROM_QTVE,ROM_RLVE,PED_VEN_CAB.ROM_CDNF,PED_VEN_CAB.ROM_DNFS');
+      SQL.Add('SELECT PED_VEN_CAB.ID,ROM_DERO,ROM_DROM,CLI_FANT,LOGIN,REP_FANT,ROM_QTVE,ROM_RLVE,PED_VEN_CAB.ROM_CDNF,PED_VEN_CAB.ROM_DNFS,PED_VEN_CAB.ROM_CDBX,PED_VEN_CAB.ROM_CDRO');
       SQL.Add('FROM   CAD_CLI,CAD_FUN,CAD_REP,'+SLPrincipal.Values['ped_ven_ite']+' "PED_VEN_ITE" ,'+SLPrincipal.Values['ped_ven_cab']+' "PED_VEN_CAB"');
       SQL.Add('WHERE  PED_VEN_CAB.ID       = PED_VEN_ITE.ROM_CCAB');
       SQL.Add('AND    PED_VEN_CAB.ROM_CCLI = CAD_CLI.ID');
@@ -967,14 +966,23 @@ begin
 
       if not fields[0].IsNull then
       begin
-        label7.Hint    := Fields[1].AsString;
-        laolan.Caption := 'FATURADO';
+        if (Fields[8].AsInteger > 0) or (Fields[10].AsInteger > 0) then
+        begin
+          label7.Hint    := Fields[1].AsString;
+          laolan.Caption := 'FATURADO';
+        end else
+
+        if Fields[11].AsInteger > 0 then
+        begin
+          label7.Hint    := Fields[1].AsString;
+          laolan.Caption := 'ROMANEADO';
+        end;
 
         lanped.Caption := fields[1].AsString + ' '   + formatDateTime('dd/mm/yy',fields[2].AsDateTime);
         ladven.Caption := fields[4].AsString + ' / ' + fields[5].AsString;
         ladcli.Caption := fields[3].AsString;
 
-        if laolan.Caption <> 'FATURADO' then
+        if (laolan.Caption = 'FATURADO') or (laolan.Caption = 'ROMANEADO') then
         begin
           SQL.Clear;
           SQL.Add('SELECT ID FROM CAD_PRO_RES');
@@ -1022,7 +1030,8 @@ begin
         SQL.Add('         PK.VPRC_PAD,PK.VPRC_COM,');
         SQL.Add('         PK.PDSC,PK.VDSC,');
         SQL.Add('         PK.TSDE,PK.TCDE,');
-        SQL.Add('         PK.ORIG,PK.NCM ,PK.PIPI,PK.VIPI');
+        SQL.Add('         PK.ORIG,PK.NCM ,PK.PIPI,PK.VIPI,');
+        SQL.Add('         PK.IDSP');
         SQL.Add('FROM ' + SLPrincipal.Values['ped_ven_ite'] + ' AS PK');
         SQL.Add('JOIN     CAD_PRO AS CP ON (CP.ID = PK.IDCP)');
         SQL.Add('WHERE    PK.IDPK = '''+inttostr(lanped.Tag)+'''');
@@ -1054,7 +1063,16 @@ begin
         Open;
       end;
     end;
-    
+
+    if (laeped.Caption = 'SEPARADO') and (not REC_SHE_DEF.GEdit) and (RECUSuarios.ID = PED_VEN_ITEIDSP.AsInteger) then
+    siCSE.Enabled := True;
+
+    if (laolan.Caption = 'FATURADO') or (laolan.Caption = 'ROMANEADO') then
+    begin
+      siCAN.Enabled := False;
+      siCSE.Enabled := False;
+    end;
+
     BRet := True;
   finally
     if BRet then
@@ -1078,19 +1096,6 @@ procedure Tfrmeti_pro.EDCDETValidate(Sender: TObject;
   var ErrorText: String; var Accept: Boolean);
 begin
   PESQUISA_ETIQUETA;
-end;
-
-function Tfrmeti_pro.RETORNA_STFI: String;
-var
-  stfi: string;
-begin
-  stfi := uFIN_BLQ(ped_ven_cabSTCO.AsString,ped_ven_cabFAPD.AsString,psq_cliID.AsString);
-
-  if stfi  = EmptyStr then
-     stfi := uLimiteVenda(ped_ven_cabSTCO.AsString,ped_ven_cabFAPD.AsString,psq_cliID.AsString,ped_ven_cabTCDE.AsCurrency);
-     stfi := IFThen(stfi = EmptyStr,'PENDENTE',stfi);
-
-  result  := stfi;   
 end;
 
 procedure Tfrmeti_pro.IETipoChange(Sender: TObject);

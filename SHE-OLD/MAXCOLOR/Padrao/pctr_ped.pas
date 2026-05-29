@@ -461,24 +461,27 @@ begin
       SQL.Add('AND    EST_CDPD = ''' + CadastroID.AsString + '''');
       ExecQuery;
 
-      Close;
-      SQL.Clear;
-      SQL.Add('DELETE FROM CAD_PRO_EST');
-      SQL.Add('WHERE  EST_CDEP = ''' + CadastroROM_CDEP.AsString + '''');
-      SQL.Add('AND    EST_CDPD = ''' + CadastroROM_CDRO.AsString + '''');
-      ExecQuery;
+      if CadastroROM_CDRO.AsInteger > 0 then
+      begin
+        Close;
+        SQL.Clear;
+        SQL.Add('DELETE FROM CAD_PRO_EST');
+        SQL.Add('WHERE  EST_CDEP = ''' + CadastroROM_CDEP.AsString + '''');
+        SQL.Add('AND    EST_CDPD = ''' + CadastroROM_CDRO.AsString + '''');
+        ExecQuery;
 
-      Close;
-      SQL.Clear;
-      SQL.Add('DELETE FROM '+SLPrincipal.Values['rom_cab']);
-      SQL.Add('WHERE  ID = '''+CadastroROM_CDRO.AsString+'''');
-      ExecQuery;
+        Close;
+        SQL.Clear;
+        SQL.Add('DELETE FROM '+SLPrincipal.Values['rom_cab']);
+        SQL.Add('WHERE  ID = '''+CadastroROM_CDRO.AsString+'''');
+        ExecQuery;
 
-      Close;
-      SQL.Clear;
-      SQL.Add('DELETE FROM '+SLPrincipal.Values['rom_ite']);
-      SQL.Add('WHERE  ROM_CCAB = '''+CadastroROM_CDRO.AsString+'''');
-      ExecQuery;
+        Close;
+        SQL.Clear;
+        SQL.Add('DELETE FROM '+SLPrincipal.Values['rom_ite']);
+        SQL.Add('WHERE  ROM_CCAB = '''+CadastroROM_CDRO.AsString+'''');
+        ExecQuery;
+      end;
 
       Close;
       SQL.Clear;
@@ -512,14 +515,17 @@ begin
       SQL.Add('WHERE  ID       = ''' + CadastroID.AsString + '''');
       ExecQuery;
 
-      Close;
-      SQL.Clear;
-      SQL.Add('UPDATE '+SLPrincipal.Values['rom_cab']);
-      SQL.Add('SET    ROM_STFI = ''PENDENTE'',');
-      SQL.Add('       ROM_DBAI = NULL,');
-      SQL.Add('       ROM_CDBX = NULL');
-      SQL.Add('WHERE  ID       = '''+CadastroROM_CDRO.AsString+'''');
-      ExecQuery;
+      if CadastroROM_CDRO.AsInteger > 0 then
+      begin
+        Close;
+        SQL.Clear;
+        SQL.Add('UPDATE '+SLPrincipal.Values['rom_cab']);
+        SQL.Add('SET    ROM_STFI = ''PENDENTE'',');
+        SQL.Add('       ROM_DBAI = NULL,');
+        SQL.Add('       ROM_CDBX = NULL');
+        SQL.Add('WHERE  ID       = '''+CadastroROM_CDRO.AsString+'''');
+        ExecQuery;
+      end;  
     end;
 
     if CadastroROM_CDRO.AsInteger > 0 then
@@ -585,15 +591,18 @@ begin
       SQL.Add('WHERE  ID       = ''' + CadastroID.AsString + '''');
       ExecQuery;
 
-      Close;
-      SQL.Clear;
-      SQL.Add('UPDATE '+SLPrincipal.Values['rom_cab']);
-      SQL.Add('SET    ROM_STFI = ''PENDENTE'',');
-      SQL.Add('       ROM_DBAI = NULL,');
-      SQL.Add('       ROM_CDBX = NULL');
-      SQL.Add('WHERE  ID       = '''+CadastroROM_CDRO.AsString+'''');
-      ExecQuery;
-
+      if CadastroROM_CDRO.AsInteger > 0 then
+      begin
+        Close;
+        SQL.Clear;
+        SQL.Add('UPDATE '+SLPrincipal.Values['rom_cab']);
+        SQL.Add('SET    ROM_STFI = ''PENDENTE'',');
+        SQL.Add('       ROM_DBAI = NULL,');
+        SQL.Add('       ROM_CDBX = NULL');
+        SQL.Add('WHERE  ID       = '''+CadastroROM_CDRO.AsString+'''');
+        ExecQuery;
+      end;
+      
       Close;
       SQL.Clear;
       SQL.Add('DELETE FROM CAD_PRO_RES');

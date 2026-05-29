@@ -74,16 +74,17 @@ inherited frmfin_rec_con: Tfrmfin_rec_con
             Width = 1917
             Height = 906
             inherited GBCadastro: TGroupBox
-              Width = 1863
+              Left = 0
+              Width = 1917
               Height = 906
               Caption = '  Consulta  '
               inherited PCConsulta: TdxPageControl
-                Width = 1859
+                Width = 1913
                 Height = 885
                 inherited TSConsulta: TdxTabSheet
                   inherited DBGConsulta: TdxDBGrid
                     Tag = 1
-                    Width = 1859
+                    Width = 1913
                     Height = 885
                     Bands = <
                       item
@@ -467,7 +468,7 @@ inherited frmfin_rec_con: Tfrmfin_rec_con
                   object PNLINFADCAD: TPanel
                     Left = 0
                     Top = 885
-                    Width = 1859
+                    Width = 1913
                     Height = 0
                     Cursor = crHandPoint
                     Hint = 'Informa'#231#245'es Adicionais'
@@ -487,14 +488,14 @@ inherited frmfin_rec_con: Tfrmfin_rec_con
                     object Bevel2: TBevel
                       Left = 0
                       Top = 0
-                      Width = 1859
+                      Width = 1913
                       Height = 0
                       Align = alClient
                     end
                     object DBINFADCAD: TdxDBMemo
                       Left = 0
                       Top = 0
-                      Width = 1859
+                      Width = 1913
                       Cursor = crHandPoint
                       Hint = 'Informa'#231#245'es Adicionais'
                       Align = alClient
@@ -533,6 +534,7 @@ inherited frmfin_rec_con: Tfrmfin_rec_con
               Width = 1917
             end
             inherited GBMenuEdicao: TGroupBox
+              Width = 0
               Height = 906
               Visible = False
               inherited SBMenuEdicao: TSpeedBar

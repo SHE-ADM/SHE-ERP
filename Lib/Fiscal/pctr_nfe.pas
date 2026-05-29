@@ -927,59 +927,52 @@ begin
                    oPrimeiraLetraMaiuscula(RECUsuarios.Login)+' '+FormatDateTime('dd/mm/yy hh:mm',Now)+' '+RECParametros.Host+' '+RECParametros.IP+'.'+#13+#13;
 
   if protNFe <> EmptyStr then
-     try
-       oOTransact(TEdicao);
-       with SQLEdicao do
-       begin
-         Close;
-         SQL.Clear;
+  try
+    oOTransact(TEdicao);
+    with SQLEdicao do
+    begin
+      Close;
+      SQL.Clear;
 
-         SQL.Add('UPDATE ' + oREPZero('NFE_CAB','_',RECParametros.EP_ID,3));
-         SQL.Add('SET');
+      SQL.Add('UPDATE ' + oREPZero('NFE_CAB','_',RECParametros.EP_ID,3));
+      SQL.Add('SET');
 
-         SQL.Add('REST      = ''C'',');
-         SQL.Add('NFE_PROC  = ''' + protNFe + ''',');
-         SQL.Add('NFE_OBSE  = ''' + Justificativa + '''||COALESCE(NFE_OBSE,'''')');
+      SQL.Add('REST      = ''C'',');
+      SQL.Add('NFE_PROC  = ''' + protNFe + ''',');
+      SQL.Add('NFE_OBSE  = ''' + Justificativa + '''||COALESCE(NFE_OBSE,'''')');
 
-         SQL.Add('WHERE  ID = ''' + CadastroId.AsString + '''');
-         ExecQuery;
+      SQL.Add('WHERE  ID = ''' + CadastroId.AsString + '''');
+      ExecQuery;
 
-         if CadastroCSTAT.AsInteger = 217 then
-         begin
-           { USUÁRIO }
-           Close;
-           SQL.Clear;
-           SQL.Add('UPDATE NFE_ITE');
-           SQL.Add('SET    CDNF = ''' + CadastroNFE_CDNF.AsString + '''');
-           SQL.Add('WHERE  IDCA = ''' + RECUsuarios.ID            + '''');
-           ExecQuery;
+      if CadastroCSTAT.AsInteger = 217 then
+      begin
+        { USUÁRIO }
+        Close;
+        SQL.Clear;
+        SQL.Add('UPDATE OR INSERT INTO NFE_EMI (IDEP,IDCA,CDNF)');
+        SQL.Add('VALUES (');
 
-           { EMISSOR }
-           if CadastroNFE_CVEN.AsInteger > 0 then
-           begin
-             Close;
-             SQL.Clear;
-             SQL.Add('UPDATE NFE_ITE');
-             SQL.Add('SET    CDNF = ''' + CadastroNFE_CDNF.AsString + '''');
-             SQL.Add('WHERE  IDCA = ''' + CadastroNFE_CVEN.AsString + '''');
-             ExecQuery;
-           end;  
-         end;
-       end;
+        SQL.Add('''' + RECParametros.EP_ID + ''',');
+        SQL.Add('''' + IFThen(CadastroNFE_CVEN.AsInteger > 0,CadastroNFE_CVEN.AsString,RECUsuarios.ID) + ''',');
+        SQL.Add('''' + CadastroNFE_CDNF.AsString + ''')');
 
-       oCTransact(TEdicao);
-       oAviso(Application.Handle,'Nota Fiscal Cancelada com Sucesso !');
-       
-       // RICARDO ACTExecEvent.Execute;
-     except
-       on E: Exception do
-       begin
-         oRefresh(Cadastro,False);
-         oException(Nil,'Falha ao tentar liberar separação !' + #13 +
-                        'Favor entrar em contato com o suporte técnico.' + #13 + #13 +
-                         E.Message + '.');
-       end;
-     end;
+        SQL.Add('MATCHING (IDCA)');
+        ExecQuery;
+      end;
+    end;
+
+    oCTransact(TEdicao);
+    oRefresh(Cadastro);
+    oAviso(Application.Handle,'Nota Fiscal Cancelada com Sucesso !');
+  except
+    on E: Exception do
+    begin
+      oRefresh(Cadastro,False);
+      oException(Nil,'Falha ao tentar liberar separação !' + #13 +
+                     'Favor entrar em contato com o suporte técnico.' + #13 + #13 +
+                      E.Message + '.');
+    end;
+  end;
 end;
 
 procedure Tfrmctr_nfe.dtsnfe_iteDataChange(Sender: TObject; Field: TField);

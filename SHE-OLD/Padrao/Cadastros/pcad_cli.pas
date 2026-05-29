@@ -210,6 +210,8 @@ begin
 end;
 
 procedure Tfrmcad_cli.ACTPesquisaExecute(Sender: TObject);
+var
+  i: word;
 begin
   inherited;
 
@@ -294,35 +296,39 @@ begin
 
         { PEDIDOS }
         if Pos('PV_PK.',FrmPesquisa_OLD.CField) > 0 then
+        for i := 1 to 9 do
         begin
-          FrmPesquisa_OLD.CField     := oStrTran(FrmPesquisa_OLD.CField,'PV_PK.','FK.');
-          SQL.Add('SELECT FIRST 1 FK.ID FROM ' +  oREPZero('PED_VEN_CAB','_',RECParametros.EP_ID,3) + ' AS FK');
-        end;
-
-        { FINANCEIRO BANCÁRIO }
-        if Pos('FN_PK.',FrmPesquisa_OLD.CField) > 0 then
-        begin
-          FrmPesquisa_OLD.CField     := oStrTran(FrmPesquisa_OLD.CField,'FN_PK.','FK.');
-          SQL.Add('SELECT FIRST 1 FK.ID FROM ' +  oREPZero('VW_PSQ_FIN_REC_BAN','_',RECParametros.EP_ID,3) + ' AS FK');
-        end;
-
-        { PESQUISA TEXTO SECUNDÁRIO }
-        SQL.Add('WHERE FK.CD_ID = PK.CD_ID');
-        SQL.Add('AND ' + FrmPesquisa_OLD.CField + ' ' + FrmPesquisa_OLD.cPesquisaWhere + ' ''' + FrmPesquisa_OLD.EDTXT.Text + FrmPesquisa_OLD.cPesquisaLike + '''');
-        SQL.Add(')'); { FIM }
-
-        { FINANCEIRO CARTEIRA }
-        if Pos('FIN_REC_BAN',Cadastro.SQL.Text) > 0 then
-        begin
-          SQL.Add('OR EXISTS');
-          SQL.Add('(');
-          SQL.Add('SELECT FIRST 1 FK.ID FROM ' +  oREPZero('VW_PSQ_FIN_REC_CAR','_',RECParametros.EP_ID,3) + ' AS FK');
-
-          { PESQUISA TEXTO SECUNDÁRIO }
-          SQL.Add('WHERE FK.CD_ID = PK.CD_ID');
+          FrmPesquisa_OLD.CField := oStrTran(FrmPesquisa_OLD.CField,'PV_PK.','FK.');
+          SQL.Add('SELECT FIRST 1 FK.ID FROM ' +  oREPZero('PED_VEN_CAB','_',i,3) + ' AS FK');
+          SQL.Add('WHERE  FK.CD_ID = PK.CD_ID');
           SQL.Add('AND ' + FrmPesquisa_OLD.CField + ' ' + FrmPesquisa_OLD.cPesquisaWhere + ' ''' + FrmPesquisa_OLD.EDTXT.Text + FrmPesquisa_OLD.cPesquisaLike + '''');
-          SQL.Add(')'); { FIM }
+
+          if i < 9 then
+          SQL.Add('UNION');
         end;
+
+        { FINANCEIRO }
+        if Pos('FN_PK.',FrmPesquisa_OLD.CField) > 0 then
+        for i := 1 to 9 do
+        begin
+          FrmPesquisa_OLD.CField := oStrTran(FrmPesquisa_OLD.CField,'FN_PK.','FK.');
+
+          { BANCÁRIO }
+          SQL.Add('SELECT  FIRST 1 FK.ID FROM ' +  oREPZero('VW_PSQ_FIN_REC_BAN','_',i,3) + ' AS FK');
+          SQL.Add('WHERE   FK.CD_ID = PK.CD_ID');
+          SQL.Add('AND ' + FrmPesquisa_OLD.CField + ' ' + FrmPesquisa_OLD.cPesquisaWhere + ' ''' + FrmPesquisa_OLD.EDTXT.Text + FrmPesquisa_OLD.cPesquisaLike + '''');
+
+          { CARTEIRA }
+          SQL.Add('UNION');
+          SQL.Add('SELECT  FIRST 1 FK.ID FROM ' +  oREPZero('VW_PSQ_FIN_REC_CAR','_',i,3) + ' AS FK');
+          SQL.Add('WHERE   FK.CD_ID = PK.CD_ID');
+          SQL.Add('AND ' + FrmPesquisa_OLD.CField + ' ' + FrmPesquisa_OLD.cPesquisaWhere + ' ''' + FrmPesquisa_OLD.EDTXT.Text + FrmPesquisa_OLD.cPesquisaLike + '''');
+
+          if i < 9 then
+          SQL.Add('UNION');
+        end;
+
+        SQL.Add(')'); { FIM }
       end;
 
       SQL.Add('ORDER BY ' + IFThen(LeftStr(FrmPesquisa_OLD.CField,2) = 'PK',FrmPesquisa_OLD.CField,'PK.DTEV DESC'));

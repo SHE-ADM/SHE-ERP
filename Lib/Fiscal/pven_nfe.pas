@@ -2402,12 +2402,21 @@ begin
         Edicao.EnableControls;
       end;
 
+      { VOLUME }
       if SQLPKConsulta.Current.ByName('PK_QVOL').AsInteger > 0 then
       begin
         CEQVOL.Value := SQLPKConsulta.Current.ByName('PK_QVOL').AsInteger;
         PEESP.Text   := SQLPKConsulta.Current.ByName('PK_ESP').AsString;
       end;
-      
+
+      { PESO }
+      if CEPSBR.Value = 0 then
+      CEPSBR.Value := SQLPKConsulta.Current.ByName('PK_PSBR').AsCurrency;
+
+      if CEPSLQ.Value = 0 then
+      CEPSLQ.Value := SQLPKConsulta.Current.ByName('PK_PSLQ').AsCurrency;
+
+
     finally { Sincronismo }
       { ENCERRA SINCRONISMO }
       if REC_SHE_DEF.FInitialize then
@@ -2485,6 +2494,7 @@ begin
     SQL.Add('       CAST(SUM(FK.PSBR) OVER(PARTITION BY FK.CP_ID,FK.ITEM,FK.VPRC_PAD,FK.VPRC_COM,FK.NFCI) AS NUMERIC(15,2)) AS PSBR,');
     SQL.Add('       CAST(SUM(FK.PSLQ) OVER(PARTITION BY FK.CP_ID,FK.ITEM,FK.VPRC_PAD,FK.VPRC_COM,FK.NFCI) AS NUMERIC(15,2)) AS PSLQ,');
 
+    SQL.Add('       0 AS PK_PSBR,0 AS PK_PSLQ,');
     SQL.Add('       NULL AS PK_QVOL,NULL AS PK_ESP,');
     SQL.Add('       PK.DEST,CP.ORIG,FK.NFCI,PK.INFADCAD');
 
@@ -2554,7 +2564,7 @@ begin
 
     SQL.Add('       CP.UQTDE,CP.UQVOL,FK.NFE_QCOM AS QTDE,FK.NFE_RCOM AS QTRL,FK.NFE_VPROD  AS TCDE,');
     SQL.Add('       FK.NFE_VDESC AS PK_VDSC,0 AS PK_PDSC,PK.NFE_VPROD AS PK_TSDE,PK.NFE_VNF AS PK_TCDE,PK.NFE_VNF AS PV_TCDE,');
-    SQL.Add('       PK.VFRT AS FRT_VFRT,FK.PSBR,FK.PSLQ,');
+    SQL.Add('       PK.VFRT AS FRT_VFRT,FK.PSBR,FK.PSLQ,TK.PSBR AS PK_PSBR,TK.PSLQ AS PK_PSLQ,');
     SQL.Add('       TK.QVOL AS PK_QVOL,TK.ESP AS PK_ESP,');
     SQL.Add('       PK.DEST,COALESCE(NULLIF(FK.NFE_ORIG,''''),0) AS ORIG,FK.NFE_NFCI AS NFCI,NULL AS INFADCAD');
 
@@ -3776,6 +3786,14 @@ begin
 
   if (IEINDPAG.Text = EmptyStr) and (IETPAG.Text <> '90') then
   oException(IEINDPAG,'Forma de pagamento não informada !');
+
+  if CEPSBR.Value = 0 then
+  if oYesNo(handle,'Peso bruto não informado. Continuar emissão ?') = mrNo then
+  Abort;
+
+  if CEPSLQ.Value = 0 then
+  if oYesNo(handle,'Peso líquido não informado. Continuar emissão ?') = mrNo then
+  Abort;
 
   try
     { Finalidade NFe }
@@ -9977,7 +9995,9 @@ end;
 
 procedure TFrmVEN_NFE.FIS_NFE_SUMAfterOpen(DataSet: TDataSet);
 begin
+  { PESO }
   if (CECDRO.Value = 0) and (REC_SHE_DEF.TPEV = 1) then
+  if (FIS_NFE_SUMNFE_PSBR.AsCurrency > 0) and (FIS_NFE_SUMNFE_PSLQ.AsCurrency > 0) then
   begin
     CEPSBR.Value := FIS_NFE_SUMNFE_PSBR.AsCurrency;
     CEPSLQ.Value := FIS_NFE_SUMNFE_PSLQ.AsCurrency;

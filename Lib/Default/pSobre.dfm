@@ -5,7 +5,7 @@ object FrmSobre: TFrmSobre
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Sobre o Sistema'
-  ClientHeight = 596
+  ClientHeight = 609
   ClientWidth = 464
   Color = clBlack
   Font.Charset = ANSI_CHARSET
@@ -2066,7 +2066,7 @@ object FrmSobre: TFrmSobre
   end
   object PNLMemoria: TPanel
     Left = 0
-    Top = 536
+    Top = 549
     Width = 464
     Height = 60
     Align = alBottom
@@ -2132,8 +2132,8 @@ object FrmSobre: TFrmSobre
       ParentFont = False
     end
     object BTNOk: TButton
-      Left = 349
-      Top = 22
+      Left = 373
+      Top = 18
       Width = 75
       Height = 25
       Cancel = True
@@ -2155,7 +2155,7 @@ object FrmSobre: TFrmSobre
   end
   object PNLEmpresa: TPanel
     Left = 0
-    Top = 497
+    Top = 510
     Width = 464
     Height = 32
     Align = alBottom
@@ -2179,7 +2179,7 @@ object FrmSobre: TFrmSobre
   end
   object PNL_3: TPanel
     Left = 0
-    Top = 529
+    Top = 542
     Width = 464
     Height = 7
     Align = alBottom
@@ -2190,7 +2190,7 @@ object FrmSobre: TFrmSobre
     Left = 0
     Top = 207
     Width = 464
-    Height = 283
+    Height = 296
     Align = alClient
     BevelOuter = bvNone
     Color = clInfoBk
@@ -2227,7 +2227,7 @@ object FrmSobre: TFrmSobre
     end
     object laLICE: TLabel
       Left = 15
-      Top = 230
+      Top = 246
       Width = 47
       Height = 17
       Caption = 'Licen'#231'a:'
@@ -2242,7 +2242,7 @@ object FrmSobre: TFrmSobre
     end
     object laQUSU: TLabel
       Left = 15
-      Top = 246
+      Top = 262
       Width = 53
       Height = 17
       Caption = 'Usu'#225'rios:'
@@ -2257,7 +2257,7 @@ object FrmSobre: TFrmSobre
     end
     object laCOM: TLabel
       Left = 326
-      Top = 198
+      Top = 214
       Width = 54
       Height = 17
       Caption = 'Compras'
@@ -2272,7 +2272,7 @@ object FrmSobre: TFrmSobre
     end
     object laVEN: TLabel
       Left = 326
-      Top = 214
+      Top = 230
       Width = 43
       Height = 17
       Caption = 'Vendas'
@@ -2287,7 +2287,7 @@ object FrmSobre: TFrmSobre
     end
     object lbCOM: TLabel
       Left = 438
-      Top = 198
+      Top = 214
       Width = 14
       Height = 17
       Caption = '03'
@@ -2302,7 +2302,7 @@ object FrmSobre: TFrmSobre
     end
     object laFAT: TLabel
       Left = 326
-      Top = 230
+      Top = 246
       Width = 79
       Height = 17
       Caption = 'Faturamento'
@@ -2317,7 +2317,7 @@ object FrmSobre: TFrmSobre
     end
     object lbVEN: TLabel
       Left = 438
-      Top = 214
+      Top = 230
       Width = 14
       Height = 17
       Caption = '07'
@@ -2332,7 +2332,7 @@ object FrmSobre: TFrmSobre
     end
     object lbFAT: TLabel
       Left = 438
-      Top = 230
+      Top = 246
       Width = 14
       Height = 17
       Caption = '25'
@@ -2347,7 +2347,7 @@ object FrmSobre: TFrmSobre
     end
     object laFIN: TLabel
       Left = 326
-      Top = 246
+      Top = 262
       Width = 62
       Height = 17
       Caption = 'Financeiro'
@@ -2362,7 +2362,7 @@ object FrmSobre: TFrmSobre
     end
     object lbFIN: TLabel
       Left = 438
-      Top = 246
+      Top = 262
       Width = 14
       Height = 17
       Caption = '06'
@@ -2377,7 +2377,7 @@ object FrmSobre: TFrmSobre
     end
     object laOCA: TLabel
       Left = 326
-      Top = 182
+      Top = 198
       Width = 74
       Height = 17
       Caption = 'Or'#231'amentos'
@@ -2392,7 +2392,7 @@ object FrmSobre: TFrmSobre
     end
     object lbOCA: TLabel
       Left = 438
-      Top = 182
+      Top = 198
       Width = 14
       Height = 17
       Caption = '07'
@@ -2407,7 +2407,7 @@ object FrmSobre: TFrmSobre
     end
     object laPCP: TLabel
       Left = 326
-      Top = 150
+      Top = 166
       Width = 24
       Height = 17
       Caption = 'PCP'
@@ -2422,7 +2422,7 @@ object FrmSobre: TFrmSobre
     end
     object lbPCP: TLabel
       Left = 438
-      Top = 150
+      Top = 166
       Width = 14
       Height = 17
       Caption = '40'
@@ -2437,7 +2437,7 @@ object FrmSobre: TFrmSobre
     end
     object laETI: TLabel
       Left = 326
-      Top = 166
+      Top = 182
       Width = 56
       Height = 17
       Caption = 'Etiquetas'
@@ -2452,7 +2452,7 @@ object FrmSobre: TFrmSobre
     end
     object lbETI: TLabel
       Left = 438
-      Top = 166
+      Top = 182
       Width = 14
       Height = 17
       Caption = '15'
@@ -2468,9 +2468,9 @@ object FrmSobre: TFrmSobre
     object LANVersao: TLabel
       Left = 100
       Top = 4
-      Width = 107
+      Width = 108
       Height = 17
-      Caption = 'SHE-ERP-OLD-PCP'
+      Caption = 'SHE-ERP-OLD-NFE'
       Color = clInfoBk
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -2485,7 +2485,7 @@ object FrmSobre: TFrmSobre
       Top = 20
       Width = 101
       Height = 17
-      Caption = '26/05/2026 07:10'
+      Caption = '29/05/2026 07:56'
       Color = clInfoBk
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -2497,7 +2497,7 @@ object FrmSobre: TFrmSobre
     end
     object lbLICE: TLabel
       Left = 102
-      Top = 230
+      Top = 246
       Width = 42
       Height = 17
       Caption = 'Mensal'
@@ -2512,7 +2512,7 @@ object FrmSobre: TFrmSobre
     end
     object lbQUSU: TLabel
       Left = 102
-      Top = 246
+      Top = 262
       Width = 21
       Height = 17
       Caption = '100'
@@ -2541,7 +2541,7 @@ object FrmSobre: TFrmSobre
     end
     object LABOL: TLabel
       Left = 326
-      Top = 262
+      Top = 278
       Width = 45
       Height = 17
       Caption = 'Boletos'
@@ -2556,7 +2556,7 @@ object FrmSobre: TFrmSobre
     end
     object LBBOL: TLabel
       Left = 438
-      Top = 262
+      Top = 278
       Width = 14
       Height = 17
       Caption = '07'
@@ -2573,7 +2573,7 @@ object FrmSobre: TFrmSobre
       Left = 17
       Top = 45
       Width = 445
-      Height = 97
+      Height = 124
       BevelInner = bvNone
       BevelOuter = bvNone
       BorderStyle = bsNone
@@ -2584,15 +2584,23 @@ object FrmSobre: TFrmSobre
       Font.Name = 'Segoe UI Semibold'
       Font.Style = [fsBold, fsItalic]
       Lines.Strings = (
-        'Separa'#231#227'o de pedidos via coletor de dados'
-        'Consulta de etiquetas')
+        'Ajustes Financeiros:'
+        
+          '1) Libera'#231#227'o de pedidos: foco no pedido selecionado - n'#227'o fechar' +
+          ' quando '
+        'libera'#231#245'es acima de 1'
+        '2) Consulta clientes: pesquisar em todas as empresas'
+        '3) Baixa de t'#237'tulos: corrigido pesquisa'
+        '4) Controle de pedidos: corrigido finaliza'#231#227'o '
+        ''
+        'Pesquisa Geral: corre'#231#227'o pesquisa num'#233'ricas')
       ParentFont = False
       TabOrder = 0
     end
   end
   object Panel1: TPanel
     Left = 0
-    Top = 490
+    Top = 503
     Width = 464
     Height = 7
     Align = alBottom
