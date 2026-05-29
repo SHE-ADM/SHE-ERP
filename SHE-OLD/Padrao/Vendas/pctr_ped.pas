@@ -646,6 +646,7 @@ type
   public
     { Public declarations }
     RECPedidos: TRECPedidos;
+    RECSP_CAD_PRO_EST: TRECPedidos;
   end;
 
 var
@@ -1057,6 +1058,19 @@ begin
   end;
 
   PNLINFADLOG.Height := IFThen(PNLLOGOS.Visible or PNLLOGPRN.Visible,25,0);
+
+  if CadastroDEST.AsString = 'CANCELADO' then
+  begin
+    SICANCELA.Enabled    := True;
+    SICANCELA.ImageIndex := 11;
+    SICANCELA.BtnCaption := 'Estornar';
+    SICANCELA.Hint       := 'Estorno de cancelamento';
+  end else
+  begin
+    SICANCELA.ImageIndex := 4;
+    SICANCELA.BtnCaption := 'Cancelar';
+    SICANCELA.Hint       := 'Cancelamento de Pedido';
+  end;
 end;
 
 procedure Tfrmctr_ped.FKCadastroAfterScroll(DataSet: TDataSet);
@@ -1739,170 +1753,283 @@ begin
   if CadastroId.AsInteger = 0 then
   oException(DBGConsulta,'Cliente não Selecionado !');
 
-  uPSQSCORE(self,CadastroIDCD.AsString,EmptyStr);
+  uPSQSCORE(self,CadastroIDCD.AsString,CadastroDEPK.AsString);
 end;
 
 procedure Tfrmctr_ped.ACTMPDeleteExecute(Sender: TObject);
 begin
-  if oYesNo(handle,'Cancelar Pedido '+CadastroDEPK.AsString+' ?') = mrNo then
-  Abort;
+  oIRECPedidos(RECSP_CAD_PRO_EST);
+  RECSP_CAD_PRO_EST.ASPEdicao := SPEdicao;
 
-  if CadastroId.AsInteger = 0 then
-     oException(DBGConsulta,'Pedido não Selecionado !');
-
-  if Pos(LeftStr(CadastroDEST.AsString,3),'CAN') > 0 then
-     oException(DBGConsulta,'Cancelamento não Permitido !'+#13+
-                            'Pedido já Cancelado !');
-
-  if CadastroCDBX.AsInteger > 0 then
-     oException(DBGConsulta,'Cancelamento não Permitido !'+#13+
-                            'Pedido Finalizado !');
-
-  if CadastroCDNF.AsInteger > 0 then
-     oException(DBGConsulta,'Cancelamento não Permitido !'+#13+
-                            'Pedido possui nota fiscal emitida.');
-
-  if CadastroCDRO.AsInteger > 0 then
-     oException(DBGConsulta,'Cancelamento não Permitido !'+#13+
-                            'Pedido Romaneado.');
-
-  with SQLConsulta do
+  if CadastroDEST.AsString = 'CANCELADO' then
   begin
-    Close;
-    SQL.Clear;
-    SQL.Add('SELECT COUNT(*) FROM CAD_PRO_SEP AS PK');
-    SQL.Add('WHERE  PK.IDEP = ''' + RECParametros.EP_ID      + '''');
-    SQL.Add('AND    PK.IDPK = ''' + CadastroIDPK.AsString + '''');
-    ExecQuery;
+    if oYesNo(handle,'Estornar Pedido No ' + cadastroDEPK.AsString + ' ?') = mrNo then
+    Abort;
 
-    if Current.Vars[0].AsInteger > 0 then
-    oException(DBGConsulta,'Finalização não Permitida !'+#13+
-                           'Pedido em processo de separação.');
-
-    Close;
-    SQL.Clear;
-    SQL.Add('SELECT COUNT(*) FROM CAD_PRO_EST AS PK');
-    SQL.Add('WHERE  PK.IDEP = ''' + RECParametros.EP_ID      + '''');
-    SQL.Add('AND    PK.IDPK = ''' + CadastroIDPK.AsString + '''');
-    ExecQuery;
-
-    if Current.Vars[0].AsInteger > 0 then
-    oException(DBGConsulta,'Finalização não Permitida !'+#13+
-                           'Pedido possui etiquetas separadas.');
-  end;
-
-  try
-    Cadastro.DisableControls;
-
-    FKCadastro.DisableControls;
-    FKCadastro.First;
-
-    Separados.DisableControls;
-    Romaneios.DisableControls;
     try
-      TFrmProduto_Devolucao_Cancelamento._ExecForm(Nil,FrmProduto_Devolucao_Cancelamento,false,fsNormal)
-    finally
-      if not FrmProduto_Devolucao_Cancelamento.Editado then
-      Abort;
+      oOTransact(TEdicao);
 
-      if oEmpty(FrmProduto_Devolucao_Cancelamento.IEMotivo.Text) then
-      oException(DBGConsulta,'Motivo de cancelamento Incorreto ou não Informado !');
+      with SQLEdicao do
+      begin
+        { PEDIDO }
+        Close;
+        SQL.Clear;
+        SQL.Add('UPDATE ' + oREPZero('PED_VEN_CAB','_',RECParametros.EP_ID,3));
+        SQL.Add('SET   ROM_STFI = ''PENDENTE''');
+        SQL.Add('WHERE IDPK = ''' + CadastroIDPK.AsString + '''');
+        ExecQuery;
 
-      try
-        oOTransact(TEdicao);
+        { ITENS }
+        Close;
+        SQL.Clear;
+        SQL.Add('UPDATE ' + oREPZero('PED_VEN_ITE','_',RECParametros.EP_ID,3));
+        SQL.Add('SET   DEST = ''PENDENTE''');
+        SQL.Add('WHERE IDPK = ''' + CadastroIDPK.AsString + '''');
+        ExecQuery;
 
-        with SQLEdicao do
-        begin
-          { Cancelamento do estoque feito via trigger }
-          Close;
-          SQL.Clear;
-          SQL.Add('UPDATE '+SLPrincipal.Values['ped_ven_cab']);
-          SQL.Add('SET   ROM_STFI = ''CANCELADO'',');
-          SQL.Add('      ROM_OBSE = '''+FrmProduto_Devolucao_Cancelamento.IEMotivo.Text   + #13+#13+
-                                        FrmProduto_Devolucao_Cancelamento.EMINFADCAD.Text + '''');
-          SQL.Add('WHERE IDPK = ''' + CadastroIDPK.AsString + '''');
-          ExecQuery;
+        { ESTOQUE }
+        Close;
+        SQL.Clear;
+        SQL.Add('DELETE FROM CAD_PRO_RES');
+        SQL.Add('WHERE EP_ID = ''' + CadastroIDEP.AsString + '''');
+        SQL.Add('AND   IDPK  = ''' + CadastroIDPK.AsString + '''');
+        ExecQuery;
+      end;
 
-          Close;
-          SQL.Clear;
-          SQL.Add('DELETE FROM CAD_PRO_RES');
-          SQL.Add('WHERE  EP_ID = ''' + RECParametros.EP_ID   + '''');
-          SQL.Add('AND    IDPK  = ''' + CadastroIDPK.AsString + '''');
-          ExecQuery;
-        end;
+      FKCadastro.First;
+      while not FKCadastro.Eof do
+      begin
+        Application.ProcessMessages;
 
-        try
-          FKCadastro.DisableControls;
-          FKCadastro.First;
+        RECSP_CAD_PRO_EST.FLAG := 0;
 
-          while not FKCadastro.Eof do
-          begin
-            SPEdicao.StoredProcName := 'SP_PED_VEN_CAN';
-            SPEdicao.Prepare;
+        RECSP_CAD_PRO_EST.IDEP := RECParametros.EP_ID;
+        RECSP_CAD_PRO_EST.IDPK := CadastroIDPK.AsInteger;
+        RECSP_CAD_PRO_EST.IDFK := FKCadastroID.AsInteger;
 
-            SPEdicao.ParamByName('AIDEP').Value       := RECParametros.EP_ID;
-            SPEdicao.ParamByName('AIDCA').Value       := RECUsuarios.Id;
-            SPEdicao.ParamByName('AIDED').Value       := RECUsuarios.Id;
-            SPEdicao.ParamByName('AIDPK').Value       := CadastroId.AsInteger;
-            SPEdicao.ParamByName('ACDPK').Value       := CadastroDEPK.AsString;
-            SPEdicao.ParamByName('ADTPK').Value       := RECParametros.SHE_DATA;
-            SPEdicao.ParamByName('ADTFK').Value       := CadastroDTPK.AsDateTime;
-            SPEdicao.ParamByName('AIDCL').Value       := CadastroIDCD.AsInteger;
-            SPEdicao.ParamByName('AIDCV').Value       := CadastroIDCV.AsInteger;
-            SPEdicao.ParamByName('AIDCR').Value       := CadastroIDCR.AsInteger;
-            SPEdicao.ParamByName('AIDCP').Value       := FKCadastroIDCP.AsInteger;
-            SPEdicao.ParamByName('AARTIGO').Value     := FKCadastroARTIGO.AsString;
-            SPEdicao.ParamByName('APRODUTO').Value    := FKCadastroSKU.AsString;
-            SPEdicao.ParamByName('ADESCRICAO').Value  := FKCadastroDECP.AsString;
-            SPEdicao.ParamByName('ACOR').Value        := LeftStr(FKCadastroDGCP.AsString,30);
-            SPEdicao.ParamByName('AUCOM').Value       := FKCadastroUCOM.AsString;
-            SPEdicao.ParamByName('AQUANTIDADE').Value := FKCadastroQTDE.AsFloat;
-            SPEdicao.ParamByName('AROLO').Value       := FKCadastroQTRL.AsInteger;
-            SPEdicao.ParamByName('AVUPV').Value       := FKCadastroVPRC_COM.AsFloat;
-            SPEdicao.ParamByName('AMOTIVO').Value     := FrmProduto_Devolucao_Cancelamento.IEMotivo.Text;
-            SPEdicao.ParamByName('AINFADCAD').Value   := FrmProduto_Devolucao_Cancelamento.EMINFADCAD.Text;
+        RECSP_CAD_PRO_EST.DEPK := CadastroDEPK.AsString;
+        RECSP_CAD_PRO_EST.DTPK := CadastroDTPK.AsDateTime;
+        RECSP_CAD_PRO_EST.CTNR := '';
 
-            SPEdicao.ExecProc;
-            SPEdicao.UnPrepare;
+        RECSP_CAD_PRO_EST.IDCD := CadastroIDCD.AsInteger;
+        RECSP_CAD_PRO_EST.IDCV := CadastroIDCV.AsInteger;
+        RECSP_CAD_PRO_EST.IDCR := CadastroIDCR.AsInteger;
 
-            uSP_CAD_PRO_EST_LAN(SPEdicao,RECParametros.EP_ID,FKCadastroIDCP.AsInteger);
-            FKCadastro.Next;
-          end;
+        RECSP_CAD_PRO_EST.ITEM := FKCadastroITEM.AsInteger;
+        RECSP_CAD_PRO_EST.IDCP := FKCadastroIDCP.AsInteger;
+        RECSP_CAD_PRO_EST.CEAN := FKCadastroCEAN.AsString;
 
-        finally
-          FKCadastro.EnableControls;
-        end;
-          
-        oCTransact(TEdicao);
+        RECSP_CAD_PRO_EST.DECP := FKCadastroDECP.AsString;
+        RECSP_CAD_PRO_EST.DGCP := FKCadastroDGCP.AsString;
 
-        { ATUALIZA ESTOQUE }
-        uCAD_PRO_EST_LAN_UPD(oREPZero('PED_VEN_ITE','_',RECParametros.EP_ID,3),
-                             RECParametros.EP_ID   ,
-                             CadastroIDPK.AsString ,
+        RECSP_CAD_PRO_EST.UCOM := FKCadastroUCOM.AsString;
+        RECSP_CAD_PRO_EST.UCON := FKCadastroUCON.AsString;
 
-                            'EP_ID',
-                            'IDPK' ,
-                            'CP_ID');
+        RECSP_CAD_PRO_EST.QTDE := FKCadastroQTDE.AsFloat;
+        RECSP_CAD_PRO_EST.QTRL := FKCadastroQTRL.AsInteger;
 
-        oAviso(Self.Handle,'Pedido Cancelado com Sucesso !');
-        oRefresh(Cadastro);
-      except
-        on E: Exception do
-        begin
-          oCTransact(TEdicao,ltRollback);
-          oException(Nil,'Falha ao tentar cancelar pedido !'+#13+
-                         'Favor entrar em contato com o administrador do sistema.'+#13+#13+
-                         'Erro: '+E.Message);
-        end;
+        RECSP_CAD_PRO_EST.VPRC_PAD_INI := FKCadastroVPRC_PAD_INI.AsFloat;
+        RECSP_CAD_PRO_EST.VPRC_PAD_FIM := FKCadastroVPRC_PAD_FIM.AsFloat;
+
+        RECSP_CAD_PRO_EST.VPRC_PAD := FKCadastroVPRC_PAD.AsFloat;
+        RECSP_CAD_PRO_EST.PDSC     := FKCadastroPDSC.AsFloat;
+        RECSP_CAD_PRO_EST.VDSC     := FKCadastroVDSC.AsFloat;
+        RECSP_CAD_PRO_EST.VPRC_COM := FKCadastroVPRC_COM.AsFloat;
+
+        RECSP_CAD_PRO_EST.TSDE := FKCadastroTSDE.AsFloat;
+        RECSP_CAD_PRO_EST.TCDE := FKCadastroTCDE.AsFloat;
+
+        RECSP_CAD_PRO_EST.NCM  := FKCadastroNCM.AsString;
+        RECSP_CAD_PRO_EST.PIPI := FKCadastroPIPI.AsFloat;
+        RECSP_CAD_PRO_EST.VIPI := FKCadastroVIPI.AsFloat;
+
+        RECSP_CAD_PRO_EST.PSBR := FKCadastroPSBR.AsFloat;
+        RECSP_CAD_PRO_EST.PSLQ := FKCadastroPSLQ.AsFloat;
+
+        RECSP_CAD_PRO_EST.INFADCAD := CadastroINFADCAD.AsString;
+
+        oSP_CAD_PRO_EST_RES(RECSP_CAD_PRO_EST);
+        uSP_CAD_PRO_EST_LAN(SPEdicao,RECParametros.EP_ID,FKCadastroIDCP.AsInteger);
+
+        FKCadastro.Next;
+      end;
+      
+      oCTransact(TEdicao);
+      oRefresh(Cadastro);
+      oAviso(Application.Handle,'Pedido estornado com sucesso !');
+    except
+      on E: Exception do
+      begin
+        oCTransact(TEdicao,ltRollback);
+        oException(Nil,'Falha ao tentar estornar pedido !'+#13+
+                       'Favor entrar em contato com o administrador do sistema.'+#13+#13+
+                       'Erro: ' + E.Message);
       end;
     end;
-  finally
-    Cadastro.EnableControls;
-    FKCadastro.EnableControls;
+  end else
+  begin
+    if oYesNo(handle,'Cancelar Pedido '+CadastroDEPK.AsString+' ?') = mrNo then
+    Abort;
 
-    Separados.EnableControls;
-    Romaneios.EnableControls;
+    if CadastroId.AsInteger = 0 then
+       oException(DBGConsulta,'Pedido não Selecionado !');
+
+    if Pos(LeftStr(CadastroDEST.AsString,3),'CAN') > 0 then
+       oException(DBGConsulta,'Cancelamento não Permitido !'+#13+
+                              'Pedido já Cancelado !');
+
+    if CadastroCDBX.AsInteger > 0 then
+       oException(DBGConsulta,'Cancelamento não Permitido !'+#13+
+                              'Pedido Finalizado !');
+
+    if CadastroCDNF.AsInteger > 0 then
+       oException(DBGConsulta,'Cancelamento não Permitido !'+#13+
+                              'Pedido possui nota fiscal emitida.');
+
+    if CadastroCDRO.AsInteger > 0 then
+       oException(DBGConsulta,'Cancelamento não Permitido !'+#13+
+                              'Pedido Romaneado.');
+
+    with SQLConsulta do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add('SELECT COUNT(*) FROM CAD_PRO_SEP AS PK');
+      SQL.Add('WHERE  PK.IDEP = ''' + RECParametros.EP_ID      + '''');
+      SQL.Add('AND    PK.IDPK = ''' + CadastroIDPK.AsString + '''');
+      ExecQuery;
+
+      if Current.Vars[0].AsInteger > 0 then
+      oException(DBGConsulta,'Finalização não Permitida !'+#13+
+                             'Pedido em processo de separação.');
+
+      Close;
+      SQL.Clear;
+      SQL.Add('SELECT COUNT(*) FROM CAD_PRO_EST AS PK');
+      SQL.Add('WHERE  PK.IDEP = ''' + RECParametros.EP_ID      + '''');
+      SQL.Add('AND    PK.IDPK = ''' + CadastroIDPK.AsString + '''');
+      ExecQuery;
+
+      if Current.Vars[0].AsInteger > 0 then
+      oException(DBGConsulta,'Finalização não Permitida !'+#13+
+                             'Pedido possui etiquetas separadas.');
+    end;
+
+    try
+      Cadastro.DisableControls;
+
+      FKCadastro.DisableControls;
+      FKCadastro.First;
+
+      Separados.DisableControls;
+      Romaneios.DisableControls;
+      try
+        TFrmProduto_Devolucao_Cancelamento._ExecForm(Nil,FrmProduto_Devolucao_Cancelamento,false,fsNormal)
+      finally
+        if not FrmProduto_Devolucao_Cancelamento.Editado then
+        Abort;
+
+        if oEmpty(FrmProduto_Devolucao_Cancelamento.IEMotivo.Text) then
+        oException(DBGConsulta,'Motivo de cancelamento Incorreto ou não Informado !');
+
+        try
+          oOTransact(TEdicao);
+
+          with SQLEdicao do
+          begin
+            { Cancelamento do estoque feito via trigger }
+            Close;
+            SQL.Clear;
+            SQL.Add('UPDATE '+SLPrincipal.Values['ped_ven_cab']);
+            SQL.Add('SET   ROM_STFI = ''CANCELADO'',');
+            SQL.Add('      ROM_OBSE = '''+FrmProduto_Devolucao_Cancelamento.IEMotivo.Text   + #13+#13+
+                                          FrmProduto_Devolucao_Cancelamento.EMINFADCAD.Text + '''');
+            SQL.Add('WHERE IDPK = ''' + CadastroIDPK.AsString + '''');
+            ExecQuery;
+
+            Close;
+            SQL.Clear;
+            SQL.Add('DELETE FROM CAD_PRO_RES');
+            SQL.Add('WHERE  EP_ID = ''' + RECParametros.EP_ID   + '''');
+            SQL.Add('AND    IDPK  = ''' + CadastroIDPK.AsString + '''');
+            ExecQuery;
+          end;
+
+          try
+            FKCadastro.DisableControls;
+            FKCadastro.First;
+
+            while not FKCadastro.Eof do
+            begin
+              SPEdicao.StoredProcName := 'SP_PED_VEN_CAN';
+              SPEdicao.Prepare;
+
+              SPEdicao.ParamByName('AIDEP').Value       := RECParametros.EP_ID;
+              SPEdicao.ParamByName('AIDCA').Value       := RECUsuarios.Id;
+              SPEdicao.ParamByName('AIDED').Value       := RECUsuarios.Id;
+              SPEdicao.ParamByName('AIDPK').Value       := CadastroId.AsInteger;
+              SPEdicao.ParamByName('ACDPK').Value       := CadastroDEPK.AsString;
+              SPEdicao.ParamByName('ADTPK').Value       := RECParametros.SHE_DATA;
+              SPEdicao.ParamByName('ADTFK').Value       := CadastroDTPK.AsDateTime;
+              SPEdicao.ParamByName('AIDCL').Value       := CadastroIDCD.AsInteger;
+              SPEdicao.ParamByName('AIDCV').Value       := CadastroIDCV.AsInteger;
+              SPEdicao.ParamByName('AIDCR').Value       := CadastroIDCR.AsInteger;
+              SPEdicao.ParamByName('AIDCP').Value       := FKCadastroIDCP.AsInteger;
+              SPEdicao.ParamByName('AARTIGO').Value     := FKCadastroARTIGO.AsString;
+              SPEdicao.ParamByName('APRODUTO').Value    := FKCadastroSKU.AsString;
+              SPEdicao.ParamByName('ADESCRICAO').Value  := FKCadastroDECP.AsString;
+              SPEdicao.ParamByName('ACOR').Value        := LeftStr(FKCadastroDGCP.AsString,30);
+              SPEdicao.ParamByName('AUCOM').Value       := FKCadastroUCOM.AsString;
+              SPEdicao.ParamByName('AQUANTIDADE').Value := FKCadastroQTDE.AsFloat;
+              SPEdicao.ParamByName('AROLO').Value       := FKCadastroQTRL.AsInteger;
+              SPEdicao.ParamByName('AVUPV').Value       := FKCadastroVPRC_COM.AsFloat;
+              SPEdicao.ParamByName('AMOTIVO').Value     := FrmProduto_Devolucao_Cancelamento.IEMotivo.Text;
+              SPEdicao.ParamByName('AINFADCAD').Value   := FrmProduto_Devolucao_Cancelamento.EMINFADCAD.Text;
+
+              SPEdicao.ExecProc;
+              SPEdicao.UnPrepare;
+
+              uSP_CAD_PRO_EST_LAN(SPEdicao,RECParametros.EP_ID,FKCadastroIDCP.AsInteger);
+              FKCadastro.Next;
+            end;
+
+          finally
+            FKCadastro.EnableControls;
+          end;
+
+          oCTransact(TEdicao);
+
+          { ATUALIZA ESTOQUE }
+          uCAD_PRO_EST_LAN_UPD(oREPZero('PED_VEN_ITE','_',RECParametros.EP_ID,3),
+                               RECParametros.EP_ID   ,
+                               CadastroIDPK.AsString ,
+
+                              'EP_ID',
+                              'IDPK' ,
+                              'CP_ID');
+
+          oAviso(Self.Handle,'Pedido Cancelado com Sucesso !');
+          oRefresh(Cadastro);
+        except
+          on E: Exception do
+          begin
+            oCTransact(TEdicao,ltRollback);
+            oException(Nil,'Falha ao tentar cancelar pedido !'+#13+
+                           'Favor entrar em contato com o administrador do sistema.'+#13+#13+
+                           'Erro: '+E.Message);
+          end;
+        end;
+      end;
+    finally
+      Cadastro.EnableControls;
+      FKCadastro.EnableControls;
+
+      Separados.EnableControls;
+      Romaneios.EnableControls;
+    end;
   end;
+
+  oFRECPedidos(RECSP_CAD_PRO_EST);
 end;
 
 procedure Tfrmctr_ped.ACTRelatoriosExecute(Sender: TObject);

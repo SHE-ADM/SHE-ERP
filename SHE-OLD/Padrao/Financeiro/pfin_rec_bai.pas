@@ -199,6 +199,8 @@ type
     procedure SIMEDeleteClick(Sender: TObject);
     procedure SIMEPostClick(Sender: TObject);
     procedure SIMECancelClick(Sender: TObject);
+    procedure CadastroAfterInsert(DataSet: TDataSet);
+    procedure CadastroAfterEdit(DataSet: TDataSet);
   private
     { Private declarations }
     procedure _TABEdicao;
@@ -712,11 +714,11 @@ begin
   with FATConsulta do
   begin
     SQL.Clear;
-    SQL.Add('SELECT FIN_BAI.*,CLI_FANT,CLI_RAZA,USU_DUSU,REP_FANT');
-    SQL.Add('FROM   CAD_CLI,CAD_USU,CAD_REP,'+SLPrincipal.Values['fin_baixa']+' "FIN_BAI"');
-    SQL.Add('WHERE  FIN_BAI.FIN_CCLI = CAD_CLI.ID');
-    SQL.Add('AND    FIN_BAI.FIN_CVEN = CAD_USU.USU_CUSU');
-    SQL.Add('AND    FIN_BAI.FIN_CREP = CAD_REP.ID');
+    SQL.Add('SELECT PK.*,CLI_FANT,CLI_RAZA,USU_DUSU,REP_FANT');
+    SQL.Add('FROM   CAD_CLI,CAD_USU,CAD_REP,'+SLPrincipal.Values['fin_baixa']+' "PK"');
+    SQL.Add('WHERE  PK.FIN_CCLI = CAD_CLI.ID');
+    SQL.Add('AND    PK.FIN_CVEN = CAD_USU.USU_CUSU');
+    SQL.Add('AND    PK.FIN_CREP = CAD_REP.ID');
     SQL.Add('AND '+ACampo+' LIKE '''+ATexto+'%''');
     SQL.Add('ORDER BY FIN_CDBX,FIN_TITU');
     Open;
@@ -1064,6 +1066,16 @@ procedure Tfrmfin_rec_bai.SIMECancelClick(Sender: TObject);
 begin
   if Cadastro.State in [dsEdit,dsInsert] then
   Cadastro.Cancel;
+end;
+
+procedure Tfrmfin_rec_bai.CadastroAfterInsert(DataSet: TDataSet);
+begin
+  DBGConsulta.SetFocus;
+end;
+
+procedure Tfrmfin_rec_bai.CadastroAfterEdit(DataSet: TDataSet);
+begin
+  DBGConsulta.SetFocus;
 end;
 
 end.

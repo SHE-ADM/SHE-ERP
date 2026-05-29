@@ -424,8 +424,9 @@ begin
       cPesquisaLike  := '';
     end else
 
-    if ((Pos('Segmento',cbCAMPO.Text) > 0) or (Pos('Grupo',cbCAMPO.Text) > 0) or (Pos('Situação',cbCAMPO.Text) > 0) or (Pos('Tipo',cbCAMPO.Text) > 0) or (Pos('Repre',cbCAMPO.Text) > 0) or (Pos('Vendedor',cbCAMPO.Text) > 0)) and
-        (Pos('Defeito',cbCAMPO.Text ) = 0) then
+    if ((Pos('Título' ,cbCAMPO.Text) > 0) or (Pos('Segmento',cbCAMPO.Text) > 0) or (Pos('Grupo',cbCAMPO.Text) > 0) or (Pos('Situação',cbCAMPO.Text) > 0) or (Pos('Tipo',cbCAMPO.Text) > 0) or
+        (Pos('Repre'  ,cbCAMPO.Text) > 0) or (Pos('Vendedor',cbCAMPO.Text) > 0)) and
+        (Pos('Defeito',cbCAMPO.Text)  = 0) then
     begin
       cPesquisaWhere := 'LIKE';
       cPesquisaLike  := '%';
@@ -890,12 +891,7 @@ begin
     end;
   end else
 
-  if ((Pos('Código',cbCAMPO.Text) > 0) or (Pos('Nº' ,cbCAMPO.Text) > 0)  or
-      (Pos('Roman' ,cbCAMPO.Text) > 0) or (Pos('NF' ,cbCAMPO.Text) > 0)  or
-      (Pos('CNPJ'  ,cbCAMPO.Text) > 0) or (Pos('CPF',cbCAMPO.Text) > 0)  or
-      (Pos('Insc'  ,cbCAMPO.Text) > 0) or (Pos('IE' ,cbCAMPO.Text) > 0)) then
-
-  if (Pos('Pedido' ,cbCAMPO.Text) = 0) and (Pos('Título',cbCAMPO.Text) = 0) then
+  if (Pos('Nº',cbCAMPO.Text) > 0) or (Pos('Código',cbCAMPO.Text) > 0) then
   begin
     cbCAMPO.Text := 'Nome Fantasia';
     EDTXT.Tag    := 1;
