@@ -1,5 +1,5 @@
 object FrmPrincipal: TFrmPrincipal
-  Left = 0
+  Left = 310
   Top = 1
   Width = 1940
   Height = 1031
@@ -8596,7 +8596,7 @@ object FrmPrincipal: TFrmPrincipal
           item
             PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
             MinWidth = 0
-            Text = 'Copyright '#169' 2025  Sheild'
+            Text = 'Copyright '#169' 2026  S.H.E.I.L.D.'
             Width = 150
           end>
         PaintStyle = stpsOffice11

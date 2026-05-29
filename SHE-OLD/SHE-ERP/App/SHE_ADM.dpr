@@ -166,6 +166,7 @@ uses
 begin
   Application.Initialize;
   Application.Title := 'Sheild ADM';
+
   FrmSplash := TFrmSplash.Create(Nil);
   FrmSplash.Refresh;
   FrmSplash.Show;

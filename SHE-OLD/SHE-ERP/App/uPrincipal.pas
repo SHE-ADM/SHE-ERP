@@ -3550,7 +3550,7 @@ end;
 procedure TFrmPrincipal.ACTPRN_EXEExecute(Sender: TObject);
 begin
   if oEmpty(ACTPRN_EXE.Hint) then
-            ACTPRN_EXE.Hint := 'Relatórios';
+  ACTPRN_EXE.Hint := 'Relatórios';
 
   try
     oPrinterSelect(Handle,ACTPRN_EXE.Hint);
